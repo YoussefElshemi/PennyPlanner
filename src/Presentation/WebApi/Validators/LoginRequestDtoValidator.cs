@@ -1,6 +1,5 @@
 using Core.Validators;
 using FluentValidation;
-using FluentValidation.Validators;
 using Presentation.WebApi.Models.Authentication;
 
 namespace Presentation.WebApi.Validators;
