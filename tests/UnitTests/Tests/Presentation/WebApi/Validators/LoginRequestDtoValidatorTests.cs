@@ -1,6 +1,7 @@
 using FluentValidation.TestHelper;
 using Presentation.WebApi.Validators;
 using UnitTests.TestHelpers.FakeObjects.Presentation;
+using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models;
 
 namespace UnitTests.Tests.Presentation.WebApi.Validators;
 

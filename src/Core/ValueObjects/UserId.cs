@@ -14,4 +14,9 @@ public record struct UserId
     {
         return userId.Value;
     }
+
+    public static implicit operator string(UserId userId)
+    {
+        return userId.Value.ToString();
+    }
 }

@@ -1,7 +1,7 @@
 using Presentation.WebApi.Models.Authentication;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
-namespace UnitTests.TestHelpers.FakeObjects.Presentation;
+namespace UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models;
 
 public static class FakeLoginRequestDto
 {

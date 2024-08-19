@@ -1,12 +1,18 @@
+using System.IdentityModel.Tokens.Jwt;
+using Core.Configs;
+using Core.Enums;
 using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
+using Core.ValueObjects;
+using Microsoft.Extensions.Options;
 
 namespace Core.Services;
 
 public class AuthenticationService(
-    IUserRepository userRepository) : IAuthenticationService
+    IUserRepository userRepository,
+    IOptions<AppConfig> config) : IAuthenticationService
 {
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest authenticationRequest)
     {
@@ -23,9 +29,14 @@ public class AuthenticationService(
             throw new UnauthorizedAccessException();
         }
 
+        var jwtSecurityToken = user.CreateJwtSecurityToken(config.Value.JwtConfig);
+        var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
         return new AuthenticationResponse
         {
-            UserId = user.UserId
+            UserId = user.UserId,
+            Token = new AuthenticationToken(token),
+            TokenType = TokenType.Bearer
         };
     }
 }

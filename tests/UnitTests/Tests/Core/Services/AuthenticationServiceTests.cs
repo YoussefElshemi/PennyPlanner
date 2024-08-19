@@ -1,10 +1,15 @@
+using System.IdentityModel.Tokens.Jwt;
+using Core.Configs;
+using Core.Enums;
 using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Services;
 using Core.ValueObjects;
 using FluentAssertions;
+using Microsoft.Extensions.Options;
 using Moq;
 using UnitTests.TestHelpers;
+using UnitTests.TestHelpers.FakeObjects.Core.Configs;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
@@ -13,12 +18,19 @@ namespace UnitTests.Tests.Core.Services;
 public class AuthenticationServiceTests : BaseTestClass
 {
     private readonly Mock<IUserRepository> _mockUserRepository;
+    private readonly Mock<IOptions<AppConfig>> _mockConfig;
     private readonly AuthenticationService _authenticationService;
 
     public AuthenticationServiceTests()
     {
+        var fakeAppConfig = FakeAppConfig.CreateValid(Fixture);
+        _mockConfig = new Mock<IOptions<AppConfig>>();
+        _mockConfig.SetupGet(x => x.Value).Returns(fakeAppConfig);
+
         _mockUserRepository = new Mock<IUserRepository>();
-        _authenticationService = new AuthenticationService(_mockUserRepository.Object);
+        _authenticationService = new AuthenticationService(
+            _mockUserRepository.Object,
+            _mockConfig.Object);
     }
 
     [Fact]
@@ -82,5 +94,9 @@ public class AuthenticationServiceTests : BaseTestClass
 
         // Assert
         authenticationResponse.UserId.Should().Be(user.UserId);
+        authenticationResponse.TokenType.Should().Be(TokenType.Bearer);
+
+        var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.Token) as JwtSecurityToken;
+        jsonToken!.Claims.First(x => x.Type == "sub").Value.Should().Be(user.EmailAddress);
     }
 }

@@ -1,3 +1,4 @@
+using Core.Enums;
 using Core.Models;
 using Core.ValueObjects;
 using Infrastructure.Entities;
@@ -14,6 +15,7 @@ public static class UserMapper
             Username = new Username(userEntity.Username),
             EmailAddress = new EmailAddress(userEntity.EmailAddress),
             PasswordHash = new PasswordHash(userEntity.PasswordHash),
+            UserRole = Enum.Parse<UserRole>(userEntity.UserRole),
             CreatedBy = new CreatedBy(userEntity.CreatedBy),
             CreatedAt = new CreatedAt(userEntity.CreatedAt),
             UpdatedAt = new UpdatedAt(userEntity.UpdatedAt)
@@ -28,6 +30,7 @@ public static class UserMapper
             Username = user.Username,
             EmailAddress = user.EmailAddress,
             PasswordHash = user.PasswordHash,
+            UserRole = user.UserRole.ToString(),
             CreatedBy = user.CreatedBy,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
