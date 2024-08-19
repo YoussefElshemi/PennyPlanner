@@ -2,7 +2,7 @@ using FluentValidation.TestHelper;
 using Presentation.WebApi.Validators;
 using UnitTests.TestHelpers.FakeObjects.Presentation;
 
-namespace UnitTests.Presentation.WebApi.Validators;
+namespace UnitTests.Tests.Presentation.WebApi.Validators;
 
 public class LoginRequestDtoValidatorTests
 {

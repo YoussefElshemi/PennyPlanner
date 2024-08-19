@@ -2,7 +2,7 @@ using Core.Models;
 using Core.ValueObjects;
 using Infrastructure.Entities;
 
-namespace Core.Mappers;
+namespace Infrastructure.Mappers;
 
 public static class UserMapper
 {
@@ -10,7 +10,7 @@ public static class UserMapper
     {
         return new User
         {
-            Id = new UserId(userEntity.Id),
+            UserId = new UserId(userEntity.Id),
             Username = new Username(userEntity.Username),
             EmailAddress = new EmailAddress(userEntity.EmailAddress),
             PasswordHash = new PasswordHash(userEntity.PasswordHash),
@@ -24,7 +24,7 @@ public static class UserMapper
     {
         return new UserEntity
         {
-            Id = user.Id,
+            Id = user.UserId,
             Username = user.Username,
             EmailAddress = user.EmailAddress,
             PasswordHash = user.PasswordHash,

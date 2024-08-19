@@ -2,7 +2,7 @@ using Core.Validators;
 using FluentValidation.TestHelper;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
-namespace UnitTests.Core.Validators;
+namespace UnitTests.Tests.Core.Validators;
 
 public class PasswordValidatorTests
 {

@@ -4,7 +4,7 @@ namespace Core.Models;
 
 public record User
 {
-    public required UserId Id { get; init; }
+    public required UserId UserId { get; init; }
     public required Username Username { get; init; }
     public required EmailAddress EmailAddress { get; init; }
     public required PasswordHash PasswordHash { get; init; }

@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Infrastructure.Entities;
 
 public record UserEntity : BaseEntity

@@ -9,7 +9,7 @@ public static class FakeUserEntity
     {
         return new UserEntity
         {
-            CreatedBy = fixture.Create<string>(),
+            CreatedBy = fixture.Create<Guid>(),
             CreatedAt = fixture.Create<DateTime>(),
             UpdatedAt = fixture.Create<DateTime>(),
             Id = fixture.Create<Guid>(),

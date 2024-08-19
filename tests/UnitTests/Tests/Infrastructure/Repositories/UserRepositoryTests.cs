@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
 
-namespace UnitTests.Infrastructure.Repositories;
+namespace UnitTests.Tests.Infrastructure.Repositories;
 
 public class UserRepositoryTests : BaseTestClass
 {

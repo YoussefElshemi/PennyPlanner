@@ -1,6 +1,6 @@
 using Core.Interfaces.Repositories;
-using Core.Mappers;
 using Core.Models;
+using Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
