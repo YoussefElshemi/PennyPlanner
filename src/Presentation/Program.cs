@@ -9,6 +9,7 @@ using FluentValidation;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Presentation.ExceptionHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PennyPlannerDbContext>(opt => opt.UseInMemoryDatabase("PennyPlannerDbContext"));
@@ -19,6 +20,10 @@ var configuration = builder.Configuration.AddEnvironmentVariables().Build();
 builder.Services.AddSingleton<IConfiguration>(configuration);
 builder.Services.AddOptions<AppConfig>().BindConfiguration(nameof(AppConfig));
 
+builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -28,4 +33,5 @@ builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 var app = builder.Build();
 app.UseFastEndpoints();
 app.UseSwaggerGen();
+app.UseExceptionHandler();
 app.Run();
