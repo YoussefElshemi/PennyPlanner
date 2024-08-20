@@ -1,5 +1,4 @@
 using Core.Constants;
-using Core.Extensions;
 using FluentValidation;
 
 namespace Core.Validators;

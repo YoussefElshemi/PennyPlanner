@@ -1,6 +1,5 @@
 using Core.Extensions;
 using Core.Interfaces.Repositories;
-using Core.Models;
 using Core.Validators;
 using Core.ValueObjects;
 using FluentValidation;

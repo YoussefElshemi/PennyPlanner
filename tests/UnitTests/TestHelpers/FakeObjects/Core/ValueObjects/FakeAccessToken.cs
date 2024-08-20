@@ -1,5 +1,4 @@
 using AutoFixture;
-using Core.Extensions;
 using Core.ValueObjects;
 
 namespace UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;

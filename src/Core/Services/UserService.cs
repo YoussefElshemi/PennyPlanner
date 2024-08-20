@@ -1,7 +1,4 @@
-using System.Security.Cryptography;
-using System.Text;
 using Core.Enums;
-using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
@@ -39,8 +36,18 @@ public class UserService(IUserRepository repository,
         return repository.ExistsByUsernameAsync(username);
     }
 
+    public Task<bool> ExistsAsync(UserId userId)
+    {
+        return repository.ExistsByIdAsync(userId);
+    }
+
     public Task<User?> GetUserAsync(Username username)
     {
         return repository.GetByUsernameAsync(username);
+    }
+
+    public Task<User?> GetUserAsync(UserId userId)
+    {
+        return repository.GetByIdAsync(userId);
     }
 }

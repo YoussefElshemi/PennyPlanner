@@ -20,7 +20,7 @@ public class AuthenticationService(
         var user = await userService.CreateUserAsync(createUserRequest);
         var jwtSecurityToken = user.CreateJwtSecurityToken(config.Value.JwtConfig);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-        var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - DateTime.UtcNow).TotalSeconds);
+        var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - jwtSecurityToken.ValidFrom).TotalSeconds);
 
         return new AuthenticationResponse
         {
@@ -41,7 +41,7 @@ public class AuthenticationService(
 
         var jwtSecurityToken = user.CreateJwtSecurityToken(config.Value.JwtConfig);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-        var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - DateTime.UtcNow).TotalSeconds);
+        var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - jwtSecurityToken.ValidFrom).TotalSeconds);
 
         return new AuthenticationResponse
         {

@@ -1,7 +1,4 @@
-using System.Text;
-using Core.Extensions;
 using Core.Interfaces.Repositories;
-using Core.Interfaces.Services;
 using Core.Services;
 using Core.ValueObjects;
 using FluentValidation.TestHelper;

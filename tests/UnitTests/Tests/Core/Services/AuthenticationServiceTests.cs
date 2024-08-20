@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using Core.Configs;
 using Core.Enums;
-using Core.Extensions;
 using Core.Interfaces.Services;
 using Core.Models;
 using Core.Services;
@@ -12,7 +11,6 @@ using Moq;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Configs;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
-using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
 namespace UnitTests.Tests.Core.Services;
 
@@ -55,7 +53,7 @@ public class AuthenticationServiceTests : BaseTestClass
     }
 
     [Fact]
-    public void AuthenticateAsync_UserDoesntExist_Throws()
+    public void AuthenticateAsync_UserDoesNotExist_Throws()
     {
         // Arrange
         var authenticationRequest = FakeAuthenticationRequest.CreateValid();

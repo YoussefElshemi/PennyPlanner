@@ -5,7 +5,6 @@ using Core.Configs;
 using Core.Models;
 using Core.Services;
 using Microsoft.IdentityModel.Tokens;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace Core.Extensions;
 
@@ -24,7 +23,6 @@ public static class UserExtensions
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.EmailAddress),
             new Claim(ClaimTypes.NameIdentifier, user.UserId),
             new Claim(ClaimTypes.Role, user.UserRole.ToString())
         };
@@ -32,7 +30,8 @@ public static class UserExtensions
         return new JwtSecurityToken(
             issuer: config.Issuer,
             audience: config.Audience,
-            expires: DateTime.Now.AddMinutes(config.Lifetime),
+            expires: DateTime.UtcNow.AddMinutes(config.Lifetime),
+            notBefore: DateTime.UtcNow,
             claims: claims,
             signingCredentials: credentials
         );

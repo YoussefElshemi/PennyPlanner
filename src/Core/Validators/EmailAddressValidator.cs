@@ -1,4 +1,3 @@
-using Core.Extensions;
 using EmailValidation;
 using FluentValidation;
 

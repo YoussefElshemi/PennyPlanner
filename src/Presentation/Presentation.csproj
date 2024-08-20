@@ -10,8 +10,10 @@
 
     <ItemGroup>
       <PackageReference Include="FastEndpoints" />
+      <PackageReference Include="FastEndpoints.Security" />
       <PackageReference Include="FastEndpoints.Swagger" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
       <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
@@ -27,9 +29,5 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="UnitTests" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="WebApi\Endpoints\Test\" />
     </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@ public class Login(IUserRepository userRepository,
     {
         Post("/auth/login");
         AllowAnonymous();
+        EnableAntiforgery();
     }
 
     public override async Task HandleAsync(LoginRequestDto loginRequestDto, CancellationToken cancellationToken)

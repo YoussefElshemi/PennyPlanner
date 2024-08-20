@@ -15,6 +15,7 @@ public class Register(IUserRepository userRepository,
     {
         Post("/auth/register");
         AllowAnonymous();
+        EnableAntiforgery();
     }
 
     public override async Task HandleAsync(RegisterRequestDto registerRequestDto, CancellationToken cancellationToken)
