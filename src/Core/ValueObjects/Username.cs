@@ -17,4 +17,9 @@ public readonly record struct Username
     {
         return username.Value;
     }
+
+    public override string ToString()
+    {
+        return Value;
+    }
 }

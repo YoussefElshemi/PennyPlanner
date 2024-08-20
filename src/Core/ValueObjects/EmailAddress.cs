@@ -14,4 +14,9 @@ public readonly record struct EmailAddress
     {
         return emailAddress.Value;
     }
+
+    public override string ToString()
+    {
+        return Value;
+    }
 }

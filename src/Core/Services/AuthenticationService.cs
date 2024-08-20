@@ -31,15 +31,8 @@ public class AuthenticationService(
 
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest authenticationRequest)
     {
-        var userExists = await userService.ExistsAsync(authenticationRequest.Username);
-        var user = await userService.GetUserAsync(authenticationRequest.Username);
-
-        if (!userExists || user == null)
-        {
-            throw new UnauthorizedAccessException();
-        }
-
-        if (!user.Authenticate(authenticationRequest.Password))
+       var user = await userService.GetUserAsync(authenticationRequest.Username);
+        if (user == null)
         {
             throw new UnauthorizedAccessException();
         }

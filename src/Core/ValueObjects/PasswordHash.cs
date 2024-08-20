@@ -14,4 +14,9 @@ public readonly record struct PasswordHash
     {
         return passwordHash.Value;
     }
+
+    public override string ToString()
+    {
+        return Value;
+    }
 }

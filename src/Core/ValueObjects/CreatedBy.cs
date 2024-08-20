@@ -14,4 +14,9 @@ public readonly record struct CreatedBy
     {
         return createdBy.Value;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

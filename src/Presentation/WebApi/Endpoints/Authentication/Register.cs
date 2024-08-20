@@ -1,9 +1,7 @@
-using Core.Configs;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using FastEndpoints;
 using FluentValidation;
-using Microsoft.Extensions.Options;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.Authentication;
 using Presentation.WebApi.Validators;
@@ -11,8 +9,7 @@ using Presentation.WebApi.Validators;
 namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class Register(IUserRepository userRepository,
-    IAuthenticationService authenticationService,
-    IOptions<AppConfig> config) : Endpoint<RegisterRequestDto, AuthenticationResponseDto>
+    IAuthenticationService authenticationService) : Endpoint<RegisterRequestDto, AuthenticationResponseDto>
     {
     public override void Configure()
     {
