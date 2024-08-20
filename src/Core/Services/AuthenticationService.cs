@@ -2,7 +2,6 @@ using System.IdentityModel.Tokens.Jwt;
 using Core.Configs;
 using Core.Enums;
 using Core.Extensions;
-using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
 using Core.ValueObjects;
@@ -11,13 +10,29 @@ using Microsoft.Extensions.Options;
 namespace Core.Services;
 
 public class AuthenticationService(
-    IUserRepository userRepository,
+    IUserService userService,
     IOptions<AppConfig> config) : IAuthenticationService
 {
+    public async Task<AuthenticationResponse> CreateUserAsync(CreateUserRequest createUserRequest)
+    {
+        var user = await userService.CreateUserAsync(createUserRequest);
+        var jwtSecurityToken = user.CreateJwtSecurityToken(config.Value.JwtConfig);
+        var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - DateTime.UtcNow).TotalSeconds);
+
+        return new AuthenticationResponse
+        {
+            UserId = user.UserId,
+            TokenType = TokenType.Bearer,
+            AccessToken = new AccessToken(accessToken),
+            ExpiresIn = new ExpiresIn(expiresIn),
+        };
+    }
+
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest authenticationRequest)
     {
-        var userExists = await userRepository.ExistsByUsernameAsync(authenticationRequest.Username);
-        var user = await userRepository.GetUserByUsernameAsync(authenticationRequest.Username);
+        var userExists = await userService.ExistsAsync(authenticationRequest.Username);
+        var user = await userService.GetUserAsync(authenticationRequest.Username);
 
         if (!userExists || user == null)
         {
@@ -30,13 +45,15 @@ public class AuthenticationService(
         }
 
         var jwtSecurityToken = user.CreateJwtSecurityToken(config.Value.JwtConfig);
-        var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - DateTime.UtcNow).TotalSeconds);
 
         return new AuthenticationResponse
         {
             UserId = user.UserId,
-            Token = new AuthenticationToken(token),
-            TokenType = TokenType.Bearer
+            TokenType = TokenType.Bearer,
+            AccessToken = new AccessToken(accessToken),
+            ExpiresIn = new ExpiresIn(expiresIn)
         };
     }
 }

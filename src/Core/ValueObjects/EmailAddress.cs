@@ -1,6 +1,6 @@
 namespace Core.ValueObjects;
 
-public record struct EmailAddress
+public readonly record struct EmailAddress
 {
     private string Value { get; init; }
 

@@ -1,6 +1,6 @@
 namespace Core.ValueObjects;
 
-public record struct PasswordHash
+public readonly record struct PasswordHash
 {
     private string Value { get; init; }
 

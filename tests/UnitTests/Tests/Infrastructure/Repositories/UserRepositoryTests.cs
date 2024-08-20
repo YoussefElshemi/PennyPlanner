@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using UnitTests.TestHelpers;
+using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
 
 namespace UnitTests.Tests.Infrastructure.Repositories;
@@ -51,7 +52,7 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task GetUserByIdAsync_ExistingUser_ReturnsTrue()
+    public async Task GetByIdAsync_ExistingUser_ReturnsTrue()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
@@ -59,20 +60,20 @@ public class UserRepositoryTests : BaseTestClass
         await _context.SaveChangesAsync();
 
         // Act
-        var exists = await _userRepository.GetUserByIdAsync(userEntity.Id);
+        var exists = await _userRepository.GetByIdAsync(userEntity.Id);
 
         // Assert
         exists.Should().NotBeNull();
     }
 
     [Fact]
-    public async Task GetUserByIdAsync_NonExistingUser_ReturnsTrue()
+    public async Task GetByIdAsync_NonExistingUser_ReturnsTrue()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
 
         // Act
-        var exists = await _userRepository.GetUserByIdAsync(userEntity.Id);
+        var exists = await _userRepository.GetByIdAsync(userEntity.Id);
 
         // Assert
         exists.Should().BeNull();
@@ -107,7 +108,7 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task GetUserByUsernameAsync_ExistingUser_ReturnsTrue()
+    public async Task GetByUsernameAsync_ExistingUser_ReturnsTrue()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
@@ -115,22 +116,91 @@ public class UserRepositoryTests : BaseTestClass
         await _context.SaveChangesAsync();
 
         // Act
-        var exists = await _userRepository.GetUserByUsernameAsync(userEntity.Username);
+        var exists = await _userRepository.GetByUsernameAsync(userEntity.Username);
 
         // Assert
         exists.Should().NotBeNull();
     }
 
     [Fact]
-    public async Task GetUserByUsernameAsync_NonExistingUser_ReturnsTrue()
+    public async Task GetByUsernameAsync_NonExistingUser_ReturnsTrue()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
 
         // Act
-        var exists = await _userRepository.GetUserByUsernameAsync(userEntity.Username);
+        var exists = await _userRepository.GetByUsernameAsync(userEntity.Username);
 
         // Assert
         exists.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task ExistsByEmailAddressAsync_ExistingUser_ReturnsTrue()
+    {
+        // Arrange
+        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        _context.Users.Add(userEntity);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var exists = await _userRepository.ExistsByEmailAddressAsync(userEntity.EmailAddress);
+
+        // Assert
+        exists.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task ExistsByEmailAddressAsync_NonExistingUser_ReturnsTrue()
+    {
+        // Arrange
+        var userEntity = FakeUserEntity.CreateValid(Fixture);
+
+        // Act
+        var exists = await _userRepository.ExistsByEmailAddressAsync(userEntity.EmailAddress);
+
+        // Assert
+        exists.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task GetByEmailAddressAsync_ExistingUser_ReturnsTrue()
+    {
+        // Arrange
+        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        _context.Users.Add(userEntity);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var exists = await _userRepository.GetByEmailAddressAsync(userEntity.EmailAddress);
+
+        // Assert
+        exists.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task GetByEmailAddressAsync_NonExistingUser_ReturnsTrue()
+    {
+        // Arrange
+        var userEntity = FakeUserEntity.CreateValid(Fixture);
+
+        // Act
+        var exists = await _userRepository.GetByEmailAddressAsync(userEntity.EmailAddress);
+
+        // Assert
+        exists.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task CreateAsync_GivenUser_ReturnsVoid()
+    {
+        // Arrange
+        var user = FakeUser.CreateValid(Fixture);
+
+        // Act
+        await _userRepository.CreateAsync(user);
+
+        // Assert
+        (await _context.Users.FindAsync(user.UserId.Value)).Should().NotBeNull();
     }
 }

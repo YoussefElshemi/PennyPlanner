@@ -8,7 +8,10 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
 {
     public LoginRequestDtoValidator()
     {
-        RuleFor(x => x.Username).SetValidator(new UsernameValidator());
-        RuleFor(x => x.Password).SetValidator(new PasswordValidator());
+        RuleFor(x => x.Username)
+            .SetValidator(new UsernameValidator());
+
+        RuleFor(x => x.Password)
+            .SetValidator(new PasswordValidator());
     }
 }

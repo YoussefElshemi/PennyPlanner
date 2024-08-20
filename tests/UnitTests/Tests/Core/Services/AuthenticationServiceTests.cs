@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Core.Configs;
 using Core.Enums;
 using Core.Extensions;
-using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
 using Core.Services;
 using Core.ValueObjects;
 using FluentAssertions;
@@ -17,7 +17,7 @@ namespace UnitTests.Tests.Core.Services;
 
 public class AuthenticationServiceTests : BaseTestClass
 {
-    private readonly Mock<IUserRepository> _mockUserRepository;
+    private readonly Mock<IUserService> _mockUserService;
     private readonly Mock<IOptions<AppConfig>> _mockConfig;
     private readonly AuthenticationService _authenticationService;
 
@@ -27,9 +27,9 @@ public class AuthenticationServiceTests : BaseTestClass
         _mockConfig = new Mock<IOptions<AppConfig>>();
         _mockConfig.SetupGet(x => x.Value).Returns(fakeAppConfig);
 
-        _mockUserRepository = new Mock<IUserRepository>();
+        _mockUserService = new Mock<IUserService>();
         _authenticationService = new AuthenticationService(
-            _mockUserRepository.Object,
+            _mockUserService.Object,
             _mockConfig.Object);
     }
 
@@ -38,8 +38,8 @@ public class AuthenticationServiceTests : BaseTestClass
     {
         // Arrange
         var authenticationRequest = FakeAuthenticationRequest.CreateValid();
-        _mockUserRepository
-            .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
+        _mockUserService
+            .Setup(x => x.ExistsAsync(It.IsAny<Username>()))
             .ReturnsAsync(false);
 
         // Act & Assert
@@ -57,11 +57,11 @@ public class AuthenticationServiceTests : BaseTestClass
             PasswordHash = new PasswordHash(Guid.NewGuid().ToString("N").ToUpper())
         };
 
-        _mockUserRepository
-            .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
+        _mockUserService
+            .Setup(x => x.ExistsAsync(It.IsAny<Username>()))
             .ReturnsAsync(true);
-        _mockUserRepository
-            .Setup(x => x.GetUserByUsernameAsync(It.IsAny<string>()))
+        _mockUserService
+            .Setup(x => x.GetUserAsync(It.IsAny<Username>()))
             .ReturnsAsync(user);
 
         // Act & Assert
@@ -82,11 +82,11 @@ public class AuthenticationServiceTests : BaseTestClass
             PasswordHash = new PasswordHash(FakePassword.Valid.Md5Hash())
         };
 
-        _mockUserRepository
-            .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
+        _mockUserService
+            .Setup(x => x.ExistsAsync(It.IsAny<Username>()))
             .ReturnsAsync(true);
-        _mockUserRepository
-            .Setup(x => x.GetUserByUsernameAsync(It.IsAny<string>()))
+        _mockUserService
+            .Setup(x => x.GetUserAsync(It.IsAny<Username>()))
             .ReturnsAsync(user);
 
         // Act
@@ -96,7 +96,7 @@ public class AuthenticationServiceTests : BaseTestClass
         authenticationResponse.UserId.Should().Be(user.UserId);
         authenticationResponse.TokenType.Should().Be(TokenType.Bearer);
 
-        var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.Token) as JwtSecurityToken;
+        var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
         jsonToken!.Claims.First(x => x.Type == "sub").Value.Should().Be(user.EmailAddress);
     }
 }

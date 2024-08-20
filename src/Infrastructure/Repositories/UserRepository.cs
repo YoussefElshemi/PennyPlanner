@@ -13,7 +13,7 @@ public class UserRepository(
         return context.Users.AnyAsync(u => u.Id == userId);
     }
 
-    public async Task<User?> GetUserByIdAsync(Guid userId)
+    public async Task<User?> GetByIdAsync(Guid userId)
     {
         var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         return userEntity == null ? null : UserMapper.MapFromEntity(userEntity);
@@ -24,9 +24,27 @@ public class UserRepository(
         return context.Users.AnyAsync(u => u.Username == username);
     }
 
-    public async Task<User?> GetUserByUsernameAsync(string username)
+    public async Task<User?> GetByUsernameAsync(string username)
     {
         var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
         return userEntity == null ? null : UserMapper.MapFromEntity(userEntity);
+    }
+
+    public Task<bool> ExistsByEmailAddressAsync(string emailAddress)
+    {
+        return context.Users.AnyAsync(u => u.EmailAddress == emailAddress);
+    }
+
+    public async Task<User?> GetByEmailAddressAsync(string emailAddress)
+    {
+        var userEntity = await context.Users.FirstOrDefaultAsync(u => u.EmailAddress == emailAddress);
+        return userEntity == null ? null : UserMapper.MapFromEntity(userEntity);
+    }
+
+    public async Task CreateAsync(User user)
+    {
+        var userEntity = UserMapper.MapToEntity(user);
+        context.Users.Add(userEntity);
+        await context.SaveChangesAsync();
     }
 }

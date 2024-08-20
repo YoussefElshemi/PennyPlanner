@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Core.ValueObjects;
 
-public record struct Password
+public readonly record struct Password
 {
     private string Value { get; init; }
 
@@ -16,5 +16,10 @@ public record struct Password
     public static implicit operator string(Password password)
     {
         return password.Value;
+    }
+
+    public override string ToString()
+    {
+        return Value;
     }
 }

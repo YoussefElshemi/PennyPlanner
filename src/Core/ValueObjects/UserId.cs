@@ -1,8 +1,8 @@
 namespace Core.ValueObjects;
 
-public record struct UserId
+public readonly record struct UserId
 {
-    private Guid Value { get; init; }
+    internal Guid Value { get; init; }
 
     public UserId(Guid userId)
     {
@@ -18,5 +18,10 @@ public record struct UserId
     public static implicit operator string(UserId userId)
     {
         return userId.Value.ToString();
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString();
     }
 }

@@ -1,0 +1,123 @@
+using Core.Interfaces.Repositories;
+using FluentValidation.TestHelper;
+using Moq;
+using Presentation.WebApi.Validators;
+using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
+using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models;
+
+namespace UnitTests.Tests.Presentation.WebApi.Validators;
+
+public class RegisterRequestDtoValidatorTests
+{
+    private readonly Mock<IUserRepository> _mockUserRepository;
+    private readonly RegisterRequestDtoValidator _validator;
+
+    public RegisterRequestDtoValidatorTests()
+    {
+        _mockUserRepository = new Mock<IUserRepository>();
+        _validator = new RegisterRequestDtoValidator(_mockUserRepository.Object);
+    }
+
+    [Fact]
+    public async Task Validate_InvalidUsername_ReturnsError()
+    {
+        // Arrange
+        var loginRequestDto = FakeRegisterRequestDto.CreateValid() with
+        {
+            Username = ""
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(loginRequestDto);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.Username);
+    }
+
+    [Fact]
+    public async Task Validate_InvalidPassword_ReturnsError()
+    {
+        // Arrange
+        var loginRequestDto = FakeRegisterRequestDto.CreateValid() with
+        {
+            Password = ""
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(loginRequestDto);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.Password);
+    }
+
+    [Fact]
+    public async Task Validate_PasswordsDoNotMatch_ReturnsError()
+    {
+        // Arrange
+        var loginRequestDto = FakeRegisterRequestDto.CreateValid() with
+        {
+            Password = FakePassword.Valid,
+            ConfirmPassword = string.Join("", FakePassword.Valid.ToCharArray().Reverse())
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(loginRequestDto);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => new { x.Password, x.ConfirmPassword })
+            .WithErrorMessage(RegisterRequestDtoValidator.ConfirmPasswordErrorMessage);
+    }
+
+    [Fact]
+    public async Task Validate_UsernameAlreadyExists_ReturnsError()
+    {
+        // Act
+        var loginRequestDto = FakeRegisterRequestDto.CreateValid() with
+        {
+            Username = FakeUsername.Valid
+        };
+        _mockUserRepository
+            .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
+            .ReturnsAsync(true);
+
+        // Arrange
+        var result = await _validator.TestValidateAsync(loginRequestDto);
+
+        // Assert
+        result.ShouldHaveAnyValidationError()
+            .WithErrorMessage(RegisterRequestDtoValidator.UsernameTakenErrorMessage);
+    }
+
+    [Fact]
+    public async Task Validate_EmailAddressAlreadyExists_ReturnsError()
+    {
+        // Act
+        var loginRequestDto = FakeRegisterRequestDto.CreateValid() with
+        {
+            EmailAddress = FakeEmailAddress.Valid
+        };
+        _mockUserRepository
+            .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
+            .ReturnsAsync(true);
+
+        // Arrange
+        var result = await _validator.TestValidateAsync(loginRequestDto);
+
+        // Assert
+        result.ShouldHaveAnyValidationError()
+            .WithErrorMessage(RegisterRequestDtoValidator.EmailAddressInUseErrorMessage);
+    }
+
+    [Fact]
+    public async Task Validate_ValidRequest_IsValid()
+    {
+        // Arrange
+        var loginRequestDto = FakeRegisterRequestDto.CreateValid();
+
+        // Act
+        var result = await _validator.TestValidateAsync(loginRequestDto);
+
+        // Assert
+        result.ShouldNotHaveAnyValidationErrors();
+    }
+}

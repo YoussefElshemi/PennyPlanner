@@ -1,4 +1,3 @@
-using AutoFixture;
 using Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 

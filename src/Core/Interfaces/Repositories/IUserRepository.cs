@@ -4,8 +4,12 @@ namespace Core.Interfaces.Repositories;
 
 public interface IUserRepository
 {
-    public Task<bool> ExistsByIdAsync(Guid userId);
-    public Task<User?> GetUserByIdAsync(Guid userId);
-    public Task<bool> ExistsByUsernameAsync(string username);
-    public Task<User?> GetUserByUsernameAsync(string username);
+    Task<bool> ExistsByIdAsync(Guid userId);
+    Task<User?> GetByIdAsync(Guid userId);
+    Task<bool> ExistsByUsernameAsync(string username);
+    Task<User?> GetByUsernameAsync(string username);
+    Task<bool> ExistsByEmailAddressAsync(string emailAddress);
+    Task<User?> GetByEmailAddressAsync(string emailAddress);
+
+    Task CreateAsync(User user);
 }

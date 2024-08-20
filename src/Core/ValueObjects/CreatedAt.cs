@@ -1,6 +1,6 @@
 namespace Core.ValueObjects;
 
-public record struct CreatedAt
+public readonly record struct CreatedAt
 {
     private DateTime Value { get; init; }
 

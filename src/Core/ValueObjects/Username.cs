@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Core.ValueObjects;
 
-public record struct Username
+public readonly record struct Username
 {
     private string Value { get; init; }
 

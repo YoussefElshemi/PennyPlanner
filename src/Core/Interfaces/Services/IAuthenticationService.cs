@@ -4,5 +4,6 @@ namespace Core.Interfaces.Services;
 
 public interface IAuthenticationService
 {
-    public Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest authenticationRequest);
+    Task<AuthenticationResponse> CreateUserAsync(CreateUserRequest createUserRequest);
+    Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest authenticationRequest);
 }

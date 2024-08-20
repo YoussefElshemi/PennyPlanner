@@ -1,6 +1,6 @@
 namespace Core.ValueObjects;
 
-public record struct CreatedBy
+public readonly record struct CreatedBy
 {
     private Guid Value { get; init; }
 
