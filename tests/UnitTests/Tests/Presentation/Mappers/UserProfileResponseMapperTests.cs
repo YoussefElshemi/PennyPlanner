@@ -1,9 +1,7 @@
-using Core.ValueObjects;
 using FluentAssertions;
 using Presentation.Mappers;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
-using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models;
 
 namespace UnitTests.Tests.Presentation.Mappers;
 

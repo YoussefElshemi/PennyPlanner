@@ -10,12 +10,12 @@ public class UserRepository(
 {
     public Task<bool> ExistsByIdAsync(Guid userId)
     {
-        return context.Users.AnyAsync(u => u.Id == userId);
+        return context.Users.AnyAsync(u => u.UserId == userId);
     }
 
     public async Task<User?> GetByIdAsync(Guid userId)
     {
-        var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        var userEntity = await context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
         return userEntity == null ? null : UserMapper.MapFromEntity(userEntity);
     }
 

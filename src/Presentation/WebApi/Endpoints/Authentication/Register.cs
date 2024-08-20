@@ -10,7 +10,7 @@ namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class Register(IUserRepository userRepository,
     IAuthenticationService authenticationService) : Endpoint<RegisterRequestDto, AuthenticationResponseDto>
-    {
+{
     public override void Configure()
     {
         Post("/auth/register");

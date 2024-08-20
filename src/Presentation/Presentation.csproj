@@ -15,7 +15,11 @@
       <PackageReference Include="FluentValidation" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     </ItemGroup>
 
@@ -26,5 +30,9 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="UnitTests" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="data.db" />
     </ItemGroup>
 </Project>

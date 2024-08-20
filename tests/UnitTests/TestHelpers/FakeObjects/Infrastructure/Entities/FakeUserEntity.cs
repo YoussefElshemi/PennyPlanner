@@ -10,7 +10,7 @@ public static class FakeUserEntity
     {
         return new UserEntity
         {
-            Id = fixture.Create<Guid>(),
+            UserId = fixture.Create<Guid>(),
             Username = fixture.Create<string>(),
             EmailAddress = fixture.Create<string>(),
             PasswordHash = fixture.Create<string>(),

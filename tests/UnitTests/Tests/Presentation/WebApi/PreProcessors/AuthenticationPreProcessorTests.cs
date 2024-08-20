@@ -1,9 +1,6 @@
 using System.Security.Claims;
-using System.Security.Principal;
 using Core.Interfaces.Repositories;
-using Core.Interfaces.Services;
 using FastEndpoints;
-using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

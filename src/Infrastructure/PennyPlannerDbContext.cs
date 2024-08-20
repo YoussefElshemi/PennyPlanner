@@ -1,3 +1,4 @@
+using Infrastructure.Configurations;
 using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,4 +8,8 @@ public class PennyPlannerDbContext(DbContextOptions<PennyPlannerDbContext> optio
 {
     public DbSet<UserEntity> Users { get; init; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PennyPlannerDbContext).Assembly);
+    }
 }

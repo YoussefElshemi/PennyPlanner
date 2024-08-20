@@ -10,7 +10,7 @@ namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class Login(IUserRepository userRepository,
     IAuthenticationService authenticationService) : Endpoint<LoginRequestDto, AuthenticationResponseDto>
-    {
+{
     public override void Configure()
     {
         Post("/auth/login");

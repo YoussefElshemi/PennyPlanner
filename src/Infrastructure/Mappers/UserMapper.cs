@@ -11,7 +11,7 @@ public static class UserMapper
     {
         return new User
         {
-            UserId = new UserId(userEntity.Id),
+            UserId = new UserId(userEntity.UserId),
             Username = new Username(userEntity.Username),
             EmailAddress = new EmailAddress(userEntity.EmailAddress),
             PasswordHash = new PasswordHash(userEntity.PasswordHash),
@@ -27,7 +27,7 @@ public static class UserMapper
     {
         return new UserEntity
         {
-            Id = user.UserId,
+            UserId = user.UserId,
             Username = user.Username.ToString(),
             EmailAddress = user.EmailAddress.ToString(),
             PasswordHash = user.PasswordHash.ToString(),

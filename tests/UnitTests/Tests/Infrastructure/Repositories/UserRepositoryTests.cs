@@ -32,7 +32,7 @@ public class UserRepositoryTests : BaseTestClass
         await _context.SaveChangesAsync();
 
         // Act
-        var exists = await _userRepository.ExistsByIdAsync(userEntity.Id);
+        var exists = await _userRepository.ExistsByIdAsync(userEntity.UserId);
 
         // Assert
         exists.Should().BeTrue();
@@ -45,7 +45,7 @@ public class UserRepositoryTests : BaseTestClass
         var userEntity = FakeUserEntity.CreateValid(Fixture);
 
         // Act
-        var exists = await _userRepository.ExistsByIdAsync(userEntity.Id);
+        var exists = await _userRepository.ExistsByIdAsync(userEntity.UserId);
 
         // Assert
         exists.Should().BeFalse();
@@ -60,7 +60,7 @@ public class UserRepositoryTests : BaseTestClass
         await _context.SaveChangesAsync();
 
         // Act
-        var exists = await _userRepository.GetByIdAsync(userEntity.Id);
+        var exists = await _userRepository.GetByIdAsync(userEntity.UserId);
 
         // Assert
         exists.Should().NotBeNull();
@@ -73,7 +73,7 @@ public class UserRepositoryTests : BaseTestClass
         var userEntity = FakeUserEntity.CreateValid(Fixture);
 
         // Act
-        var exists = await _userRepository.GetByIdAsync(userEntity.Id);
+        var exists = await _userRepository.GetByIdAsync(userEntity.UserId);
 
         // Assert
         exists.Should().BeNull();

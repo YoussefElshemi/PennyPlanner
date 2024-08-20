@@ -15,7 +15,6 @@ using Presentation.ExceptionHandlers;
 using Presentation.WebApi.PreProcessors;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<PennyPlannerDbContext>(opt => opt.UseInMemoryDatabase("PennyPlannerDbContext"));
 builder.Services.AddFastEndpoints();
 builder.Services.AddAntiforgery();
 builder.Services.AddCors();
@@ -27,6 +26,8 @@ builder.Services.AddOptions<AppConfig>().BindConfiguration(nameof(AppConfig));
 
 var appConfig = new AppConfig();
 builder.Configuration.GetSection(nameof(AppConfig)).Bind(appConfig);
+
+builder.Services.AddDbContext<PennyPlannerDbContext>(opt => opt.UseSqlite(builder.Configuration["ConnectionStrings:SQLiteDefault"]));
 
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
