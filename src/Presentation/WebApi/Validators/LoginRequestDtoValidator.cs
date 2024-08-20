@@ -27,7 +27,7 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
     {
         RuleFor(x => new { x.Username, x.Password })
             .Cascade(CascadeMode.Stop)
-            .WithDisplayName($"{nameof(Username)} and {nameof(Password)}")
+            .WithDisplayName($"{nameof(Username)} or {nameof(Password)}")
             .MustAsync(async (x, _) => await UserExistByUsername(userRepository, x.Username))
             .WithMessage(IncorrectLoginDetails)
             .MustAsync(async (x, _) => await CorrectPassword(userRepository, x.Username, x.Password))

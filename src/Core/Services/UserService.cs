@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Core.Enums;
 using Core.Extensions;
 using Core.Interfaces.Repositories;
@@ -12,12 +14,16 @@ public class UserService(IUserRepository repository,
 {
     public async Task<User> CreateUserAsync(CreateUserRequest createUserRequest)
     {
+        var passwordSalt = AuthenticationService.GenerateSalt();
+        var passwordHash = AuthenticationService.HashPassword(createUserRequest.Password.ToString(), passwordSalt);
+
         var user = new User
         {
             UserId = new UserId(Guid.NewGuid()),
             Username = createUserRequest.Username,
             EmailAddress = createUserRequest.EmailAddress,
-            PasswordHash = new PasswordHash(createUserRequest.Password.ToString().Md5Hash()),
+            PasswordHash = new PasswordHash(passwordHash),
+            PasswordSalt = new PasswordSalt(Convert.ToBase64String(passwordSalt)),
             UserRole = UserRole.User,
             CreatedBy = new CreatedBy(Guid.NewGuid()), // TODO: auto create admin user to use here
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),

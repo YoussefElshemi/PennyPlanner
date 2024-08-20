@@ -3,10 +3,10 @@ using Core.ValueObjects;
 
 namespace UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
-public static class FakeAccessToken
+public static class FakePasswordHash
 {
-    public static AccessToken CreateValid(IFixture fixture)
+    public static PasswordHash CreateValid(IFixture fixture)
     {
-        return new AccessToken(fixture.Create<string>());
+        return new PasswordHash(fixture.Create<string>());
     }
 }

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Core.Configs;
 using Core.Models;
+using Core.Services;
 using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
@@ -12,7 +13,8 @@ public static class UserExtensions
 {
     public static bool Authenticate(this User user, string password)
     {
-        return user.PasswordHash == password.Md5Hash();
+        var salt = Convert.FromBase64String(user.PasswordSalt.ToString());
+        return user.PasswordHash == AuthenticationService.HashPassword(password, salt);
     }
 
     public static JwtSecurityToken CreateJwtSecurityToken(this User user, JwtConfig config)

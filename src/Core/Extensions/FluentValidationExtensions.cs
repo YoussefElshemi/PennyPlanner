@@ -9,7 +9,7 @@ public static class FluentValidationExtensions
         var ruleBuilderOptions = (IRuleBuilderOptions<T, TProperty>)ruleBuilder;
 
         return ruleBuilderOptions
-            .OverridePropertyName(string.Empty)
+            .OverridePropertyName(displayName)
             .WithName(displayName);
     }
 }

@@ -1,4 +1,6 @@
+using System.Text;
 using Core.Extensions;
+using Core.Services;
 using Core.ValueObjects;
 using FluentAssertions;
 using UnitTests.TestHelpers;
@@ -13,9 +15,10 @@ public class UserExtensionsTests : BaseTestClass
     {
         // Arrange
         var password = "password";
-        var user = FakeUser.CreateValid(Fixture) with
+        var user = FakeUser.CreateValid(Fixture);
+        user = user with
         {
-            PasswordHash = new PasswordHash(password.Md5Hash())
+            PasswordHash = new PasswordHash(AuthenticationService.HashPassword(password, Convert.FromBase64String(user.PasswordSalt.ToString())))
         };
 
         // Act
@@ -30,9 +33,10 @@ public class UserExtensionsTests : BaseTestClass
     {
         // Arrange
         var password = "password";
-        var user = FakeUser.CreateValid(Fixture) with
+        var user = FakeUser.CreateValid(Fixture);
+        user = user with
         {
-            PasswordHash = new PasswordHash(password.Md5Hash())
+            PasswordHash = new PasswordHash(AuthenticationService.HashPassword(password, Convert.FromBase64String(user.PasswordSalt.ToString())))
         };
 
         // Act

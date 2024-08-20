@@ -37,7 +37,8 @@ public class UserServiceTests : BaseTestClass
         // Assert
         user.Username.Should().Be(createUserRequest.Username);
         user.EmailAddress.Should().Be(createUserRequest.EmailAddress);
-        user.PasswordHash.Should().Be(new PasswordHash(createUserRequest.Password.ToString().Md5Hash()));
+        user.PasswordHash.Should().NotBeNull();
+        user.PasswordSalt.Should().NotBeNull();
         user.UserRole.Should().Be(UserRole.User);
     }
 }

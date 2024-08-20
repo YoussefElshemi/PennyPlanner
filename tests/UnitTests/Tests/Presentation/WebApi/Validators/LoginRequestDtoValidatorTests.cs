@@ -1,6 +1,8 @@
+using System.Text;
 using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Core.Services;
 using Core.ValueObjects;
 using FluentValidation.TestHelper;
 using Moq;
@@ -27,11 +29,6 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
         // Arrange
         var loginRequestDto = FakeLoginRequestDto.CreateValid();
 
-        var user = FakeUser.CreateValid(Fixture) with
-        {
-            PasswordHash = new PasswordHash(loginRequestDto.Password.Md5Hash())
-        };
-
         _mockUserRepository
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
@@ -50,11 +47,12 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
         // Arrange
         var loginRequestDto = FakeLoginRequestDto.CreateValid() with
         {
-            Password = "password"
+            Password = "wrong"
         };
-        var user = FakeUser.CreateValid(Fixture) with
+        var user = FakeUser.CreateValid(Fixture);
+        user = user with
         {
-            PasswordHash = new PasswordHash("wrong".Md5Hash())
+            PasswordHash = new PasswordHash(AuthenticationService.HashPassword("password", Convert.FromBase64String(user.PasswordSalt.ToString())))
         };
 
         _mockUserRepository
@@ -77,9 +75,10 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
     {
         // Arrange
         var loginRequestDto = FakeLoginRequestDto.CreateValid();
-        var user = FakeUser.CreateValid(Fixture) with
+        var user = FakeUser.CreateValid(Fixture);
+        user = user with
         {
-            PasswordHash = new PasswordHash(loginRequestDto.Password.Md5Hash())
+            PasswordHash = new PasswordHash(AuthenticationService.HashPassword(loginRequestDto.Password, Convert.FromBase64String(user.PasswordSalt.ToString())))
         };
 
         _mockUserRepository

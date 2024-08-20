@@ -15,6 +15,7 @@ public static class UserMapper
             Username = new Username(userEntity.Username),
             EmailAddress = new EmailAddress(userEntity.EmailAddress),
             PasswordHash = new PasswordHash(userEntity.PasswordHash),
+            PasswordSalt = new PasswordSalt(userEntity.PasswordSalt),
             UserRole = Enum.Parse<UserRole>(userEntity.UserRole),
             CreatedBy = new CreatedBy(userEntity.CreatedBy),
             CreatedAt = new CreatedAt(userEntity.CreatedAt),
@@ -27,9 +28,10 @@ public static class UserMapper
         return new UserEntity
         {
             Id = user.UserId,
-            Username = user.Username,
-            EmailAddress = user.EmailAddress,
-            PasswordHash = user.PasswordHash,
+            Username = user.Username.ToString(),
+            EmailAddress = user.EmailAddress.ToString(),
+            PasswordHash = user.PasswordHash.ToString(),
+            PasswordSalt = user.PasswordSalt.ToString(),
             UserRole = user.UserRole.ToString(),
             CreatedBy = user.CreatedBy,
             CreatedAt = user.CreatedAt,

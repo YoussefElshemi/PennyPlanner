@@ -64,7 +64,7 @@ public class RegisterRequestDtoValidatorTests
         var result = await _validator.TestValidateAsync(loginRequestDto);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => new { x.Password, x.ConfirmPassword })
+        result.ShouldHaveValidationErrorFor(x => x.Password)
             .WithErrorMessage(RegisterRequestDtoValidator.ConfirmPasswordErrorMessage);
     }
 

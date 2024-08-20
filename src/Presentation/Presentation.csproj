@@ -28,4 +28,8 @@
     <ItemGroup>
         <InternalsVisibleTo Include="UnitTests" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="WebApi\Endpoints\Test\" />
+    </ItemGroup>
 </Project>
