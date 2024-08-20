@@ -15,8 +15,7 @@ public static class FakeUserEntity
             EmailAddress = fixture.Create<string>(),
             PasswordHash = fixture.Create<string>(),
             PasswordSalt = fixture.Create<string>(),
-            UserRole = fixture.Create<UserRole>().ToString(),
-            CreatedBy = fixture.Create<Guid>(),
+            UserRoleId = (int)fixture.Create<UserRole>(),
             CreatedAt = fixture.Create<DateTime>(),
             UpdatedAt = fixture.Create<DateTime>()
         };

@@ -22,7 +22,6 @@ public class UserService(IUserRepository repository,
             PasswordHash = new PasswordHash(passwordHash),
             PasswordSalt = new PasswordSalt(Convert.ToBase64String(passwordSalt)),
             UserRole = UserRole.User,
-            CreatedBy = new CreatedBy(Guid.NewGuid()), // TODO: auto create admin user to use here
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };

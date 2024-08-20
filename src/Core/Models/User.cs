@@ -11,7 +11,6 @@ public record User
     public required PasswordHash PasswordHash { get; init; }
     public required PasswordSalt PasswordSalt { get; init; }
     public required UserRole UserRole { get; init; }
-    public required CreatedBy CreatedBy { get; init; }
     public required CreatedAt CreatedAt { get; init; }
     public required UpdatedAt UpdatedAt { get; init; }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using Core.Enums;
+using Core.Extensions;
 using Infrastructure.Entities;
 
 namespace Infrastructure.Configurations;
@@ -7,6 +8,19 @@ namespace Infrastructure.Configurations;
 public static class SeedObjects
 {
     private static readonly Guid UserId = Guid.NewGuid();
+    public static readonly ImmutableArray<UserRoleEntity> UserRoles =
+        [
+            ..Enum.GetValues(typeof(UserRole))
+                .Cast<UserRole>()
+                .Select(x => new UserRoleEntity
+                {
+                    UserRoleId = (int)x,
+                    Name = x.GetDescription(),
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                })
+        ];
+
     public static readonly ImmutableArray<UserEntity> Users =
     [
         new UserEntity
@@ -16,8 +30,7 @@ public static class SeedObjects
             EmailAddress = "admin@admin.com",
             PasswordHash = string.Empty,
             PasswordSalt = string.Empty,
-            UserRole = UserRole.Admin.ToString(),
-            CreatedBy = UserId,
+            UserRoleId = (int)UserRole.Admin,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
         }

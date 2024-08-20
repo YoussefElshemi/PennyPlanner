@@ -16,8 +16,7 @@ public static class UserMapper
             EmailAddress = new EmailAddress(userEntity.EmailAddress),
             PasswordHash = new PasswordHash(userEntity.PasswordHash),
             PasswordSalt = new PasswordSalt(userEntity.PasswordSalt),
-            UserRole = Enum.Parse<UserRole>(userEntity.UserRole),
-            CreatedBy = new CreatedBy(userEntity.CreatedBy),
+            UserRole = (UserRole)userEntity.UserRoleId,
             CreatedAt = new CreatedAt(userEntity.CreatedAt),
             UpdatedAt = new UpdatedAt(userEntity.UpdatedAt)
         };
@@ -32,8 +31,7 @@ public static class UserMapper
             EmailAddress = user.EmailAddress.ToString(),
             PasswordHash = user.PasswordHash.ToString(),
             PasswordSalt = user.PasswordSalt.ToString(),
-            UserRole = user.UserRole.ToString(),
-            CreatedBy = user.CreatedBy,
+            UserRoleId = (int)user.UserRole,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
         };
