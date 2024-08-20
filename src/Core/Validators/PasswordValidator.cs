@@ -1,4 +1,6 @@
 using Core.Constants;
+using Core.Extensions;
+using Core.ValueObjects;
 using FluentValidation;
 
 namespace Core.Validators;
@@ -12,9 +14,10 @@ public class PasswordValidator : AbstractValidator<string>
     internal const string DigitErrorMessage = "Password must contain at least one digit.";
     internal const string SpecialCharacterErrorMessage = "Password must contain at least one special character.";
 
-    public PasswordValidator()
+    public PasswordValidator(string displayName = nameof(Password))
     {
         RuleFor(password => password)
+            .WithDisplayName(displayName)
             .NotEmpty()
             .MinimumLength(MinLength)
             .MaximumLength(MaxLength)

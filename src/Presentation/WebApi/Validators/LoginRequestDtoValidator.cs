@@ -1,6 +1,8 @@
 using Core.Extensions;
 using Core.Interfaces.Repositories;
+using Core.Models;
 using Core.Validators;
+using Core.ValueObjects;
 using FluentValidation;
 using Presentation.WebApi.Models.Authentication;
 
@@ -13,9 +15,11 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
     public LoginRequestDtoValidator()
     {
         RuleFor(x => x.Username)
+            .WithDisplayName(nameof(Username))
             .SetValidator(new UsernameValidator());
 
         RuleFor(x => x.Password)
+            .WithDisplayName(nameof(Username))
             .SetValidator(new PasswordValidator());
     }
 
@@ -23,6 +27,7 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
     {
         RuleFor(x => new { x.Username, x.Password })
             .Cascade(CascadeMode.Stop)
+            .WithDisplayName($"{nameof(Username)} and {nameof(Password)}")
             .MustAsync(async (x, _) => await UserExistByUsername(userRepository, x.Username))
             .WithMessage(IncorrectLoginDetails)
             .MustAsync(async (x, _) => await CorrectPassword(userRepository, x.Username, x.Password))

@@ -1,5 +1,7 @@
+using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Validators;
+using Core.ValueObjects;
 using FluentValidation;
 using Presentation.WebApi.Models.Authentication;
 
@@ -14,34 +16,42 @@ public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
     public RegisterRequestDtoValidator()
     {
         RuleFor(x => x.Username)
+            .WithDisplayName(nameof(Username))
             .SetValidator(new UsernameValidator());
 
         RuleFor(x => x.Password)
+            .WithDisplayName(nameof(Password))
             .SetValidator(new PasswordValidator());
 
-        RuleFor(x => new { x.Password, x.ConfirmPassword,})
+        RuleFor(x => new { x.Password, x.ConfirmPassword })
+            .WithDisplayName(nameof(Password))
             .Must(x => x.Password == x.ConfirmPassword)
             .WithMessage(ConfirmPasswordErrorMessage);
 
         RuleFor(x => x.EmailAddress)
+            .WithDisplayName(nameof(EmailAddress))
             .SetValidator(new EmailAddressValidator());
     }
 
     public RegisterRequestDtoValidator(IUserRepository userRepository)
     {
         RuleFor(x => x.Username)
+            .WithDisplayName(nameof(Username))
             .SetValidator(new UsernameValidator())
             .MustAsync(async (x, _) => await UserNotExistByUsername(userRepository, x))
             .WithMessage(UsernameTakenErrorMessage);
 
         RuleFor(x => x.Password)
+            .WithDisplayName(nameof(Password))
             .SetValidator(new PasswordValidator());
 
-        RuleFor(x => new { x.Password, x.ConfirmPassword,})
+        RuleFor(x => new { x.Password, x.ConfirmPassword })
+            .WithDisplayName(nameof(Password))
             .Must(x => x.Password == x.ConfirmPassword)
             .WithMessage(ConfirmPasswordErrorMessage);
 
         RuleFor(x => x.EmailAddress)
+            .WithDisplayName(nameof(EmailAddress))
             .SetValidator(new EmailAddressValidator())
             .MustAsync(async (x, _) => await UserNotExistByEmailAddress(userRepository, x))
             .WithMessage(EmailAddressInUseErrorMessage);
