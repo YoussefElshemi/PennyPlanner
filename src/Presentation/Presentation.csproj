@@ -12,14 +12,11 @@
       <PackageReference Include="FastEndpoints" />
       <PackageReference Include="FastEndpoints.Security" />
       <PackageReference Include="FastEndpoints.Swagger" />
+      <PackageReference Include="FluentValidation" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-      <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-      <PackageReference Include="Swashbuckle.AspNetCore" />
-      <PackageReference Include="FluentValidation" />
-      <PackageReference Include="FluentValidation.Validators.UnitTestExtension" />
     </ItemGroup>
 
     <ItemGroup>
