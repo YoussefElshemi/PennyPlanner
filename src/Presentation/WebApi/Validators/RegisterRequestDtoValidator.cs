@@ -9,9 +9,9 @@ namespace Presentation.WebApi.Validators;
 
 public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
 {
-    internal const string ConfirmPasswordErrorMessage = "Passwords do not match.";
-    internal const string UsernameTakenErrorMessage = "Username is taken.";
-    internal const string EmailAddressInUseErrorMessage = "Email address is already in use.";
+    internal const string ConfirmPasswordErrorMessage = $"{nameof(Password)}s do not match.";
+    internal const string UsernameTakenErrorMessage = $"{nameof(Username)} is taken.";
+    internal const string EmailAddressInUseErrorMessage = $"{nameof(EmailAddress)} is already in use.";
 
     public RegisterRequestDtoValidator()
     {
