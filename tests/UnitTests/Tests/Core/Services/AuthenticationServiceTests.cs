@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Core.Configs;
 using Core.Enums;
 using Core.Interfaces.Services;
@@ -33,23 +34,23 @@ public class AuthenticationServiceTests : BaseTestClass
     }
 
     [Fact]
-    public async Task CreateUserAsync_ValidUser_CreatesUser()
+    public async Task CreateAsync_ValidUser_CreatesUser()
     {
         // Arrange
         var createUserRequest = FakeCreateUserRequest.CreateValid(Fixture);
         var user = FakeUser.CreateValid(Fixture);
         _mockUserService
-            .Setup(x => x.CreateUserAsync(It.IsAny<CreateUserRequest>()))
+            .Setup(x => x.CreateAsync(It.IsAny<CreateUserRequest>()))
             .ReturnsAsync(user);
         // Act
-        var authenticationResponse = await _authenticationService.CreateUserAsync(createUserRequest);
+        var authenticationResponse = await _authenticationService.CreateAsync(createUserRequest);
 
         // Assert
         authenticationResponse.UserId.Should().Be(user.UserId);
         authenticationResponse.TokenType.Should().Be(TokenType.Bearer);
 
         var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
-        jsonToken!.Claims.First(x => x.Type == "sub").Value.Should().Be(user.EmailAddress);
+        jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId);
     }
 
     [Fact]
@@ -77,7 +78,7 @@ public class AuthenticationServiceTests : BaseTestClass
             .Setup(x => x.ExistsAsync(It.IsAny<Username>()))
             .ReturnsAsync(true);
         _mockUserService
-            .Setup(x => x.GetUserAsync(It.IsAny<Username>()))
+            .Setup(x => x.GetAsync(It.IsAny<Username>()))
             .ReturnsAsync(user);
 
         // Act
@@ -88,6 +89,6 @@ public class AuthenticationServiceTests : BaseTestClass
         authenticationResponse.TokenType.Should().Be(TokenType.Bearer);
 
         var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
-        jsonToken!.Claims.First(x => x.Type == "sub").Value.Should().Be(user.EmailAddress);
+        jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId);
     }
 }

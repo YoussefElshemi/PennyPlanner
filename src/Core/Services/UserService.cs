@@ -9,7 +9,7 @@ namespace Core.Services;
 public class UserService(IUserRepository repository,
     TimeProvider timeProvider) : IUserService
 {
-    public async Task<User> CreateUserAsync(CreateUserRequest createUserRequest)
+    public async Task<User> CreateAsync(CreateUserRequest createUserRequest)
     {
         var passwordSalt = AuthenticationService.GenerateSalt();
         var passwordHash = AuthenticationService.HashPassword(createUserRequest.Password.ToString(), passwordSalt);
@@ -30,6 +30,11 @@ public class UserService(IUserRepository repository,
         return user;
     }
 
+    public async Task UpdateAsync(User user)
+    {
+        await repository.UpdateAsync(user);
+    }
+
     public Task<bool> ExistsAsync(Username username)
     {
         return repository.ExistsByUsernameAsync(username);
@@ -40,12 +45,12 @@ public class UserService(IUserRepository repository,
         return repository.ExistsByIdAsync(userId);
     }
 
-    public Task<User?> GetUserAsync(Username username)
+    public Task<User?> GetAsync(Username username)
     {
         return repository.GetByUsernameAsync(username);
     }
 
-    public Task<User?> GetUserAsync(UserId userId)
+    public Task<User?> GetAsync(UserId userId)
     {
         return repository.GetByIdAsync(userId);
     }

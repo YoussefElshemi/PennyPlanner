@@ -1,4 +1,6 @@
 using Core.Constants;
+using Core.Extensions;
+using Core.ValueObjects;
 using FluentValidation;
 
 namespace Core.Validators;
@@ -11,6 +13,7 @@ public class UsernameValidator : AbstractValidator<string>
     public UsernameValidator()
     {
         RuleFor(username => username)
+            .WithDisplayName(nameof(Username))
             .NotEmpty()
             .MinimumLength(MinLength)
             .MaximumLength(MaxLength)

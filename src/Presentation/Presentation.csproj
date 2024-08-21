@@ -32,7 +32,4 @@
         <InternalsVisibleTo Include="UnitTests" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="data.db" />
-    </ItemGroup>
 </Project>

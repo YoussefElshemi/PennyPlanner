@@ -64,7 +64,7 @@ public class RegisterRequestDtoValidatorTests
         var result = await _validator.TestValidateAsync(loginRequestDto);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Password)
+        result.ShouldHaveAnyValidationError()
             .WithErrorMessage(RegisterRequestDtoValidator.ConfirmPasswordErrorMessage);
     }
 
@@ -113,6 +113,12 @@ public class RegisterRequestDtoValidatorTests
     {
         // Arrange
         var loginRequestDto = FakeRegisterRequestDto.CreateValid();
+        _mockUserRepository
+            .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
+            .ReturnsAsync(false);
+        _mockUserRepository
+            .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
+            .ReturnsAsync(false);
 
         // Act
         var result = await _validator.TestValidateAsync(loginRequestDto);

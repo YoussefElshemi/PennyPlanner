@@ -5,9 +5,9 @@ namespace Presentation.Mappers;
 
 public static class UserProfileResponseMapper
 {
-    public static UserProfileDto Map(User user)
+    public static UserProfileResponseDto Map(User user)
     {
-        return new UserProfileDto
+        return new UserProfileResponseDto
         {
             Username = user.Username.ToString(),
             EmailAddress = user.EmailAddress.ToString(),

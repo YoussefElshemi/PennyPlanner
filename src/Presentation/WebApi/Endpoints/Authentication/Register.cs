@@ -25,7 +25,7 @@ public class Register(IUserRepository userRepository,
 
         var createUserRequest = CreateUserRequestMapper.Map(registerRequestDto);
 
-        var authenticationResponse = await authenticationService.CreateUserAsync(createUserRequest);
+        var authenticationResponse = await authenticationService.CreateAsync(createUserRequest);
 
         var response = AuthenticationResponseMapper.Map(authenticationResponse);
 

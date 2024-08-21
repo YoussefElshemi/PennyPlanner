@@ -9,7 +9,7 @@ namespace UnitTests.Tests.Presentation.Mappers;
 public class CreateUserRequestMapperTests : BaseTestClass
 {
     [Fact]
-    public void Map_GivenAuthenticationResponse_ReturnsAuthenticationResponseDto()
+    public void Map_GivenRegisterRequestDto_ReturnsCreateUserRequest()
     {
         // Arrange
         var registerRequestDto = FakeRegisterRequestDto.CreateValid();

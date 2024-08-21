@@ -7,18 +7,18 @@ using Presentation.WebApi.Models.User;
 
 namespace Presentation.WebApi.Endpoints.User;
 
-public class Profile(IUserService userService) : EndpointWithoutRequest<UserProfileDto>
+public class Get(IUserService userService) : EndpointWithoutRequest<UserProfileResponseDto>
 {
     public override void Configure()
     {
-        Get("/user/profile");
+        Get("/user");
         EnableAntiforgery();
     }
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
         var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
-        var user = await userService.GetUserAsync(new UserId(Guid.Parse(userId)));
+        var user = await userService.GetAsync(new UserId(Guid.Parse(userId)));
 
         var response = UserProfileResponseMapper.Map(user!);
 

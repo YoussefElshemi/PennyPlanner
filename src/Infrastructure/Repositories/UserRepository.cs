@@ -47,4 +47,19 @@ public class UserRepository(
         context.Users.Add(userEntity);
         await context.SaveChangesAsync();
     }
+
+    public async Task UpdateAsync(User user)
+    {
+        var userToUpdate = UserMapper.MapToEntity(user);
+        var userEntity = await context.Users.SingleAsync(x => x.UserId == userToUpdate.UserId);
+
+        userEntity.EmailAddress = userToUpdate.EmailAddress;
+        userEntity.PasswordHash = userToUpdate.PasswordHash;
+        userEntity.PasswordSalt = userToUpdate.PasswordSalt;
+        userEntity.UserRoleId = userToUpdate.UserRoleId;
+        userEntity.UpdatedAt = DateTime.UtcNow;
+
+        context.Users.Update(userEntity);
+        await context.SaveChangesAsync();
+    }
 }

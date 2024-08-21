@@ -15,9 +15,9 @@ public class AuthenticationService(
     IUserService userService,
     IOptions<AppConfig> config) : IAuthenticationService
 {
-    public async Task<AuthenticationResponse> CreateUserAsync(CreateUserRequest createUserRequest)
+    public async Task<AuthenticationResponse> CreateAsync(CreateUserRequest createUserRequest)
     {
-        var user = await userService.CreateUserAsync(createUserRequest);
+        var user = await userService.CreateAsync(createUserRequest);
         var jwtSecurityToken = user.CreateJwtSecurityToken(config.Value.JwtConfig);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - jwtSecurityToken.ValidFrom).TotalSeconds);
@@ -33,7 +33,7 @@ public class AuthenticationService(
 
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest authenticationRequest)
     {
-       var user = await userService.GetUserAsync(authenticationRequest.Username);
+       var user = await userService.GetAsync(authenticationRequest.Username);
         if (user == null)
         {
             throw new UnauthorizedAccessException();

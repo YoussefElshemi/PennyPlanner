@@ -1,3 +1,5 @@
+using Core.Extensions;
+using Core.ValueObjects;
 using EmailValidation;
 using FluentValidation;
 
@@ -8,6 +10,7 @@ public class EmailAddressValidator : AbstractValidator<string>
     public EmailAddressValidator()
     {
         RuleFor(emailAddress => emailAddress)
+            .WithDisplayName(nameof(EmailAddress))
             .NotEmpty()
             .Must(x => EmailValidator.Validate(x));
     }

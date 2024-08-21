@@ -30,7 +30,7 @@ public class UserServiceTests : BaseTestClass
             .Verifiable();
 
         // Act
-        var user = await _userService.CreateUserAsync(createUserRequest);
+        var user = await _userService.CreateAsync(createUserRequest);
 
         // Assert
         user.Username.Should().Be(createUserRequest.Username);

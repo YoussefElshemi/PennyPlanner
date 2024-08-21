@@ -4,6 +4,6 @@ namespace Core.Models;
 
 public record AuthenticationRequest
 {
-    public required Username Username { get; set; }
-    public required Password Password { get; set; }
+    public required Username Username { get; init; }
+    public required Password Password { get; init; }
 }

@@ -1,6 +1,5 @@
 using Core.Extensions;
 using Core.Interfaces.Repositories;
-using Core.Validators;
 using Core.ValueObjects;
 using FluentValidation;
 using Presentation.WebApi.Models.Authentication;
@@ -11,16 +10,7 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
 {
     internal const string IncorrectLoginDetails = "Incorrect login details";
 
-    public LoginRequestDtoValidator()
-    {
-        RuleFor(x => x.Username)
-            .WithDisplayName(nameof(Username))
-            .SetValidator(new UsernameValidator());
-
-        RuleFor(x => x.Password)
-            .WithDisplayName(nameof(Username))
-            .SetValidator(new PasswordValidator());
-    }
+    public LoginRequestDtoValidator() {}
 
     public LoginRequestDtoValidator(IUserRepository userRepository)
     {

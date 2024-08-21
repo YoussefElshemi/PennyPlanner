@@ -1,4 +1,5 @@
 using Core.Constants;
+using Core.Extensions;
 using Core.ValueObjects;
 using FluentValidation;
 
@@ -17,6 +18,7 @@ public class PasswordValidator : AbstractValidator<string>
     public PasswordValidator()
     {
         RuleFor(password => password)
+            .WithDisplayName(nameof(Password))
             .NotEmpty()
             .MinimumLength(MinLength)
             .MaximumLength(MaxLength)

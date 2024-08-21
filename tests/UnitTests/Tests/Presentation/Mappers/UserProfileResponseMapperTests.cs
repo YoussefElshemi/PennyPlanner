@@ -8,7 +8,7 @@ namespace UnitTests.Tests.Presentation.Mappers;
 public class UserProfileResponseMapperTests : BaseTestClass
 {
     [Fact]
-    public void Map_GivenAuthenticationResponse_ReturnsAuthenticationResponseDto()
+    public void Map_User_ReturnsUserProfileResponse()
     {
         // Arrange
         var user = FakeUser.CreateValid(Fixture);
