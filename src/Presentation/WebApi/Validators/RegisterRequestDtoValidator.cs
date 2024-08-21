@@ -16,11 +16,9 @@ public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
     public RegisterRequestDtoValidator()
     {
         RuleFor(x => x.Username)
-            .WithDisplayName(nameof(Username))
             .SetValidator(new UsernameValidator());
 
         RuleFor(x => x.Password)
-            .WithDisplayName(nameof(Password))
             .SetValidator(new PasswordValidator());
 
         RuleFor(x => new { x.Password, x.ConfirmPassword })
@@ -29,7 +27,6 @@ public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
             .WithMessage(ConfirmPasswordErrorMessage);
 
         RuleFor(x => x.EmailAddress)
-            .WithDisplayName(nameof(EmailAddress))
             .SetValidator(new EmailAddressValidator());
     }
 

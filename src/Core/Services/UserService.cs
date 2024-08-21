@@ -1,4 +1,5 @@
 using Core.Enums;
+using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
@@ -30,9 +31,19 @@ public class UserService(IUserRepository repository,
         return user;
     }
 
-    public async Task UpdateAsync(User user)
+    public async Task<User> ChangePasswordAsync(User user, ChangePasswordRequest changePasswordRequest)
+    {
+        var updatedUser = user.UpdatePassword(changePasswordRequest);
+        await repository.UpdateAsync(updatedUser);
+
+        return updatedUser;
+    }
+
+    public async Task<User> UpdateAsync(User user)
     {
         await repository.UpdateAsync(user);
+
+        return user;
     }
 
     public Task<bool> ExistsAsync(Username username)

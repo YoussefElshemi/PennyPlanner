@@ -1,4 +1,3 @@
-using Presentation.WebApi.Models.Authentication;
 using Presentation.WebApi.Models.User;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 

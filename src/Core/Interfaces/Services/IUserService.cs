@@ -6,7 +6,8 @@ namespace Core.Interfaces.Services;
 public interface IUserService
 {
     Task<User> CreateAsync(CreateUserRequest createUserRequest);
-    Task UpdateAsync(User user);
+    Task<User> UpdateAsync(User user);
+    Task<User> ChangePasswordAsync(User user, ChangePasswordRequest changePasswordRequest);
     Task<bool> ExistsAsync(UserId userId);
     Task<bool> ExistsAsync(Username username);
     Task<User?> GetAsync(Username username);

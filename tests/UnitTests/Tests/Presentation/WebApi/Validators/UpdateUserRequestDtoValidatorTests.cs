@@ -2,7 +2,6 @@ using Core.Interfaces.Repositories;
 using FluentValidation.TestHelper;
 using Moq;
 using Presentation.WebApi.Validators;
-using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models;
 
 namespace UnitTests.Tests.Presentation.WebApi.Validators;
