@@ -40,4 +40,24 @@ public class PasswordResetService(
 
         await emailService.SendEmailAsync(emailMessage);
     }
+
+    public Task CreateAsync(PasswordReset passwordReset)
+    {
+        return passwordResetRepository.CreateAsync(passwordReset);
+    }
+
+    public Task UpdateAsync(PasswordReset passwordReset)
+    {
+        return passwordResetRepository.UpdateAsync(passwordReset);
+    }
+
+    public Task<bool> ExistsAsync(PasswordResetToken passwordResetToken)
+    {
+        return passwordResetRepository.ExistsAsync(passwordResetToken);
+    }
+
+    public Task<PasswordReset> GetAsync(PasswordResetToken passwordResetToken)
+    {
+        return passwordResetRepository.GetAsync(passwordResetToken);
+    }
 }

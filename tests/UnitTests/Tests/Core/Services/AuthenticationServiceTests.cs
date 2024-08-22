@@ -32,6 +32,7 @@ public class AuthenticationServiceTests : BaseTestClass
         _authenticationService = new AuthenticationService(
             _mockUserService.Object,
             _mockPasswordResetService.Object,
+            MockTimeProvider.Object,
             mockConfig.Object);
     }
 
@@ -131,5 +132,29 @@ public class AuthenticationServiceTests : BaseTestClass
 
         // Assert
         _mockPasswordResetService.Verify(x => x.InitiateAsync(It.IsAny<User>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task ResetPassword_GivenResetPasswordRequest_ChangesPassword()
+    {
+        // Arrange
+        var resetPasswordRequest = FakeResetPasswordRequest.CreateValid(Fixture);
+        var passwordReset = FakePasswordReset.CreateValid(Fixture);
+        _mockPasswordResetService
+            .Setup(x => x.GetAsync(It.IsAny<PasswordResetToken>()))
+            .ReturnsAsync(passwordReset);
+        _mockPasswordResetService
+            .Setup(x => x.UpdateAsync(It.IsAny<PasswordReset>()))
+            .Verifiable();
+        _mockUserService
+            .Setup(x => x.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<Password>()))
+            .Verifiable();
+
+        // Act
+        await _authenticationService.ResetPassword(resetPasswordRequest);
+
+        // Assert
+        _mockPasswordResetService.Verify(x => x.UpdateAsync(It.IsAny<PasswordReset>()), Times.Once);
+        _mockUserService.Verify(x => x.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<Password>()), Times.Once);
     }
 }

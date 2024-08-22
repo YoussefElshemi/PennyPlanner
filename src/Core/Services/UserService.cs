@@ -31,9 +31,9 @@ public class UserService(IUserRepository repository,
         return user;
     }
 
-    public async Task<User> ChangePasswordAsync(User user, ChangePasswordRequest changePasswordRequest)
+    public async Task<User> ChangePasswordAsync(User user, Password password)
     {
-        var updatedUser = user.UpdatePassword(changePasswordRequest) with
+        var updatedUser = user.UpdatePassword(password) with
         {
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };

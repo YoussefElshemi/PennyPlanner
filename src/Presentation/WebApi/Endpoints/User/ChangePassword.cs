@@ -29,7 +29,7 @@ public class ChangePassword(IUserService userService) : Endpoint<ChangePasswordR
 
         var changePasswordRequest = ChangePasswordRequestMapper.Map(changePasswordRequestDto);
 
-        var updatedUser = await userService.ChangePasswordAsync(user!, changePasswordRequest);
+        var updatedUser = await userService.ChangePasswordAsync(user, changePasswordRequest.Password);
 
         var response = UserProfileResponseMapper.Map(updatedUser);
 

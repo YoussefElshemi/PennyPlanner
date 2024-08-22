@@ -5,14 +5,14 @@ using Core.Models;
 using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
+using Presentation.Mappers;
 using Presentation.WebApi.Models.Authentication;
 using Presentation.WebApi.Validators;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class ResetPassword(IPasswordResetRepository passwordResetRepository,
-    IUserService userService,
-    TimeProvider timeProvider) : Endpoint<ResetPasswordRequestDto, ResetPasswordResponseDto>
+    IAuthenticationService authenticationService) : Endpoint<ResetPasswordRequestDto>
 {
     public override void Configure()
     {
@@ -26,31 +26,10 @@ public class ResetPassword(IPasswordResetRepository passwordResetRepository,
         var validator = new ResetPasswordRequestDtoValidator(passwordResetRepository);
         await validator.ValidateAndThrowAsync(requestResetPasswordRequestDto, cancellationToken);
 
-        var passwordReset = await passwordResetRepository.GetAsync(new PasswordResetToken(requestResetPasswordRequestDto.PasswordResetToken));
-        passwordReset = passwordReset! with
-        {
-            IsUsed = new IsUsed(true),
-            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().DateTime)
-        };
-        await passwordResetRepository.UpdateAsync(passwordReset);
+        var resetPasswordReset = ResetPasswordRequestMapper.Map(requestResetPasswordRequestDto);
 
-        var changePasswordRequest = new ChangePasswordRequest
-        {
-            Password = new Password(requestResetPasswordRequestDto.Password)
-        };
+        await authenticationService.ResetPassword(resetPasswordReset);
 
-        await userService.ChangePasswordAsync(passwordReset.User, changePasswordRequest);
-
-        var response = new ResetPasswordResponseDto
-        {
-            Success = true
-        };
-
-        await SendAsync(response, cancellation: cancellationToken);
+        await SendNoContentAsync(cancellationToken);
     }
-}
-
-public record ResetPasswordResponseDto
-{
-    public bool Success { get; init; }
 }

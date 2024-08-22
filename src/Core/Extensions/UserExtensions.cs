@@ -17,10 +17,10 @@ public static class UserExtensions
         return user.PasswordHash == AuthenticationService.HashPassword(password, salt);
     }
 
-    public static User UpdatePassword(this User user, ChangePasswordRequest changePasswordRequest)
+    public static User UpdatePassword(this User user, Password password)
     {
         var passwordSalt = AuthenticationService.GenerateSalt();
-        var passwordHash = AuthenticationService.HashPassword(changePasswordRequest.Password, passwordSalt);
+        var passwordHash = AuthenticationService.HashPassword(password, passwordSalt);
 
         var updatedUser = user with
         {

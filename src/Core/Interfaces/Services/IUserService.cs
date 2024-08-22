@@ -7,7 +7,7 @@ public interface IUserService
 {
     Task<User> CreateAsync(CreateUserRequest createUserRequest);
     Task<User> UpdateAsync(User user);
-    Task<User> ChangePasswordAsync(User user, ChangePasswordRequest changePasswordRequest);
+    Task<User> ChangePasswordAsync(User user, Password password);
     Task<bool> ExistsAsync(UserId userId);
     Task<bool> ExistsAsync(Username username);
     Task<bool> ExistsAsync(EmailAddress emailAddress);

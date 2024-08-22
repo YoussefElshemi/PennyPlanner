@@ -4,12 +4,13 @@ using Core.Models;
 using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
+using Presentation.Mappers;
 using Presentation.WebApi.Models.Authentication;
 using Presentation.WebApi.Validators;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
-public class RequestResetPassword(IAuthenticationService authenticationService) : Endpoint<RequestResetPasswordRequestDto, RequestResetPasswordResponseDto>
+public class RequestResetPassword(IAuthenticationService authenticationService) : Endpoint<RequestResetPasswordRequestDto>
 {
     public const string RequestResetPasswordMessage = "If an account exists with the given email address, you will receive an email to reset your password";
 
@@ -25,18 +26,10 @@ public class RequestResetPassword(IAuthenticationService authenticationService) 
         var validator = new RequestResetPasswordRequestDtoValidator();
         await validator.ValidateAndThrowAsync(requestResetPasswordRequestDto, cancellationToken);
 
-        var requestResetPasswordRequest = new RequestResetPasswordRequest
-        {
-            EmailAddress = new EmailAddress(requestResetPasswordRequestDto.EmailAddress)
-        };
+        var requestResetPasswordRequest = RequestResetPasswordRequestMapper.Map(requestResetPasswordRequestDto);
 
         await authenticationService.RequestResetPassword(requestResetPasswordRequest);
 
-        var response = new RequestResetPasswordResponseDto
-        {
-            Message = RequestResetPasswordMessage
-        };
-
-        await SendAsync(response, cancellation: cancellationToken);
+        await SendNoContentAsync(cancellationToken);
     }
 }

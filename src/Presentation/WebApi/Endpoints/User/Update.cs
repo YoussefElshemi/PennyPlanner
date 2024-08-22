@@ -30,7 +30,7 @@ public class Update(IUserRepository userRepository,
         var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
         var user = await userService.GetAsync(new UserId(Guid.Parse(userId)));
 
-        var updateUserRequest = UpdateUserRequestMapper.Map(user!, updateUserRequestDto) with
+        var updateUserRequest = UpdateUserRequestMapper.Map(user, updateUserRequestDto) with
         {
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().DateTime)
         };

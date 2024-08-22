@@ -14,6 +14,7 @@ namespace Core.Services;
 public class AuthenticationService(
     IUserService userService,
     IPasswordResetService passwordResetService,
+    TimeProvider timeProvider,
     IOptions<AppConfig> config) : IAuthenticationService
 {
     public async Task<AuthenticationResponse> CreateAsync(CreateUserRequest createUserRequest)
@@ -58,6 +59,20 @@ public class AuthenticationService(
 
         var user = await userService.GetAsync(requestResetPasswordRequest.EmailAddress);
         await passwordResetService.InitiateAsync(user);
+    }
+
+    public async Task ResetPassword(ResetPasswordRequest resetPasswordRequest)
+    {
+        var passwordReset = await passwordResetService.GetAsync(resetPasswordRequest.PasswordResetToken);
+
+        passwordReset = passwordReset with
+        {
+            IsUsed = new IsUsed(true),
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().DateTime)
+        };
+        await passwordResetService.UpdateAsync(passwordReset);
+
+        await userService.ChangePasswordAsync(passwordReset.User, resetPasswordRequest.Password);
     }
 
     public static string HashPassword(string password, byte[] salt)

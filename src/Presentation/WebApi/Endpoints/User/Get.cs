@@ -21,7 +21,7 @@ public class Get(IUserService userService) : EndpointWithoutRequest<UserProfileR
         var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
         var user = await userService.GetAsync(new UserId(Guid.Parse(userId)));
 
-        var response = UserProfileResponseMapper.Map(user!);
+        var response = UserProfileResponseMapper.Map(user);
 
         await SendAsync(response, cancellation: cancellationToken);
     }
