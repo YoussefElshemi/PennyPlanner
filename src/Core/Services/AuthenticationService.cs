@@ -35,11 +35,6 @@ public class AuthenticationService(
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest authenticationRequest)
     {
        var user = await userService.GetAsync(authenticationRequest.Username);
-        if (user == null)
-        {
-            throw new UnauthorizedAccessException();
-        }
-
         var jwtSecurityToken = user.CreateJwtSecurityToken(config.Value.JwtConfig);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - jwtSecurityToken.ValidFrom).TotalSeconds);
@@ -62,11 +57,6 @@ public class AuthenticationService(
         }
 
         var user = await userService.GetAsync(requestResetPasswordRequest.EmailAddress);
-        if (user is null)
-        {
-            return;
-        }
-
         await passwordResetService.InitiateAsync(user);
     }
 

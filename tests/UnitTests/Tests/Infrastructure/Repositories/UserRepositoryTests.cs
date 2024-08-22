@@ -40,7 +40,7 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task ExistsByIdAsync_NonExistingUser_ReturnsTrue()
+    public async Task ExistsByIdAsync_NonExistingUser_ReturnsFalse()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
@@ -53,7 +53,7 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task GetByIdAsync_ExistingUser_ReturnsTrue()
+    public async Task GetByIdAsync_ExistingUser_ReturnsUser()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
@@ -65,19 +65,6 @@ public class UserRepositoryTests : BaseTestClass
 
         // Assert
         exists.Should().NotBeNull();
-    }
-
-    [Fact]
-    public async Task GetByIdAsync_NonExistingUser_ReturnsTrue()
-    {
-        // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
-
-        // Act
-        var exists = await _userRepository.GetByIdAsync(userEntity.UserId);
-
-        // Assert
-        exists.Should().BeNull();
     }
 
     [Fact]
@@ -96,7 +83,7 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task ExistsByUsernameAsync_NonExistingUser_ReturnsTrue()
+    public async Task ExistsByUsernameAsync_NonExistingUser_ReturnsFalse()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
@@ -109,7 +96,7 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task GetByUsernameAsync_ExistingUser_ReturnsTrue()
+    public async Task GetByUsernameAsync_ExistingUser_ReturnsUser()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
@@ -121,19 +108,6 @@ public class UserRepositoryTests : BaseTestClass
 
         // Assert
         exists.Should().NotBeNull();
-    }
-
-    [Fact]
-    public async Task GetByUsernameAsync_NonExistingUser_ReturnsTrue()
-    {
-        // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
-
-        // Act
-        var exists = await _userRepository.GetByUsernameAsync(userEntity.Username);
-
-        // Assert
-        exists.Should().BeNull();
     }
 
     [Fact]
@@ -152,7 +126,7 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task ExistsByEmailAddressAsync_NonExistingUser_ReturnsTrue()
+    public async Task ExistsByEmailAddressAsync_NonExistingUser_ReturnsFalse()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
@@ -165,7 +139,7 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task GetByEmailAddressAsync_ExistingUser_ReturnsTrue()
+    public async Task GetByEmailAddressAsync_ExistingUser_ReturnsUser()
     {
         // Arrange
         var userEntity = FakeUserEntity.CreateValid(Fixture);
@@ -177,19 +151,6 @@ public class UserRepositoryTests : BaseTestClass
 
         // Assert
         exists.Should().NotBeNull();
-    }
-
-    [Fact]
-    public async Task GetByEmailAddressAsync_NonExistingUser_ReturnsTrue()
-    {
-        // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
-
-        // Act
-        var exists = await _userRepository.GetByEmailAddressAsync(userEntity.EmailAddress);
-
-        // Assert
-        exists.Should().BeNull();
     }
 
     [Fact]

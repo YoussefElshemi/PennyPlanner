@@ -74,17 +74,4 @@ public class PasswordResetRepositoryTests : BaseTestClass
         // Assert
         exists.Should().NotBeNull();
     }
-
-    [Fact]
-    public async Task GetAsync_NonExistingPasswordReset_ReturnsTrue()
-    {
-        // Arrange
-        var passwordResetEntity = FakePasswordResetEntity.CreateValid(Fixture);
-
-        // Act
-        var exists = await _passwordResetRepository.GetAsync(passwordResetEntity.ResetToken);
-
-        // Assert
-        exists.Should().BeNull();
-    }
 }

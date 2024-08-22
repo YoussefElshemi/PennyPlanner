@@ -13,10 +13,10 @@ public class UserRepository(
         return context.Users.AnyAsync(u => u.UserId == userId);
     }
 
-    public async Task<User?> GetByIdAsync(Guid userId)
+    public async Task<User> GetByIdAsync(Guid userId)
     {
-        var userEntity = await context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
-        return userEntity == null ? null : UserMapper.MapFromEntity(userEntity);
+        var userEntity = await context.Users.FirstAsync(u => u.UserId == userId);
+        return UserMapper.MapFromEntity(userEntity);
     }
 
     public Task<bool> ExistsByUsernameAsync(string username)
@@ -24,10 +24,10 @@ public class UserRepository(
         return context.Users.AnyAsync(u => u.Username == username);
     }
 
-    public async Task<User?> GetByUsernameAsync(string username)
+    public async Task<User> GetByUsernameAsync(string username)
     {
-        var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
-        return userEntity == null ? null : UserMapper.MapFromEntity(userEntity);
+        var userEntity = await context.Users.FirstAsync(u => u.Username == username);
+        return UserMapper.MapFromEntity(userEntity);
     }
 
     public Task<bool> ExistsByEmailAddressAsync(string emailAddress)
@@ -35,10 +35,10 @@ public class UserRepository(
         return context.Users.AnyAsync(u => u.EmailAddress == emailAddress);
     }
 
-    public async Task<User?> GetByEmailAddressAsync(string emailAddress)
+    public async Task<User> GetByEmailAddressAsync(string emailAddress)
     {
-        var userEntity = await context.Users.FirstOrDefaultAsync(u => u.EmailAddress == emailAddress);
-        return userEntity == null ? null : UserMapper.MapFromEntity(userEntity);
+        var userEntity = await context.Users.FirstAsync(u => u.EmailAddress == emailAddress);
+        return UserMapper.MapFromEntity(userEntity);
     }
 
     public async Task CreateAsync(User user)

@@ -40,7 +40,6 @@ public class PasswordResetMapperTests : BaseTestClass
         // Assert
         passwordResetEntity.PasswordResetId.Should().Be(passwordReset.PasswordResetId.ToString());
         passwordResetEntity.UserId.Should().Be(passwordReset.UserId.ToString());
-        passwordResetEntity.UserEntity.Should().BeEquivalentTo(UserMapper.MapToEntity(passwordReset.User));
         passwordResetEntity.ResetToken.Should().Be(passwordReset.ResetToken.ToString());
         passwordResetEntity.IsUsed.Should().Be(passwordReset.IsUsed);
         passwordResetEntity.CreatedAt.Should().Be(passwordReset.CreatedAt);

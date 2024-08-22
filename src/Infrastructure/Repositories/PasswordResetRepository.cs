@@ -32,13 +32,13 @@ public class PasswordResetRepository(
         return context.PasswordResets.AnyAsync(x => x.ResetToken == passwordResetToken);
     }
 
-    public async Task<PasswordReset?> GetAsync(Guid passwordResetToken)
+    public async Task<PasswordReset> GetAsync(Guid passwordResetToken)
     {
         var passwordResetEntity = await context.PasswordResets
             .Include(x => x.UserEntity)
-            .FirstOrDefaultAsync(u => u.ResetToken == passwordResetToken);
+            .FirstAsync(u => u.ResetToken == passwordResetToken);
 
-        return passwordResetEntity == null ? null : PasswordResetMapper.MapFromEntity(passwordResetEntity);
+        return PasswordResetMapper.MapFromEntity(passwordResetEntity);
 
     }
 }

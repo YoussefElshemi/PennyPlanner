@@ -64,17 +64,17 @@ public class UserService(IUserRepository repository,
         return repository.ExistsByIdAsync(userId);
     }
 
-    public Task<User?> GetAsync(Username username)
+    public Task<User> GetAsync(Username username)
     {
         return repository.GetByUsernameAsync(username);
     }
 
-    public Task<User?> GetAsync(EmailAddress emailAddress)
+    public Task<User> GetAsync(EmailAddress emailAddress)
     {
         return repository.GetByEmailAddressAsync(emailAddress);
     }
 
-    public Task<User?> GetAsync(UserId userId)
+    public Task<User> GetAsync(UserId userId)
     {
         return repository.GetByIdAsync(userId);
     }

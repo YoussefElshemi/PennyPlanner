@@ -38,11 +38,6 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
         }
 
         var user = await userRepository.GetByUsernameAsync(username);
-        if (user is null)
-        {
-            return false;
-        }
-
         return user.Authenticate(password);
     }
 }
