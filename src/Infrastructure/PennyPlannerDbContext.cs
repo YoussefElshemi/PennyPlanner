@@ -6,6 +6,7 @@ namespace Infrastructure;
 public class PennyPlannerDbContext(DbContextOptions<PennyPlannerDbContext> options) : DbContext(options)
 {
     public DbSet<UserEntity> Users { get; init; }
+    public DbSet<PasswordResetEntity> PasswordResets { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

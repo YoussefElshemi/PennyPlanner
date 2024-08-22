@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.WebApi.PreProcessors;
 
-public class AuthenticationPreProcessor(IUserRepository userRepository) : IGlobalPreProcessor
+public class AuthenticationPreProcessor(IServiceScopeFactory scopeFactory) : IGlobalPreProcessor
 {
-    internal const string UserDoesNotExistErrorMessage = "User does not exist.";
+    private const string UserDoesNotExistErrorMessage = "User does not exist.";
 
     public async Task PreProcessAsync(IPreProcessorContext ctx, CancellationToken ct)
     {
+        using var scope = scopeFactory.CreateScope();
+        var userRepository = scope.Resolve<IUserRepository>();
+
         if (ctx.HttpContext.User.Identity is { IsAuthenticated: true })
         {
             var requiresAuth = ctx.HttpContext.GetEndpoint()?.Metadata.OfType<AllowAnonymousAttribute>().Any() is not (null or true);

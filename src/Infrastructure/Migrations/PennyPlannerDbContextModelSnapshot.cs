@@ -17,6 +17,34 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
+            modelBuilder.Entity("Infrastructure.Entities.PasswordResetEntity", b =>
+                {
+                    b.Property<Guid>("PasswordResetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ResetToken")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PasswordResetId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PasswordResets", (string)null);
+                });
+
             modelBuilder.Entity("Infrastructure.Entities.UserEntity", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -57,12 +85,12 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("710c2883-b323-4baa-82fb-5aa4d4fccf25"),
-                            CreatedAt = new DateTime(2024, 8, 20, 23, 56, 1, 485, DateTimeKind.Utc).AddTicks(638),
+                            UserId = new Guid("636edf5c-c623-4848-aa63-5c7112b7eb2c"),
+                            CreatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(7562),
                             EmailAddress = "admin@admin.com",
                             PasswordHash = "",
                             PasswordSalt = "",
-                            UpdatedAt = new DateTime(2024, 8, 20, 23, 56, 1, 485, DateTimeKind.Utc).AddTicks(638),
+                            UpdatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(7563),
                             UserRoleId = 2,
                             Username = "admin"
                         });
@@ -92,17 +120,28 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserRoleId = 1,
-                            CreatedAt = new DateTime(2024, 8, 20, 23, 56, 1, 484, DateTimeKind.Utc).AddTicks(8410),
+                            CreatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(4782),
                             Name = "User",
-                            UpdatedAt = new DateTime(2024, 8, 20, 23, 56, 1, 484, DateTimeKind.Utc).AddTicks(8590)
+                            UpdatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(4961)
                         },
                         new
                         {
                             UserRoleId = 2,
-                            CreatedAt = new DateTime(2024, 8, 20, 23, 56, 1, 484, DateTimeKind.Utc).AddTicks(8928),
+                            CreatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(5403),
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2024, 8, 20, 23, 56, 1, 484, DateTimeKind.Utc).AddTicks(8929)
+                            UpdatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(5404)
                         });
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.PasswordResetEntity", b =>
+                {
+                    b.HasOne("Infrastructure.Entities.UserEntity", "UserEntity")
+                        .WithMany("PasswordResets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserEntity");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.UserEntity", b =>
@@ -113,6 +152,11 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("UserRoleEntity");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.UserEntity", b =>
+                {
+                    b.Navigation("PasswordResets");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.UserRoleEntity", b =>

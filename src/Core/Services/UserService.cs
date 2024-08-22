@@ -33,8 +33,11 @@ public class UserService(IUserRepository repository,
 
     public async Task<User> ChangePasswordAsync(User user, ChangePasswordRequest changePasswordRequest)
     {
-        var updatedUser = user.UpdatePassword(changePasswordRequest);
-        await repository.UpdateAsync(updatedUser);
+        var updatedUser = user.UpdatePassword(changePasswordRequest) with
+        {
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
+        };
+        await UpdateAsync(updatedUser);
 
         return updatedUser;
     }
@@ -51,6 +54,11 @@ public class UserService(IUserRepository repository,
         return repository.ExistsByUsernameAsync(username);
     }
 
+    public Task<bool> ExistsAsync(EmailAddress emailAddress)
+    {
+        return repository.ExistsByEmailAddressAsync(emailAddress);
+    }
+
     public Task<bool> ExistsAsync(UserId userId)
     {
         return repository.ExistsByIdAsync(userId);
@@ -59,6 +67,11 @@ public class UserService(IUserRepository repository,
     public Task<User?> GetAsync(Username username)
     {
         return repository.GetByUsernameAsync(username);
+    }
+
+    public Task<User?> GetAsync(EmailAddress emailAddress)
+    {
+        return repository.GetByEmailAddressAsync(emailAddress);
     }
 
     public Task<User?> GetAsync(UserId userId)

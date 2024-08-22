@@ -1,3 +1,4 @@
+using Core.Constants;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using FastEndpoints;
@@ -13,7 +14,7 @@ public class Register(IUserRepository userRepository,
 {
     public override void Configure()
     {
-        Post("/auth/register");
+        Post(ApiUrls.Authentication.Register);
         AllowAnonymous();
         EnableAntiforgery();
     }

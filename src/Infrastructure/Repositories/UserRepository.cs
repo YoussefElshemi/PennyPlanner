@@ -57,7 +57,7 @@ public class UserRepository(
         userEntity.PasswordHash = userToUpdate.PasswordHash;
         userEntity.PasswordSalt = userToUpdate.PasswordSalt;
         userEntity.UserRoleId = userToUpdate.UserRoleId;
-        userEntity.UpdatedAt = DateTime.UtcNow;
+        userEntity.UpdatedAt = userToUpdate.UpdatedAt;
 
         context.Users.Update(userEntity);
         await context.SaveChangesAsync();

@@ -1,5 +1,6 @@
 using System.Net;
 using System.Security.Claims;
+using Core.Constants;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.ValueObjects;
@@ -12,11 +13,12 @@ using Presentation.WebApi.Validators;
 namespace Presentation.WebApi.Endpoints.User;
 
 public class Update(IUserRepository userRepository,
-    IUserService userService) : Endpoint<UpdateUserRequestDto, UserProfileResponseDto>
+    IUserService userService,
+    TimeProvider timeProvider) : Endpoint<UpdateUserRequestDto, UserProfileResponseDto>
 {
     public override void Configure()
     {
-        Put("/user");
+        Put(ApiUrls.User.Update);
         EnableAntiforgery();
     }
 
@@ -28,7 +30,10 @@ public class Update(IUserRepository userRepository,
         var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
         var user = await userService.GetAsync(new UserId(Guid.Parse(userId)));
 
-        var updateUserRequest = UpdateUserRequestMapper.Map(user!, updateUserRequestDto);
+        var updateUserRequest = UpdateUserRequestMapper.Map(user!, updateUserRequestDto) with
+        {
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().DateTime)
+        };
 
         var updatedUser = await userService.UpdateAsync(updateUserRequest);
 

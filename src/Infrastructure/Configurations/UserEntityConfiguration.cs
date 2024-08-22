@@ -18,6 +18,12 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
             .HasForeignKey(x => x.UserRoleId)
             .OnDelete(DeleteBehavior.ClientSetNull);
 
+        builder
+            .HasMany(e => e.PasswordResets)
+            .WithOne(e => e.UserEntity)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.ToTable(TableName);
 
         builder.HasData(SeedObjects.Users);

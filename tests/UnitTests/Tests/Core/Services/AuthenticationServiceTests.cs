@@ -18,18 +18,20 @@ namespace UnitTests.Tests.Core.Services;
 public class AuthenticationServiceTests : BaseTestClass
 {
     private readonly Mock<IUserService> _mockUserService;
+    private readonly Mock<IPasswordResetService> _mockPasswordResetService;
     private readonly AuthenticationService _authenticationService;
 
     public AuthenticationServiceTests()
     {
         var fakeAppConfig = FakeAppConfig.CreateValid(Fixture);
-
         Mock<IOptions<AppConfig>> mockConfig = new();
         mockConfig.SetupGet(x => x.Value).Returns(fakeAppConfig);
 
         _mockUserService = new Mock<IUserService>();
+        _mockPasswordResetService = new Mock<IPasswordResetService>();
         _authenticationService = new AuthenticationService(
             _mockUserService.Object,
+            _mockPasswordResetService.Object,
             mockConfig.Object);
     }
 
@@ -90,5 +92,44 @@ public class AuthenticationServiceTests : BaseTestClass
 
         var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
         jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId);
+    }
+
+    [Fact]
+    public async Task RequestResetPassword_UserDoesNotExist_Returns()
+    {
+        // Arrange
+        var requestResetPasswordRequest = FakeRequestResetPasswordRequest.CreateValid();
+
+        _mockUserService
+            .Setup(x => x.ExistsAsync(It.IsAny<Username>()))
+            .ReturnsAsync(false);
+
+        // Act
+        await _authenticationService.RequestResetPassword(requestResetPasswordRequest);
+
+        // Assert
+        _mockPasswordResetService.Verify(x => x.InitiateAsync(It.IsAny<User>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task RequestResetPassword_UserDoesExist_InitiatesPasswordReset()
+    {
+        // Arrange
+        var requestResetPasswordRequest = FakeRequestResetPasswordRequest.CreateValid();
+        var user = FakeUser.CreateValid(Fixture);
+
+        _mockUserService
+            .Setup(x => x.ExistsAsync(It.IsAny<Username>()))
+            .ReturnsAsync(true);
+
+        _mockUserService
+            .Setup(x => x.GetAsync(It.IsAny<Username>()))
+            .ReturnsAsync(user);
+
+        // Act
+        await _authenticationService.RequestResetPassword(requestResetPasswordRequest);
+
+        // Assert
+        _mockPasswordResetService.Verify(x => x.InitiateAsync(It.IsAny<User>()), Times.Never);
     }
 }

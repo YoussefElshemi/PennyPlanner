@@ -12,6 +12,11 @@ public class UserRoleEntityConfiguration : IEntityTypeConfiguration<UserRoleEnti
     {
         builder.HasKey(x => x.UserRoleId);
 
+        builder
+            .HasMany(x => x.Users)
+            .WithOne(x => x.UserRoleEntity)
+            .HasForeignKey(x => x.UserRoleId);
+
         builder.ToTable(TableName);
 
         builder.HasData(SeedObjects.UserRoles);

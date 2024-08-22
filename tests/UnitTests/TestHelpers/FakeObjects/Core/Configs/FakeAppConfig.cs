@@ -9,7 +9,9 @@ public static class FakeAppConfig
     {
         return new AppConfig
         {
-            JwtConfig = FakeJwtConfig.CreateValid(fixture)
+            JwtConfig = FakeJwtConfig.CreateValid(fixture),
+            SmtpConfig = FakeSmtpConfig.CreateValid(fixture),
+            ServiceConfig = FakeServiceConfig.CreateValid(fixture)
         };
     }
 }

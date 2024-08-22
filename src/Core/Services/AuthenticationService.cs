@@ -13,6 +13,7 @@ namespace Core.Services;
 
 public class AuthenticationService(
     IUserService userService,
+    IPasswordResetService passwordResetService,
     IOptions<AppConfig> config) : IAuthenticationService
 {
     public async Task<AuthenticationResponse> CreateAsync(CreateUserRequest createUserRequest)
@@ -50,6 +51,23 @@ public class AuthenticationService(
             AccessToken = new AccessToken(accessToken),
             ExpiresIn = new ExpiresIn(expiresIn)
         };
+    }
+
+    public async Task RequestResetPassword(RequestResetPasswordRequest requestResetPasswordRequest)
+    {
+        var userExists = await userService.ExistsAsync(requestResetPasswordRequest.EmailAddress);
+        if (!userExists)
+        {
+            return;
+        }
+
+        var user = await userService.GetAsync(requestResetPasswordRequest.EmailAddress);
+        if (user is null)
+        {
+            return;
+        }
+
+        await passwordResetService.InitiateAsync(user);
     }
 
     public static string HashPassword(string password, byte[] salt)

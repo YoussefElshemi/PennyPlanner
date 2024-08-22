@@ -6,19 +6,25 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Patterns;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Presentation.WebApi.PreProcessors;
+using UnitTests.TestHelpers;
 
 namespace UnitTests.Tests.Presentation.WebApi.PreProcessors;
 
-public class AuthenticationPreProcessorTests
+public class AuthenticationPreProcessorTests : BaseTestClass
 {
     private readonly Mock<IUserRepository> _mockUserRepository = new();
     private readonly AuthenticationPreProcessor _authenticationPreProcessor;
 
     public AuthenticationPreProcessorTests()
     {
-        _authenticationPreProcessor = new AuthenticationPreProcessor(_mockUserRepository.Object);
+        var scopeFactory = SetUpServiceScopeFactory(
+            (typeof(IUserRepository), _mockUserRepository.Object)
+        );
+
+        _authenticationPreProcessor = new AuthenticationPreProcessor(scopeFactory);
     }
 
     [Fact]

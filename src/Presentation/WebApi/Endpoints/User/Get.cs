@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Core.Constants;
 using Core.Interfaces.Services;
 using Core.ValueObjects;
 using FastEndpoints;
@@ -11,7 +12,7 @@ public class Get(IUserService userService) : EndpointWithoutRequest<UserProfileR
 {
     public override void Configure()
     {
-        Get("/user");
+        Get(ApiUrls.User.Get);
         EnableAntiforgery();
     }
 

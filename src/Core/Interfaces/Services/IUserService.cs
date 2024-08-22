@@ -10,6 +10,8 @@ public interface IUserService
     Task<User> ChangePasswordAsync(User user, ChangePasswordRequest changePasswordRequest);
     Task<bool> ExistsAsync(UserId userId);
     Task<bool> ExistsAsync(Username username);
-    Task<User?> GetAsync(Username username);
+    Task<bool> ExistsAsync(EmailAddress emailAddress);
     Task<User?> GetAsync(UserId userId);
+    Task<User?> GetAsync(Username username);
+    Task<User?> GetAsync(EmailAddress emailAddress);
 }

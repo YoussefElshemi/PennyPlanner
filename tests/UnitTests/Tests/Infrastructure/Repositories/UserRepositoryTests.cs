@@ -1,3 +1,4 @@
+using Core.ValueObjects;
 using FluentAssertions;
 using Infrastructure;
 using Infrastructure.Repositories;
@@ -192,7 +193,7 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task CreateAsync_GivenUser_ReturnsVoid()
+    public async Task CreateAsync_GivenUser_Inserts()
     {
         // Arrange
         var user = FakeUser.CreateValid(Fixture);
@@ -202,5 +203,31 @@ public class UserRepositoryTests : BaseTestClass
 
         // Assert
         (await _context.Users.FindAsync(user.UserId.Value)).Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task UpdateAsync_GivenUser_Updates()
+    {
+        // Arrange
+        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var user = FakeUser.CreateValid(Fixture) with
+        {
+            UserId = new UserId(userEntity.UserId)
+        };
+        await _context.Users.AddAsync(userEntity);
+        await _context.SaveChangesAsync();
+
+        // Act
+        await _userRepository.UpdateAsync(user);
+
+        // Assert
+        var updatedUser = await _context.Users.FindAsync(user.UserId.Value);
+        updatedUser.Should().NotBeNull();
+        updatedUser!.UserId.Should().Be(user.UserId.Value);
+        updatedUser.EmailAddress.Should().Be(user.EmailAddress);
+        updatedUser.PasswordSalt.Should().Be(user.PasswordSalt);
+        updatedUser.PasswordHash.Should().Be(user.PasswordHash);
+        updatedUser.UserRoleId.Should().Be((int)user.UserRole);
+        updatedUser.UpdatedAt.Should().Be(user.UpdatedAt);
     }
 }

@@ -51,19 +51,46 @@ namespace Infrastructure.Migrations
                         principalColumn: "UserRoleId");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PasswordResets",
+                columns: table => new
+                {
+                    PasswordResetId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ResetToken = table.Column<Guid>(type: "TEXT", nullable: false),
+                    IsUsed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PasswordResets", x => x.PasswordResetId);
+                    table.ForeignKey(
+                        name: "FK_PasswordResets_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "UserRoleId", "CreatedAt", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 20, 23, 56, 1, 484, DateTimeKind.Utc).AddTicks(8410), "User", new DateTime(2024, 8, 20, 23, 56, 1, 484, DateTimeKind.Utc).AddTicks(8590) },
-                    { 2, new DateTime(2024, 8, 20, 23, 56, 1, 484, DateTimeKind.Utc).AddTicks(8928), "Admin", new DateTime(2024, 8, 20, 23, 56, 1, 484, DateTimeKind.Utc).AddTicks(8929) }
+                    { 1, new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(4782), "User", new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(4961) },
+                    { 2, new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(5403), "Admin", new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(5404) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "CreatedAt", "EmailAddress", "PasswordHash", "PasswordSalt", "UpdatedAt", "UserRoleId", "Username" },
-                values: new object[] { new Guid("710c2883-b323-4baa-82fb-5aa4d4fccf25"), new DateTime(2024, 8, 20, 23, 56, 1, 485, DateTimeKind.Utc).AddTicks(638), "admin@admin.com", "", "", new DateTime(2024, 8, 20, 23, 56, 1, 485, DateTimeKind.Utc).AddTicks(638), 2, "admin" });
+                values: new object[] { new Guid("636edf5c-c623-4848-aa63-5c7112b7eb2c"), new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(7562), "admin@admin.com", "", "", new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(7563), 2, "admin" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PasswordResets_UserId",
+                table: "PasswordResets",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserRoleId",
@@ -74,6 +101,9 @@ namespace Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PasswordResets");
+
             migrationBuilder.DropTable(
                 name: "Users");
 

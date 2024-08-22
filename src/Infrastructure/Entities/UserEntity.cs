@@ -9,4 +9,5 @@ public record UserEntity : BaseEntity
     public required string PasswordSalt { get; set; }
     public required int UserRoleId { get; set; }
     public UserRoleEntity UserRoleEntity { get; init; } = null!;
+    public ICollection<PasswordResetEntity> PasswordResets { get; init; } = new List<PasswordResetEntity>();
 }

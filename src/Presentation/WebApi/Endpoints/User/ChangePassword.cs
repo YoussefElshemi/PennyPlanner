@@ -1,5 +1,6 @@
 using System.Net;
 using System.Security.Claims;
+using Core.Constants;
 using Core.Interfaces.Services;
 using Core.ValueObjects;
 using FastEndpoints;
@@ -14,7 +15,7 @@ public class ChangePassword(IUserService userService) : Endpoint<ChangePasswordR
 {
     public override void Configure()
     {
-        Patch("/user/password");
+        Patch(ApiUrls.User.ChangePassword);
         EnableAntiforgery();
     }
 
