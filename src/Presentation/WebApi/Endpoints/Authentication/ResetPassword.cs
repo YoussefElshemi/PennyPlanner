@@ -1,8 +1,6 @@
 using Core.Constants;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
-using Core.Models;
-using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
 using Presentation.Mappers;

@@ -18,10 +18,9 @@ public class Get(IUserService userService) : EndpointWithoutRequest<UserProfileR
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
-        var user = await userService.GetAsync(new UserId(Guid.Parse(userId)));
+        var user = HttpContext.Items["User"] as Core.Models.User;
 
-        var response = UserProfileResponseMapper.Map(user);
+        var response = UserProfileResponseMapper.Map(user!);
 
         await SendAsync(response, cancellation: cancellationToken);
     }

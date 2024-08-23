@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Core.Constants;
 using Core.Interfaces.Repositories;
 using Core.Models;
 using FastEndpoints;
@@ -27,6 +28,9 @@ public class AuthenticationPreProcessor(IServiceScopeFactory scopeFactory) : IGl
                 {
                     throw new ValidationException([new ValidationFailure(nameof(User),UserDoesNotExistErrorMessage)]);
                 }
+
+                var user = await userRepository.GetByIdAsync(Guid.Parse(userId));
+                ctx.HttpContext.Items[nameof(User)] = user;
             }
         }
     }
