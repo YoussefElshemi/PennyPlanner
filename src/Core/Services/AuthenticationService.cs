@@ -40,6 +40,19 @@ public class AuthenticationService(
         return HandleAuthentication(login);
     }
 
+    public async Task RevokeToken(RefreshTokenRequest refreshTokenRequest)
+    {
+        var login = await loginService.GetAsync(refreshTokenRequest.RefreshToken);
+
+        login = login with
+        {
+            IsRevoked = new IsRevoked(true),
+            RevokedAt = new RevokedAt(timeProvider.GetUtcNow().DateTime)
+        };
+
+        await loginService.UpdateAsync(login);
+    }
+
     public async Task RequestResetPassword(RequestResetPasswordRequest requestResetPasswordRequest)
     {
         var userExists = await userService.ExistsAsync(requestResetPasswordRequest.EmailAddress);

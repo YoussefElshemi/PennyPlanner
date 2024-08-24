@@ -174,7 +174,6 @@ public class AuthenticationServiceTests : BaseTestClass
             .Setup(x => x.GetAsync(It.IsAny<RefreshToken>()))
             .ReturnsAsync(login);
 
-
         // Act
         var authenticationResponse = await _authenticationService.RefreshToken(authenticationRequest);
 
@@ -184,5 +183,23 @@ public class AuthenticationServiceTests : BaseTestClass
 
         var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
         jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId);
+    }
+
+    [Fact]
+    public async Task RevokeToken_GivenRefreshTokenRequest_Returns()
+    {
+        // Arrange
+        var refreshTokenRequest = FakeRefreshTokenRequest.CreateValid(Fixture);
+        var login = FakeLogin.CreateValid(Fixture);
+
+        _mockLoginService
+            .Setup(x => x.GetAsync(It.IsAny<RefreshToken>()))
+            .ReturnsAsync(login);
+
+        // Act
+        await _authenticationService.RevokeToken(refreshTokenRequest);
+
+        // Assert
+        _mockLoginService.Verify(x => x.UpdateAsync(It.IsAny<Login>()), Times.Once);
     }
 }

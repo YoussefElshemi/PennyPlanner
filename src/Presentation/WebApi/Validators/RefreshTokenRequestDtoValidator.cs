@@ -12,7 +12,9 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
     internal const string RefreshTokenIsRevokedErrorMessage = "Refresh token is revoked.";
     internal const string RefreshTokenIsExpiredErrorMessage = "Refresh token is expired.";
 
-    public RefreshTokenRequestDtoValidator(ILoginRepository loginRepository, TimeProvider timeProvider)
+    public RefreshTokenRequestDtoValidator(
+        ILoginRepository loginRepository,
+        TimeProvider timeProvider)
     {
         _loginRepository = loginRepository;
         _timeProvider = timeProvider;
@@ -33,15 +35,15 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
     private async Task RefreshTokenIsValid(string refreshToken, ValidationContext<RefreshTokenRequestDto> context)
     {
         var login = await _loginRepository.GetAsync(refreshToken);
-        if (login.IsRevoked)
-        {
-            context.AddFailure(RefreshTokenIsRevokedErrorMessage);
-            return;
-        }
-
         if (login.ExpiresAt < _timeProvider.GetUtcNow().DateTime)
         {
             context.AddFailure(RefreshTokenIsExpiredErrorMessage);
+            return;
+        }
+
+        if (login.IsRevoked)
+        {
+            context.AddFailure(RefreshTokenIsRevokedErrorMessage);
         }
     }
 }

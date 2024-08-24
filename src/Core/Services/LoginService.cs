@@ -32,6 +32,11 @@ public class LoginService(ILoginRepository loginRepository,
         return login;
     }
 
+    public Task UpdateAsync(Login login)
+    {
+        return loginRepository.UpdateAsync(login);
+    }
+
     public Task<Login> GetAsync(RefreshToken refreshToken)
     {
         return loginRepository.GetAsync(refreshToken);
