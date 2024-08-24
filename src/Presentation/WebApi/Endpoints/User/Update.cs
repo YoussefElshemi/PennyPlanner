@@ -23,10 +23,10 @@ public class Update(IUserRepository userRepository,
 
     public override async Task HandleAsync(UpdateUserRequestDto updateUserRequestDto, CancellationToken cancellationToken)
     {
-        var validator = new UpdateUserRequestDtoValidator(userRepository);
-        await validator.ValidateAndThrowAsync(updateUserRequestDto, cancellationToken);
-
         var user = HttpContext.Items["User"] as Core.Models.User;
+
+        var validator = new UpdateUserRequestDtoValidator(userRepository, user!);
+        await validator.ValidateAndThrowAsync(updateUserRequestDto, cancellationToken);
 
         var updateUserRequest = UpdateUserRequestMapper.Map(user!, updateUserRequestDto) with
         {

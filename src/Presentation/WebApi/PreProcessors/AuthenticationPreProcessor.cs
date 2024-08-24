@@ -10,7 +10,7 @@ namespace Presentation.WebApi.PreProcessors;
 
 public class AuthenticationPreProcessor(IServiceScopeFactory scopeFactory) : IGlobalPreProcessor
 {
-    private const string UserDoesNotExistErrorMessage = "User does not exist.";
+    private const string UserDoesNotExistErrorMessage = $"{nameof(User)} does not exist.";
 
     public async Task PreProcessAsync(IPreProcessorContext ctx, CancellationToken ct)
     {

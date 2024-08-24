@@ -9,7 +9,8 @@ public static class FakeUpdateUserRequestDto
     {
         return new UpdateUserRequestDto
         {
-            EmailAddress = FakeEmailAddress.Valid
+            EmailAddress = FakeEmailAddress.Valid,
+            Username = FakeUsername.Valid
         };
     }
 }

@@ -7,11 +7,14 @@ namespace Core.Validators;
 
 public class EmailAddressValidator : AbstractValidator<string>
 {
+    private const string InvalidEmailAddressErrorMessage = "Invalid email address";
+
     public EmailAddressValidator()
     {
         RuleFor(emailAddress => emailAddress)
             .WithDisplayName(nameof(EmailAddress))
             .NotEmpty()
-            .Must(x => EmailValidator.Validate(x));
+            .Must(x => EmailValidator.Validate(x))
+            .WithMessage(InvalidEmailAddressErrorMessage);
     }
 }

@@ -1,4 +1,5 @@
 using Core.Interfaces.Repositories;
+using Core.ValueObjects;
 using FluentValidation;
 using Presentation.WebApi.Models.Authentication;
 
@@ -8,9 +9,9 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
 {
     private readonly ILoginRepository _loginRepository;
     private readonly TimeProvider _timeProvider;
-    internal const string RefreshTokenDoesNotExistErrorMessage = "Refresh token does not exist.";
-    internal const string RefreshTokenIsRevokedErrorMessage = "Refresh token is revoked.";
-    internal const string RefreshTokenIsExpiredErrorMessage = "Refresh token is expired.";
+    internal const string RefreshTokenDoesNotExistErrorMessage = $"{nameof(RefreshToken)} does not exist.";
+    internal const string RefreshTokenIsRevokedErrorMessage = $"{nameof(RefreshToken)} is revoked.";
+    internal const string RefreshTokenIsExpiredErrorMessage = $"{nameof(RefreshToken)} is expired.";
 
     public RefreshTokenRequestDtoValidator(
         ILoginRepository loginRepository,

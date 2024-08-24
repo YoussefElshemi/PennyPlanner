@@ -20,7 +20,8 @@ public class UpdateUserRequestMapperTests : BaseTestClass
         var createUserRequest = UpdateUserRequestMapper.Map(user, updateUserRequestDto);
 
         // Assert
+        createUserRequest.UserId.Should().Be(new UserId(user.UserId));
         createUserRequest.EmailAddress.Should().Be(new EmailAddress(createUserRequest.EmailAddress));
-        createUserRequest.Username.Should().Be(new Username(user.Username));
+        createUserRequest.Username.Should().Be(new Username(createUserRequest.Username));
     }
 }

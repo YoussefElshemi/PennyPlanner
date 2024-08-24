@@ -10,7 +10,8 @@ public static class UpdateUserRequestMapper
     {
         return user with
         {
-            EmailAddress = new EmailAddress(updateUserRequestDto.EmailAddress)
+            EmailAddress = updateUserRequestDto.EmailAddress is null ? user.EmailAddress : new EmailAddress(updateUserRequestDto.EmailAddress),
+            Username = updateUserRequestDto.Username is null ? user.Username : new Username(updateUserRequestDto.Username)
         };
     }
 }

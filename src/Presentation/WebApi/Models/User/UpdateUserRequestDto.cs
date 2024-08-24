@@ -1,6 +1,7 @@
 namespace Presentation.WebApi.Models.User;
 
-public class UpdateUserRequestDto
+public record UpdateUserRequestDto
 {
-    public required string EmailAddress { get; init; }
+    public string? Username { get; init; }
+    public string? EmailAddress { get; init; }
 }

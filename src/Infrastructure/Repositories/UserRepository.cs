@@ -84,6 +84,7 @@ public class UserRepository(
         var userToUpdate = UserMapper.MapToEntity(user);
         var userEntity = await context.Users.SingleAsync(x => x.UserId == userToUpdate.UserId);
 
+        userEntity.Username = userToUpdate.Username;
         userEntity.EmailAddress = userToUpdate.EmailAddress;
         userEntity.PasswordHash = userToUpdate.PasswordHash;
         userEntity.PasswordSalt = userToUpdate.PasswordSalt;

@@ -27,7 +27,6 @@ public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
             .SetValidator(new PasswordValidator());
 
         RuleFor(x => new { x.Password, x.ConfirmPassword })
-            .WithDisplayName(nameof(Password))
             .Must(x => x.Password == x.ConfirmPassword)
             .WithMessage(ConfirmPasswordErrorMessage);
 

@@ -185,6 +185,7 @@ public class UserRepositoryTests : BaseTestClass
         var updatedUser = await _context.Users.FindAsync(user.UserId.Value);
         updatedUser.Should().NotBeNull();
         updatedUser!.UserId.Should().Be(user.UserId.Value);
+        updatedUser.Username.Should().Be(user.Username);
         updatedUser.EmailAddress.Should().Be(user.EmailAddress);
         updatedUser.PasswordSalt.Should().Be(user.PasswordSalt);
         updatedUser.PasswordHash.Should().Be(user.PasswordHash);
