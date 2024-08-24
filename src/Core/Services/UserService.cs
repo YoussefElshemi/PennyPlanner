@@ -31,6 +31,11 @@ public class UserService(IUserRepository repository,
         return user;
     }
 
+    public Task<int> GetCountAsync()
+    {
+        return repository.GetCountAsync();
+    }
+
     public async Task<User> ChangePasswordAsync(User user, Password password)
     {
         var updatedUser = user.UpdatePassword(password) with
@@ -40,6 +45,11 @@ public class UserService(IUserRepository repository,
         await UpdateAsync(updatedUser);
 
         return updatedUser;
+    }
+
+    public Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)
+    {
+        return repository.GetAllAsync(pagedRequest);
     }
 
     public async Task<User> UpdateAsync(User user)

@@ -1,5 +1,6 @@
 using Core.Interfaces.Repositories;
 using Core.Models;
+using Core.ValueObjects;
 using Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,36 @@ namespace Infrastructure.Repositories;
 public class UserRepository(
     PennyPlannerDbContext context) : IUserRepository
 {
+    public async Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)
+    {
+        var totalCount = await GetCountAsync();
+        var pageCount = (totalCount + pagedRequest.PageSize - 1) / pagedRequest.PageSize;
+
+        var users = await context.Users
+            .Skip((pagedRequest.PageNumber - 1) * pagedRequest.PageSize)
+            .Take(pagedRequest.PageSize)
+            .Select(entity => UserMapper.MapFromEntity(entity))
+            .ToListAsync();
+
+        return new PagedResponse<User>
+        {
+            PageNumber = pagedRequest.PageNumber,
+            PageSize = pagedRequest.PageSize,
+            PageCount = new PageCount(pageCount),
+            TotalCount = new TotalCount(totalCount),
+            HasMore = new HasMore(pagedRequest.PageNumber < pageCount),
+            Data = users
+        };
+    }
+
+    public async Task<int> GetCountAsync()
+    {
+        var query = context.Users.AsQueryable();
+        var totalCount = await query.CountAsync();
+
+        return totalCount;
+    }
+
     public Task<bool> ExistsByIdAsync(Guid userId)
     {
         return context.Users.AnyAsync(u => u.UserId == userId);

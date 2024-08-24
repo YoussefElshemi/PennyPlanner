@@ -2,7 +2,7 @@ using Core.Models;
 
 namespace Core.Interfaces.Repositories;
 
-public interface IUserRepository
+public interface IUserRepository : IPagedRepository<User>
 {
     Task<bool> ExistsByIdAsync(Guid userId);
     Task<User> GetByIdAsync(Guid userId);

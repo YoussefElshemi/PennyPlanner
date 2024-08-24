@@ -29,7 +29,7 @@ public class PasswordResetService(
 
         await passwordResetRepository.CreateAsync(passwordReset);
 
-        var passwordResetUrl = $"{appConfig.Value.ServiceConfig.BaseUrl}{ApiUrls.Authentication.ResetPassword}?token={passwordReset.ResetToken}";
+        var passwordResetUrl = $"{appConfig.Value.ServiceConfig.BaseUrl}{ApiUrls.AuthenticationUrls.ResetPassword}?token={passwordReset.ResetToken}";
 
         var emailMessage = new EmailMessage
         {

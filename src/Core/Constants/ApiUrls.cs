@@ -2,7 +2,7 @@ namespace Core.Constants;
 
 public static class ApiUrls
 {
-    public static class Authentication
+    public static class AuthenticationUrls
     {
         public const string Login = "/auth/login";
         public const string Register = "/auth/register";
@@ -15,6 +15,10 @@ public static class ApiUrls
         public const string Get = "/user";
         public const string Update = "/user";
         public const string ChangePassword = "/user/password";
+    }
 
+    public static class UserManagement
+    {
+        public const string Get = "/user-management/users";
     }
 }

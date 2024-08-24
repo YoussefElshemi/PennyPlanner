@@ -191,4 +191,62 @@ public class UserRepositoryTests : BaseTestClass
         updatedUser.UserRoleId.Should().Be((int)user.UserRole);
         updatedUser.UpdatedAt.Should().Be(user.UpdatedAt);
     }
+
+    [Fact]
+    public async Task GetCountAsync_ExistingUsers_ReturnsNumberOfUsers()
+    {
+        // Arrange
+        var users = Enumerable.Range(0, 20)
+            .Select(_ => FakeUserEntity.CreateValid(Fixture))
+            .ToList();
+        _context.Users.AddRange(users);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var count = await _userRepository.GetCountAsync();
+
+        // Assert
+        count.Should().Be(users.Count);
+    }
+
+    [Fact]
+    public async Task GetAllAsync_ExistingUser_ReturnsOne()
+    {
+        // Arrange
+        var numberOfExpectedPages = 2;
+        var pagedRequest = FakePagedRequest.CreateValid(Fixture) with
+        {
+            PageNumber = new PageNumber(1),
+            PageSize = new PageSize(10)
+        };
+        var users = Enumerable.Range(0, numberOfExpectedPages * pagedRequest.PageSize)
+            .Select(_ => FakeUserEntity.CreateValid(Fixture))
+            .ToList();
+        _context.Users.AddRange(users);
+        await _context.SaveChangesAsync();
+
+
+        // Act
+        var pagedResponse = await _userRepository.GetAllAsync(pagedRequest);
+        var nextPagedResponse = await _userRepository.GetAllAsync(pagedRequest with
+        {
+            PageNumber = new PageNumber(2)
+        });
+
+        // Assert
+       pagedResponse.PageNumber.Should().Be(new PageNumber(1));
+       pagedResponse.PageSize.Should().Be(new PageSize(10));
+       pagedResponse.PageCount.Should().Be(new PageCount(numberOfExpectedPages));
+       pagedResponse.TotalCount.Should().Be(new TotalCount(users.Count));
+       pagedResponse.HasMore.Should().Be(new HasMore(true));
+       pagedResponse.Data.Should().HaveCount(10);
+
+       nextPagedResponse.PageNumber.Should().Be(new PageNumber(2));
+       nextPagedResponse.PageSize.Should().Be(new PageSize(10));
+       nextPagedResponse.PageCount.Should().Be(new PageCount(numberOfExpectedPages));
+       nextPagedResponse.TotalCount.Should().Be(new TotalCount(users.Count));
+       nextPagedResponse.HasMore.Should().Be(new HasMore(false));
+       nextPagedResponse.Data.Should().HaveCount(10);
+
+    }
 }

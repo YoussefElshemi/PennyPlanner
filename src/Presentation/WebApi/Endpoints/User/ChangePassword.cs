@@ -1,8 +1,6 @@
 using System.Net;
-using System.Security.Claims;
 using Core.Constants;
 using Core.Interfaces.Services;
-using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
 using Presentation.Mappers;

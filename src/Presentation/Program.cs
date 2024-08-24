@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Security.Claims;
 using System.Text.Json.Serialization;
 using Core.Configs;
 using Core.Interfaces.Repositories;
@@ -57,6 +58,7 @@ app.UseCors();
 app.UseFastEndpoints(c =>
 {
     c.Serializer.Options.Converters.Add(new JsonStringEnumConverter());
+    c.Security.RoleClaimType = ClaimTypes.Role;
     c.Endpoints.Configurator = e =>
     {
         e.PreProcessor<AuthenticationPreProcessor>(Order.Before);

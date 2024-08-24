@@ -14,7 +14,7 @@ public class RequestResetPassword(IAuthenticationService authenticationService) 
 
     public override void Configure()
     {
-        Post(ApiUrls.Authentication.RequestResetPassword);
+        Post(ApiUrls.AuthenticationUrls.RequestResetPassword);
         AllowAnonymous();
         EnableAntiforgery();
     }

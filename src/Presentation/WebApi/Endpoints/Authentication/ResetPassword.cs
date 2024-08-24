@@ -14,7 +14,7 @@ public class ResetPassword(IPasswordResetRepository passwordResetRepository,
 {
     public override void Configure()
     {
-        Post(ApiUrls.Authentication.ResetPassword);
+        Post(ApiUrls.AuthenticationUrls.ResetPassword);
         AllowAnonymous();
         EnableAntiforgery();
     }

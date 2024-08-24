@@ -1,7 +1,5 @@
-using System.Security.Claims;
 using Core.Constants;
 using Core.Interfaces.Services;
-using Core.ValueObjects;
 using FastEndpoints;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.User;

@@ -14,7 +14,7 @@ public class Login(IUserRepository userRepository,
 {
     public override void Configure()
     {
-        Post(ApiUrls.Authentication.Login);
+        Post(ApiUrls.AuthenticationUrls.Login);
         AllowAnonymous();
         EnableAntiforgery();
     }

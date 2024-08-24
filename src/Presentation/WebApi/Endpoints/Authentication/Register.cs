@@ -14,7 +14,7 @@ public class Register(IUserRepository userRepository,
 {
     public override void Configure()
     {
-        Post(ApiUrls.Authentication.Register);
+        Post(ApiUrls.AuthenticationUrls.Register);
         AllowAnonymous();
         EnableAntiforgery();
     }
