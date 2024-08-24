@@ -19,10 +19,10 @@ public class ChangePassword(IUserService userService) : Endpoint<ChangePasswordR
 
     public override async Task HandleAsync(ChangePasswordRequestDto changePasswordRequestDto, CancellationToken cancellationToken)
     {
-        var validator = new ChangePasswordRequestDtoValidator();
-        await validator.ValidateAndThrowAsync(changePasswordRequestDto, cancellationToken);
-
         var user = HttpContext.Items["User"] as Core.Models.User;
+
+        var validator = new ChangePasswordRequestDtoValidator(user!);
+        await validator.ValidateAndThrowAsync(changePasswordRequestDto, cancellationToken);
 
         var changePasswordRequest = ChangePasswordRequestMapper.Map(changePasswordRequestDto);
 

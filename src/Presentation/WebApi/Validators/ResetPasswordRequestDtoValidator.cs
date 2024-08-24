@@ -1,4 +1,6 @@
+using Core.Extensions;
 using Core.Interfaces.Repositories;
+using Core.Models;
 using Core.Validators;
 using Core.ValueObjects;
 using FluentValidation;
@@ -12,8 +14,9 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
     internal const string ConfirmPasswordErrorMessage = $"{nameof(Password)}s do not match.";
     internal const string PasswordResetTokenNotFoundErrorMessage = $"{nameof(PasswordResetToken)} not found.";
     internal const string PasswordResetTokenAlreadyUsedErrorMessage = $"{nameof(PasswordResetToken)} already used.";
+    internal const string PasswordDidNotChangeErrorMessage = $"{nameof(Password)} did not change.";
 
-    public ResetPasswordRequestDtoValidator(IPasswordResetRepository passwordResetRepository)
+    public ResetPasswordRequestDtoValidator(IPasswordResetRepository passwordResetRepository, User user)
     {
         _passwordResetRepository = passwordResetRepository;
 
@@ -26,7 +29,10 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
             .WithMessage(PasswordResetTokenAlreadyUsedErrorMessage);
 
         RuleFor(x => x.Password)
-            .SetValidator(new PasswordValidator());
+            .Cascade(CascadeMode.Stop)
+            .SetValidator(new PasswordValidator())
+            .Must(x => !user.Authenticate(x))
+            .WithMessage(PasswordDidNotChangeErrorMessage);
 
         RuleFor(x => new { x.Password, x.ConfirmPassword })
             .Must(x => x.Password == x.ConfirmPassword)
@@ -43,5 +49,10 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
         var passwordReset = await _passwordResetRepository.GetAsync(new PasswordResetToken(passwordResetToken));
 
         return !passwordReset.IsUsed;
+    }
+
+    public ResetPasswordRequestDtoValidator(IPasswordResetRepository passwordResetRepository)
+    {
+        _passwordResetRepository = passwordResetRepository;
     }
 }

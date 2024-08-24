@@ -1,6 +1,5 @@
 using AutoFixture;
 using Core.Interfaces.Repositories;
-using Core.Models;
 using FluentValidation.TestHelper;
 using Moq;
 using Presentation.WebApi.Validators;
@@ -14,13 +13,12 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
 {
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly UpdateUserRequestDtoValidator _validator;
-    private readonly User _currentUser;
 
     public UpdateUserRequestDtoValidatorTests()
     {
-        _currentUser = FakeUser.CreateValid(Fixture);
+        var currentUser = FakeUser.CreateValid(Fixture);
         _mockUserRepository = new Mock<IUserRepository>();
-        _validator = new UpdateUserRequestDtoValidator(_mockUserRepository.Object, _currentUser);
+        _validator = new UpdateUserRequestDtoValidator(_mockUserRepository.Object, currentUser);
     }
 
     [Fact]
