@@ -12,7 +12,8 @@ public static class FakeJwtConfig
             Key = fixture.Create<string>(),
             Issuer = fixture.Create<string>(),
             Audience = fixture.Create<string>(),
-            Lifetime = fixture.Create<int>()
+            AccessTokenLifetimeInMinutes = fixture.Create<int>(),
+            RefreshTokenLifetimeInMinutes = fixture.Create<int>()
         };
     }
 }

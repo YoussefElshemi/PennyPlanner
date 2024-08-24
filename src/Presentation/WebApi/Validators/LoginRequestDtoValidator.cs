@@ -8,36 +8,37 @@ namespace Presentation.WebApi.Validators;
 
 public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
 {
+    private readonly IUserRepository _userRepository;
     internal const string IncorrectLoginDetails = "Incorrect login details";
-
-    public LoginRequestDtoValidator() {}
 
     public LoginRequestDtoValidator(IUserRepository userRepository)
     {
+        _userRepository = userRepository;
+
         RuleFor(x => new { x.Username, x.Password })
             .Cascade(CascadeMode.Stop)
             .WithDisplayName($"{nameof(Username)} or {nameof(Password)}")
-            .MustAsync(async (x, _) => await UserExistByUsername(userRepository, x.Username))
+            .MustAsync(async (x, _) => await UserExistByUsername(x.Username))
             .WithMessage(IncorrectLoginDetails)
-            .MustAsync(async (x, _) => await CorrectPassword(userRepository, x.Username, x.Password))
+            .MustAsync(async (x, _) => await CorrectPassword(x.Username, x.Password))
             .WithMessage(IncorrectLoginDetails);
     }
 
 
-    private static async Task<bool> UserExistByUsername(IUserRepository userRepository, string username)
+    private Task<bool> UserExistByUsername(string username)
     {
-        return await userRepository.ExistsByUsernameAsync(username);
+        return _userRepository.ExistsByUsernameAsync(username);
     }
 
-    private static async Task<bool> CorrectPassword(IUserRepository userRepository, string username, string password)
+    private async Task<bool> CorrectPassword(string username, string password)
     {
-        var exists = await userRepository.ExistsByUsernameAsync(username);
+        var exists = await _userRepository.ExistsByUsernameAsync(username);
         if (!exists)
         {
             return false;
         }
 
-        var user = await userRepository.GetByUsernameAsync(username);
+        var user = await _userRepository.GetByUsernameAsync(username);
         return user.Authenticate(password);
     }
 }

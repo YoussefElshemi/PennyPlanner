@@ -20,6 +20,8 @@ public class AuthenticationResponseMapperTests : BaseTestClass
         authenticationResponseDto.UserId.Should().Be(authenticationResponse.UserId.ToString());
         authenticationResponseDto.TokenType.Should().Be(authenticationResponse.TokenType.ToString());
         authenticationResponseDto.AccessToken.Should().Be(authenticationResponse.AccessToken.ToString());
-        authenticationResponseDto.ExpiresIn.Should().Be(authenticationResponse.ExpiresIn);
+        authenticationResponseDto.AccessTokenExpiresIn.Should().Be(authenticationResponse.AccessTokenExpiresIn);
+        authenticationResponseDto.RefreshToken.Should().Be(authenticationResponse.RefreshToken.ToString());
+        authenticationResponseDto.RefreshTokenExpiresIn.Should().Be(authenticationResponse.RefreshTokenExpiresIn);
     }
 }

@@ -12,7 +12,8 @@ public static class FakeCreateUserRequest
         {
             Username = FakeUsername.CreateValid(),
             Password = FakePassword.CreateValid(),
-            EmailAddress = FakeEmailAddress.CreateValid()
+            EmailAddress = FakeEmailAddress.CreateValid(),
+            IpAddress = FakeIpAddress.CreateValid(fixture)
         };
     }
 }

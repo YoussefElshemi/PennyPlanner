@@ -12,7 +12,7 @@ public static class FakeRegisterRequestDto
             Username = FakeUsername.Valid,
             EmailAddress = FakeEmailAddress.Valid,
             Password = FakePassword.Valid,
-            ConfirmPassword = FakePassword.Valid,
+            ConfirmPassword = FakePassword.Valid
         };
     }
 }

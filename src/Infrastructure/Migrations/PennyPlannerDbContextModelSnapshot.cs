@@ -17,6 +17,45 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
+            modelBuilder.Entity("Infrastructure.Entities.LoginEntity", b =>
+                {
+                    b.Property<Guid>("LoginId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LoginId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Logins", (string)null);
+                });
+
             modelBuilder.Entity("Infrastructure.Entities.PasswordResetEntity", b =>
                 {
                     b.Property<Guid>("PasswordResetId")
@@ -29,7 +68,8 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsUsed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("ResetToken")
+                    b.Property<string>("ResetToken")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -85,12 +125,12 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("636edf5c-c623-4848-aa63-5c7112b7eb2c"),
-                            CreatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(7562),
+                            UserId = new Guid("4af74152-c438-426f-be86-ee4d7a340ed7"),
+                            CreatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(8836),
                             EmailAddress = "admin@admin.com",
                             PasswordHash = "",
                             PasswordSalt = "",
-                            UpdatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(7563),
+                            UpdatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(8837),
                             UserRoleId = 2,
                             Username = "admin"
                         });
@@ -120,17 +160,28 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserRoleId = 1,
-                            CreatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(4782),
+                            CreatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(5695),
                             Name = "User",
-                            UpdatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(4961)
+                            UpdatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(5944)
                         },
                         new
                         {
                             UserRoleId = 2,
-                            CreatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(5403),
+                            CreatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(6421),
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(5404)
+                            UpdatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(6421)
                         });
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.LoginEntity", b =>
+                {
+                    b.HasOne("Infrastructure.Entities.UserEntity", "UserEntity")
+                        .WithMany("Logins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserEntity");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.PasswordResetEntity", b =>
@@ -156,6 +207,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Entities.UserEntity", b =>
                 {
+                    b.Navigation("Logins");
+
                     b.Navigation("PasswordResets");
                 });
 

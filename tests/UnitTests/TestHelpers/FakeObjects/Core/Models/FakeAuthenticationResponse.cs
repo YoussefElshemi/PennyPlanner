@@ -14,7 +14,9 @@ public static class FakeAuthenticationResponse
             UserId = FakeUserId.CreateValid(fixture),
             TokenType = fixture.Create<TokenType>(),
             AccessToken = FakeAccessToken.CreateValid(fixture),
-            ExpiresIn = FakeExpiresIn.CreateValid(fixture),
+            AccessTokenExpiresIn = FakeExpiresIn.CreateValid(fixture),
+            RefreshToken = FakeRefreshToken.CreateValid(fixture),
+            RefreshTokenExpiresIn = FakeExpiresIn.CreateValid(fixture)
         };
     }
 }

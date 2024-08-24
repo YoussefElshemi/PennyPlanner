@@ -52,12 +52,37 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Logins",
+                columns: table => new
+                {
+                    LoginId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    IpAddress = table.Column<string>(type: "TEXT", nullable: false),
+                    RefreshToken = table.Column<string>(type: "TEXT", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "INTEGER", nullable: false),
+                    RevokedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logins", x => x.LoginId);
+                    table.ForeignKey(
+                        name: "FK_Logins_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PasswordResets",
                 columns: table => new
                 {
                     PasswordResetId = table.Column<Guid>(type: "TEXT", nullable: false),
                     UserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ResetToken = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ResetToken = table.Column<string>(type: "TEXT", nullable: false),
                     IsUsed = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
@@ -78,14 +103,19 @@ namespace Infrastructure.Migrations
                 columns: new[] { "UserRoleId", "CreatedAt", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(4782), "User", new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(4961) },
-                    { 2, new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(5403), "Admin", new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(5404) }
+                    { 1, new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(5695), "User", new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(5944) },
+                    { 2, new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(6421), "Admin", new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(6421) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "CreatedAt", "EmailAddress", "PasswordHash", "PasswordSalt", "UpdatedAt", "UserRoleId", "Username" },
-                values: new object[] { new Guid("636edf5c-c623-4848-aa63-5c7112b7eb2c"), new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(7562), "admin@admin.com", "", "", new DateTime(2024, 8, 22, 18, 46, 35, 722, DateTimeKind.Utc).AddTicks(7563), 2, "admin" });
+                values: new object[] { new Guid("4af74152-c438-426f-be86-ee4d7a340ed7"), new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(8836), "admin@admin.com", "", "", new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(8837), 2, "admin" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Logins_UserId",
+                table: "Logins",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PasswordResets_UserId",
@@ -101,6 +131,9 @@ namespace Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Logins");
+
             migrationBuilder.DropTable(
                 name: "PasswordResets");
 

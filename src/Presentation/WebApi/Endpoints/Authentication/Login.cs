@@ -24,7 +24,8 @@ public class Login(IUserRepository userRepository,
         var validator = new LoginRequestDtoValidator(userRepository);
         await validator.ValidateAndThrowAsync(loginRequestDto, cancellationToken);
 
-        var authenticationRequest = AuthenticationRequestMapper.Map(loginRequestDto);
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+        var authenticationRequest = AuthenticationRequestMapper.Map(loginRequestDto, ipAddress);
 
         var authenticationResponse = await authenticationService.AuthenticateAsync(authenticationRequest);
 

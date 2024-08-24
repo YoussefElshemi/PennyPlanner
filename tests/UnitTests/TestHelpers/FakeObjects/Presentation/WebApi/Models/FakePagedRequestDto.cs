@@ -10,7 +10,7 @@ public static class FakePagedRequestDto
         return new PagedRequestDto
         {
             PageNumber = fixture.Create<int>(),
-            PageSize = fixture.Create<int>(),
+            PageSize = fixture.Create<int>()
         };
     }
 }

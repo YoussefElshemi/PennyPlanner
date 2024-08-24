@@ -14,39 +14,30 @@ namespace Core.Services;
 public class AuthenticationService(
     IUserService userService,
     IPasswordResetService passwordResetService,
+    ILoginService loginService,
     TimeProvider timeProvider,
     IOptions<AppConfig> config) : IAuthenticationService
 {
     public async Task<AuthenticationResponse> CreateAsync(CreateUserRequest createUserRequest)
     {
         var user = await userService.CreateAsync(createUserRequest);
-        var jwtSecurityToken = user.CreateJwtSecurityToken(config.Value.JwtConfig);
-        var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-        var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - jwtSecurityToken.ValidFrom).TotalSeconds);
+        var login = await loginService.CreateAsync(user, createUserRequest.IpAddress);
 
-        return new AuthenticationResponse
-        {
-            UserId = user.UserId,
-            TokenType = TokenType.Bearer,
-            AccessToken = new AccessToken(accessToken),
-            ExpiresIn = new ExpiresIn(expiresIn),
-        };
+        return HandleAuthentication(login);
     }
 
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest authenticationRequest)
     {
-       var user = await userService.GetAsync(authenticationRequest.Username);
-        var jwtSecurityToken = user.CreateJwtSecurityToken(config.Value.JwtConfig);
-        var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-        var expiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - jwtSecurityToken.ValidFrom).TotalSeconds);
+        var user = await userService.GetAsync(authenticationRequest.Username);
+        var login = await loginService.CreateAsync(user, authenticationRequest.IpAddress);
 
-        return new AuthenticationResponse
-        {
-            UserId = user.UserId,
-            TokenType = TokenType.Bearer,
-            AccessToken = new AccessToken(accessToken),
-            ExpiresIn = new ExpiresIn(expiresIn)
-        };
+        return HandleAuthentication(login);
+    }
+
+    public async Task<AuthenticationResponse> RefreshToken(RefreshTokenRequest refreshTokenRequest)
+    {
+        var login = await loginService.GetAsync(refreshTokenRequest.RefreshToken);
+        return HandleAuthentication(login);
     }
 
     public async Task RequestResetPassword(RequestResetPasswordRequest requestResetPasswordRequest)
@@ -92,12 +83,22 @@ public class AuthenticationService(
         return Convert.ToBase64String(hashedPasswordWithSalt);
     }
 
-    public static byte[] GenerateSalt()
+    private AuthenticationResponse HandleAuthentication(Login login)
     {
-        using var rng = RandomNumberGenerator.Create();
-        var bytes = new byte[32];
-        rng.GetBytes(bytes);
+        var jwtSecurityToken = login.User.CreateJwtSecurityToken(config.Value.JwtConfig);
+        var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        var accessTokenExpiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - jwtSecurityToken.ValidFrom).TotalSeconds);
 
-        return bytes;
+        var refreshTokenExpiresIn = Convert.ToInt32((login.ExpiresAt - timeProvider.GetUtcNow().DateTime).TotalSeconds);
+
+        return new AuthenticationResponse
+        {
+            UserId = login.User.UserId,
+            TokenType = TokenType.Bearer,
+            AccessToken = new AccessToken(accessToken),
+            AccessTokenExpiresIn = new ExpiresIn(accessTokenExpiresIn),
+            RefreshToken = login.RefreshToken,
+            RefreshTokenExpiresIn = new ExpiresIn(refreshTokenExpiresIn)
+        };
     }
 }

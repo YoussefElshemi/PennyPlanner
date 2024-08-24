@@ -6,6 +6,7 @@ public static class ApiUrls
     {
         public const string Login = "/auth/login";
         public const string Register = "/auth/register";
+        public const string RefreshToken = "/auth/refresh-token";
         public const string RequestResetPassword = "/auth/request-reset-password";
         public const string ResetPassword = "/auth/reset-password";
     }

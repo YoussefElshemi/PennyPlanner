@@ -24,6 +24,12 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder
+            .HasMany(e => e.Logins)
+            .WithOne(e => e.UserEntity)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.ToTable(TableName);
 
         builder.HasData(SeedObjects.Users);

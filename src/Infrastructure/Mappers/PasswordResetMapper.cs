@@ -16,7 +16,7 @@ public static class PasswordResetMapper
             ResetToken = new PasswordResetToken(passwordResetEntity.ResetToken),
             IsUsed = new IsUsed(passwordResetEntity.IsUsed),
             CreatedAt = new CreatedAt(passwordResetEntity.CreatedAt),
-            UpdatedAt = new UpdatedAt(passwordResetEntity.UpdatedAt),
+            UpdatedAt = new UpdatedAt(passwordResetEntity.UpdatedAt)
         };
     }
 

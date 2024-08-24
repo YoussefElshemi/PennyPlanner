@@ -9,16 +9,16 @@ namespace UnitTests.Tests.Presentation.WebApi.Validators;
 
 public class PagedRequestDtoValidatorTests : BaseTestClass
 {
-    private readonly Mock<IPagedRepository<object>> _mockedPageRepository = new();
+    private readonly Mock<IPagedRepository<object>> _mockPageRepository = new();
     private readonly PagedRequestDtoValidator<object> _validator;
 
     public PagedRequestDtoValidatorTests()
     {
-        _mockedPageRepository
+        _mockPageRepository
             .Setup(x => x.GetCountAsync())
             .ReturnsAsync(10);
 
-        _validator = new PagedRequestDtoValidator<object>(_mockedPageRepository.Object);
+        _validator = new PagedRequestDtoValidator<object>(_mockPageRepository.Object);
     }
 
     [Fact]

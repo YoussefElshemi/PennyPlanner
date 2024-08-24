@@ -12,7 +12,10 @@ public static class AuthenticationResponseMapper
             UserId = authenticationResponse.UserId.ToString(),
             TokenType = authenticationResponse.TokenType.ToString(),
             AccessToken = authenticationResponse.AccessToken,
-            ExpiresIn = authenticationResponse.ExpiresIn
+            AccessTokenExpiresIn = authenticationResponse.AccessTokenExpiresIn,
+            RefreshToken = authenticationResponse.RefreshToken,
+            RefreshTokenExpiresIn = authenticationResponse.RefreshTokenExpiresIn
+
         };
     }
 }

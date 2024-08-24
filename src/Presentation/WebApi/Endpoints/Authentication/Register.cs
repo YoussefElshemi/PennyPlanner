@@ -24,7 +24,8 @@ public class Register(IUserRepository userRepository,
         var validator = new RegisterRequestDtoValidator(userRepository);
         await validator.ValidateAndThrowAsync(registerRequestDto, cancellationToken);
 
-        var createUserRequest = CreateUserRequestMapper.Map(registerRequestDto);
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+        var createUserRequest = CreateUserRequestMapper.Map(registerRequestDto, ipAddress);
 
         var authenticationResponse = await authenticationService.CreateAsync(createUserRequest);
 

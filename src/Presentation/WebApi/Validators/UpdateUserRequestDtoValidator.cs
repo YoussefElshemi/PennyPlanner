@@ -8,23 +8,20 @@ namespace Presentation.WebApi.Validators;
 
 public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequestDto>
 {
+    private readonly IUserRepository _userRepository;
     internal const string EmailAddressInUseErrorMessage = $"{nameof(EmailAddress)} is already in use.";
-
-    public UpdateUserRequestDtoValidator()
-    {
-        RuleFor(x => x.EmailAddress)
-            .SetValidator(new EmailAddressValidator());
-    }
 
     public UpdateUserRequestDtoValidator(IUserRepository userRepository)
     {
+        _userRepository = userRepository;
+
         RuleFor(x => x.EmailAddress)
             .SetValidator(new EmailAddressValidator())
-            .MustAsync(async (x, _) => await UserNotExistByEmailAddress(userRepository, x))
+            .MustAsync(async (x, _) => await UserNotExistByEmailAddress(x))
             .WithMessage(EmailAddressInUseErrorMessage);
     }
-    private static async Task<bool> UserNotExistByEmailAddress(IUserRepository userRepository, string emailAddress)
+    private async Task<bool> UserNotExistByEmailAddress(string emailAddress)
     {
-        return !await userRepository.ExistsByEmailAddressAsync(emailAddress);
+        return !await _userRepository.ExistsByEmailAddressAsync(emailAddress);
     }
 }

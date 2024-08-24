@@ -18,7 +18,7 @@ public static class FakeUser
             PasswordSalt = FakePasswordSalt.CreateValid(fixture),
             UserRole = fixture.Create<UserRole>(),
             CreatedAt = FakeCreatedAt.CreateValid(fixture),
-            UpdatedAt = FakeUpdatedAt.CreateValid(fixture),
+            UpdatedAt = FakeUpdatedAt.CreateValid(fixture)
         };
     }
 }

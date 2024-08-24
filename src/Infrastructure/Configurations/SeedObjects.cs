@@ -32,7 +32,7 @@ public static class SeedObjects
             PasswordSalt = string.Empty,
             UserRoleId = (int)UserRole.Admin,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         }
     ];
 }

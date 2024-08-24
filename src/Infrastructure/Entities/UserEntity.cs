@@ -10,4 +10,5 @@ public record UserEntity : BaseEntity
     public required int UserRoleId { get; set; }
     public UserRoleEntity UserRoleEntity { get; init; } = null!;
     public ICollection<PasswordResetEntity> PasswordResets { get; init; } = new List<PasswordResetEntity>();
+    public ICollection<LoginEntity> Logins { get; init; } = new List<LoginEntity>();
 }

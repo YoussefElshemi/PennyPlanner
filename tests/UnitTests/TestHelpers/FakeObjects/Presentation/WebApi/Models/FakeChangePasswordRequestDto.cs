@@ -10,7 +10,7 @@ public static class FakeChangePasswordRequestDto
         return new ChangePasswordRequestDto
         {
             Password = FakePassword.Valid,
-            ConfirmPassword = FakePassword.Valid,
+            ConfirmPassword = FakePassword.Valid
         };
     }
 }

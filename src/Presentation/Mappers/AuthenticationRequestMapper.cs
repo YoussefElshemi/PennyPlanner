@@ -6,12 +6,13 @@ namespace Presentation.Mappers;
 
 public static class AuthenticationRequestMapper
 {
-    public static AuthenticationRequest Map(LoginRequestDto loginRequestDto)
+    public static AuthenticationRequest Map(LoginRequestDto loginRequestDto, string ipAddress)
     {
         return new AuthenticationRequest
         {
             Username = new Username(loginRequestDto.Username),
-            Password = new Password(loginRequestDto.Password)
+            Password = new Password(loginRequestDto.Password),
+            IpAddress = new IpAddress(ipAddress)
         };
     }
 }

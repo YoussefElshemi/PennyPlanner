@@ -26,7 +26,7 @@ public static class UserExtensions
         var updatedUser = user with
         {
             PasswordHash = new PasswordHash(passwordHash),
-            PasswordSalt = new PasswordSalt(Convert.ToBase64String(passwordSalt)),
+            PasswordSalt = new PasswordSalt(Convert.ToBase64String(passwordSalt))
         };
 
         return updatedUser;
@@ -47,7 +47,7 @@ public static class UserExtensions
         return new JwtSecurityToken(
             issuer: config.Issuer,
             audience: config.Audience,
-            expires: DateTime.UtcNow.AddMinutes(config.Lifetime),
+            expires: DateTime.UtcNow.AddMinutes(config.AccessTokenLifetimeInMinutes),
             notBefore: DateTime.UtcNow,
             claims: claims,
             signingCredentials: credentials

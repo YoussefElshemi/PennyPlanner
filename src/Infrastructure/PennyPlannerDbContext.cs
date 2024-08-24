@@ -7,6 +7,7 @@ public class PennyPlannerDbContext(DbContextOptions<PennyPlannerDbContext> optio
 {
     public DbSet<UserEntity> Users { get; init; }
     public DbSet<PasswordResetEntity> PasswordResets { get; init; }
+    public DbSet<LoginEntity> Logins { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

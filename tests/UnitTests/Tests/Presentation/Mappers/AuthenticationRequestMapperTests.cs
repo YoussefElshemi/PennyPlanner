@@ -1,3 +1,4 @@
+using AutoFixture;
 using Core.ValueObjects;
 using FluentAssertions;
 using Presentation.Mappers;
@@ -13,12 +14,14 @@ public class AuthenticationRequestMapperTests : BaseTestClass
     {
         // Arrange
         var loginRequestDto = FakeLoginRequestDto.CreateValid();
+        var ipAddress = Fixture.Create<string>();
 
         // Act
-        var authenticationRequest = AuthenticationRequestMapper.Map(loginRequestDto);
+        var authenticationRequest = AuthenticationRequestMapper.Map(loginRequestDto, ipAddress);
 
         // Assert
         authenticationRequest.Username.Should().Be(new Username(authenticationRequest.Username.ToString()));
         authenticationRequest.Password.Should().Be(new Password(authenticationRequest.Password.ToString()));
+        authenticationRequest.IpAddress.Should().Be(new IpAddress(ipAddress));
     }
 }

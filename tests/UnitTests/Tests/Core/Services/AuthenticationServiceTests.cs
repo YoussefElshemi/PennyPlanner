@@ -18,6 +18,7 @@ namespace UnitTests.Tests.Core.Services;
 public class AuthenticationServiceTests : BaseTestClass
 {
     private readonly Mock<IUserService> _mockUserService;
+    private readonly Mock<ILoginService> _mockLoginService;
     private readonly Mock<IPasswordResetService> _mockPasswordResetService;
     private readonly AuthenticationService _authenticationService;
 
@@ -29,9 +30,11 @@ public class AuthenticationServiceTests : BaseTestClass
 
         _mockUserService = new Mock<IUserService>();
         _mockPasswordResetService = new Mock<IPasswordResetService>();
+        _mockLoginService = new Mock<ILoginService>();
         _authenticationService = new AuthenticationService(
             _mockUserService.Object,
             _mockPasswordResetService.Object,
+            _mockLoginService.Object,
             MockTimeProvider.Object,
             mockConfig.Object);
     }
@@ -42,9 +45,17 @@ public class AuthenticationServiceTests : BaseTestClass
         // Arrange
         var createUserRequest = FakeCreateUserRequest.CreateValid(Fixture);
         var user = FakeUser.CreateValid(Fixture);
+        var login = FakeLogin.CreateValid(Fixture) with
+        {
+            User = user
+        };
         _mockUserService
             .Setup(x => x.CreateAsync(It.IsAny<CreateUserRequest>()))
             .ReturnsAsync(user);
+        _mockLoginService
+            .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<IpAddress>()))
+            .ReturnsAsync(login);
+
         // Act
         var authenticationResponse = await _authenticationService.CreateAsync(createUserRequest);
 
@@ -57,32 +68,22 @@ public class AuthenticationServiceTests : BaseTestClass
     }
 
     [Fact]
-    public void AuthenticateAsync_UserDoesNotExist_Throws()
-    {
-        // Arrange
-        var authenticationRequest = FakeAuthenticationRequest.CreateValid();
-        _mockUserService
-            .Setup(x => x.ExistsAsync(It.IsAny<Username>()))
-            .ReturnsAsync(false);
-
-        // Act & Assert
-        Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
-            _authenticationService.AuthenticateAsync(authenticationRequest));
-    }
-
-    [Fact]
     public async Task AuthenticateAsync_ValidRequest_ReturnsAuthenticationResponse()
     {
         // Arrange
-        var authenticationRequest = FakeAuthenticationRequest.CreateValid();
+        var authenticationRequest = FakeAuthenticationRequest.CreateValid(Fixture);
         var user = FakeUser.CreateValid(Fixture);
+        var login = FakeLogin.CreateValid(Fixture) with
+        {
+            User = user
+        };
 
-        _mockUserService
-            .Setup(x => x.ExistsAsync(It.IsAny<Username>()))
-            .ReturnsAsync(true);
         _mockUserService
             .Setup(x => x.GetAsync(It.IsAny<Username>()))
             .ReturnsAsync(user);
+        _mockLoginService
+            .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<IpAddress>()))
+            .ReturnsAsync(login);
 
         // Act
         var authenticationResponse = await _authenticationService.AuthenticateAsync(authenticationRequest);
@@ -156,5 +157,32 @@ public class AuthenticationServiceTests : BaseTestClass
         // Assert
         _mockPasswordResetService.Verify(x => x.UpdateAsync(It.IsAny<PasswordReset>()), Times.Once);
         _mockUserService.Verify(x => x.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<Password>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task RefreshToken_GivenRefreshTokenRequest_RefreshesToken()
+    {
+        // Arrange
+        var authenticationRequest = FakeRefreshTokenRequest.CreateValid(Fixture);
+        var user = FakeUser.CreateValid(Fixture);
+        var login = FakeLogin.CreateValid(Fixture) with
+        {
+            User = user
+        };
+
+        _mockLoginService
+            .Setup(x => x.GetAsync(It.IsAny<RefreshToken>()))
+            .ReturnsAsync(login);
+
+
+        // Act
+        var authenticationResponse = await _authenticationService.RefreshToken(authenticationRequest);
+
+        // Assert
+        authenticationResponse.UserId.Should().Be(user.UserId);
+        authenticationResponse.TokenType.Should().Be(TokenType.Bearer);
+
+        var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
+        jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId);
     }
 }

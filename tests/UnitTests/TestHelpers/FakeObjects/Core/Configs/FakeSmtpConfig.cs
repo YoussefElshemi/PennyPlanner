@@ -13,7 +13,7 @@ public static class FakeSmtpConfig
             Port = fixture.Create<int>(),
             EmailAddress = fixture.Create<string>(),
             Name = fixture.Create<string>(),
-            Password = fixture.Create<string>(),
+            Password = fixture.Create<string>()
         };
     }
 }
