@@ -10,7 +10,7 @@ public static class UpdateUserRequestDtoMapper
         {
             UserId = userId,
             Username = updateUserRequestDto.Username,
-            EmailAddress = updateUserRequestDto.EmailAddress,
+            EmailAddress = updateUserRequestDto.EmailAddress
         };
     }
 }

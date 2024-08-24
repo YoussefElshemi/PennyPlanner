@@ -20,6 +20,4 @@ public class DeleteUserRequestDtoValidator : AbstractValidator<GetUserRequestDto
             .MustAsync(async (x, _) => (await userRepository.GetByIdAsync(x)).UserRole != UserRole.Admin)
             .WithMessage(CanNotDeleteAdminErrorMessage);
     }
-
-    public DeleteUserRequestDtoValidator() {}
 }

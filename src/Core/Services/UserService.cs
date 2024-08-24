@@ -97,7 +97,7 @@ public class UserService(IUserRepository repository,
         {
             IsDeleted = new IsDeleted(true),
             DeletedBy = deletedBy,
-            DeletedAt = new DeletedAt(timeProvider.GetUtcNow().UtcDateTime),
+            DeletedAt = new DeletedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 
         await UpdateAsync(user);

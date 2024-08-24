@@ -13,7 +13,7 @@ public class UserExtensionsTests : BaseTestClass
     public void Authenticate_PasswordMatches_ReturnsTrue()
     {
         // Arrange
-        var password = "password";
+        const string password = "password";
         var user = FakeUser.CreateValid(Fixture);
         user = user with
         {
@@ -31,7 +31,7 @@ public class UserExtensionsTests : BaseTestClass
     public void Authenticate_PasswordDoesNotMatch_ReturnsFalse()
     {
         // Arrange
-        var password = "password";
+        const string password = "password";
         var user = FakeUser.CreateValid(Fixture);
         user = user with
         {

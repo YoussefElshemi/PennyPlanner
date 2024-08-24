@@ -269,7 +269,7 @@ public class UserRepositoryTests : BaseTestClass
     public async Task GetAllAsync_ExistingUser_ReturnsOne()
     {
         // Arrange
-        var numberOfExpectedPages = 2;
+        const int numberOfExpectedPages = 2;
         var pagedRequest = FakePagedRequest.CreateValid(Fixture) with
         {
             PageNumber = new PageNumber(1),

@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct EmailAddress
 {
-    private string Value { get; init; }
+    private string Value { get; }
 
     public EmailAddress(string emailAddress)
     {

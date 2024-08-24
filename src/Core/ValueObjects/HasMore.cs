@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct HasMore
 {
-    internal bool Value { get; init; }
+    private bool Value { get; }
 
     public HasMore(bool hasMore)
     {

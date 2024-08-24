@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct PasswordResetId
 {
-    internal Guid Value { get; init; }
+    internal Guid Value { get; }
 
     public PasswordResetId(Guid passwordResetId)
     {

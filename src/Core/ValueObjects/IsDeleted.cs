@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct IsDeleted
 {
-    internal bool Value { get; init; }
+    private bool Value { get; }
 
     public IsDeleted(bool isDeleted)
     {

@@ -38,7 +38,7 @@ public static class SeedObjects
             DeletedAt = null,
             CreatedAt = DateTime.UtcNow,
             UpdatedBy = Username.SystemUsername,
-            UpdatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         }
     ];
 }

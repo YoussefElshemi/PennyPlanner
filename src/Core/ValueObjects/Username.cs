@@ -3,7 +3,7 @@ namespace Core.ValueObjects;
 public readonly record struct Username
 {
     public const string SystemUsername = "System";
-    private string Value { get; init; }
+    private string Value { get; }
 
     public Username(string username)
     {

@@ -1,12 +1,11 @@
 using Core.Constants;
-using Core.Interfaces.Services;
 using FastEndpoints;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.User;
 
 namespace Presentation.WebApi.Endpoints.User;
 
-public class Get(IUserService userService) : EndpointWithoutRequest<UserProfileResponseDto>
+public class Get : EndpointWithoutRequest<UserProfileResponseDto>
 {
     public override void Configure()
     {

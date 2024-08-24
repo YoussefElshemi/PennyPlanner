@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct ExpiresIn
 {
-    private int Value { get; init; }
+    private int Value { get; }
 
     public ExpiresIn(int expiresIn)
     {

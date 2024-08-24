@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct PasswordResetToken
 {
-    private string Value { get; init; }
+    private string Value { get; }
 
     public PasswordResetToken(string passwordResetToken)
     {
@@ -17,6 +17,6 @@ public readonly record struct PasswordResetToken
 
     public override string ToString()
     {
-        return Value.ToString();
+        return Value;
     }
 }

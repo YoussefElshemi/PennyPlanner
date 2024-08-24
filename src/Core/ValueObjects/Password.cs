@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct Password
 {
-    private string Value { get; init; }
+    private string Value { get; }
 
     public Password(string password)
     {

@@ -26,7 +26,7 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
         // Arrange
         var refreshTokenRequestDto = FakeRefreshTokenRequestDto.CreateValid(Fixture) with
         {
-            RefreshToken = string.Empty,
+            RefreshToken = string.Empty
         };
 
         // Act
@@ -61,7 +61,7 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
         var refreshTokenRequestDto = FakeRefreshTokenRequestDto.CreateValid(Fixture);
         var login = FakeLogin.CreateValid(Fixture) with
         {
-            ExpiresAt = new ExpiresAt(Today.AddDays(-1)),
+            ExpiresAt = new ExpiresAt(Today.AddDays(-1))
         };
         _mockLoginRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))

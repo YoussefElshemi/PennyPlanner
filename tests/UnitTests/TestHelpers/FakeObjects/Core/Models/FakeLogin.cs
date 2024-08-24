@@ -19,7 +19,7 @@ public static class FakeLogin
             User = FakeUser.CreateValid(fixture),
             CreatedAt = FakeCreatedAt.CreateValid(fixture),
             UpdatedBy = FakeUsername.CreateValid(),
-            UpdatedAt = FakeUpdatedAt.CreateValid(fixture),
+            UpdatedAt = FakeUpdatedAt.CreateValid(fixture)
         };
     }
 }

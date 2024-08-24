@@ -6,7 +6,7 @@ namespace Presentation.Mappers;
 
 public static class PagedRequestMapper
 {
-    public const int DefaultPageNumber = 1;
+    private const int DefaultPageNumber = 1;
     public const int DefaultPageSize = 10;
 
     public static PagedRequest Map(PagedRequestDto pagedRequestDto)
@@ -14,7 +14,7 @@ public static class PagedRequestMapper
         return new PagedRequest
         {
             PageNumber = pagedRequestDto.PageNumber is null ? new PageNumber(DefaultPageNumber) : new PageNumber(pagedRequestDto.PageNumber.Value),
-            PageSize = pagedRequestDto.PageSize is null ? new PageSize(DefaultPageSize) : new PageSize(pagedRequestDto.PageSize.Value),
+            PageSize = pagedRequestDto.PageSize is null ? new PageSize(DefaultPageSize) : new PageSize(pagedRequestDto.PageSize.Value)
         };
     }
 }

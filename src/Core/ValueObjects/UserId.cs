@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct UserId
 {
-    internal Guid Value { get; init; }
+    internal Guid Value { get; }
 
     public UserId(Guid userId)
     {

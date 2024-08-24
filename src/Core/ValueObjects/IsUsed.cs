@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct IsUsed
 {
-    internal bool Value { get; init; }
+    private bool Value { get; }
 
     public IsUsed(bool isUsed)
     {

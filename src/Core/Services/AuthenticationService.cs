@@ -49,7 +49,7 @@ public class AuthenticationService(
             IsRevoked = new IsRevoked(true),
             RevokedAt = new RevokedAt(timeProvider.GetUtcNow().UtcDateTime),
             UpdatedBy = login.User.Username,
-            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime),
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 
         await loginService.UpdateAsync(login);

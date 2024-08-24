@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct UpdatedAt
 {
-    private DateTime Value { get; init; }
+    private DateTime Value { get; }
 
     public UpdatedAt(DateTime updatedAt)
     {

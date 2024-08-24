@@ -54,7 +54,7 @@ public class UsernameValidatorTests
     public async Task Validate_ContainsIllegalCharacters_ReturnsError()
     {
         // Arrange
-        var username = "!llegalUsername";
+        const string username = "!llegalUsername";
 
         // Act
         var result = await _validator.TestValidateAsync(username);
@@ -68,7 +68,7 @@ public class UsernameValidatorTests
     public async Task Validate_MeetsRequirements_IsValid()
     {
         // Arrange
-        var username = FakeUsername.Valid;
+        const string username = FakeUsername.Valid;
 
         // Act
         var result = await _validator.TestValidateAsync(username);

@@ -10,8 +10,6 @@ namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class RequestResetPassword(IAuthenticationService authenticationService) : Endpoint<RequestResetPasswordRequestDto>
 {
-    public const string RequestResetPasswordMessage = "If an account exists with the given email address, you will receive an email to reset your password";
-
     public override void Configure()
     {
         Post(ApiUrls.AuthenticationUrls.RequestResetPassword);

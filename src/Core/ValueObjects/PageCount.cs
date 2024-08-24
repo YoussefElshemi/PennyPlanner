@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct PageCount
 {
-    internal int Value { get; init; }
+    private int Value { get; }
 
     public PageCount(int pageCount)
     {

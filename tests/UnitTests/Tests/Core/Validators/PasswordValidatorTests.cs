@@ -54,7 +54,7 @@ public class PasswordValidatorTests
     public async Task ValidateAsync_DoesNotContainLowercaseLetter_ReturnsError()
     {
         // Arrange
-        var password = "A0!A0!A0!";
+        const string password = "A0!A0!A0!";
 
         // Act
         var result = await _validator.TestValidateAsync(password);
@@ -68,7 +68,7 @@ public class PasswordValidatorTests
     public async Task ValidateAsync_DoesNotContainUppercaseLetter_ReturnsError()
     {
         // Arrange
-        var password = "a0!a0!a0!";
+        const string password = "a0!a0!a0!";
 
         // Act
         var result = await _validator.TestValidateAsync(password);
@@ -82,7 +82,7 @@ public class PasswordValidatorTests
     public async Task ValidateAsync_DoesNotContainDigit_ReturnsError()
     {
         // Arrange
-        var password = "Aa!Aa!Aa!";
+        const string password = "Aa!Aa!Aa!";
 
         // Act
         var result = await _validator.TestValidateAsync(password);
@@ -96,7 +96,7 @@ public class PasswordValidatorTests
     public async Task ValidateAsync_DoesNotContainSpecialCharacter_ReturnsError()
     {
         // Arrange
-        var password = "Aa0Aa0Aa0";
+        const string password = "Aa0Aa0Aa0";
 
         // Act
         var result = await _validator.TestValidateAsync(password);
@@ -110,7 +110,7 @@ public class PasswordValidatorTests
     public async Task ValidateAsync_MeetsRequirements_IsValid()
     {
         // Arrange
-        var password = FakePassword.Valid;
+        const string password = FakePassword.Valid;
 
         // Act
         var result = await _validator.TestValidateAsync(password);

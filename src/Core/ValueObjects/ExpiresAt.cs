@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct ExpiresAt
 {
-    private DateTime Value { get; init; }
+    private DateTime Value { get; }
 
     public ExpiresAt(DateTime expiresAt)
     {

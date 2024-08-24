@@ -10,6 +10,6 @@ public record PasswordReset
     public required PasswordResetToken ResetToken { get; init; }
     public required IsUsed IsUsed { get; init; }
     public required CreatedAt CreatedAt { get; init; }
-    public required Username UpdatedBy { get; set; }
+    public required Username UpdatedBy { get; init; }
     public required UpdatedAt UpdatedAt { get; init; }
 }
