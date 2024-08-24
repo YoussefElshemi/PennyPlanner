@@ -10,7 +10,7 @@ public static class FakeResetPasswordRequestDto
     {
         return new ResetPasswordRequestDto
         {
-            PasswordResetToken = fixture.Create<Guid>(),
+            PasswordResetToken = fixture.Create<string>(),
             Password = FakePassword.Valid,
             ConfirmPassword = FakePassword.Valid
         };

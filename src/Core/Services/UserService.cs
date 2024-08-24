@@ -1,5 +1,6 @@
 using Core.Enums;
 using Core.Extensions;
+using Core.Helpers;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
@@ -12,7 +13,7 @@ public class UserService(IUserRepository repository,
 {
     public async Task<User> CreateAsync(CreateUserRequest createUserRequest)
     {
-        var passwordSalt = AuthenticationService.GenerateSalt();
+        var passwordSalt = SecurityTokenHelper.GenerateSalt();
         var passwordHash = AuthenticationService.HashPassword(createUserRequest.Password.ToString(), passwordSalt);
 
         var user = new User

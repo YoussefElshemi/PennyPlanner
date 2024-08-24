@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Core.Configs;
+using Core.Helpers;
 using Core.Models;
 using Core.Services;
 using Core.ValueObjects;
@@ -19,7 +20,7 @@ public static class UserExtensions
 
     public static User UpdatePassword(this User user, Password password)
     {
-        var passwordSalt = AuthenticationService.GenerateSalt();
+        var passwordSalt = SecurityTokenHelper.GenerateSalt();
         var passwordHash = AuthenticationService.HashPassword(password, passwordSalt);
 
         var updatedUser = user with

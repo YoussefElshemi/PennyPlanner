@@ -12,7 +12,7 @@ public static class FakePasswordResetEntity
             PasswordResetId = fixture.Create<Guid>(),
             UserId = fixture.Create<Guid>(),
             UserEntity = FakeUserEntity.CreateValid(fixture),
-            ResetToken = fixture.Create<Guid>(),
+            ResetToken = fixture.Create<string>(),
             IsUsed = false,
             CreatedAt = fixture.Create<DateTime>(),
             UpdatedAt = fixture.Create<DateTime>(),

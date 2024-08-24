@@ -4,7 +4,7 @@ public record PasswordResetEntity : BaseEntity
 {
     public required Guid PasswordResetId { get; init; }
     public required Guid UserId { get; init; }
-    public required Guid ResetToken { get; init; }
+    public required string ResetToken { get; init; }
     public required bool IsUsed { get; set; }
     public UserEntity UserEntity { get; init; } = null!;
 }

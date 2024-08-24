@@ -7,6 +7,6 @@ public static class FakePasswordResetToken
 {
     public static PasswordResetToken CreateValid(IFixture fixture)
     {
-        return new PasswordResetToken(fixture.Create<Guid>());
+        return new PasswordResetToken(fixture.Create<string>());
     }
 }

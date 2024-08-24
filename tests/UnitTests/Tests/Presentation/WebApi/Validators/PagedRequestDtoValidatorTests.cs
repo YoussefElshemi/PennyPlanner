@@ -9,8 +9,6 @@ namespace UnitTests.Tests.Presentation.WebApi.Validators;
 
 public class PagedRequestDtoValidatorTests : BaseTestClass
 {
-    private int count = 10;
-
     private readonly Mock<IPagedRepository<object>> _mockedPageRepository = new();
     private readonly PagedRequestDtoValidator<object> _validator;
 
@@ -18,7 +16,7 @@ public class PagedRequestDtoValidatorTests : BaseTestClass
     {
         _mockedPageRepository
             .Setup(x => x.GetCountAsync())
-            .ReturnsAsync(count);
+            .ReturnsAsync(10);
 
         _validator = new PagedRequestDtoValidator<object>(_mockedPageRepository.Object);
     }

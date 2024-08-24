@@ -95,9 +95,9 @@ public class AuthenticationService(
     public static byte[] GenerateSalt()
     {
         using var rng = RandomNumberGenerator.Create();
-        var salt = new byte[32];
-        rng.GetBytes(salt);
+        var bytes = new byte[32];
+        rng.GetBytes(bytes);
 
-        return salt;
+        return bytes;
     }
 }

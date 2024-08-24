@@ -45,12 +45,12 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
             .WithMessage(ConfirmPasswordErrorMessage);
     }
 
-    private static async Task<bool> PasswordResetRequestExists(IPasswordResetRepository passwordResetRepository, Guid passwordResetToken)
+    private static async Task<bool> PasswordResetRequestExists(IPasswordResetRepository passwordResetRepository, string passwordResetToken)
     {
         return await passwordResetRepository.ExistsAsync(new PasswordResetToken(passwordResetToken));
     }
 
-    private static async Task<bool> PasswordResetRequestNotUsed(IPasswordResetRepository passwordResetRepository, Guid passwordResetToken)
+    private static async Task<bool> PasswordResetRequestNotUsed(IPasswordResetRepository passwordResetRepository, string passwordResetToken)
     {
         var passwordReset = await passwordResetRepository.GetAsync(new PasswordResetToken(passwordResetToken));
 

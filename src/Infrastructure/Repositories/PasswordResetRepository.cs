@@ -27,12 +27,12 @@ public class PasswordResetRepository(
         await context.SaveChangesAsync();
     }
 
-    public Task<bool> ExistsAsync(Guid passwordResetToken)
+    public Task<bool> ExistsAsync(string passwordResetToken)
     {
         return context.PasswordResets.AnyAsync(x => x.ResetToken == passwordResetToken);
     }
 
-    public async Task<PasswordReset> GetAsync(Guid passwordResetToken)
+    public async Task<PasswordReset> GetAsync(string passwordResetToken)
     {
         var passwordResetEntity = await context.PasswordResets
             .Include(x => x.UserEntity)

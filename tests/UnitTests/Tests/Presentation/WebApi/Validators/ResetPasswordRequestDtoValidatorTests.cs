@@ -27,7 +27,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         // Arrange
         var registerRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture);
         _mockPasswordResetRepository
-            .Setup(x => x.ExistsAsync(It.IsAny<Guid>()))
+            .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
 
         // Act
@@ -49,11 +49,11 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         };
 
         _mockPasswordResetRepository
-            .Setup(x => x.ExistsAsync(It.IsAny<Guid>()))
+            .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
 
         _mockPasswordResetRepository
-            .Setup(x => x.GetAsync(It.IsAny<Guid>()))
+            .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);
 
         // Act
@@ -76,11 +76,11 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         var passwordReset = FakePasswordReset.CreateValid(Fixture);
 
         _mockPasswordResetRepository
-            .Setup(x => x.ExistsAsync(It.IsAny<Guid>()))
+            .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
 
         _mockPasswordResetRepository
-            .Setup(x => x.GetAsync(It.IsAny<Guid>()))
+            .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);
 
         // Act
@@ -101,11 +101,11 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         var passwordReset = FakePasswordReset.CreateValid(Fixture);
 
         _mockPasswordResetRepository
-            .Setup(x => x.ExistsAsync(It.IsAny<Guid>()))
+            .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
 
         _mockPasswordResetRepository
-            .Setup(x => x.GetAsync(It.IsAny<Guid>()))
+            .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);
 
         // Act
@@ -124,11 +124,11 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         var passwordReset = FakePasswordReset.CreateValid(Fixture);
 
         _mockPasswordResetRepository
-            .Setup(x => x.ExistsAsync(It.IsAny<Guid>()))
+            .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
 
         _mockPasswordResetRepository
-            .Setup(x => x.GetAsync(It.IsAny<Guid>()))
+            .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);
 
         // Act
