@@ -47,7 +47,9 @@ public class AuthenticationService(
         login = login with
         {
             IsRevoked = new IsRevoked(true),
-            RevokedAt = new RevokedAt(timeProvider.GetUtcNow().UtcDateTime)
+            RevokedAt = new RevokedAt(timeProvider.GetUtcNow().UtcDateTime),
+            UpdatedBy = login.User.Username,
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime),
         };
 
         await loginService.UpdateAsync(login);
@@ -72,6 +74,7 @@ public class AuthenticationService(
         passwordReset = passwordReset with
         {
             IsUsed = new IsUsed(true),
+            UpdatedBy = new Username(Username.SystemUsername),
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
         await passwordResetService.UpdateAsync(passwordReset);

@@ -25,6 +25,7 @@ public class UserService(IUserRepository repository,
             PasswordSalt = new PasswordSalt(Convert.ToBase64String(passwordSalt)),
             UserRole = UserRole.User,
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
+            UpdatedBy = createUserRequest.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime),
             IsDeleted = new IsDeleted(false),
             DeletedBy = null,
@@ -44,6 +45,7 @@ public class UserService(IUserRepository repository,
     {
         var updatedUser = user.UpdatePassword(password) with
         {
+            UpdatedBy = user.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
         await UpdateAsync(updatedUser);

@@ -21,6 +21,7 @@ public class PasswordResetRepository(
         var passwordResetEntity = await context.PasswordResets.SingleAsync(x => x.PasswordResetId == passwordResetToUpdate.PasswordResetId);
 
         passwordResetEntity.IsUsed = passwordResetToUpdate.IsUsed;
+        passwordResetEntity.UpdatedBy = passwordResetToUpdate.UpdatedBy;
         passwordResetEntity.UpdatedAt = passwordResetToUpdate.UpdatedAt;
 
         context.PasswordResets.Update(passwordResetEntity);

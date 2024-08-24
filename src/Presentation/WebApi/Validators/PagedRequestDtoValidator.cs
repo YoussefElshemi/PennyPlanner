@@ -1,6 +1,4 @@
 using Core.Interfaces.Repositories;
-using Core.Models;
-using FastEndpoints;
 using FluentValidation;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.Common;

@@ -22,6 +22,7 @@ public class LoginRepository(
 
         loginEntity.IsRevoked = loginToUpdate.IsRevoked;
         loginEntity.RevokedAt = loginToUpdate.RevokedAt;
+        loginEntity.UpdatedBy = loginToUpdate.UpdatedBy;
         loginEntity.UpdatedAt = loginToUpdate.UpdatedAt;
 
         context.Logins.Update(loginEntity);

@@ -108,6 +108,7 @@ public class UserRepository(
         userEntity.PasswordHash = userToUpdate.PasswordHash;
         userEntity.PasswordSalt = userToUpdate.PasswordSalt;
         userEntity.UserRoleId = userToUpdate.UserRoleId;
+        userEntity.UpdatedBy = userToUpdate.UpdatedBy;
         userEntity.UpdatedAt = userToUpdate.UpdatedAt;
         userEntity.IsDeleted = userToUpdate.IsDeleted;
         userEntity.DeletedBy = userToUpdate.DeletedBy;

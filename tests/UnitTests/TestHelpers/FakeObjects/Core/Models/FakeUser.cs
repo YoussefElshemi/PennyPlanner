@@ -27,6 +27,7 @@ public static class FakeUser
             DeletedBy = FakeUsername.CreateValid(),
             DeletedAt = FakeDeletedAt.CreateValid(fixture),
             CreatedAt = FakeCreatedAt.CreateValid(fixture),
+            UpdatedBy = FakeUsername.CreateValid(),
             UpdatedAt = FakeUpdatedAt.CreateValid(fixture)
         };
     }

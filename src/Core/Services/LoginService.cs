@@ -23,6 +23,7 @@ public class LoginService(ILoginRepository loginRepository,
             ExpiresAt = new ExpiresAt(timeProvider.GetUtcNow().UtcDateTime.AddMinutes(config.Value.JwtConfig.RefreshTokenLifetimeInMinutes)),
             IsRevoked = new IsRevoked(false),
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
+            UpdatedBy = user.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime),
             User = user
         };

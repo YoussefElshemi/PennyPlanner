@@ -18,8 +18,8 @@ public static class FakeLogin
             IsRevoked = FakeIsRevoked.CreateValid(fixture),
             User = FakeUser.CreateValid(fixture),
             CreatedAt = FakeCreatedAt.CreateValid(fixture),
-            UpdatedAt = FakeUpdatedAt.CreateValid(fixture)
-
+            UpdatedBy = FakeUsername.CreateValid(),
+            UpdatedAt = FakeUpdatedAt.CreateValid(fixture),
         };
     }
 }

@@ -12,6 +12,7 @@ public record Login
     public required IsRevoked IsRevoked { get; init; }
     public RevokedAt? RevokedAt { get; init; }
     public required CreatedAt CreatedAt { get; init; }
+    public required Username UpdatedBy { get; set; }
     public required UpdatedAt UpdatedAt { get; init; }
     public required User User { get; init; }
 }

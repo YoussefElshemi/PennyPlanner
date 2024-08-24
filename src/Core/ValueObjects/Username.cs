@@ -2,6 +2,7 @@ namespace Core.ValueObjects;
 
 public readonly record struct Username
 {
+    public const string SystemUsername = "System";
     private string Value { get; init; }
 
     public Username(string username)

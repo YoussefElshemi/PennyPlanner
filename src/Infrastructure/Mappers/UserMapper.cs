@@ -21,6 +21,7 @@ public static class UserMapper
             DeletedBy = userEntity.DeletedBy is null ? null : new Username(userEntity.DeletedBy),
             DeletedAt = userEntity.DeletedAt is null ? null : new DeletedAt(userEntity.DeletedAt.Value),
             CreatedAt = new CreatedAt(userEntity.CreatedAt),
+            UpdatedBy = new Username(userEntity.UpdatedBy),
             UpdatedAt = new UpdatedAt(userEntity.UpdatedAt)
         };
     }
@@ -39,6 +40,7 @@ public static class UserMapper
             DeletedBy = user.DeletedBy is null ? null : user.DeletedBy.ToString(),
             DeletedAt = user.DeletedAt,
             CreatedAt = user.CreatedAt,
+            UpdatedBy = user.UpdatedBy.ToString(),
             UpdatedAt = user.UpdatedAt
         };
     }

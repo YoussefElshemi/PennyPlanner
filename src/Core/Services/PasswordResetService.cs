@@ -24,6 +24,7 @@ public class PasswordResetService(
             ResetToken = new PasswordResetToken(Guid.NewGuid().ToString("N")),
             IsUsed = new IsUsed(false),
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
+            UpdatedBy = user.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 

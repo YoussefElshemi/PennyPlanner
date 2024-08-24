@@ -18,6 +18,7 @@ public static class LoginMapper
             IsRevoked = new IsRevoked(loginEntity.IsRevoked),
             RevokedAt = loginEntity.RevokedAt is null ? null : new RevokedAt(loginEntity.RevokedAt.Value),
             CreatedAt = new CreatedAt(loginEntity.CreatedAt),
+            UpdatedBy = new Username(loginEntity.UpdatedBy),
             UpdatedAt = new UpdatedAt(loginEntity.UpdatedAt),
             User = UserMapper.MapFromEntity(loginEntity.UserEntity)
         };
@@ -35,6 +36,7 @@ public static class LoginMapper
             IsRevoked = login.IsRevoked,
             RevokedAt = login.RevokedAt,
             CreatedAt = login.CreatedAt,
+            UpdatedBy = login.UpdatedBy,
             UpdatedAt = login.UpdatedAt
         };
     }

@@ -15,6 +15,7 @@ public static class FakePasswordResetEntity
             ResetToken = fixture.Create<string>(),
             IsUsed = fixture.Create<bool>(),
             CreatedAt = fixture.Create<DateTime>(),
+            UpdatedBy = fixture.Create<string>(),
             UpdatedAt = fixture.Create<DateTime>()
         };
     }

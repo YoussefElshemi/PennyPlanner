@@ -12,6 +12,7 @@ public record User
     public required PasswordSalt PasswordSalt { get; init; }
     public required UserRole UserRole { get; init; }
     public required CreatedAt CreatedAt { get; init; }
+    public required Username UpdatedBy { get; set; }
     public required UpdatedAt UpdatedAt { get; init; }
     public required IsDeleted IsDeleted { get; init; }
     public required Username? DeletedBy { get; init; }

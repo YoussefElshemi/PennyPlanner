@@ -20,6 +20,7 @@ public static class FakeUserEntity
             DeletedBy = fixture.Create<string>(),
             DeletedAt = fixture.Create<DateTime>(),
             CreatedAt = fixture.Create<DateTime>(),
+            UpdatedBy = fixture.Create<string>(),
             UpdatedAt = fixture.Create<DateTime>(),
         };
     }

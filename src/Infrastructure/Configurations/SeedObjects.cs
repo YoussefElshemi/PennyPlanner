@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using Core.Enums;
 using Core.Extensions;
+using Core.ValueObjects;
 using Infrastructure.Entities;
 
 namespace Infrastructure.Configurations;
@@ -17,6 +18,7 @@ public static class SeedObjects
                     UserRoleId = (int)x,
                     Name = x.GetDescription(),
                     CreatedAt = DateTime.UtcNow,
+                    UpdatedBy = Username.SystemUsername,
                     UpdatedAt = DateTime.UtcNow
                 })
         ];
@@ -35,6 +37,7 @@ public static class SeedObjects
             DeletedBy = null,
             DeletedAt = null,
             CreatedAt = DateTime.UtcNow,
+            UpdatedBy = Username.SystemUsername,
             UpdatedAt = DateTime.UtcNow,
         }
     ];
