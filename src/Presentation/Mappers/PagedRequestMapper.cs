@@ -6,12 +6,15 @@ namespace Presentation.Mappers;
 
 public static class PagedRequestMapper
 {
+    public const int DefaultPageNumber = 1;
+    public const int DefaultPageSize = 10;
+
     public static PagedRequest Map(PagedRequestDto pagedRequestDto)
     {
         return new PagedRequest
         {
-            PageNumber = pagedRequestDto.PageNumber is null ? new PageNumber(1) : new PageNumber(pagedRequestDto.PageNumber.Value),
-            PageSize = pagedRequestDto.PageSize is null ? new PageSize(10) : new PageSize(pagedRequestDto.PageSize.Value),
+            PageNumber = pagedRequestDto.PageNumber is null ? new PageNumber(DefaultPageNumber) : new PageNumber(pagedRequestDto.PageNumber.Value),
+            PageSize = pagedRequestDto.PageSize is null ? new PageSize(DefaultPageSize) : new PageSize(pagedRequestDto.PageSize.Value),
         };
     }
 }

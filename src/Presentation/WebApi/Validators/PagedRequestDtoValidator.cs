@@ -1,5 +1,8 @@
 using Core.Interfaces.Repositories;
+using Core.Models;
+using FastEndpoints;
 using FluentValidation;
+using Presentation.Mappers;
 using Presentation.WebApi.Models.Common;
 
 namespace Presentation.WebApi.Validators;
@@ -14,11 +17,17 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
             .GreaterThanOrEqualTo(1);
 
         RuleFor(x => x.PageNumber)
-            .LessThanOrEqualTo(x => (repository.GetCountAsync().Result + x.PageSize - 1) / x.PageSize)
-            .When(x => x.PageSize > 0);
+            .LessThanOrEqualTo(x => (repository.GetCountAsync().Result + GetPageSize(x) - 1) / GetPageSize(x));
 
         RuleFor(x => x.PageSize)
             .GreaterThanOrEqualTo(1)
             .LessThanOrEqualTo(MaxPageSize);
+    }
+
+    private static int GetPageSize(PagedRequestDto x)
+    {
+        return x.PageSize is null or 0
+            ? PagedRequestMapper.DefaultPageSize
+            : x.PageSize.Value;
     }
 }

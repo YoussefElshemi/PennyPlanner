@@ -44,6 +44,7 @@ public class PagedRequestDtoValidatorTests : BaseTestClass
         // Arrange
         var pagedRequestDto = FakePagedRequestDto.CreateValid(Fixture) with
         {
+            PageSize = 10,
             PageNumber = 2
         };
 
