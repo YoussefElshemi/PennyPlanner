@@ -39,7 +39,7 @@ public static class UserExtensions
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, user.UserId),
+            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
             new Claim(ClaimTypes.Role, user.UserRole.ToString())
         };
 

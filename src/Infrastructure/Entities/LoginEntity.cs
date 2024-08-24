@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Infrastructure.Entities;
 
 public record LoginEntity : BaseEntity

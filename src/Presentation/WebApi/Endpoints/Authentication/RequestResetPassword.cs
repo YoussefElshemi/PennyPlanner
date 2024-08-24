@@ -4,7 +4,7 @@ using FastEndpoints;
 using FluentValidation;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.Authentication;
-using Presentation.WebApi.Validators;
+using Presentation.WebApi.Validators.Authentication;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 

@@ -9,7 +9,7 @@ public static class AuthenticationResponseMapper
     {
         return new AuthenticationResponseDto
         {
-            UserId = authenticationResponse.UserId.ToString(),
+            UserId = authenticationResponse.UserId,
             TokenType = authenticationResponse.TokenType.ToString(),
             AccessToken = authenticationResponse.AccessToken,
             AccessTokenExpiresIn = authenticationResponse.AccessTokenExpiresIn,

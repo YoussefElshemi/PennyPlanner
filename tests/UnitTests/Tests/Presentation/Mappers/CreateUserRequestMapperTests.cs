@@ -3,7 +3,7 @@ using Core.ValueObjects;
 using FluentAssertions;
 using Presentation.Mappers;
 using UnitTests.TestHelpers;
-using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models;
+using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.Authentication;
 
 namespace UnitTests.Tests.Presentation.Mappers;
 

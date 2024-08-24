@@ -6,13 +6,12 @@ using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
 using Presentation.WebApi.Models.UserManagement;
-using Presentation.WebApi.Validators;
+using Presentation.WebApi.Validators.UserManagement;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
-public class DeleteUsers(IUserService userService,
-    IUserRepository userRepository
-) : Endpoint<GetUserRequestDto>
+public class DeleteUser(IUserService userService,
+    IUserRepository userRepository) : Endpoint<GetUserRequestDto>
 {
     public override void Configure()
     {

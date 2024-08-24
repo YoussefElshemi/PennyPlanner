@@ -64,7 +64,7 @@ public class AuthenticationServiceTests : BaseTestClass
         authenticationResponse.TokenType.Should().Be(TokenType.Bearer);
 
         var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
-        jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId);
+        jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId.ToString());
     }
 
     [Fact]
@@ -93,7 +93,7 @@ public class AuthenticationServiceTests : BaseTestClass
         authenticationResponse.TokenType.Should().Be(TokenType.Bearer);
 
         var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
-        jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId);
+        jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId.ToString());
     }
 
     [Fact]
@@ -182,7 +182,7 @@ public class AuthenticationServiceTests : BaseTestClass
         authenticationResponse.TokenType.Should().Be(TokenType.Bearer);
 
         var jsonToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
-        jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId);
+        jsonToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId.ToString());
     }
 
     [Fact]

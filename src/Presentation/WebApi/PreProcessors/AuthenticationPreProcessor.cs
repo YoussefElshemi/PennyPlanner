@@ -10,7 +10,7 @@ namespace Presentation.WebApi.PreProcessors;
 
 public class AuthenticationPreProcessor(IServiceScopeFactory scopeFactory) : IGlobalPreProcessor
 {
-    private const string UserDoesNotExistErrorMessage = $"{nameof(User)} does not exist.";
+    private const string UserDoesNotExistErrorMessage = $"Authenticated {nameof(User)} does not exist.";
 
     public async Task PreProcessAsync(IPreProcessorContext ctx, CancellationToken ct)
     {
@@ -25,7 +25,9 @@ public class AuthenticationPreProcessor(IServiceScopeFactory scopeFactory) : IGl
                 var userId = ctx.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
                 if (!await userRepository.ExistsByIdAsync(Guid.Parse(userId)))
                 {
-                    throw new ValidationException([new ValidationFailure(nameof(User),UserDoesNotExistErrorMessage)]);
+                    throw new ValidationException([
+                        new ValidationFailure(nameof(User), UserDoesNotExistErrorMessage)
+                    ]);
                 }
 
                 var user = await userRepository.GetByIdAsync(Guid.Parse(userId));

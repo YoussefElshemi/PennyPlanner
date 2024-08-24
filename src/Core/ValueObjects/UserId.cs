@@ -15,11 +15,6 @@ public readonly record struct UserId
         return userId.Value;
     }
 
-    public static implicit operator string(UserId userId)
-    {
-        return userId.Value.ToString();
-    }
-
     public override string ToString()
     {
         return Value.ToString();

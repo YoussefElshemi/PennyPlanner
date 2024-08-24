@@ -22,6 +22,7 @@ public static class ApiUrls
     public static class UserManagement
     {
         public const string GetUsers = "/user-management/users";
-        public const string DeleteUser = "/user-management/users/{UserID}";
+        public const string DeleteUser = "/user-management/users/{UserId:guid}";
+        public const string UpdateUser = "/user-management/users/{UserId:guid}";
     }
 }
