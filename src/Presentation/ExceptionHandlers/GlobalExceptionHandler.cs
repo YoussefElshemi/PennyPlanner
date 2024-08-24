@@ -28,6 +28,4 @@ public class GlobalExceptionHandler : IExceptionHandler
                 Instance = httpContext.Request.Path
             }, cancellationToken: cancellationToken);
     }
-
-
 }

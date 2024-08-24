@@ -36,7 +36,7 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
     private async Task RefreshTokenIsValid(string refreshToken, ValidationContext<RefreshTokenRequestDto> context)
     {
         var login = await _loginRepository.GetAsync(refreshToken);
-        if (login.ExpiresAt < _timeProvider.GetUtcNow().DateTime)
+        if (login.ExpiresAt < _timeProvider.GetUtcNow().UtcDateTime)
         {
             context.AddFailure(RefreshTokenIsExpiredErrorMessage);
             return;

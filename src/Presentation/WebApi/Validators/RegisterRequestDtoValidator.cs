@@ -1,4 +1,3 @@
-using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Validators;
 using Core.ValueObjects;
@@ -35,7 +34,6 @@ public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
             .MustAsync(async (x, _) => await UserNotExistByEmailAddress(x))
             .WithMessage(EmailAddressInUseErrorMessage);
     }
-
 
     private async Task<bool> UserNotExistByUsername(string username)
     {

@@ -23,6 +23,9 @@ public static class FakeUser
             PasswordSalt = new PasswordSalt(Convert.ToBase64String(passwordSalt)),
             PasswordHash = new PasswordHash(passwordHash),
             UserRole = fixture.Create<UserRole>(),
+            IsDeleted = FakeIsDeleted.CreateValid(fixture),
+            DeletedBy = FakeUsername.CreateValid(),
+            DeletedAt = FakeDeletedAt.CreateValid(fixture),
             CreatedAt = FakeCreatedAt.CreateValid(fixture),
             UpdatedAt = FakeUpdatedAt.CreateValid(fixture)
         };

@@ -32,7 +32,6 @@ public static class UserExtensions
         return updatedUser;
     }
 
-
     public static JwtSecurityToken CreateJwtSecurityToken(this User user, JwtConfig config)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Key));

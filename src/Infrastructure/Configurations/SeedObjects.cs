@@ -31,8 +31,11 @@ public static class SeedObjects
             PasswordHash = string.Empty,
             PasswordSalt = string.Empty,
             UserRoleId = (int)UserRole.Admin,
+            IsDeleted = false,
+            DeletedBy = null,
+            DeletedAt = null,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = DateTime.UtcNow,
         }
     ];
 }

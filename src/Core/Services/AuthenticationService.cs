@@ -47,7 +47,7 @@ public class AuthenticationService(
         login = login with
         {
             IsRevoked = new IsRevoked(true),
-            RevokedAt = new RevokedAt(timeProvider.GetUtcNow().DateTime)
+            RevokedAt = new RevokedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 
         await loginService.UpdateAsync(login);
@@ -72,7 +72,7 @@ public class AuthenticationService(
         passwordReset = passwordReset with
         {
             IsUsed = new IsUsed(true),
-            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().DateTime)
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
         await passwordResetService.UpdateAsync(passwordReset);
 
@@ -102,7 +102,7 @@ public class AuthenticationService(
         var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         var accessTokenExpiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - jwtSecurityToken.ValidFrom).TotalSeconds);
 
-        var refreshTokenExpiresIn = Convert.ToInt32((login.ExpiresAt - timeProvider.GetUtcNow().DateTime).TotalSeconds);
+        var refreshTokenExpiresIn = Convert.ToInt32((login.ExpiresAt - timeProvider.GetUtcNow().UtcDateTime).TotalSeconds);
 
         return new AuthenticationResponse
         {

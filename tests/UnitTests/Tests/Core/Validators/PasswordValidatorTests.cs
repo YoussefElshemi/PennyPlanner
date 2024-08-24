@@ -9,13 +9,13 @@ public class PasswordValidatorTests
     private readonly PasswordValidator _validator = new();
 
     [Fact]
-    public void Validate_PasswordIsEmpty_ReturnsError()
+    public async Task ValidateAsync_PasswordIsEmpty_ReturnsError()
     {
-        // Act
+        // Arrange
         var password = string.Empty;
 
-        // Arrange
-        var result = _validator.TestValidate(password);
+        // Act
+        var result = await _validator.TestValidateAsync(password);
 
         // Assert
         result.ShouldHaveAnyValidationError()
@@ -23,13 +23,13 @@ public class PasswordValidatorTests
     }
 
     [Fact]
-    public void Validate_LessThanMinimumPasswordLength_ReturnsError()
+    public async Task ValidateAsync_LessThanMinimumPasswordLength_ReturnsError()
     {
-        // Act
+        // Arrange
         var password = string.Concat(Enumerable.Repeat("a", PasswordValidator.MinLength - 1));
 
-        // Arrange
-        var result = _validator.TestValidate(password);
+        // Act
+        var result = await _validator.TestValidateAsync(password);
 
         // Assert
         result.ShouldHaveAnyValidationError()
@@ -37,13 +37,13 @@ public class PasswordValidatorTests
     }
 
     [Fact]
-    public void Validate_MoreThanMaximumPasswordLength_ReturnsError()
+    public async Task ValidateAsync_MoreThanMaximumPasswordLength_ReturnsError()
     {
-        // Act
+        // Arrange
         var password = string.Concat(Enumerable.Repeat("a", PasswordValidator.MaxLength + 1));
 
-        // Arrange
-        var result = _validator.TestValidate(password);
+        // Act
+        var result = await _validator.TestValidateAsync(password);
 
         // Assert
         result.ShouldHaveAnyValidationError()
@@ -51,13 +51,13 @@ public class PasswordValidatorTests
     }
 
     [Fact]
-    public void Validate_DoesNotContainLowercaseLetter_ReturnsError()
+    public async Task ValidateAsync_DoesNotContainLowercaseLetter_ReturnsError()
     {
-        // Act
+        // Arrange
         var password = "A0!A0!A0!";
 
-        // Arrange
-        var result = _validator.TestValidate(password);
+        // Act
+        var result = await _validator.TestValidateAsync(password);
 
         // Assert
         result.ShouldHaveAnyValidationError()
@@ -65,13 +65,13 @@ public class PasswordValidatorTests
     }
 
     [Fact]
-    public void Validate_DoesNotContainUppercaseLetter_ReturnsError()
+    public async Task ValidateAsync_DoesNotContainUppercaseLetter_ReturnsError()
     {
-        // Act
+        // Arrange
         var password = "a0!a0!a0!";
 
-        // Arrange
-        var result = _validator.TestValidate(password);
+        // Act
+        var result = await _validator.TestValidateAsync(password);
 
         // Assert
         result.ShouldHaveAnyValidationError()
@@ -79,13 +79,13 @@ public class PasswordValidatorTests
     }
 
     [Fact]
-    public void Validate_DoesNotContainDigit_ReturnsError()
+    public async Task ValidateAsync_DoesNotContainDigit_ReturnsError()
     {
-        // Act
+        // Arrange
         var password = "Aa!Aa!Aa!";
 
-        // Arrange
-        var result = _validator.TestValidate(password);
+        // Act
+        var result = await _validator.TestValidateAsync(password);
 
         // Assert
         result.ShouldHaveAnyValidationError()
@@ -93,13 +93,13 @@ public class PasswordValidatorTests
     }
 
     [Fact]
-    public void Validate_DoesNotContainSpecialCharacter_ReturnsError()
+    public async Task ValidateAsync_DoesNotContainSpecialCharacter_ReturnsError()
     {
-        // Act
+        // Arrange
         var password = "Aa0Aa0Aa0";
 
-        // Arrange
-        var result = _validator.TestValidate(password);
+        // Act
+        var result = await _validator.TestValidateAsync(password);
 
         // Assert
         result.ShouldHaveAnyValidationError()
@@ -107,13 +107,13 @@ public class PasswordValidatorTests
     }
 
     [Fact]
-    public void Validate_MeetsRequirements_IsValid()
+    public async Task ValidateAsync_MeetsRequirements_IsValid()
     {
-        // Act
+        // Arrange
         var password = FakePassword.Valid;
 
-        // Arrange
-        var result = _validator.TestValidate(password);
+        // Act
+        var result = await _validator.TestValidateAsync(password);
 
         // Assert
         result.ShouldNotHaveAnyValidationErrors();

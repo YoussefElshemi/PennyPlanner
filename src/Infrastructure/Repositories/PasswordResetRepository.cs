@@ -39,6 +39,5 @@ public class PasswordResetRepository(
             .FirstAsync(u => u.ResetToken == passwordResetToken);
 
         return PasswordResetMapper.MapFromEntity(passwordResetEntity);
-
     }
 }

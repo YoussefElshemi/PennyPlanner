@@ -11,7 +11,7 @@ public class ResetPasswordRequestMapperTests : BaseTestClass
     [Fact]
     public void Map_GivenResetPasswordRequestDto_ReturnsResetPasswordRequest()
     {
-        // Act
+        // Arrange
         var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture);
 
         // Act

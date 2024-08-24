@@ -17,6 +17,7 @@ public class UserProfileResponseMapperTests : BaseTestClass
         var userProfileResponse = UserProfileResponseMapper.Map(user);
 
         // Assert
+        userProfileResponse.UserId.Should().Be(user.UserId);
         userProfileResponse.Username.Should().Be(user.Username);
         userProfileResponse.EmailAddress.Should().Be(user.EmailAddress);
         userProfileResponse.UserRole.Should().Be(user.UserRole.ToString());

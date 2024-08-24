@@ -1,4 +1,3 @@
-using AutoFixture;
 using Core.Interfaces.Repositories;
 using FluentValidation.TestHelper;
 using Moq;
@@ -22,16 +21,16 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_NoFieldsProvided_ReturnsError()
+    public async Task ValidateAsync_NoFieldsProvided_ReturnsError()
     {
-        // Act
+        // Arrange
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid() with
         {
             Username = null,
             EmailAddress = null
         };
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(updateUserRequestDto);
 
         // Assert
@@ -40,9 +39,9 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_EmailAddressIsCurrentEmailAddress_ReturnsError()
+    public async Task ValidateAsync_EmailAddressIsCurrentEmailAddress_ReturnsError()
     {
-        // Act
+        // Arrange
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid() with
         {
             Username = null
@@ -51,7 +50,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(updateUserRequestDto);
 
         // Assert
@@ -60,9 +59,9 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_EmailAddressAlreadyExists_ReturnsError()
+    public async Task ValidateAsync_EmailAddressAlreadyExists_ReturnsError()
     {
-        // Act
+        // Arrange
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid() with
         {
             Username = null,
@@ -72,7 +71,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(updateUserRequestDto);
 
         // Assert
@@ -81,9 +80,9 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_UsernameIsCurrentEmailAddress_ReturnsError()
+    public async Task ValidateAsync_UsernameIsCurrentEmailAddress_ReturnsError()
     {
-        // Act
+        // Arrange
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid() with
         {
             EmailAddress = null
@@ -92,7 +91,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(updateUserRequestDto);
 
         // Assert
@@ -101,9 +100,9 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_UsernameAlreadyExists_ReturnsError()
+    public async Task ValidateAsync_UsernameAlreadyExists_ReturnsError()
     {
-        // Act
+        // Arrange
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid() with
         {
             Username = "new",
@@ -113,7 +112,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(updateUserRequestDto);
 
         // Assert
@@ -122,7 +121,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_ValidRequest_IsValid()
+    public async Task ValidateAsync_ValidRequest_IsValid()
     {
         // Arrange
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid() with

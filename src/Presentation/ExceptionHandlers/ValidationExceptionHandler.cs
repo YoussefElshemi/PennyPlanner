@@ -18,7 +18,6 @@ public class ValidationExceptionHandler : IExceptionHandler
         await WriteHttpResponseAsync(httpContext, validationException, cancellationToken);
 
         return true;
-
     }
 
     private static Task WriteHttpResponseAsync(HttpContext httpContext, ValidationException exception, CancellationToken cancellationToken)
@@ -41,6 +40,4 @@ public class ValidationExceptionHandler : IExceptionHandler
 
             }, cancellationToken: cancellationToken);
     }
-
-
 }

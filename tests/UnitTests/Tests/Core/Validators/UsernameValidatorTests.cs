@@ -11,10 +11,10 @@ public class UsernameValidatorTests
     [Fact]
     public async Task Validate_UsernameIsEmpty_ReturnsError()
     {
-        // Act
+        // Arrange
         var username = string.Empty;
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(username);
 
         // Assert
@@ -25,10 +25,10 @@ public class UsernameValidatorTests
     [Fact]
     public async Task Validate_LessThanMinimumUsernameLength_ReturnsError()
     {
-        // Act
+        // Arrange
         var username = string.Concat(Enumerable.Repeat("a", UsernameValidator.MinLength - 1));
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(username);
 
         // Assert
@@ -39,10 +39,10 @@ public class UsernameValidatorTests
     [Fact]
     public async Task Validate_MoreThanMaximumUsernameLength_ReturnsError()
     {
-        // Act
+        // Arrange
         var username = string.Concat(Enumerable.Repeat("a", UsernameValidator.MaxLength + 1));
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(username);
 
         // Assert
@@ -53,10 +53,10 @@ public class UsernameValidatorTests
     [Fact]
     public async Task Validate_ContainsIllegalCharacters_ReturnsError()
     {
-        // Act
+        // Arrange
         var username = "!llegalUsername";
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(username);
 
         // Assert
@@ -67,10 +67,10 @@ public class UsernameValidatorTests
     [Fact]
     public async Task Validate_MeetsRequirements_IsValid()
     {
-        // Act
+        // Arrange
         var username = FakeUsername.Valid;
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(username);
 
         // Assert

@@ -28,7 +28,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task ExistsByIdAsync_ExistingUser_ReturnsTrue()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -43,7 +46,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task ExistsByIdAsync_NonExistingUser_ReturnsFalse()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
 
         // Act
         var exists = await _userRepository.ExistsByIdAsync(userEntity.UserId);
@@ -56,7 +62,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task GetByIdAsync_ExistingUser_ReturnsUser()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -71,7 +80,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task ExistsByUsernameAsync_ExistingUser_ReturnsTrue()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -86,7 +98,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task ExistsByUsernameAsync_NonExistingUser_ReturnsFalse()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
 
         // Act
         var exists = await _userRepository.ExistsByUsernameAsync(userEntity.Username);
@@ -99,7 +114,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task GetByUsernameAsync_ExistingUser_ReturnsUser()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -114,7 +132,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task ExistsByEmailAddressAsync_ExistingUser_ReturnsTrue()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -129,7 +150,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task ExistsByEmailAddressAsync_NonExistingUser_ReturnsFalse()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
 
         // Act
         var exists = await _userRepository.ExistsByEmailAddressAsync(userEntity.EmailAddress);
@@ -142,7 +166,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task GetByEmailAddressAsync_ExistingUser_ReturnsUser()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -170,7 +197,10 @@ public class UserRepositoryTests : BaseTestClass
     public async Task UpdateAsync_GivenUser_Updates()
     {
         // Arrange
-        var userEntity = FakeUserEntity.CreateValid(Fixture);
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = false
+        };
         var user = FakeUser.CreateValid(Fixture) with
         {
             UserId = new UserId(userEntity.UserId)
@@ -194,11 +224,36 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
+    public async Task GetAsync_UserIsDeleted_ReturnsFalse()
+    {
+        // Arrange
+        var userEntity = FakeUserEntity.CreateValid(Fixture) with
+        {
+            IsDeleted = true
+        };
+        var user = FakeUser.CreateValid(Fixture) with
+        {
+            UserId = new UserId(userEntity.UserId)
+        };
+        await _context.Users.AddAsync(userEntity);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var exists = await _userRepository.ExistsByIdAsync(user.UserId);
+
+        // Assert
+        exists.Should().BeFalse();
+    }
+
+    [Fact]
     public async Task GetCountAsync_ExistingUsers_ReturnsNumberOfUsers()
     {
         // Arrange
         var users = Enumerable.Range(0, 20)
-            .Select(_ => FakeUserEntity.CreateValid(Fixture))
+            .Select(_ => FakeUserEntity.CreateValid(Fixture) with
+            {
+                IsDeleted = false
+            })
             .ToList();
         _context.Users.AddRange(users);
         await _context.SaveChangesAsync();
@@ -221,11 +276,13 @@ public class UserRepositoryTests : BaseTestClass
             PageSize = new PageSize(10)
         };
         var users = Enumerable.Range(0, numberOfExpectedPages * pagedRequest.PageSize)
-            .Select(_ => FakeUserEntity.CreateValid(Fixture))
+            .Select(_ => FakeUserEntity.CreateValid(Fixture) with
+            {
+                IsDeleted = false
+            })
             .ToList();
         _context.Users.AddRange(users);
         await _context.SaveChangesAsync();
-
 
         // Act
         var pagedResponse = await _userRepository.GetAllAsync(pagedRequest);
@@ -248,6 +305,5 @@ public class UserRepositoryTests : BaseTestClass
        nextPagedResponse.TotalCount.Should().Be(new TotalCount(users.Count));
        nextPagedResponse.HasMore.Should().Be(new HasMore(false));
        nextPagedResponse.Data.Should().HaveCount(10);
-
     }
 }

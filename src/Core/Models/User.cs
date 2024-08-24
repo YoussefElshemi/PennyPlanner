@@ -13,4 +13,7 @@ public record User
     public required UserRole UserRole { get; init; }
     public required CreatedAt CreatedAt { get; init; }
     public required UpdatedAt UpdatedAt { get; init; }
+    public required IsDeleted IsDeleted { get; init; }
+    public required Username? DeletedBy { get; init; }
+    public required DeletedAt? DeletedAt { get; init; }
 }

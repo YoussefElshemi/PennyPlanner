@@ -21,7 +21,7 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_UserDoesNotExist_Throws()
+    public async Task ValidateAsync_UserDoesNotExist_Throws()
     {
         // Arrange
         var loginRequestDto = FakeLoginRequestDto.CreateValid();
@@ -39,7 +39,7 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_IncorrectPassword_Throws()
+    public async Task ValidateAsync_IncorrectPassword_Throws()
     {
         // Arrange
         var loginRequestDto = FakeLoginRequestDto.CreateValid() with
@@ -68,7 +68,7 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_ValidRequest_IsValid()
+    public async Task ValidateAsync_ValidRequest_IsValid()
     {
         // Arrange
         var loginRequestDto = FakeLoginRequestDto.CreateValid();

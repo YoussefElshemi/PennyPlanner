@@ -24,7 +24,6 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
             .WithMessage(IncorrectLoginDetails);
     }
 
-
     private Task<bool> UserExistByUsername(string username)
     {
         return _userRepository.ExistsByUsernameAsync(username);

@@ -7,15 +7,16 @@ using FluentValidation;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.Common;
 using Presentation.WebApi.Models.User;
+using Presentation.WebApi.Models.UserManagement;
 using Presentation.WebApi.Validators;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
-public class Users(IUserService userService, IUserRepository userRepository) : Endpoint<PagedRequestDto, PagedResponseDto<UserProfileResponseDto>>
+public class GetUsers(IUserService userService, IUserRepository userRepository) : Endpoint<PagedRequestDto, PagedResponseDto<UserProfileResponseDto>>
 {
     public override void Configure()
     {
-        Get(ApiUrls.UserManagement.Get);
+        Get(ApiUrls.UserManagement.GetUsers);
         Roles(UserRole.Admin.ToString());
         EnableAntiforgery();
     }
@@ -33,8 +34,4 @@ public class Users(IUserService userService, IUserRepository userRepository) : E
 
         await SendAsync(pagedResponseDto, cancellation: cancellationToken);
     }
-
-
-
-
 }

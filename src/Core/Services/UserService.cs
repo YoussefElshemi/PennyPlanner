@@ -25,7 +25,10 @@ public class UserService(IUserRepository repository,
             PasswordSalt = new PasswordSalt(Convert.ToBase64String(passwordSalt)),
             UserRole = UserRole.User,
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
-            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime),
+            IsDeleted = new IsDeleted(false),
+            DeletedBy = null,
+            DeletedAt = null
         };
 
         await repository.CreateAsync(user);
@@ -83,6 +86,19 @@ public class UserService(IUserRepository repository,
     public Task<User> GetAsync(EmailAddress emailAddress)
     {
         return repository.GetByEmailAddressAsync(emailAddress);
+    }
+
+    public async Task DeleteAsync(UserId userId, Username deletedBy)
+    {
+        var user = await GetAsync(userId);
+        user = user with
+        {
+            IsDeleted = new IsDeleted(true),
+            DeletedBy = deletedBy,
+            DeletedAt = new DeletedAt(timeProvider.GetUtcNow().UtcDateTime),
+        };
+
+        await UpdateAsync(user);
     }
 
     public Task<User> GetAsync(UserId userId)

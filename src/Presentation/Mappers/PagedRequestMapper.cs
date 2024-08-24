@@ -10,8 +10,8 @@ public static class PagedRequestMapper
     {
         return new PagedRequest
         {
-            PageNumber = new PageNumber(pagedRequestDto.PageNumber),
-            PageSize = new PageSize(pagedRequestDto.PageSize)
+            PageNumber = pagedRequestDto.PageNumber is null ? new PageNumber(1) : new PageNumber(pagedRequestDto.PageNumber.Value),
+            PageSize = pagedRequestDto.PageSize is null ? new PageSize(10) : new PageSize(pagedRequestDto.PageSize.Value),
         };
     }
 }

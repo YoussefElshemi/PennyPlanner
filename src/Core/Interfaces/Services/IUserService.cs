@@ -16,4 +16,5 @@ public interface IUserService
     Task<User> GetAsync(UserId userId);
     Task<User> GetAsync(Username username);
     Task<User> GetAsync(EmailAddress emailAddress);
+    Task DeleteAsync(UserId userId, Username deletedBy);
 }

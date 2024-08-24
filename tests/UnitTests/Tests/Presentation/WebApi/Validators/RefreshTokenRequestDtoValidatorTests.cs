@@ -21,7 +21,7 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_RefreshTokenIsEmpty_ReturnsError()
+    public async Task ValidateAsync_RefreshTokenIsEmpty_ReturnsError()
     {
         // Arrange
         var refreshTokenRequestDto = FakeRefreshTokenRequestDto.CreateValid(Fixture) with
@@ -38,7 +38,7 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_RefreshTokenDoesNotExist_ReturnsError()
+    public async Task ValidateAsync_RefreshTokenDoesNotExist_ReturnsError()
     {
         // Arrange
         var refreshTokenRequestDto = FakeRefreshTokenRequestDto.CreateValid(Fixture);
@@ -55,7 +55,7 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_RefreshTokenIsExpired_ReturnsError()
+    public async Task ValidateAsync_RefreshTokenIsExpired_ReturnsError()
     {
         // Arrange
         var refreshTokenRequestDto = FakeRefreshTokenRequestDto.CreateValid(Fixture);
@@ -79,7 +79,7 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_RefreshTokenIsRevoked_ReturnsError()
+    public async Task ValidateAsync_RefreshTokenIsRevoked_ReturnsError()
     {
         // Arrange
         var refreshTokenRequestDto = FakeRefreshTokenRequestDto.CreateValid(Fixture);
@@ -107,7 +107,11 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
     {
         // Arrange
         var refreshTokenRequestDto = FakeRefreshTokenRequestDto.CreateValid(Fixture);
-        var login = FakeLogin.CreateValid(Fixture);
+        var login = FakeLogin.CreateValid(Fixture) with
+        {
+            IsRevoked = new IsRevoked(false)
+        };
+
         _mockLoginRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
@@ -119,6 +123,6 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
         var result = await _validator.TestValidateAsync(refreshTokenRequestDto);
 
         // Assert
-        result.ShouldNotHaveValidationErrorFor(x => x.RefreshToken);
+        result.ShouldNotHaveAnyValidationErrors();
     }
 }

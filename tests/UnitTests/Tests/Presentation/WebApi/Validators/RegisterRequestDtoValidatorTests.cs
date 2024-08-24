@@ -19,7 +19,7 @@ public class RegisterRequestDtoValidatorTests
     }
 
     [Fact]
-    public async Task Validate_InvalidUsername_ReturnsError()
+    public async Task ValidateAsync_InvalidUsername_ReturnsError()
     {
         // Arrange
         var registerRequestDto = FakeRegisterRequestDto.CreateValid() with
@@ -35,7 +35,7 @@ public class RegisterRequestDtoValidatorTests
     }
 
     [Fact]
-    public async Task Validate_InvalidPassword_ReturnsError()
+    public async Task ValidateAsync_InvalidPassword_ReturnsError()
     {
         // Arrange
         var registerRequestDto = FakeRegisterRequestDto.CreateValid() with
@@ -51,7 +51,7 @@ public class RegisterRequestDtoValidatorTests
     }
 
     [Fact]
-    public async Task Validate_InvalidEmailAddress_ReturnsError()
+    public async Task ValidateAsync_InvalidEmailAddress_ReturnsError()
     {
         // Arrange
         var registerRequestDto = FakeRegisterRequestDto.CreateValid() with
@@ -67,7 +67,7 @@ public class RegisterRequestDtoValidatorTests
     }
 
     [Fact]
-    public async Task Validate_PasswordsDoNotMatch_ReturnsError()
+    public async Task ValidateAsync_PasswordsDoNotMatch_ReturnsError()
     {
         // Arrange
         var registerRequestDto = FakeRegisterRequestDto.CreateValid() with
@@ -85,9 +85,9 @@ public class RegisterRequestDtoValidatorTests
     }
 
     [Fact]
-    public async Task Validate_UsernameAlreadyExists_ReturnsError()
+    public async Task ValidateAsync_UsernameAlreadyExists_ReturnsError()
     {
-        // Act
+        // Arrange
         var registerRequestDto = FakeRegisterRequestDto.CreateValid() with
         {
             Username = FakeUsername.Valid
@@ -96,7 +96,7 @@ public class RegisterRequestDtoValidatorTests
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(registerRequestDto);
 
         // Assert
@@ -105,9 +105,9 @@ public class RegisterRequestDtoValidatorTests
     }
 
     [Fact]
-    public async Task Validate_EmailAddressAlreadyExists_ReturnsError()
+    public async Task ValidateAsync_EmailAddressAlreadyExists_ReturnsError()
     {
-        // Act
+        // Arrange
         var registerRequestDto = FakeRegisterRequestDto.CreateValid() with
         {
             EmailAddress = FakeEmailAddress.Valid
@@ -116,7 +116,7 @@ public class RegisterRequestDtoValidatorTests
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
 
-        // Arrange
+        // Act
         var result = await _validator.TestValidateAsync(registerRequestDto);
 
         // Assert
@@ -125,7 +125,7 @@ public class RegisterRequestDtoValidatorTests
     }
 
     [Fact]
-    public async Task Validate_ValidRequest_IsValid()
+    public async Task ValidateAsync_ValidRequest_IsValid()
     {
         // Arrange
         var registerRequestDto = FakeRegisterRequestDto.CreateValid();

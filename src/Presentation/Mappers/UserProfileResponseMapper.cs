@@ -9,6 +9,7 @@ public static class UserProfileResponseMapper
     {
         return new UserProfileResponseDto
         {
+            UserId = user.UserId.ToString(),
             Username = user.Username.ToString(),
             EmailAddress = user.EmailAddress.ToString(),
             UserRole = user.UserRole.ToString()

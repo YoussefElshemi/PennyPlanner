@@ -26,6 +26,9 @@ public class UserMapperTests : BaseTestClass
         user.PasswordHash.Should().Be(new PasswordHash(userEntity.PasswordHash));
         user.PasswordSalt.Should().Be(new PasswordSalt(userEntity.PasswordSalt));
         user.UserRole.Should().Be((UserRole)userEntity.UserRoleId);
+        user.IsDeleted.Should().Be(new IsDeleted(userEntity.IsDeleted));
+        user.DeletedBy.Should().Be(new Username(userEntity.DeletedBy!));
+        user.DeletedAt.Should().Be(new DeletedAt(userEntity.DeletedAt!.Value));
         user.CreatedAt.Should().Be(new CreatedAt(userEntity.CreatedAt));
         user.UpdatedAt.Should().Be(new UpdatedAt(userEntity.UpdatedAt));
     }

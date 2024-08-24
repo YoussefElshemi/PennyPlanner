@@ -1,6 +1,3 @@
-using Core.Validators;
-using FluentValidation;
-
 namespace Core.ValueObjects;
 
 public readonly record struct Username
@@ -9,7 +6,7 @@ public readonly record struct Username
 
     public Username(string username)
     {
-        new UsernameValidator().ValidateAndThrow(username);
+        ArgumentNullException.ThrowIfNull(username);
         Value = username;
     }
 

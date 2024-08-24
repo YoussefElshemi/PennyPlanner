@@ -20,10 +20,10 @@ public class LoginService(ILoginRepository loginRepository,
             UserId = user.UserId,
             IpAddress = ipAddress,
             RefreshToken = new RefreshToken(SecurityTokenHelper.GenerateRefreshToken()),
-            ExpiresAt = new ExpiresAt(timeProvider.GetUtcNow().DateTime.AddMinutes(config.Value.JwtConfig.RefreshTokenLifetimeInMinutes)),
+            ExpiresAt = new ExpiresAt(timeProvider.GetUtcNow().UtcDateTime.AddMinutes(config.Value.JwtConfig.RefreshTokenLifetimeInMinutes)),
             IsRevoked = new IsRevoked(false),
-            CreatedAt = new CreatedAt(timeProvider.GetUtcNow().DateTime),
-            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().DateTime),
+            CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime),
             User = user
         };
 

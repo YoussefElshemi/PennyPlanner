@@ -15,7 +15,7 @@ public static class FakeLogin
             IpAddress = FakeIpAddress.CreateValid(fixture),
             RefreshToken = FakeRefreshToken.CreateValid(fixture),
             ExpiresAt = FakeExpiresAt.CreateValid(fixture),
-            IsRevoked = FakeIsRevoked.CreateValid(),
+            IsRevoked = FakeIsRevoked.CreateValid(fixture),
             User = FakeUser.CreateValid(fixture),
             CreatedAt = FakeCreatedAt.CreateValid(fixture),
             UpdatedAt = FakeUpdatedAt.CreateValid(fixture)

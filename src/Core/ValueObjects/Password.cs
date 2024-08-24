@@ -1,6 +1,3 @@
-using Core.Validators;
-using FluentValidation;
-
 namespace Core.ValueObjects;
 
 public readonly record struct Password
@@ -9,7 +6,7 @@ public readonly record struct Password
 
     public Password(string password)
     {
-        new PasswordValidator().ValidateAndThrow(password);
+        ArgumentNullException.ThrowIfNull(password);
         Value = password;
     }
 

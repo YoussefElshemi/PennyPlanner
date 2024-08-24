@@ -18,7 +18,7 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_InvalidPassword_ReturnsError()
+    public async Task ValidateAsync_InvalidPassword_ReturnsError()
     {
         // Arrange
         var changePasswordRequestDto = FakeChangePasswordRequestDto.CreateValid() with
@@ -34,7 +34,7 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_PasswordsDoNotMatch_ReturnsError()
+    public async Task ValidateAsync_PasswordsDoNotMatch_ReturnsError()
     {
         // Arrange
         var changePasswordRequestDto = FakeChangePasswordRequestDto.CreateValid() with
@@ -52,7 +52,7 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_PasswordsDidNotChange_ReturnsError()
+    public async Task ValidateAsync_PasswordsDidNotChange_ReturnsError()
     {
         // Arrange
         var changePasswordRequestDto = FakeChangePasswordRequestDto.CreateValid();
@@ -66,7 +66,7 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_ValidRequest_IsValid()
+    public async Task ValidateAsync_ValidRequest_IsValid()
     {
         // Arrange
         var changePasswordRequestDto = FakeChangePasswordRequestDto.CreateValid() with

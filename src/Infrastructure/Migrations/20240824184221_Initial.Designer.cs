@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PennyPlannerDbContext))]
-    [Migration("20240824153759_Initial")]
+    [Migration("20240824184221_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -27,7 +27,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(9998);
 
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("TEXT");
@@ -47,7 +48,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(9999);
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
@@ -66,7 +68,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(9998);
 
                     b.Property<bool>("IsUsed")
                         .HasColumnType("INTEGER");
@@ -76,7 +79,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(9999);
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
@@ -95,11 +99,21 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(9998);
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DeletedBy")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -110,7 +124,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(9999);
 
                     b.Property<int>("UserRoleId")
                         .HasColumnType("INTEGER");
@@ -128,12 +143,13 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("4af74152-c438-426f-be86-ee4d7a340ed7"),
-                            CreatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(8836),
+                            UserId = new Guid("0c833646-2d34-4470-96e0-35ec0fd89d94"),
+                            CreatedAt = new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(5231),
                             EmailAddress = "admin@admin.com",
+                            IsDeleted = false,
                             PasswordHash = "",
                             PasswordSalt = "",
-                            UpdatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(8837),
+                            UpdatedAt = new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(5232),
                             UserRoleId = 2,
                             Username = "admin"
                         });
@@ -146,14 +162,16 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(9998);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(9999);
 
                     b.HasKey("UserRoleId");
 
@@ -163,16 +181,16 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserRoleId = 1,
-                            CreatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(5695),
+                            CreatedAt = new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(1757),
                             Name = "User",
-                            UpdatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(5944)
+                            UpdatedAt = new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(1939)
                         },
                         new
                         {
                             UserRoleId = 2,
-                            CreatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(6421),
+                            CreatedAt = new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(2400),
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(6421)
+                            UpdatedAt = new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(2400)
                         });
                 });
 

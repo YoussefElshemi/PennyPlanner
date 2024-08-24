@@ -17,11 +17,11 @@ namespace Infrastructure.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserRoleId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,14 +32,17 @@ namespace Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Username = table.Column<string>(type: "TEXT", nullable: false),
                     EmailAddress = table.Column<string>(type: "TEXT", nullable: false),
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
                     PasswordSalt = table.Column<string>(type: "TEXT", nullable: false),
                     UserRoleId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DeletedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,15 +58,15 @@ namespace Infrastructure.Migrations
                 name: "Logins",
                 columns: table => new
                 {
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LoginId = table.Column<Guid>(type: "TEXT", nullable: false),
                     UserId = table.Column<Guid>(type: "TEXT", nullable: false),
                     IpAddress = table.Column<string>(type: "TEXT", nullable: false),
                     RefreshToken = table.Column<string>(type: "TEXT", nullable: false),
                     ExpiresAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsRevoked = table.Column<bool>(type: "INTEGER", nullable: false),
-                    RevokedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    RevokedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -80,12 +83,12 @@ namespace Infrastructure.Migrations
                 name: "PasswordResets",
                 columns: table => new
                 {
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     PasswordResetId = table.Column<Guid>(type: "TEXT", nullable: false),
                     UserId = table.Column<Guid>(type: "TEXT", nullable: false),
                     ResetToken = table.Column<string>(type: "TEXT", nullable: false),
-                    IsUsed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    IsUsed = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,14 +106,14 @@ namespace Infrastructure.Migrations
                 columns: new[] { "UserRoleId", "CreatedAt", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(5695), "User", new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(5944) },
-                    { 2, new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(6421), "Admin", new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(6421) }
+                    { 1, new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(1757), "User", new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(1939) },
+                    { 2, new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(2400), "Admin", new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(2400) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "CreatedAt", "EmailAddress", "PasswordHash", "PasswordSalt", "UpdatedAt", "UserRoleId", "Username" },
-                values: new object[] { new Guid("4af74152-c438-426f-be86-ee4d7a340ed7"), new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(8836), "admin@admin.com", "", "", new DateTime(2024, 8, 24, 15, 37, 58, 597, DateTimeKind.Utc).AddTicks(8837), 2, "admin" });
+                columns: new[] { "UserId", "CreatedAt", "DeletedAt", "DeletedBy", "EmailAddress", "IsDeleted", "PasswordHash", "PasswordSalt", "UpdatedAt", "UserRoleId", "Username" },
+                values: new object[] { new Guid("0c833646-2d34-4470-96e0-35ec0fd89d94"), new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(5231), null, null, "admin@admin.com", false, "", "", new DateTime(2024, 8, 24, 18, 42, 21, 506, DateTimeKind.Utc).AddTicks(5232), 2, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_UserId",

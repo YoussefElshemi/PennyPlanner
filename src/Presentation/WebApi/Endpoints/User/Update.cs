@@ -30,7 +30,7 @@ public class Update(IUserRepository userRepository,
 
         var updateUserRequest = UpdateUserRequestMapper.Map(user!, updateUserRequestDto) with
         {
-            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().DateTime)
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 
         var updatedUser = await userService.UpdateAsync(updateUserRequest);

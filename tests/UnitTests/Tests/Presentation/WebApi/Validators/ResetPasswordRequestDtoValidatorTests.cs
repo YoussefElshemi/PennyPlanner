@@ -23,7 +23,27 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_PasswordResetTokenDoesNotExist_ReturnsError()
+    public async Task ValidateAsync_PasswordResetTokenIsEmpty_ReturnsError()
+    {
+        // Arrange
+        var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture) with
+        {
+            PasswordResetToken = string.Empty
+        };
+        _mockPasswordResetRepository
+            .Setup(x => x.ExistsAsync(It.IsAny<string>()))
+            .ReturnsAsync(false);
+
+        // Act
+        var result = await _validator.TestValidateAsync(resetPasswordRequestDto);
+
+        // Assert
+        result.ShouldHaveAnyValidationError()
+            .WithErrorCode("NotEmptyValidator");
+    }
+
+    [Fact]
+    public async Task ValidateAsync_PasswordResetTokenDoesNotExist_ReturnsError()
     {
         // Arrange
         var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture);
@@ -40,7 +60,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_PasswordResetTokenAlreadyUsed_ReturnsError()
+    public async Task ValidateAsync_PasswordResetTokenAlreadyUsed_ReturnsError()
     {
         // Arrange
         var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture);
@@ -66,7 +86,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_PasswordInvalid_ReturnsError()
+    public async Task ValidateAsync_PasswordInvalid_ReturnsError()
     {
         // Arrange
         var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture) with
@@ -92,7 +112,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_PasswordDoesNotMatch_ReturnsError()
+    public async Task ValidateAsync_PasswordDoesNotMatch_ReturnsError()
     {
         // Arrange
         var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture) with
@@ -118,7 +138,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_PasswordDidNotChange_ReturnsError()
+    public async Task ValidateAsync_PasswordDidNotChange_ReturnsError()
     {
         // Arrange
         var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture);
@@ -141,7 +161,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task Validate_ValidRequest_IsValid()
+    public async Task ValidateAsync_ValidRequest_IsValid()
     {
         // Arrange
         var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture) with
@@ -149,7 +169,11 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
             Password = string.Join("", FakePassword.Valid.ToCharArray().Reverse()),
             ConfirmPassword = string.Join("", FakePassword.Valid.ToCharArray().Reverse())
         };
-        var passwordReset = FakePasswordReset.CreateValid(Fixture);
+
+        var passwordReset = FakePasswordReset.CreateValid(Fixture) with
+        {
+            IsUsed = new IsUsed(false)
+        };
 
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))

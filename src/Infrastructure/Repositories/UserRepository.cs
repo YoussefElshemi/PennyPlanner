@@ -15,6 +15,8 @@ public class UserRepository(
         var pageCount = (totalCount + pagedRequest.PageSize - 1) / pagedRequest.PageSize;
 
         var users = await context.Users
+            .Where(x => !x.IsDeleted)
+            .OrderBy(x => x.UserId)
             .Skip((pagedRequest.PageNumber - 1) * pagedRequest.PageSize)
             .Take(pagedRequest.PageSize)
             .Select(entity => UserMapper.MapFromEntity(entity))
@@ -31,44 +33,58 @@ public class UserRepository(
         };
     }
 
-    public async Task<int> GetCountAsync()
+    public Task<int> GetCountAsync()
     {
-        var query = context.Users.AsQueryable();
-        var totalCount = await query.CountAsync();
-
-        return totalCount;
+        return context.Users
+            .Where(x => !x.IsDeleted)
+            .CountAsync();
     }
 
     public Task<bool> ExistsByIdAsync(Guid userId)
     {
-        return context.Users.AnyAsync(u => u.UserId == userId);
+        return context.Users
+            .Where(x => !x.IsDeleted)
+            .AnyAsync(u => u.UserId == userId);
     }
 
     public async Task<User> GetByIdAsync(Guid userId)
     {
-        var userEntity = await context.Users.FirstAsync(u => u.UserId == userId);
+        var userEntity = await context.Users
+            .Where(x => !x.IsDeleted)
+            .FirstAsync(u => u.UserId == userId);
+
         return UserMapper.MapFromEntity(userEntity);
     }
 
     public Task<bool> ExistsByUsernameAsync(string username)
     {
-        return context.Users.AnyAsync(u => u.Username == username);
+        return context.Users
+            .Where(x => !x.IsDeleted)
+            .AnyAsync(u => u.Username == username);
     }
 
     public async Task<User> GetByUsernameAsync(string username)
     {
-        var userEntity = await context.Users.FirstAsync(u => u.Username == username);
+        var userEntity = await context.Users
+            .Where(x => !x.IsDeleted)
+            .FirstAsync(u => u.Username == username);
+
         return UserMapper.MapFromEntity(userEntity);
     }
 
     public Task<bool> ExistsByEmailAddressAsync(string emailAddress)
     {
-        return context.Users.AnyAsync(u => u.EmailAddress == emailAddress);
+        return context.Users
+            .Where(x => !x.IsDeleted)
+            .AnyAsync(u => u.EmailAddress == emailAddress);
     }
 
     public async Task<User> GetByEmailAddressAsync(string emailAddress)
     {
-        var userEntity = await context.Users.FirstAsync(u => u.EmailAddress == emailAddress);
+        var userEntity = await context.Users
+            .Where(x => !x.IsDeleted)
+            .FirstAsync(u => u.EmailAddress == emailAddress);
+
         return UserMapper.MapFromEntity(userEntity);
     }
 
@@ -76,13 +92,16 @@ public class UserRepository(
     {
         var userEntity = UserMapper.MapToEntity(user);
         context.Users.Add(userEntity);
+
         await context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(User user)
     {
         var userToUpdate = UserMapper.MapToEntity(user);
-        var userEntity = await context.Users.SingleAsync(x => x.UserId == userToUpdate.UserId);
+        var userEntity = await context.Users
+            .Where(x => !x.IsDeleted)
+            .SingleAsync(x => x.UserId == userToUpdate.UserId);
 
         userEntity.Username = userToUpdate.Username;
         userEntity.EmailAddress = userToUpdate.EmailAddress;
@@ -90,6 +109,9 @@ public class UserRepository(
         userEntity.PasswordSalt = userToUpdate.PasswordSalt;
         userEntity.UserRoleId = userToUpdate.UserRoleId;
         userEntity.UpdatedAt = userToUpdate.UpdatedAt;
+        userEntity.IsDeleted = userToUpdate.IsDeleted;
+        userEntity.DeletedBy = userToUpdate.DeletedBy;
+        userEntity.DeletedAt = userToUpdate.DeletedAt;
 
         context.Users.Update(userEntity);
         await context.SaveChangesAsync();

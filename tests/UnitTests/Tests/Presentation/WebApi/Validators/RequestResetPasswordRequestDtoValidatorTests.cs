@@ -9,7 +9,7 @@ public class RequestResetPasswordRequestDtoValidatorTests
     private readonly RequestResetPasswordRequestDtoValidator _validator = new();
 
     [Fact]
-    public async Task Validate_InvalidEmailAddress_ReturnsError()
+    public async Task ValidateAsync_InvalidEmailAddress_ReturnsError()
     {
         // Arrange
         var requestResetPasswordRequestDto = FakeRequestResetPasswordRequestDto.CreateValid() with
@@ -25,7 +25,7 @@ public class RequestResetPasswordRequestDtoValidatorTests
     }
 
     [Fact]
-    public async Task Validate_ValidRequest_IsValid()
+    public async Task ValidateAsync_ValidRequest_IsValid()
     {
         // Arrange
         var requestResetPasswordRequestDto = FakeRequestResetPasswordRequestDto.CreateValid();

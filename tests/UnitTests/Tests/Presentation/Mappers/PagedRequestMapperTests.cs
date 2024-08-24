@@ -18,7 +18,7 @@ public class PagedRequestMapperTests : BaseTestClass
         var pagedRequest = PagedRequestMapper.Map(pagedRequestDto);
 
         // Assert
-        pagedRequest.PageSize.Should().Be(new PageSize(pagedRequestDto.PageSize));
-        pagedRequest.PageNumber.Should().Be(new PageNumber(pagedRequestDto.PageNumber));
+        pagedRequest.PageSize.Should().Be(new PageSize(pagedRequestDto.PageSize!.Value));
+        pagedRequest.PageNumber.Should().Be(new PageNumber(pagedRequestDto.PageNumber!.Value));
     }
 }
