@@ -11,7 +11,9 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
     public PagedRequestDtoValidator(IPagedRepository<T> repository)
     {
         RuleFor(x => x.PageNumber)
-            .GreaterThanOrEqualTo(1)
+            .GreaterThanOrEqualTo(1);
+
+        RuleFor(x => x.PageNumber)
             .LessThanOrEqualTo(x => (repository.GetCountAsync().Result + x.PageSize - 1) / x.PageSize)
             .When(x => x.PageSize > 0);
 
