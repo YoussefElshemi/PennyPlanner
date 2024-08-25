@@ -34,6 +34,7 @@ public class Register(IAuthenticationService authenticationService,
         {
             s.Summary = SwaggerSummaries.Authentication.Register;
             s.Description = SwaggerSummaries.Authentication.Register;
+            s.ExampleRequest = ExampleRequests.Authentication.Register;
         });
 
         Options(x => x.WithTags(SwaggerTags.Authentication));

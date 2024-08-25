@@ -34,6 +34,7 @@ public class RevokeRefreshToken(IAuthenticationService authenticationService,
         {
             s.Summary = SwaggerSummaries.Authentication.RevokeRefreshToken;
             s.Description = SwaggerSummaries.Authentication.RevokeRefreshToken;
+            s.ExampleRequest = ExampleRequests.Authentication.RevokeRefreshToken;
         });
 
         Options(x => x.WithTags(SwaggerTags.Authentication));

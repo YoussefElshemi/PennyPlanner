@@ -43,7 +43,7 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
         {
             context.AddFailure(new ValidationFailure(nameof(RefreshToken), RefreshTokenIsExpiredErrorMessage)
             {
-                ErrorCode = HttpStatusCode.Unauthorized.ToString(),
+                ErrorCode = HttpStatusCode.Unauthorized.ToString()
             });
             return;
         }
@@ -52,7 +52,7 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
         {
             context.AddFailure(new ValidationFailure(nameof(RefreshToken), RefreshTokenIsRevokedErrorMessage)
             {
-                ErrorCode = HttpStatusCode.Unauthorized.ToString(),
+                ErrorCode = HttpStatusCode.Unauthorized.ToString()
             });
         }
     }

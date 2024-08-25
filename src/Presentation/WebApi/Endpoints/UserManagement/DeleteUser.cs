@@ -38,6 +38,7 @@ public class DeleteUser(IUserService userService,
         {
             s.Summary = SwaggerSummaries.UserManagement.DeleteUser;
             s.Description = SwaggerSummaries.UserManagement.DeleteUser;
+            s.ExampleRequest = ExampleRequests.UserManagement.DeleteUser;
         });
 
         Options(x => x.WithTags(SwaggerTags.UserManagement));

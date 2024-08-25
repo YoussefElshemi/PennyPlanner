@@ -34,6 +34,7 @@ public class Login(IAuthenticationService authenticationService,
         {
             s.Summary = SwaggerSummaries.Authentication.Login;
             s.Description = SwaggerSummaries.Authentication.Login;
+            s.ExampleRequest = ExampleRequests.Authentication.Login;
         });
 
         Options(x => x.WithTags(SwaggerTags.Authentication));

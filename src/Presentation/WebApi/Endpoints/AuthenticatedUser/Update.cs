@@ -39,6 +39,7 @@ public class Update(IUserRepository userRepository,
         {
             s.Summary = SwaggerSummaries.User.Update;
             s.Description = SwaggerSummaries.User.Update;
+            s.ExampleRequest = ExampleRequests.User.Update;
         });
 
         Options(x => x.WithTags(SwaggerTags.User));

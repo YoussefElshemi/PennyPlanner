@@ -34,6 +34,7 @@ public class ChangePassword(IAuthenticationService authenticationService,
         {
             s.Summary = SwaggerSummaries.User.ChangePassword;
             s.Description = SwaggerSummaries.User.ChangePassword;
+            s.ExampleRequest = ExampleRequests.User.ChangePassword;
         });
 
         Options(x => x.WithTags(SwaggerTags.User));

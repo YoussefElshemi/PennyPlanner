@@ -34,6 +34,7 @@ public class RequestResetPassword(IAuthenticationService authenticationService,
         {
             s.Summary = SwaggerSummaries.Authentication.RequestResetPassword;
             s.Description = SwaggerSummaries.Authentication.RequestResetPassword;
+            s.ExampleRequest = ExampleRequests.Authentication.RequestResetPassword;
         });
 
         Options(x => x.WithTags(SwaggerTags.Authentication));

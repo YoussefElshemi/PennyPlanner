@@ -34,6 +34,7 @@ public class RefreshToken(IAuthenticationService authenticationService,
         {
             s.Summary = SwaggerSummaries.Authentication.RefreshToken;
             s.Description = SwaggerSummaries.Authentication.RefreshToken;
+            s.ExampleRequest = ExampleRequests.Authentication.RefreshToken;
         });
 
         Options(x => x.WithTags(SwaggerTags.Authentication));

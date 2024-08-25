@@ -59,7 +59,7 @@ public class ValidationExceptionHandler : IExceptionHandler
                 Title = statusCode.ToString(),
                 Detail = exception.Errors.FirstOrDefault()?.ErrorMessage,
                 Instance = httpContext.Request.Path,
-                Status = httpContext.Response.StatusCode,
+                Status = httpContext.Response.StatusCode
             }, cancellationToken: cancellationToken);
     }
 }

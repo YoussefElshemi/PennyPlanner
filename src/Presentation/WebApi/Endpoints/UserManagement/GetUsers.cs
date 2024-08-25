@@ -39,6 +39,7 @@ public class GetUsers(IUserService userService,
         {
             s.Summary = SwaggerSummaries.UserManagement.GetUsers;
             s.Description = SwaggerSummaries.UserManagement.GetUsers;
+            s.ExampleRequest = ExampleRequests.UserManagement.GetUsers;
         });
 
         Options(x => x.WithTags(SwaggerTags.UserManagement));

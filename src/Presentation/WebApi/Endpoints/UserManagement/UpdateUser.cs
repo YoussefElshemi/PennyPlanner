@@ -45,6 +45,7 @@ public class UpdateUser(IUserService userService,
         {
             s.Summary = SwaggerSummaries.UserManagement.UpdateUser;
             s.Description = SwaggerSummaries.UserManagement.UpdateUser;
+            s.ExampleRequest = ExampleRequests.UserManagement.UpdateUser;
         });
 
         Options(x => x.WithTags(SwaggerTags.UserManagement));
