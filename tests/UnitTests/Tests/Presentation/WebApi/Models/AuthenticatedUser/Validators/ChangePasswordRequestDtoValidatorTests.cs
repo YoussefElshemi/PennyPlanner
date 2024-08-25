@@ -1,14 +1,15 @@
 using Core.Interfaces.Services;
+using Core.Models;
 using Core.ValueObjects;
 using FluentValidation.TestHelper;
 using Moq;
-using Presentation.WebApi.Models.User.Validators;
+using Presentation.WebApi.Models.AuthenticatedUser.Validators;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.User;
 
-namespace UnitTests.Tests.Presentation.WebApi.Models.User.Validators;
+namespace UnitTests.Tests.Presentation.WebApi.Models.AuthenticatedUser.Validators;
 
 public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
 {
@@ -64,7 +65,7 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
         var changePasswordRequestDto = FakeChangePasswordRequestDto.CreateValid();
 
         _mockAuthenticationService
-            .Setup(x => x.Authenticate(It.IsAny<global::Core.Models.User>(), It.IsAny<Password>()))
+            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(true);
 
         // Act
@@ -82,7 +83,7 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
         var changePasswordRequestDto = FakeChangePasswordRequestDto.CreateValid();
 
         _mockAuthenticationService
-            .Setup(x => x.Authenticate(It.IsAny<global::Core.Models.User>(), It.IsAny<Password>()))
+            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(false);
 
         // Act

@@ -20,7 +20,7 @@ public class RefreshToken(IAuthenticationService authenticationService,
     public override void Configure()
     {
         Version(1);
-        Post(ApiUrls.AuthenticationUrls.RefreshToken);
+        Post(ApiRoutes.Authentication.RefreshToken);
         AllowAnonymous();
         EnableAntiforgery();
 

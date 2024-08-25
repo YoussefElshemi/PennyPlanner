@@ -1,6 +1,6 @@
 using Core.Models;
 using Core.ValueObjects;
-using Presentation.WebApi.Models.User;
+using Presentation.WebApi.Models.AuthenticatedUser;
 
 namespace Presentation.Factories;
 

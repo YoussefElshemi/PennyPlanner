@@ -5,6 +5,8 @@ namespace UnitTests.Tests.Core.Validators;
 
 public class EmailAddressValidatorTests
 {
+    private readonly EmailAddressValidator _validator = new();
+
     [Theory]
     [InlineData("valid@mail.com", true)]
     [InlineData("valid.valid@mail.com", true)]
@@ -16,6 +18,6 @@ public class EmailAddressValidatorTests
     [InlineData("", false)]
     public void Validate_GivenActual_ReturnsExpectedResult(string actual, bool expected)
     {
-        new EmailAddressValidator().Validate(actual).IsValid.Should().Be(expected);
+        _validator.Validate(actual).IsValid.Should().Be(expected);
     }
 }

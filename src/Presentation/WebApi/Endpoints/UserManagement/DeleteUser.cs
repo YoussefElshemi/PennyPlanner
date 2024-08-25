@@ -3,6 +3,7 @@ using System.Net.Mime;
 using Core.Constants;
 using Core.Enums;
 using Core.Interfaces.Services;
+using Core.Models;
 using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
@@ -19,7 +20,7 @@ public class DeleteUser(IUserService userService,
     public override void Configure()
     {
         Version(1);
-        Delete(ApiUrls.UserManagement.DeleteUser);
+        Delete(ApiRoutes.UserManagement.DeleteUser);
         Roles(UserRole.Admin.ToString());
         EnableAntiforgery();
 
@@ -45,7 +46,7 @@ public class DeleteUser(IUserService userService,
     {
         await validator.ValidateAndThrowAsync(getUserRequestDto, cancellationToken);
 
-        var user = HttpContext.Items["User"] as Core.Models.User;
+        var user = HttpContext.Items["User"] as User;
 
         await userService.DeleteAsync(new UserId(getUserRequestDto.UserId), user!.Username);
 

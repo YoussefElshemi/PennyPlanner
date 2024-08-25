@@ -1,19 +1,20 @@
 using System.Net;
 using Core.Constants;
+using Core.Models;
 using FastEndpoints;
 using Presentation.Constants;
-using Presentation.WebApi.Models.User;
+using Presentation.WebApi.Models.AuthenticatedUser;
 using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
-namespace Presentation.WebApi.Endpoints.User;
+namespace Presentation.WebApi.Endpoints.AuthenticatedUser;
 
 public class Get(IMapper mapper) : EndpointWithoutRequest<UserProfileResponseDto>
 {
     public override void Configure()
     {
         Version(1);
-        Get(ApiUrls.User.Get);
+        Get(ApiRoutes.User.Get);
         EnableAntiforgery();
 
         Description(b => b
@@ -32,7 +33,7 @@ public class Get(IMapper mapper) : EndpointWithoutRequest<UserProfileResponseDto
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var user = HttpContext.Items["User"] as Core.Models.User;
+        var user = HttpContext.Items["User"] as User;
 
         var response = mapper.Map<UserProfileResponseDto>(user!);
 

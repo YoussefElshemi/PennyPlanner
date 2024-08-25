@@ -1,6 +1,7 @@
 using System.Net;
 using Core.Enums;
 using Core.Interfaces.Repositories;
+using Core.Models;
 using FluentValidation;
 
 namespace Presentation.WebApi.Models.UserManagement.Validators;

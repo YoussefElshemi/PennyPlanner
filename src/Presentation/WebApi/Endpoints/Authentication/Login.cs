@@ -20,7 +20,7 @@ public class Login(IAuthenticationService authenticationService,
     public override void Configure()
     {
         Version(1);
-        Post(ApiUrls.AuthenticationUrls.Login);
+        Post(ApiRoutes.Authentication.Login);
         AllowAnonymous();
         EnableAntiforgery();
 

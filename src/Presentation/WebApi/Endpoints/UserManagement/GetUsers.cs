@@ -10,9 +10,9 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
 using Presentation.Mappers.Interfaces;
+using Presentation.WebApi.Models.AuthenticatedUser;
 using Presentation.WebApi.Models.Common;
 using Presentation.WebApi.Models.Common.Validators;
-using Presentation.WebApi.Models.User;
 using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
@@ -26,7 +26,7 @@ public class GetUsers(IUserService userService,
     public override void Configure()
     {
         Version(1);
-        Get(ApiUrls.UserManagement.GetUsers);
+        Get(ApiRoutes.UserManagement.GetUsers);
         Roles(UserRole.Admin.ToString());
         EnableAntiforgery();
 
@@ -49,7 +49,7 @@ public class GetUsers(IUserService userService,
 
     public override async Task HandleAsync(PagedRequestDto pagedRequestDto, CancellationToken cancellationToken)
     {
-        var validator = new PagedRequestDtoValidator<Core.Models.User>(userRepository);
+        var validator = new PagedRequestDtoValidator<User>(userRepository);
         await validator.ValidateAndThrowAsync(pagedRequestDto, cancellationToken);
 
         var pagedRequest = mapper.Map<PagedRequest>(pagedRequestDto);
@@ -57,7 +57,7 @@ public class GetUsers(IUserService userService,
         var pagedResponse = await userService.GetAllAsync(pagedRequest);
 
 
-        var pagedResponseDto = pagedResponseMapper.Map<Core.Models.User, UserProfileResponseDto>(pagedResponse);
+        var pagedResponseDto = pagedResponseMapper.Map<User, UserProfileResponseDto>(pagedResponse);
 
         await SendAsync(pagedResponseDto, cancellation: cancellationToken);
     }

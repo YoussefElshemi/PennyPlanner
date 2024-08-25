@@ -20,7 +20,7 @@ public class RevokeRefreshToken(IAuthenticationService authenticationService,
     public override void Configure()
     {
         Version(1);
-        Post(ApiUrls.AuthenticationUrls.RevokeRefreshToken);
+        Post(ApiRoutes.Authentication.RevokeRefreshToken);
         AllowAnonymous();
         EnableAntiforgery();
 

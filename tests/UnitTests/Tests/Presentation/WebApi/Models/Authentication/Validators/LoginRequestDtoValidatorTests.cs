@@ -1,5 +1,6 @@
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Core.Models;
 using Core.ValueObjects;
 using FluentValidation.TestHelper;
 using Moq;
@@ -48,7 +49,7 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
         var user = FakeUser.CreateValid(Fixture);
 
         _mockAuthenticationService
-            .Setup(x => x.Authenticate(It.IsAny<global::Core.Models.User>(), It.IsAny<Password>()))
+            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(false);
         _mockUserRepository
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
@@ -73,7 +74,7 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
         var user = FakeUser.CreateValid(Fixture);
 
         _mockAuthenticationService
-            .Setup(x => x.Authenticate(It.IsAny<global::Core.Models.User>(), It.IsAny<Password>()))
+            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(true);
         _mockUserRepository
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))

@@ -1,4 +1,4 @@
-namespace Presentation.WebApi.Models.User;
+namespace Presentation.WebApi.Models.AuthenticatedUser;
 
 public record UpdateUserRequestDto
 {

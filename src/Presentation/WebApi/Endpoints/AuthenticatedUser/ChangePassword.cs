@@ -7,12 +7,12 @@ using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
-using Presentation.WebApi.Models.User;
-using Presentation.WebApi.Models.User.Validators;
+using Presentation.WebApi.Models.AuthenticatedUser;
+using Presentation.WebApi.Models.AuthenticatedUser.Validators;
 using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
-namespace Presentation.WebApi.Endpoints.User;
+namespace Presentation.WebApi.Endpoints.AuthenticatedUser;
 
 public class ChangePassword(IAuthenticationService authenticationService,
     IMapper mapper) : Endpoint<ChangePasswordRequestDto, UserProfileResponseDto>
@@ -20,7 +20,7 @@ public class ChangePassword(IAuthenticationService authenticationService,
     public override void Configure()
     {
         Version(1);
-        Patch(ApiUrls.User.ChangePassword);
+        Patch(ApiRoutes.User.ChangePassword);
         EnableAntiforgery();
 
         Description(b => b
@@ -42,7 +42,7 @@ public class ChangePassword(IAuthenticationService authenticationService,
 
     public override async Task HandleAsync(ChangePasswordRequestDto changePasswordRequestDto, CancellationToken cancellationToken)
     {
-        var user = HttpContext.Items["User"] as Core.Models.User;
+        var user = HttpContext.Items["User"] as User;
 
         var validator = new ChangePasswordRequestDtoValidator(authenticationService, user!);
         await validator.ValidateAndThrowAsync(changePasswordRequestDto, cancellationToken);

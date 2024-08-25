@@ -1,8 +1,8 @@
 namespace Core.Constants;
 
-public static class ApiUrls
+public static class ApiRoutes
 {
-    public static class AuthenticationUrls
+    public static class Authentication
     {
         public const string Login = "/auth/login";
         public const string Register = "/auth/register";

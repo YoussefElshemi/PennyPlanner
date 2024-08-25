@@ -3,18 +3,19 @@ using System.Net.Mime;
 using Core.Constants;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Core.Models;
 using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
 using Presentation.Factories;
-using Presentation.WebApi.Models.User;
-using Presentation.WebApi.Models.User.Validators;
+using Presentation.WebApi.Models.AuthenticatedUser;
+using Presentation.WebApi.Models.AuthenticatedUser.Validators;
 using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
-namespace Presentation.WebApi.Endpoints.User;
+namespace Presentation.WebApi.Endpoints.AuthenticatedUser;
 
 public class Update(IUserRepository userRepository,
     IUserService userService,
@@ -24,7 +25,7 @@ public class Update(IUserRepository userRepository,
     public override void Configure()
     {
         Version(1);
-        Put(ApiUrls.User.Update);
+        Put(ApiRoutes.User.Update);
         EnableAntiforgery();
 
         Description(b => b
@@ -46,7 +47,7 @@ public class Update(IUserRepository userRepository,
 
     public override async Task HandleAsync(UpdateUserRequestDto updateUserRequestDto, CancellationToken cancellationToken)
     {
-        var user = HttpContext.Items["User"] as Core.Models.User;
+        var user = HttpContext.Items["User"] as User;
 
         var validator = new UpdateUserRequestDtoValidator(userRepository, user!);
         await validator.ValidateAndThrowAsync(updateUserRequestDto, cancellationToken);

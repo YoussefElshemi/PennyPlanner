@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Presentation.Constants;
 using Presentation.ExceptionHandlers;
 using Presentation.Mappers;
+using Presentation.Mappers.Interfaces;
 
 namespace Presentation.Extensions;
 
@@ -37,6 +38,7 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<IPasswordResetService, PasswordResetService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ILoginService, LoginService>();
+        services.AddSingleton<IPagedResponseMapper, PagedResponseMapper>();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;

@@ -1,12 +1,12 @@
 using Core.Interfaces.Repositories;
 using FluentValidation.TestHelper;
 using Moq;
-using Presentation.WebApi.Models.User.Validators;
+using Presentation.WebApi.Models.AuthenticatedUser.Validators;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.User;
 
-namespace UnitTests.Tests.Presentation.WebApi.Models.User.Validators;
+namespace UnitTests.Tests.Presentation.WebApi.Models.AuthenticatedUser.Validators;
 
 public class UpdateUserRequestDtoValidatorTests : BaseTestClass
 {

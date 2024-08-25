@@ -1,5 +1,6 @@
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Core.Models;
 using Core.ValueObjects;
 using FluentValidation.TestHelper;
 using Moq;
@@ -148,7 +149,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         var passwordReset = FakePasswordReset.CreateValid(Fixture);
 
         _mockAuthenticationService
-            .Setup(x => x.Authenticate(It.IsAny<global::Core.Models.User>(), It.IsAny<Password>()))
+            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(true);
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
@@ -176,7 +177,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         };
 
         _mockAuthenticationService
-            .Setup(x => x.Authenticate(It.IsAny<global::Core.Models.User>(), It.IsAny<Password>()))
+            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(false);
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))

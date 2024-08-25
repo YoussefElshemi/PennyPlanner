@@ -20,7 +20,7 @@ public class ResetPassword(IAuthenticationService authenticationService,
     public override void Configure()
     {
         Version(1);
-        Post(ApiUrls.AuthenticationUrls.ResetPassword);
+        Post(ApiRoutes.Authentication.ResetPassword);
         AllowAnonymous();
         EnableAntiforgery();
 

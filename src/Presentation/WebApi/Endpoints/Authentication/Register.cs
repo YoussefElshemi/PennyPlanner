@@ -20,7 +20,7 @@ public class Register(IAuthenticationService authenticationService,
     public override void Configure()
     {
         Version(1);
-        Post(ApiUrls.AuthenticationUrls.Register);
+        Post(ApiRoutes.Authentication.Register);
         AllowAnonymous();
         EnableAntiforgery();
 

@@ -1,10 +1,11 @@
 using System.Net;
 using Core.Interfaces.Services;
+using Core.Models;
 using Core.Validators;
 using Core.ValueObjects;
 using FluentValidation;
 
-namespace Presentation.WebApi.Models.User.Validators;
+namespace Presentation.WebApi.Models.AuthenticatedUser.Validators;
 
 public class ChangePasswordRequestDtoValidator : AbstractValidator<ChangePasswordRequestDto>
 {
@@ -14,7 +15,7 @@ public class ChangePasswordRequestDtoValidator : AbstractValidator<ChangePasswor
     internal const string PasswordDidNotChangeErrorMessage = $"{nameof(Password)} did not change.";
 
     public ChangePasswordRequestDtoValidator(IAuthenticationService authenticationService,
-        Core.Models.User user)
+        User user)
     {
         _authenticationService = authenticationService;
 

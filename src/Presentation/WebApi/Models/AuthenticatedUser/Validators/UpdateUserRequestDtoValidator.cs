@@ -1,11 +1,12 @@
 using System.Net;
 using Core.Extensions;
 using Core.Interfaces.Repositories;
+using Core.Models;
 using Core.Validators;
 using Core.ValueObjects;
 using FluentValidation;
 
-namespace Presentation.WebApi.Models.User.Validators;
+namespace Presentation.WebApi.Models.AuthenticatedUser.Validators;
 
 public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequestDto>
 {
@@ -15,7 +16,7 @@ public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequest
     internal const string EmailAddressInUseErrorMessage = $"{nameof(EmailAddress)} is already in use.";
     internal const string UsernameInUseErrorMessage = $"{nameof(Username)} is already in use.";
 
-    public UpdateUserRequestDtoValidator(IUserRepository userRepository, Core.Models.User user)
+    public UpdateUserRequestDtoValidator(IUserRepository userRepository, User user)
     {
         _userRepository = userRepository;
 

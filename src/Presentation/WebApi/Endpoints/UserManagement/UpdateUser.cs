@@ -4,18 +4,19 @@ using Core.Constants;
 using Core.Enums;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Core.Models;
 using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
 using Presentation.Factories;
-using Presentation.WebApi.Models.User;
-using Presentation.WebApi.Models.User.Validators;
+using Presentation.WebApi.Models.AuthenticatedUser;
+using Presentation.WebApi.Models.AuthenticatedUser.Validators;
 using Presentation.WebApi.Models.UserManagement.Validators;
 using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
-using UpdateUserRequestDto = Presentation.WebApi.Models.User.UpdateUserRequestDto;
+using UpdateUserRequestDto = Presentation.WebApi.Models.AuthenticatedUser.UpdateUserRequestDto;
 using UserManagementUpdateUserRequestDto = Presentation.WebApi.Models.UserManagement.UpdateUserRequestDto;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
@@ -28,7 +29,7 @@ public class UpdateUser(IUserService userService,
     public override void Configure()
     {
         Version(1);
-        Put(ApiUrls.UserManagement.UpdateUser);
+        Put(ApiRoutes.UserManagement.UpdateUser);
         Roles(UserRole.Admin.ToString());
         EnableAntiforgery();
 
@@ -52,7 +53,7 @@ public class UpdateUser(IUserService userService,
 
     public override async Task HandleAsync(UpdateUserRequestDto updateUserRequestDto, CancellationToken cancellationToken)
     {
-        var user = HttpContext.Items["User"] as Core.Models.User;
+        var user = HttpContext.Items["User"] as User;
 
         await ValidateAndThrowAsync(updateUserRequestDto, user);
 
@@ -69,7 +70,7 @@ public class UpdateUser(IUserService userService,
         await SendAsync(response, cancellation: cancellationToken);
     }
 
-    private async Task ValidateAndThrowAsync(UpdateUserRequestDto updateUserRequestDto, Core.Models.User? user)
+    private async Task ValidateAndThrowAsync(UpdateUserRequestDto updateUserRequestDto, User? user)
     {
         var userManagementUpdateUserRequestDto = mapper.Map<UpdateUserRequestDto, UserManagementUpdateUserRequestDto>(updateUserRequestDto, opt =>
         {

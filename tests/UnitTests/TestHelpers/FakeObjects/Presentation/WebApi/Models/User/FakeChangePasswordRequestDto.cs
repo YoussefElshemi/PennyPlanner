@@ -1,4 +1,4 @@
-using Presentation.WebApi.Models.User;
+using Presentation.WebApi.Models.AuthenticatedUser;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
 namespace UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.User;
