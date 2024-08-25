@@ -1,3 +1,4 @@
+using System.Net;
 using System.Security.Claims;
 using Core.Interfaces.Repositories;
 using Core.Models;
@@ -27,6 +28,9 @@ public class AuthenticationPreProcessor(IServiceScopeFactory scopeFactory) : IGl
                 {
                     throw new ValidationException([
                         new ValidationFailure(nameof(User), UserDoesNotExistErrorMessage)
+                        {
+                            ErrorCode = HttpStatusCode.NotFound.ToString()
+                        }
                     ]);
                 }
 

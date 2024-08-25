@@ -1,3 +1,4 @@
+using System.Net;
 using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Validators;
@@ -23,8 +24,10 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .MustAsync(async (x, _) => await PasswordResetRequestExists(x))
+            .WithErrorCode(HttpStatusCode.NotFound.ToString())
             .WithMessage(PasswordResetTokenNotFoundErrorMessage)
             .MustAsync(async (x, _) => await PasswordResetRequestNotUsed(x))
+            .WithErrorCode(HttpStatusCode.Forbidden.ToString())
             .WithMessage(PasswordResetTokenAlreadyUsedErrorMessage);
 
         RuleFor(x => x.Password)

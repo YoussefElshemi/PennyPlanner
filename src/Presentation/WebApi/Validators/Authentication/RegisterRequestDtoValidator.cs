@@ -1,3 +1,4 @@
+using System.Net;
 using Core.Interfaces.Repositories;
 using Core.Validators;
 using Core.ValueObjects;
@@ -18,8 +19,10 @@ public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
         _userRepository = userRepository;
 
         RuleFor(x => x.Username)
+            .Cascade(CascadeMode.Stop)
             .SetValidator(new UsernameValidator())
             .MustAsync(async (x, _) => await UserNotExistByUsername(x))
+            .WithErrorCode(HttpStatusCode.Conflict.ToString())
             .WithMessage(UsernameTakenErrorMessage);
 
         RuleFor(x => x.Password)
@@ -30,8 +33,10 @@ public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
             .WithMessage(ConfirmPasswordErrorMessage);
 
         RuleFor(x => x.EmailAddress)
+            .Cascade(CascadeMode.Stop)
             .SetValidator(new EmailAddressValidator())
             .MustAsync(async (x, _) => await UserNotExistByEmailAddress(x))
+            .WithErrorCode(HttpStatusCode.Conflict.ToString())
             .WithMessage(EmailAddressInUseErrorMessage);
     }
 

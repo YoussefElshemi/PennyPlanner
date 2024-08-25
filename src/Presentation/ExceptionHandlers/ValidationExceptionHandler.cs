@@ -3,6 +3,7 @@ using System.Net.Mime;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using NJsonSchema.Validation;
 
 namespace Presentation.ExceptionHandlers;
 
@@ -15,12 +16,19 @@ public class ValidationExceptionHandler : IExceptionHandler
             return false;
         }
 
-        await WriteHttpResponseAsync(httpContext, validationException, cancellationToken);
+        if (Enum.TryParse(validationException.Errors.FirstOrDefault()?.ErrorCode, true, out HttpStatusCode statusCode))
+        {
+            await WriteErrorHttpResponseAsync(httpContext, validationException, statusCode, cancellationToken);
+        }
+        else
+        {
+            await WriteValidationHttpResponseAsync(httpContext, validationException, cancellationToken);
+        }
 
         return true;
     }
 
-    private static Task WriteHttpResponseAsync(HttpContext httpContext, ValidationException exception, CancellationToken cancellationToken)
+    private static Task WriteValidationHttpResponseAsync(HttpContext httpContext, ValidationException exception, CancellationToken cancellationToken)
     {
         httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
         httpContext.Response.ContentType = MediaTypeNames.Application.Json;
@@ -29,15 +37,30 @@ public class ValidationExceptionHandler : IExceptionHandler
             new ValidationProblemDetails
             {
                 Type = exception.GetType().Name,
-                Title = "Bad Request",
+                Title = HttpStatusCode.BadRequest.ToString(),
                 Detail = "Please refer to the errors property for additional details.",
                 Instance = httpContext.Request.Path,
                 Status = httpContext.Response.StatusCode,
                 Errors = exception.Errors
                     .GroupBy(x => x.PropertyName)
                     .ToDictionary(x => x.Key, x => x.Select(y => y.ErrorMessage)
-                    .ToArray())
+                        .ToArray())
+            }, cancellationToken: cancellationToken);
+    }
 
+    private static Task WriteErrorHttpResponseAsync(HttpContext httpContext, ValidationException exception, HttpStatusCode statusCode, CancellationToken cancellationToken)
+    {
+        httpContext.Response.StatusCode = (int)statusCode;
+        httpContext.Response.ContentType = MediaTypeNames.Application.Json;
+
+        return httpContext.Response.WriteAsJsonAsync(
+            new ProblemDetails
+            {
+                Type = statusCode.ToString(),
+                Title = statusCode.ToString(),
+                Detail = exception.Errors.FirstOrDefault()?.ErrorMessage,
+                Instance = httpContext.Request.Path,
+                Status = httpContext.Response.StatusCode,
             }, cancellationToken: cancellationToken);
     }
 }

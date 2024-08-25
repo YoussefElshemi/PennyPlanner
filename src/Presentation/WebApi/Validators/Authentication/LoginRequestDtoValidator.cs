@@ -1,3 +1,4 @@
+using System.Net;
 using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.ValueObjects;
@@ -19,8 +20,10 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
             .Cascade(CascadeMode.Stop)
             .WithDisplayName($"{nameof(Username)} or {nameof(Password)}")
             .MustAsync(async (x, _) => await UserExistByUsername(x.Username))
+            .WithErrorCode(HttpStatusCode.Unauthorized.ToString())
             .WithMessage(IncorrectLoginDetails)
             .MustAsync(async (x, _) => await CorrectPassword(x.Username, x.Password))
+            .WithErrorCode(HttpStatusCode.Unauthorized.ToString())
             .WithMessage(IncorrectLoginDetails);
     }
 

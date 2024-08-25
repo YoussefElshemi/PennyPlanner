@@ -1,6 +1,8 @@
+using System.Net;
 using Core.Interfaces.Repositories;
 using Core.ValueObjects;
 using FluentValidation;
+using FluentValidation.Results;
 using Presentation.WebApi.Models.Authentication;
 
 namespace Presentation.WebApi.Validators.Authentication;
@@ -24,6 +26,7 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .MustAsync(async (x, _) => await RefreshTokenExists(x))
+            .WithErrorCode(HttpStatusCode.NotFound.ToString())
             .WithMessage(RefreshTokenDoesNotExistErrorMessage)
             .CustomAsync(async (x, ctx, _) => await RefreshTokenIsValid(x, ctx));
     }
@@ -38,13 +41,19 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
         var login = await _loginRepository.GetAsync(refreshToken);
         if (login.ExpiresAt < _timeProvider.GetUtcNow().UtcDateTime)
         {
-            context.AddFailure(RefreshTokenIsExpiredErrorMessage);
+            context.AddFailure(new ValidationFailure(nameof(RefreshToken), RefreshTokenIsExpiredErrorMessage)
+            {
+                ErrorCode = HttpStatusCode.Unauthorized.ToString(),
+            });
             return;
         }
 
         if (login.IsRevoked)
         {
-            context.AddFailure(RefreshTokenIsRevokedErrorMessage);
+            context.AddFailure(new ValidationFailure(nameof(RefreshToken), RefreshTokenIsRevokedErrorMessage)
+            {
+                ErrorCode = HttpStatusCode.Unauthorized.ToString(),
+            });
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Net;
 using Core.Enums;
 using Core.Interfaces.Repositories;
 using FluentValidation;
@@ -16,8 +17,10 @@ public class UserManagementUpdateUserRequestDtoValidator : AbstractValidator<Upd
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .MustAsync(async (x, _) => await userRepository.ExistsByIdAsync(x))
+            .WithErrorCode(HttpStatusCode.Conflict.ToString())
             .WithMessage(UserDoesNotExistErrorMessage)
             .MustAsync(async (x, _) => (await userRepository.GetByIdAsync(x)).UserRole != UserRole.Admin)
+            .WithErrorCode(HttpStatusCode.Forbidden.ToString())
             .WithMessage(CanNotUpdateAdminErrorMessage);
     }
 }

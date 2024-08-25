@@ -1,3 +1,4 @@
+using System.Net;
 using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Validators;
@@ -31,6 +32,7 @@ public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequest
                     .Must(x => x != user.EmailAddress)
                     .WithMessage(FieldDidNotUpdateErrorMessage)
                     .MustAsync(async (x, _) => await UserNotExistByEmailAddress(x!))
+                    .WithErrorCode(HttpStatusCode.Conflict.ToString())
                     .WithMessage(EmailAddressInUseErrorMessage)
                     .When(x => x.EmailAddress != null);
 
@@ -40,6 +42,7 @@ public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequest
                     .Must(x => x != user.Username)
                     .WithMessage(FieldDidNotUpdateErrorMessage)
                     .MustAsync(async (x, _) => await UserNotExistByUsername(x!))
+                    .WithErrorCode(HttpStatusCode.Conflict.ToString())
                     .WithMessage(UsernameInUseErrorMessage)
                     .When(x => x.Username != null);
             });
