@@ -16,6 +16,7 @@ public class GetUsers(IUserService userService,
 {
     public override void Configure()
     {
+        Version(1);
         Get(ApiUrls.UserManagement.GetUsers);
         Roles(UserRole.Admin.ToString());
         EnableAntiforgery();

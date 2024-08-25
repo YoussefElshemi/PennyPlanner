@@ -11,11 +11,11 @@ using Presentation.WebApi.Validators.UserManagement;
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
 public class DeleteUser(IUserService userService,
-    IUserRepository userRepository,
     IValidator<GetUserRequestDto> validator) : Endpoint<GetUserRequestDto>
 {
     public override void Configure()
     {
+        Version(1);
         Delete(ApiUrls.UserManagement.DeleteUser);
         Roles(UserRole.Admin.ToString());
         EnableAntiforgery();

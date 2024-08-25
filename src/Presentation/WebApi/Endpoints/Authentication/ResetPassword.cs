@@ -9,12 +9,12 @@ using Presentation.WebApi.Validators.Authentication;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
-public class ResetPassword(IPasswordResetRepository passwordResetRepository,
-    IAuthenticationService authenticationService,
+public class ResetPassword(IAuthenticationService authenticationService,
     IValidator<ResetPasswordRequestDto> validator) : Endpoint<ResetPasswordRequestDto>
 {
     public override void Configure()
     {
+        Version(1);
         Post(ApiUrls.AuthenticationUrls.ResetPassword);
         AllowAnonymous();
         EnableAntiforgery();

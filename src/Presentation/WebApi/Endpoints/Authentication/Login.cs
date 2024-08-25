@@ -9,12 +9,12 @@ using Presentation.WebApi.Validators.Authentication;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
-public class Login(IUserRepository userRepository,
-    IAuthenticationService authenticationService,
+public class Login(IAuthenticationService authenticationService,
     IValidator<LoginRequestDto> validator) : Endpoint<LoginRequestDto, AuthenticationResponseDto>
 {
     public override void Configure()
     {
+        Version(1);
         Post(ApiUrls.AuthenticationUrls.Login);
         AllowAnonymous();
         EnableAntiforgery();

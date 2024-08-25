@@ -13,6 +13,7 @@ public class ChangePassword(IAuthenticationService authenticationService) : Endp
 {
     public override void Configure()
     {
+        Version(1);
         Patch(ApiUrls.User.ChangePassword);
         EnableAntiforgery();
     }

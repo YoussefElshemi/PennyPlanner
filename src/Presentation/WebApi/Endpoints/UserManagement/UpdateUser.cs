@@ -19,6 +19,7 @@ public class UpdateUser(IUserService userService,
 {
     public override void Configure()
     {
+        Version(1);
         Put(ApiUrls.UserManagement.UpdateUser);
         Roles(UserRole.Admin.ToString());
         EnableAntiforgery();

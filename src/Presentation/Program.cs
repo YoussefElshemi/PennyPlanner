@@ -20,7 +20,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints();
 builder.Services.AddAntiforgery();
 builder.Services.AddCors();
-builder.Services.SwaggerDocument();
+builder.Services.SwaggerDocument(o =>
+{
+    o.MaxEndpointVersion = 1;
+    o.DocumentSettings = s =>
+    {
+        s.Version = "v1";
+    };
+});
 
 var configuration = builder.Configuration.AddEnvironmentVariables().Build();
 builder.Services.AddSingleton<IConfiguration>(configuration);
@@ -59,8 +66,12 @@ app.UseAntiforgeryFE();
 app.UseCors();
 app.UseFastEndpoints(c =>
 {
-    c.Serializer.Options.Converters.Add(new JsonStringEnumConverter());
+    c.Endpoints.RoutePrefix = "api";
     c.Security.RoleClaimType = ClaimTypes.Role;
+    c.Versioning.Prefix = "v";
+    c.Versioning.DefaultVersion = 1;
+    c.Versioning.PrependToRoute = true;
+    c.Serializer.Options.Converters.Add(new JsonStringEnumConverter());
     c.Endpoints.Configurator = e =>
     {
         e.PreProcessor<AuthenticationPreProcessor>(Order.Before);

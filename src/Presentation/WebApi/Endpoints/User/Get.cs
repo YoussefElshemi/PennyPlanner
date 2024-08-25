@@ -9,6 +9,7 @@ public class Get : EndpointWithoutRequest<UserProfileResponseDto>
 {
     public override void Configure()
     {
+        Version(1);
         Get(ApiUrls.User.Get);
         EnableAntiforgery();
     }

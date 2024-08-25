@@ -17,6 +17,7 @@ public class Update(IUserRepository userRepository,
 {
     public override void Configure()
     {
+        Version(1);
         Put(ApiUrls.User.Update);
         EnableAntiforgery();
     }

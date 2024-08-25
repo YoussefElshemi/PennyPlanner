@@ -9,12 +9,12 @@ using Presentation.WebApi.Validators.Authentication;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
-public class RefreshToken(ILoginRepository loginRepository,
-    IAuthenticationService authenticationService,
+public class RefreshToken(IAuthenticationService authenticationService,
     IValidator<RefreshTokenRequestDto> validator) : Endpoint<RefreshTokenRequestDto, AuthenticationResponseDto>
 {
     public override void Configure()
     {
+        Version(1);
         Post(ApiUrls.AuthenticationUrls.RefreshToken);
         AllowAnonymous();
         EnableAntiforgery();
