@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" />
       <PackageReference Include="EmailValidation" />
       <PackageReference Include="FastEndpoints.Security" />
       <PackageReference Include="FluentValidation" />

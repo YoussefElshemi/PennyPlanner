@@ -4,20 +4,24 @@ using Core.Constants;
 using Core.Enums;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Core.Models;
 using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
-using Presentation.Mappers;
+using Presentation.Mappers.Interfaces;
 using Presentation.WebApi.Models.Common;
 using Presentation.WebApi.Models.Common.Validators;
 using Presentation.WebApi.Models.User;
+using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
 public class GetUsers(IUserService userService,
-    IUserRepository userRepository) : Endpoint<PagedRequestDto, PagedResponseDto<UserProfileResponseDto>>
+    IUserRepository userRepository,
+    IMapper mapper,
+    IPagedResponseMapper pagedResponseMapper) : Endpoint<PagedRequestDto, PagedResponseDto<UserProfileResponseDto>>
 {
     public override void Configure()
     {
@@ -48,11 +52,12 @@ public class GetUsers(IUserService userService,
         var validator = new PagedRequestDtoValidator<Core.Models.User>(userRepository);
         await validator.ValidateAndThrowAsync(pagedRequestDto, cancellationToken);
 
-        var pagedRequest = PagedRequestMapper.Map(pagedRequestDto);
+        var pagedRequest = mapper.Map<PagedRequest>(pagedRequestDto);
 
         var pagedResponse = await userService.GetAllAsync(pagedRequest);
 
-        var pagedResponseDto = PagedResponseMapper.Map(pagedResponse, UserProfileResponseMapper.Map);
+
+        var pagedResponseDto = pagedResponseMapper.Map<Core.Models.User, UserProfileResponseDto>(pagedResponse);
 
         await SendAsync(pagedResponseDto, cancellation: cancellationToken);
     }

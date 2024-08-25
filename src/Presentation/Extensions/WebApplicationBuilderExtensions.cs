@@ -13,6 +13,7 @@ using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Constants;
 using Presentation.ExceptionHandlers;
+using Presentation.Mappers;
 
 namespace Presentation.Extensions;
 
@@ -55,6 +56,13 @@ public static class WebApplicationBuilderExtensions
         services.AddExceptionHandler<ValidationExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
+
+        return services;
+    }
+
+    public static IServiceCollection AddMappers(this IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(PresentationProfile));
 
         return services;
     }

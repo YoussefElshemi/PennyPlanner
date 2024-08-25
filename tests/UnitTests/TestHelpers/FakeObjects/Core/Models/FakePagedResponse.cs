@@ -6,16 +6,16 @@ namespace UnitTests.TestHelpers.FakeObjects.Core.Models;
 
 public static class FakePagedResponse
 {
-    public static PagedResponse<object> CreateValid(IFixture fixture)
+    public static PagedResponse<User> CreateValid(IFixture fixture)
     {
-        return new PagedResponse<object>
+        return new PagedResponse<User>
         {
             PageNumber = FakePageNumber.CreateValid(fixture),
             PageSize = FakePageSize.CreateValid(fixture),
             PageCount = FakePageCount.CreateValid(fixture),
             TotalCount = FakeTotalCount.CreateValid(fixture),
             HasMore = FakeHasMore.CreateValid(fixture),
-            Data = [new {}]
+            Data = [FakeUser.CreateValid(fixture)]
         };
     }
 }

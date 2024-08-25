@@ -2,18 +2,20 @@ using System.Net;
 using System.Net.Mime;
 using Core.Constants;
 using Core.Interfaces.Services;
+using Core.Models;
 using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
-using Presentation.Mappers;
 using Presentation.WebApi.Models.User;
 using Presentation.WebApi.Models.User.Validators;
+using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.User;
 
-public class ChangePassword(IAuthenticationService authenticationService) : Endpoint<ChangePasswordRequestDto, UserProfileResponseDto>
+public class ChangePassword(IAuthenticationService authenticationService,
+    IMapper mapper) : Endpoint<ChangePasswordRequestDto, UserProfileResponseDto>
 {
     public override void Configure()
     {
@@ -45,11 +47,11 @@ public class ChangePassword(IAuthenticationService authenticationService) : Endp
         var validator = new ChangePasswordRequestDtoValidator(authenticationService, user!);
         await validator.ValidateAndThrowAsync(changePasswordRequestDto, cancellationToken);
 
-        var changePasswordRequest = ChangePasswordRequestMapper.Map(changePasswordRequestDto);
+        var changePasswordRequest = mapper.Map<ChangePasswordRequest>(changePasswordRequestDto);
 
         var updatedUser = await authenticationService.ChangePasswordAsync(user!, changePasswordRequest.Password);
 
-        var response = UserProfileResponseMapper.Map(updatedUser);
+        var response = mapper.Map<UserProfileResponseDto>(updatedUser);
 
         await SendOkAsync(response, cancellation: cancellationToken);
     }

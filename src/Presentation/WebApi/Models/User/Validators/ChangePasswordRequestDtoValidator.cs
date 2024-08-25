@@ -21,7 +21,7 @@ public class ChangePasswordRequestDtoValidator : AbstractValidator<ChangePasswor
         RuleFor(x => x.Password)
             .Cascade(CascadeMode.Stop)
             .SetValidator(new PasswordValidator())
-            .Must(x => !_authenticationService.Authenticate(user, new Password(x)))
+            .Must(x => !authenticationService.Authenticate(user, new Password(x)))
             .WithErrorCode(HttpStatusCode.Conflict.ToString())
             .WithMessage(PasswordDidNotChangeErrorMessage);
 

@@ -2,18 +2,20 @@ using System.Net;
 using System.Net.Mime;
 using Core.Constants;
 using Core.Interfaces.Services;
+using Core.Models;
 using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
-using Presentation.Mappers;
 using Presentation.WebApi.Models.Authentication;
+using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class ResetPassword(IAuthenticationService authenticationService,
-    IValidator<ResetPasswordRequestDto> validator) : Endpoint<ResetPasswordRequestDto>
+    IValidator<ResetPasswordRequestDto> validator,
+    IMapper mapper) : Endpoint<ResetPasswordRequestDto>
 {
     public override void Configure()
     {
@@ -43,7 +45,7 @@ public class ResetPassword(IAuthenticationService authenticationService,
     {
         await validator.ValidateAndThrowAsync(requestResetPasswordRequestDto, cancellationToken);
 
-        var resetPasswordReset = ResetPasswordRequestMapper.Map(requestResetPasswordRequestDto);
+        var resetPasswordReset = mapper.Map<ResetPasswordRequest>(requestResetPasswordRequestDto);
 
         await authenticationService.ResetPassword(resetPasswordReset);
 

@@ -1,13 +1,13 @@
 using Core.ValueObjects;
 using FluentAssertions;
-using Presentation.Mappers;
+using Presentation.Factories;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.User;
 
-namespace UnitTests.Tests.Presentation.Mappers;
+namespace UnitTests.Tests.Presentation.Factories;
 
-public class UpdateUserRequestMapperTests : BaseTestClass
+public class UpdateUserRequestFactoryTests : BaseTestClass
 {
     [Fact]
     public void Map_GivenUserAndUpdateUserRequestDto_ReturnsUpdatedUser()
@@ -17,7 +17,7 @@ public class UpdateUserRequestMapperTests : BaseTestClass
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid();
 
         // Act
-        var createUserRequest = UpdateUserRequestMapper.Map(user, updateUserRequestDto);
+        var createUserRequest = UpdateUserRequestFactory.Map(user, updateUserRequestDto);
 
         // Assert
         createUserRequest.UserId.Should().Be(new UserId(user.UserId));

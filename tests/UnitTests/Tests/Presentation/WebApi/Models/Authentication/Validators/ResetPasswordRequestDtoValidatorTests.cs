@@ -19,12 +19,10 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
 
     public ResetPasswordRequestDtoValidatorTests()
     {
-        var currentUser = FakeUser.CreateValid(Fixture);
         _mockAuthenticationService = new Mock<IAuthenticationService>();
         _mockPasswordResetRepository = new Mock<IPasswordResetRepository>();
         _validator = new ResetPasswordRequestDtoValidator(_mockAuthenticationService.Object,
-            _mockPasswordResetRepository.Object,
-            currentUser);
+            _mockPasswordResetRepository.Object);
     }
 
     [Fact]

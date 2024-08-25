@@ -1,11 +1,13 @@
+using AutoMapper;
 using Core.Models;
 using Presentation.WebApi.Models.Common;
+using IPagedResponseMapper = Presentation.Mappers.Interfaces.IPagedResponseMapper;
 
 namespace Presentation.Mappers;
 
-public static class PagedResponseMapper
+public class PagedResponseMapper(IMapper mapper) : IPagedResponseMapper
 {
-    public static PagedResponseDto<TDto> Map<TModel, TDto>(PagedResponse<TModel> pagedResponse, Func<TModel, TDto> map)
+    public PagedResponseDto<TDto> Map<TModel, TDto>(PagedResponse<TModel> pagedResponse)
     {
         return new PagedResponseDto<TDto>
         {
@@ -16,7 +18,7 @@ public static class PagedResponseMapper
                 TotalCount = pagedResponse.TotalCount,
                 HasMore = pagedResponse.HasMore
             },
-            Data = pagedResponse.Data.Select(map).ToArray()
+            Data = pagedResponse.Data.Select(mapper.Map<TModel, TDto>).ToArray()
         };
     }
 }

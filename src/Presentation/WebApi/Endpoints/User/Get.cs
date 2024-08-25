@@ -2,13 +2,13 @@ using System.Net;
 using Core.Constants;
 using FastEndpoints;
 using Presentation.Constants;
-using Presentation.Mappers;
 using Presentation.WebApi.Models.User;
+using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.User;
 
-public class Get : EndpointWithoutRequest<UserProfileResponseDto>
+public class Get(IMapper mapper) : EndpointWithoutRequest<UserProfileResponseDto>
 {
     public override void Configure()
     {
@@ -34,7 +34,7 @@ public class Get : EndpointWithoutRequest<UserProfileResponseDto>
     {
         var user = HttpContext.Items["User"] as Core.Models.User;
 
-        var response = UserProfileResponseMapper.Map(user!);
+        var response = mapper.Map<UserProfileResponseDto>(user!);
 
         await SendAsync(response, cancellation: cancellationToken);
     }

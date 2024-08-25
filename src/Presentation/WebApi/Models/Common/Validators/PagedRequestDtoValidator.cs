@@ -24,7 +24,7 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
     private static int GetPageSize(PagedRequestDto x)
     {
         return x.PageSize is null or 0
-            ? PagedRequestMapper.DefaultPageSize
+            ? PresentationProfile.DefaultPageSize
             : x.PageSize.Value;
     }
 }

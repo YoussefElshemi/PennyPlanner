@@ -2,18 +2,20 @@ using System.Net;
 using System.Net.Mime;
 using Core.Constants;
 using Core.Interfaces.Services;
+using Core.Models;
 using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
-using Presentation.Mappers;
 using Presentation.WebApi.Models.Authentication;
+using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class Register(IAuthenticationService authenticationService,
-    IValidator<RegisterRequestDto> validator) : Endpoint<RegisterRequestDto, AuthenticationResponseDto>
+    IValidator<RegisterRequestDto> validator,
+    IMapper mapper) : Endpoint<RegisterRequestDto, AuthenticationResponseDto>
 {
     public override void Configure()
     {
@@ -43,11 +45,14 @@ public class Register(IAuthenticationService authenticationService,
         await validator.ValidateAndThrowAsync(registerRequestDto, cancellationToken);
 
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
-        var createUserRequest = CreateUserRequestMapper.Map(registerRequestDto, ipAddress);
+        var createUserRequest = mapper.Map<CreateUserRequest>(registerRequestDto, opt =>
+        {
+            opt.Items["IpAddress"] = ipAddress;
+        });
 
         var authenticationResponse = await authenticationService.CreateAsync(createUserRequest);
 
-        var response = AuthenticationResponseMapper.Map(authenticationResponse);
+        var response = mapper.Map<AuthenticationResponseDto>(authenticationResponse);
 
         await SendAsync(response, cancellation: cancellationToken);
     }

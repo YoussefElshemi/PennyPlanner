@@ -2,9 +2,9 @@ using Core.Models;
 using Core.ValueObjects;
 using Presentation.WebApi.Models.User;
 
-namespace Presentation.Mappers;
+namespace Presentation.Factories;
 
-public static class UpdateUserRequestMapper
+public static class UpdateUserRequestFactory
 {
     public static User Map(User user, UpdateUserRequestDto updateUserRequestDto)
     {

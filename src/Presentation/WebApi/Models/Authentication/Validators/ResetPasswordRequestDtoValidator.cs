@@ -17,8 +17,7 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
     internal const string PasswordDidNotChangeErrorMessage = $"{nameof(Password)} did not change.";
 
     public ResetPasswordRequestDtoValidator(IAuthenticationService authenticationService,
-        IPasswordResetRepository passwordResetRepository,
-        Core.Models.User user)
+        IPasswordResetRepository passwordResetRepository)
     {
         _passwordResetRepository = passwordResetRepository;
 
@@ -30,14 +29,19 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
             .WithMessage(PasswordResetTokenNotFoundErrorMessage)
             .MustAsync(async (x, _) => await PasswordResetRequestNotUsed(x))
             .WithErrorCode(HttpStatusCode.Conflict.ToString())
-            .WithMessage(PasswordResetTokenAlreadyUsedErrorMessage);
+            .WithMessage(PasswordResetTokenAlreadyUsedErrorMessage)
+            .DependentRules(() =>
+            {
+                RuleFor(x => new { x.Password, x.PasswordResetToken })
+                    .MustAsync(async (x, _) => !authenticationService.Authenticate(
+                        (await passwordResetRepository.GetAsync(x.PasswordResetToken)).User,
+                        new Password(x.Password)))
+                    .WithErrorCode(HttpStatusCode.Conflict.ToString())
+                    .WithMessage(PasswordDidNotChangeErrorMessage);
+            });
 
         RuleFor(x => x.Password)
-            .Cascade(CascadeMode.Stop)
-            .SetValidator(new PasswordValidator())
-            .Must(x => !authenticationService.Authenticate(user, new Password(x)))
-            .WithErrorCode(HttpStatusCode.Conflict.ToString())
-            .WithMessage(PasswordDidNotChangeErrorMessage);
+            .SetValidator(new PasswordValidator());
 
         RuleFor(x => new { x.Password, x.ConfirmPassword })
             .Must(x => x.Password == x.ConfirmPassword)
@@ -54,10 +58,5 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
         var passwordReset = await _passwordResetRepository.GetAsync(new PasswordResetToken(passwordResetToken));
 
         return !passwordReset.IsUsed;
-    }
-
-    public ResetPasswordRequestDtoValidator(IPasswordResetRepository passwordResetRepository)
-    {
-        _passwordResetRepository = passwordResetRepository;
     }
 }

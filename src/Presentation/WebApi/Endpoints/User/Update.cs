@@ -8,16 +8,19 @@ using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
+using Presentation.Factories;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.User;
 using Presentation.WebApi.Models.User.Validators;
+using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.User;
 
 public class Update(IUserRepository userRepository,
     IUserService userService,
-    TimeProvider timeProvider) : Endpoint<UpdateUserRequestDto, UserProfileResponseDto>
+    TimeProvider timeProvider,
+    IMapper mapper) : Endpoint<UpdateUserRequestDto, UserProfileResponseDto>
 {
     public override void Configure()
     {
@@ -49,7 +52,7 @@ public class Update(IUserRepository userRepository,
         var validator = new UpdateUserRequestDtoValidator(userRepository, user!);
         await validator.ValidateAndThrowAsync(updateUserRequestDto, cancellationToken);
 
-        var updateUserRequest = UpdateUserRequestMapper.Map(user!, updateUserRequestDto) with
+        var updateUserRequest = UpdateUserRequestFactory.Map(user!, updateUserRequestDto) with
         {
             UpdatedBy = user!.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
@@ -57,7 +60,7 @@ public class Update(IUserRepository userRepository,
 
         var updatedUser = await userService.UpdateAsync(updateUserRequest);
 
-        var response = UserProfileResponseMapper.Map(updatedUser);
+        var response = mapper.Map<UserProfileResponseDto>(updatedUser);
 
         await SendAsync(response, statusCode: (int)HttpStatusCode.Created, cancellation: cancellationToken);
     }

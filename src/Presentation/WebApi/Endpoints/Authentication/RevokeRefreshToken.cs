@@ -2,18 +2,20 @@ using System.Net;
 using System.Net.Mime;
 using Core.Constants;
 using Core.Interfaces.Services;
+using Core.Models;
 using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
-using Presentation.Mappers;
 using Presentation.WebApi.Models.Authentication;
+using IMapper = AutoMapper.IMapper;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class RevokeRefreshToken(IAuthenticationService authenticationService,
-    IValidator<RefreshTokenRequestDto> validator) : Endpoint<RefreshTokenRequestDto>
+    IValidator<RefreshTokenRequestDto> validator,
+    IMapper mapper) : Endpoint<RefreshTokenRequestDto>
 {
     public override void Configure()
     {
@@ -43,7 +45,10 @@ public class RevokeRefreshToken(IAuthenticationService authenticationService,
         await validator.ValidateAndThrowAsync(refreshTokenRequestDto, cancellationToken);
 
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
-        var refreshTokenRequest = RefreshTokenRequestMapper.Map(refreshTokenRequestDto, ipAddress);
+        var refreshTokenRequest = mapper.Map<RefreshTokenRequest>(refreshTokenRequestDto, opt =>
+        {
+            opt.Items["IpAddress"] = ipAddress;
+        });
 
         await authenticationService.RevokeToken(refreshTokenRequest);
 
