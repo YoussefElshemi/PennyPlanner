@@ -1,7 +1,10 @@
+using System.Net;
 using Core.Constants;
 using FastEndpoints;
+using Presentation.Constants;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.User;
+using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.User;
 
@@ -12,6 +15,19 @@ public class Get : EndpointWithoutRequest<UserProfileResponseDto>
         Version(1);
         Get(ApiUrls.User.Get);
         EnableAntiforgery();
+
+        Description(b => b
+            .Produces<UserProfileResponseDto>()
+            .Produces((int)HttpStatusCode.Unauthorized)
+            .Produces<ProblemDetails>((int)HttpStatusCode.InternalServerError));
+
+        Summary(s =>
+        {
+            s.Summary = SwaggerSummaries.User.Get;
+            s.Description = SwaggerSummaries.User.Get;
+        });
+
+        Options(x => x.WithTags(SwaggerTags.User));
     }
 
     public override async Task HandleAsync(CancellationToken cancellationToken)

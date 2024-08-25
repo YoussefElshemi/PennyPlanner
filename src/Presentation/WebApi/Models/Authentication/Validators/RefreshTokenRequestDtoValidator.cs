@@ -10,6 +10,7 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
 {
     private readonly ILoginRepository _loginRepository;
     private readonly TimeProvider _timeProvider;
+
     internal const string RefreshTokenDoesNotExistErrorMessage = $"{nameof(RefreshToken)} does not exist.";
     internal const string RefreshTokenIsRevokedErrorMessage = $"{nameof(RefreshToken)} is revoked.";
     internal const string RefreshTokenIsExpiredErrorMessage = $"{nameof(RefreshToken)} is expired.";
@@ -25,7 +26,7 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .MustAsync(async (x, _) => await RefreshTokenExists(x))
-            .WithErrorCode(HttpStatusCode.NotFound.ToString())
+            .WithErrorCode(HttpStatusCode.Unauthorized.ToString())
             .WithMessage(RefreshTokenDoesNotExistErrorMessage)
             .CustomAsync(async (x, ctx, _) => await RefreshTokenIsValid(x, ctx));
     }

@@ -1,13 +1,17 @@
 using System.Net;
+using System.Net.Mime;
 using Core.Constants;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using Presentation.Constants;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.User;
 using Presentation.WebApi.Models.User.Validators;
+using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.User;
 
@@ -20,6 +24,22 @@ public class Update(IUserRepository userRepository,
         Version(1);
         Put(ApiUrls.User.Update);
         EnableAntiforgery();
+
+        Description(b => b
+            .Accepts<UpdateUserRequestDto>(MediaTypeNames.Application.Json)
+            .Produces<UserProfileResponseDto>()
+            .Produces<ValidationProblemDetails>((int)HttpStatusCode.BadRequest)
+            .Produces((int)HttpStatusCode.Unauthorized)
+            .Produces((int)HttpStatusCode.Conflict)
+            .Produces<ProblemDetails>((int)HttpStatusCode.InternalServerError));
+
+        Summary(s =>
+        {
+            s.Summary = SwaggerSummaries.User.Update;
+            s.Description = SwaggerSummaries.User.Update;
+        });
+
+        Options(x => x.WithTags(SwaggerTags.User));
     }
 
     public override async Task HandleAsync(UpdateUserRequestDto updateUserRequestDto, CancellationToken cancellationToken)

@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using Presentation.Constants;
 using Presentation.ExceptionHandlers;
 
 namespace Presentation.Extensions;
@@ -65,10 +66,17 @@ public static class WebApplicationBuilderExtensions
         services.AddCors();
         services.SwaggerDocument(o =>
         {
+            o.AutoTagPathSegmentIndex = 0;
             o.MaxEndpointVersion = 1;
             o.DocumentSettings = s =>
             {
                 s.Version = "v1";
+            };
+            o.TagDescriptions = t =>
+            {
+                t[SwaggerTags.Authentication] = SwaggerTagDescriptions.Authentication;
+                t[SwaggerTags.User] = SwaggerTagDescriptions.User;
+                t[SwaggerTags.UserManagement] = SwaggerTagDescriptions.UserManagement;
             };
         });
 

@@ -12,7 +12,7 @@ public class UserService(IUserRepository repository,
 {
     public async Task<User> CreateAsync(CreateUserRequest createUserRequest)
     {
-        var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));;
+        var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));
         var passwordHash = AuthenticationService.HashPassword(createUserRequest.Password, passwordSalt);
 
         var user = new User

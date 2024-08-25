@@ -1,3 +1,4 @@
+using System.Net;
 using Core.Interfaces.Services;
 using Core.Validators;
 using Core.ValueObjects;
@@ -21,6 +22,7 @@ public class ChangePasswordRequestDtoValidator : AbstractValidator<ChangePasswor
             .Cascade(CascadeMode.Stop)
             .SetValidator(new PasswordValidator())
             .Must(x => !_authenticationService.Authenticate(user, new Password(x)))
+            .WithErrorCode(HttpStatusCode.Conflict.ToString())
             .WithMessage(PasswordDidNotChangeErrorMessage);
 
         RuleFor(x => new { x.Password, x.ConfirmPassword })
