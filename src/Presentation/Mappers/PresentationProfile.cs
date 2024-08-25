@@ -4,6 +4,7 @@ using Core.ValueObjects;
 using Presentation.WebApi.Models.Authentication;
 using Presentation.WebApi.Models.Common;
 using Presentation.WebApi.Models.User;
+using UserManagementUpdateUserRequestDto = Presentation.WebApi.Models.UserManagement.UpdateUserRequestDto;
 
 namespace Presentation.Mappers;
 
@@ -43,7 +44,7 @@ public class PresentationProfile : Profile
             .ForMember(dest => dest.PasswordResetToken, opt => opt.MapFrom(src => new PasswordResetToken(src.PasswordResetToken)))
             .ForMember(dest => dest.Password, opt => opt.MapFrom(src => new Password(src.Password)));
 
-        CreateMap<UpdateUserRequestDto, WebApi.Models.UserManagement.UpdateUserRequestDto>()
+        CreateMap<UpdateUserRequestDto, UserManagementUpdateUserRequestDto>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom((_, _, _, context) => new UserId(Guid.Parse(context.Items["UserId"].ToString()!))));
 
         CreateMap<User, UserProfileResponseDto>()
