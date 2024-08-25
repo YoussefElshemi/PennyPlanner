@@ -3,7 +3,6 @@ using System.Net.Mime;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using NJsonSchema.Validation;
 
 namespace Presentation.ExceptionHandlers;
 

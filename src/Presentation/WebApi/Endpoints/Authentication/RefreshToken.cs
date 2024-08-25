@@ -1,11 +1,9 @@
 using Core.Constants;
-using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using FastEndpoints;
 using FluentValidation;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.Authentication;
-using Presentation.WebApi.Validators.Authentication;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 

@@ -104,7 +104,7 @@ public class AuthenticationPreProcessorTests : BaseTestClass
     }
 
     [Fact]
-    public void PreProcessAsync_UserDoesNotExist_Throws()
+    public async Task PreProcessAsync_UserDoesNotExist_Throws()
     {
         // Arrange
         var claimsIdentity = new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())], "TestAuthType");
@@ -127,7 +127,7 @@ public class AuthenticationPreProcessorTests : BaseTestClass
             .ReturnsAsync(false);
 
         // Act & Assert
-        Assert.ThrowsAsync<ValidationException>(() =>
+        await Assert.ThrowsAsync<ValidationException>(() =>
             _authenticationPreProcessor.PreProcessAsync(contextMock.Object, CancellationToken.None));
         _mockUserRepository.Verify(r => r.ExistsByIdAsync(It.IsAny<Guid>()), Times.Once);
     }

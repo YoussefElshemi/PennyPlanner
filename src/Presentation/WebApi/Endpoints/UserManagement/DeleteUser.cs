@@ -1,12 +1,10 @@
 using Core.Constants;
 using Core.Enums;
-using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
 using Presentation.WebApi.Models.UserManagement;
-using Presentation.WebApi.Validators.UserManagement;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 

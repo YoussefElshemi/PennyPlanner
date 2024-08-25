@@ -1,9 +1,6 @@
 using AutoFixture;
 using Core.Enums;
-using Core.Helpers;
 using Core.Models;
-using Core.Services;
-using Core.ValueObjects;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
 namespace UnitTests.TestHelpers.FakeObjects.Core.Models;

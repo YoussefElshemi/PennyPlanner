@@ -1,5 +1,4 @@
 using System.Net;
-using Core.Extensions;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Validators;

@@ -1,13 +1,11 @@
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
-using Core.Services;
 using Core.ValueObjects;
 using FluentValidation.TestHelper;
 using Moq;
 using Presentation.WebApi.Validators.Authentication;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
-using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.Authentication;
 
 namespace UnitTests.Tests.Presentation.WebApi.Validators.Authentication;
