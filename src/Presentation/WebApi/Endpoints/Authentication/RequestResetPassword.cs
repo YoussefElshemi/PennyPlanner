@@ -8,7 +8,8 @@ using Presentation.WebApi.Validators.Authentication;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
-public class RequestResetPassword(IAuthenticationService authenticationService) : Endpoint<RequestResetPasswordRequestDto>
+public class RequestResetPassword(IAuthenticationService authenticationService,
+    IValidator<RequestResetPasswordRequestDto> validator) : Endpoint<RequestResetPasswordRequestDto>
 {
     public override void Configure()
     {
@@ -19,7 +20,6 @@ public class RequestResetPassword(IAuthenticationService authenticationService) 
 
     public override async Task HandleAsync(RequestResetPasswordRequestDto requestResetPasswordRequestDto, CancellationToken cancellationToken)
     {
-        var validator = new RequestResetPasswordRequestDtoValidator();
         await validator.ValidateAndThrowAsync(requestResetPasswordRequestDto, cancellationToken);
 
         var requestResetPasswordRequest = RequestResetPasswordRequestMapper.Map(requestResetPasswordRequestDto);

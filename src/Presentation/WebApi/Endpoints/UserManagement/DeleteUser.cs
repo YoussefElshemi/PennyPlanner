@@ -11,7 +11,8 @@ using Presentation.WebApi.Validators.UserManagement;
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
 public class DeleteUser(IUserService userService,
-    IUserRepository userRepository) : Endpoint<GetUserRequestDto>
+    IUserRepository userRepository,
+    IValidator<GetUserRequestDto> validator) : Endpoint<GetUserRequestDto>
 {
     public override void Configure()
     {
@@ -22,7 +23,6 @@ public class DeleteUser(IUserService userService,
 
     public override async Task HandleAsync(GetUserRequestDto getUserRequestDto, CancellationToken cancellationToken)
     {
-        var validator = new DeleteUserRequestDtoValidator(userRepository);
         await validator.ValidateAndThrowAsync(getUserRequestDto, cancellationToken);
 
         var user = HttpContext.Items["User"] as Core.Models.User;

@@ -11,7 +11,7 @@ namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class RefreshToken(ILoginRepository loginRepository,
     IAuthenticationService authenticationService,
-    TimeProvider timeProvider) : Endpoint<RefreshTokenRequestDto, AuthenticationResponseDto>
+    IValidator<RefreshTokenRequestDto> validator) : Endpoint<RefreshTokenRequestDto, AuthenticationResponseDto>
 {
     public override void Configure()
     {
@@ -22,7 +22,6 @@ public class RefreshToken(ILoginRepository loginRepository,
 
     public override async Task HandleAsync(RefreshTokenRequestDto refreshTokenRequestDto, CancellationToken cancellationToken)
     {
-        var validator = new RefreshTokenRequestDtoValidator(loginRepository, timeProvider);
         await validator.ValidateAndThrowAsync(refreshTokenRequestDto, cancellationToken);
 
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;

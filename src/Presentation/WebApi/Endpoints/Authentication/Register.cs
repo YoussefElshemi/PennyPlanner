@@ -10,7 +10,8 @@ using Presentation.WebApi.Validators.Authentication;
 namespace Presentation.WebApi.Endpoints.Authentication;
 
 public class Register(IUserRepository userRepository,
-    IAuthenticationService authenticationService) : Endpoint<RegisterRequestDto, AuthenticationResponseDto>
+    IAuthenticationService authenticationService,
+    IValidator<RegisterRequestDto> validator) : Endpoint<RegisterRequestDto, AuthenticationResponseDto>
 {
     public override void Configure()
     {
@@ -21,7 +22,6 @@ public class Register(IUserRepository userRepository,
 
     public override async Task HandleAsync(RegisterRequestDto registerRequestDto, CancellationToken cancellationToken)
     {
-        var validator = new RegisterRequestDtoValidator(userRepository);
         await validator.ValidateAndThrowAsync(registerRequestDto, cancellationToken);
 
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
