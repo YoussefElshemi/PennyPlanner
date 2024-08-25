@@ -81,7 +81,7 @@ public class UserManagementUpdateUserRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task ValidateAsync_UserIsAdminButUpdatingThesmelves_ReturnsError()
+    public async Task ValidateAsync_UserIsAdminButUpdatingAlsoAuthenticatedUser_ReturnsError()
     {
         // Arrange
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid(Fixture) with

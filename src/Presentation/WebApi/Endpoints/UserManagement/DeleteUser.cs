@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Mime;
 using Core.Enums;
+using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
 using Core.ValueObjects;
@@ -9,12 +10,13 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
 using Presentation.WebApi.Models.UserManagement;
+using Presentation.WebApi.Models.UserManagement.Validators;
 using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
 public class DeleteUser(IUserService userService,
-    IValidator<UserRequestDto> validator) : Endpoint<UserRequestDto>
+    IUserRepository userRepository) : Endpoint<UserRequestDto>
 {
     public override void Configure()
     {
@@ -43,9 +45,10 @@ public class DeleteUser(IUserService userService,
 
     public override async Task HandleAsync(UserRequestDto userRequestDto, CancellationToken cancellationToken)
     {
-        await validator.ValidateAndThrowAsync(userRequestDto, cancellationToken);
-
         var authenticatedUser = HttpContext.Items["User"] as User;
+
+        var validator = new DeleteUserRequestDtoValidator(userRepository, authenticatedUser!);
+        await validator.ValidateAndThrowAsync(userRequestDto, cancellationToken);
 
         await userService.DeleteAsync(new UserId(userRequestDto.UserId), authenticatedUser!.Username);
 
