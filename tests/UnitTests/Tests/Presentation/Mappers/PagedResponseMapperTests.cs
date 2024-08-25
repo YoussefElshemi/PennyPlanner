@@ -2,7 +2,6 @@ using AutoMapper;
 using Core.Models;
 using FluentAssertions;
 using Presentation.Mappers;
-using Presentation.Mappers.Interfaces;
 using Presentation.WebApi.Models.User;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
@@ -12,7 +11,7 @@ namespace UnitTests.Tests.Presentation.Mappers;
 public class PagedResponseMapperTests : BaseTestClass
 {
     private readonly IMapper _mapper;
-    private readonly IPagedResponseMapper _pagedResponseMapper;
+    private readonly PagedResponseMapper _pagedResponseMapper;
 
     public PagedResponseMapperTests()
     {

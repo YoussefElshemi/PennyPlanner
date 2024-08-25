@@ -5,5 +5,5 @@ namespace Presentation.Mappers.Interfaces;
 
 public interface IPagedResponseMapper
 {
-    PagedResponseDto<TDto> Map<TModel, TDto>(PagedResponse<TModel> pagedResponse);
+    PagedResponseDto<TSource> Map<TDestination, TSource>(PagedResponse<TDestination> pagedResponse);
 }

@@ -1,6 +1,8 @@
+using AutoMapper;
 using Core.ValueObjects;
 using FluentAssertions;
 using Infrastructure;
+using Infrastructure.Mappers;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using UnitTests.TestHelpers;
@@ -20,8 +22,11 @@ public class UserRepositoryTests : BaseTestClass
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
 
+        var mapperConfig = new MapperConfiguration(x => x.AddProfile<InfrastructureProfile>());
+        var mapper = mapperConfig.CreateMapper();
+
         _context = new PennyPlannerDbContext(options);
-        _userRepository = new UserRepository(_context);
+        _userRepository = new UserRepository(_context, mapper);
     }
 
     [Fact]

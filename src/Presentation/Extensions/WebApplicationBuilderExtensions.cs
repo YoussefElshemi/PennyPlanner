@@ -8,6 +8,7 @@ using FastEndpoints.Swagger;
 using FastEndpoints.Security;
 using FluentValidation;
 using Infrastructure;
+using Infrastructure.Mappers;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -63,6 +64,7 @@ public static class WebApplicationBuilderExtensions
     public static IServiceCollection AddMappers(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(PresentationProfile));
+        services.AddAutoMapper(typeof(InfrastructureProfile));
 
         return services;
     }

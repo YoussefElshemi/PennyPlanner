@@ -1,13 +1,14 @@
+using AutoMapper;
 using Core.Interfaces.Repositories;
 using Core.Models;
 using Core.ValueObjects;
-using Infrastructure.Mappers;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class UserRepository(
-    PennyPlannerDbContext context) : IUserRepository
+public class UserRepository(PennyPlannerDbContext context,
+    IMapper mapper) : IUserRepository
 {
     public async Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)
     {
@@ -19,7 +20,7 @@ public class UserRepository(
             .OrderBy(x => x.UserId)
             .Skip((pagedRequest.PageNumber - 1) * pagedRequest.PageSize)
             .Take(pagedRequest.PageSize)
-            .Select(entity => UserMapper.MapFromEntity(entity))
+            .Select(entity => mapper.Map<User>(entity))
             .ToListAsync();
 
         return new PagedResponse<User>
@@ -53,7 +54,7 @@ public class UserRepository(
             .Where(x => !x.IsDeleted)
             .FirstAsync(u => u.UserId == userId);
 
-        return UserMapper.MapFromEntity(userEntity);
+        return mapper.Map<User>(userEntity);
     }
 
     public Task<bool> ExistsByUsernameAsync(string username)
@@ -69,7 +70,7 @@ public class UserRepository(
             .Where(x => !x.IsDeleted)
             .FirstAsync(u => u.Username == username);
 
-        return UserMapper.MapFromEntity(userEntity);
+        return mapper.Map<User>(userEntity);
     }
 
     public Task<bool> ExistsByEmailAddressAsync(string emailAddress)
@@ -85,12 +86,12 @@ public class UserRepository(
             .Where(x => !x.IsDeleted)
             .FirstAsync(u => u.EmailAddress == emailAddress);
 
-        return UserMapper.MapFromEntity(userEntity);
+        return mapper.Map<User>(userEntity);
     }
 
     public async Task CreateAsync(User user)
     {
-        var userEntity = UserMapper.MapToEntity(user);
+        var userEntity = mapper.Map<UserEntity>(user);
         context.Users.Add(userEntity);
 
         await context.SaveChangesAsync();
@@ -98,7 +99,7 @@ public class UserRepository(
 
     public async Task UpdateAsync(User user)
     {
-        var userToUpdate = UserMapper.MapToEntity(user);
+        var userToUpdate = mapper.Map<UserEntity>(user);
         var userEntity = await context.Users
             .Where(x => !x.IsDeleted)
             .SingleAsync(x => x.UserId == userToUpdate.UserId);

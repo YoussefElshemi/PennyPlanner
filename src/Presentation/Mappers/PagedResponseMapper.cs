@@ -7,9 +7,9 @@ namespace Presentation.Mappers;
 
 public class PagedResponseMapper(IMapper mapper) : IPagedResponseMapper
 {
-    public PagedResponseDto<TDto> Map<TModel, TDto>(PagedResponse<TModel> pagedResponse)
+    public PagedResponseDto<TSource> Map<TDestination, TSource>(PagedResponse<TDestination> pagedResponse)
     {
-        return new PagedResponseDto<TDto>
+        return new PagedResponseDto<TSource>
         {
             Metadata = new PagedResponseMetadataDto {
                 PageNumber = pagedResponse.PageNumber,
@@ -18,7 +18,7 @@ public class PagedResponseMapper(IMapper mapper) : IPagedResponseMapper
                 TotalCount = pagedResponse.TotalCount,
                 HasMore = pagedResponse.HasMore
             },
-            Data = pagedResponse.Data.Select(mapper.Map<TModel, TDto>).ToArray()
+            Data = pagedResponse.Data.Select(mapper.Map<TDestination, TSource>).ToArray()
         };
     }
 }

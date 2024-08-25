@@ -1,23 +1,24 @@
 using Core.Interfaces.Repositories;
 using Core.Models;
-using Infrastructure.Mappers;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
+using IMapper = AutoMapper.IMapper;
 
 namespace Infrastructure.Repositories;
 
-public class PasswordResetRepository(
-    PennyPlannerDbContext context) : IPasswordResetRepository
+public class PasswordResetRepository(PennyPlannerDbContext context,
+    IMapper mapper) : IPasswordResetRepository
 {
     public async Task CreateAsync(PasswordReset passwordReset)
     {
-        var passwordResetEntity = PasswordResetMapper.MapToEntity(passwordReset);
+        var passwordResetEntity = mapper.Map<PasswordResetEntity>(passwordReset);
         context.PasswordResets.Add(passwordResetEntity);
         await context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(PasswordReset passwordReset)
     {
-        var passwordResetToUpdate = PasswordResetMapper.MapToEntity(passwordReset);
+        var passwordResetToUpdate = mapper.Map<PasswordResetEntity>(passwordReset);
         var passwordResetEntity = await context.PasswordResets.SingleAsync(x => x.PasswordResetId == passwordResetToUpdate.PasswordResetId);
 
         passwordResetEntity.IsUsed = passwordResetToUpdate.IsUsed;
@@ -39,6 +40,6 @@ public class PasswordResetRepository(
             .Include(x => x.UserEntity)
             .FirstAsync(u => u.ResetToken == passwordResetToken);
 
-        return PasswordResetMapper.MapFromEntity(passwordResetEntity);
+        return mapper.Map<PasswordReset>(passwordResetEntity);
     }
 }

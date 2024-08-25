@@ -1,23 +1,24 @@
+using AutoMapper;
 using Core.Interfaces.Repositories;
 using Core.Models;
-using Infrastructure.Mappers;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class LoginRepository(
-    PennyPlannerDbContext context) : ILoginRepository
+public class LoginRepository(PennyPlannerDbContext context,
+    IMapper mapper) : ILoginRepository
 {
     public async Task CreateAsync(Login login)
     {
-        var loginEntity = LoginMapper.MapToEntity(login);
+        var loginEntity = mapper.Map<LoginEntity>(login);
         context.Logins.Add(loginEntity);
         await context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Login login)
     {
-        var loginToUpdate = LoginMapper.MapToEntity(login);
+        var loginToUpdate = mapper.Map<LoginEntity>(login);
         var loginEntity = await context.Logins.SingleAsync(x => x.LoginId == loginToUpdate.LoginId);
 
         loginEntity.IsRevoked = loginToUpdate.IsRevoked;
@@ -40,6 +41,6 @@ public class LoginRepository(
             .Include(x => x.UserEntity)
             .FirstAsync(u => u.RefreshToken == refreshToken);
 
-        return LoginMapper.MapFromEntity(loginEntity);
+        return mapper.Map<Login>(loginEntity);
     }
 }

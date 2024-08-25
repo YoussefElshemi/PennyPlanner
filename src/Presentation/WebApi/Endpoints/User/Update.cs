@@ -9,7 +9,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
 using Presentation.Factories;
-using Presentation.Mappers;
 using Presentation.WebApi.Models.User;
 using Presentation.WebApi.Models.User.Validators;
 using IMapper = AutoMapper.IMapper;
