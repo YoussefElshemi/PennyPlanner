@@ -110,14 +110,14 @@ namespace Infrastructure.Migrations
                 columns: new[] { "UserRoleId", "CreatedAt", "Name", "UpdatedAt", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 24, 22, 18, 9, 368, DateTimeKind.Utc).AddTicks(9085), "User", new DateTime(2024, 8, 24, 22, 18, 9, 368, DateTimeKind.Utc).AddTicks(9399), "System" },
-                    { 2, new DateTime(2024, 8, 24, 22, 18, 9, 368, DateTimeKind.Utc).AddTicks(9789), "Admin", new DateTime(2024, 8, 24, 22, 18, 9, 368, DateTimeKind.Utc).AddTicks(9790), "System" }
+                    { 1, new DateTime(2024, 8, 25, 0, 31, 20, 369, DateTimeKind.Utc).AddTicks(6443), "User", new DateTime(2024, 8, 25, 0, 31, 20, 369, DateTimeKind.Utc).AddTicks(6783), "System" },
+                    { 2, new DateTime(2024, 8, 25, 0, 31, 20, 369, DateTimeKind.Utc).AddTicks(7243), "Admin", new DateTime(2024, 8, 25, 0, 31, 20, 369, DateTimeKind.Utc).AddTicks(7244), "System" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "CreatedAt", "DeletedAt", "DeletedBy", "EmailAddress", "IsDeleted", "PasswordHash", "PasswordSalt", "UpdatedAt", "UpdatedBy", "UserRoleId", "Username" },
-                values: new object[] { new Guid("ea42708d-ab30-4311-bf80-90905c26ae6b"), new DateTime(2024, 8, 24, 22, 18, 9, 369, DateTimeKind.Utc).AddTicks(2528), null, null, "admin@admin.com", false, "", "", new DateTime(2024, 8, 24, 22, 18, 9, 369, DateTimeKind.Utc).AddTicks(2529), "System", 2, "admin" });
+                values: new object[] { new Guid("77520b0a-3283-4bd6-a8bc-05f746ea27c3"), new DateTime(2024, 8, 25, 0, 31, 20, 370, DateTimeKind.Utc).AddTicks(193), null, null, "admin@admin.com", false, "", "", new DateTime(2024, 8, 25, 0, 31, 20, 370, DateTimeKind.Utc).AddTicks(194), "System", 2, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_UserId",
@@ -130,9 +130,21 @@ namespace Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_EmailAddress",
+                table: "Users",
+                column: "EmailAddress",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_UserRoleId",
                 table: "Users",
                 column: "UserRoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />

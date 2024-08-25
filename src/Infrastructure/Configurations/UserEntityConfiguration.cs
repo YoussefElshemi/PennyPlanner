@@ -11,6 +11,8 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
     public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         builder.HasKey(x => x.UserId);
+        builder.HasIndex(x => x.Username).IsUnique();
+        builder.HasIndex(x => x.EmailAddress).IsUnique();
 
         builder
             .HasOne(e => e.UserRoleEntity)

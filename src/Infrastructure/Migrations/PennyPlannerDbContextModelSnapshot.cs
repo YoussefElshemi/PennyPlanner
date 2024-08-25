@@ -168,20 +168,26 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("EmailAddress")
+                        .IsUnique();
+
                     b.HasIndex("UserRoleId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("ea42708d-ab30-4311-bf80-90905c26ae6b"),
-                            CreatedAt = new DateTime(2024, 8, 24, 22, 18, 9, 369, DateTimeKind.Utc).AddTicks(2528),
+                            UserId = new Guid("77520b0a-3283-4bd6-a8bc-05f746ea27c3"),
+                            CreatedAt = new DateTime(2024, 8, 25, 0, 31, 20, 370, DateTimeKind.Utc).AddTicks(193),
                             EmailAddress = "admin@admin.com",
                             IsDeleted = false,
                             PasswordHash = "",
                             PasswordSalt = "",
-                            UpdatedAt = new DateTime(2024, 8, 24, 22, 18, 9, 369, DateTimeKind.Utc).AddTicks(2529),
+                            UpdatedAt = new DateTime(2024, 8, 25, 0, 31, 20, 370, DateTimeKind.Utc).AddTicks(194),
                             UpdatedBy = "System",
                             UserRoleId = 2,
                             Username = "admin"
@@ -221,17 +227,17 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserRoleId = 1,
-                            CreatedAt = new DateTime(2024, 8, 24, 22, 18, 9, 368, DateTimeKind.Utc).AddTicks(9085),
+                            CreatedAt = new DateTime(2024, 8, 25, 0, 31, 20, 369, DateTimeKind.Utc).AddTicks(6443),
                             Name = "User",
-                            UpdatedAt = new DateTime(2024, 8, 24, 22, 18, 9, 368, DateTimeKind.Utc).AddTicks(9399),
+                            UpdatedAt = new DateTime(2024, 8, 25, 0, 31, 20, 369, DateTimeKind.Utc).AddTicks(6783),
                             UpdatedBy = "System"
                         },
                         new
                         {
                             UserRoleId = 2,
-                            CreatedAt = new DateTime(2024, 8, 24, 22, 18, 9, 368, DateTimeKind.Utc).AddTicks(9789),
+                            CreatedAt = new DateTime(2024, 8, 25, 0, 31, 20, 369, DateTimeKind.Utc).AddTicks(7243),
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2024, 8, 24, 22, 18, 9, 368, DateTimeKind.Utc).AddTicks(9790),
+                            UpdatedAt = new DateTime(2024, 8, 25, 0, 31, 20, 369, DateTimeKind.Utc).AddTicks(7244),
                             UpdatedBy = "System"
                         });
                 });
