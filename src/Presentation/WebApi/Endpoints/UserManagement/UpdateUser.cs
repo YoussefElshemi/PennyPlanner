@@ -7,8 +7,8 @@ using Core.ValueObjects;
 using FastEndpoints;
 using FluentValidation;
 using Presentation.Mappers;
-using Presentation.WebApi.Validators.User;
-using Presentation.WebApi.Validators.UserManagement;
+using Presentation.WebApi.Models.User.Validators;
+using Presentation.WebApi.Models.UserManagement.Validators;
 using UpdateUserRequestDto = Presentation.WebApi.Models.User.UpdateUserRequestDto;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;

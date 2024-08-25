@@ -7,7 +7,7 @@ using FastEndpoints;
 using FluentValidation;
 using Presentation.Mappers;
 using Presentation.WebApi.Models.User;
-using Presentation.WebApi.Validators.User;
+using Presentation.WebApi.Models.User.Validators;
 
 namespace Presentation.WebApi.Endpoints.User;
 

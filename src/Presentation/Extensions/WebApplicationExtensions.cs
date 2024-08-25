@@ -2,7 +2,7 @@ using System.Security.Claims;
 using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using Presentation.WebApi.PreProcessors;
+using Presentation.PreProcessors;
 
 namespace Presentation.Extensions;
 
