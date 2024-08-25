@@ -34,6 +34,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         {
             PasswordResetToken = string.Empty
         };
+
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
@@ -98,6 +99,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
             Password = "",
             ConfirmPassword = ""
         };
+
         var passwordReset = FakePasswordReset.CreateValid(Fixture);
 
         _mockPasswordResetRepository
@@ -123,12 +125,14 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         {
             ConfirmPassword = string.Join("", FakePassword.Valid.ToCharArray().Reverse())
         };
+
         var passwordReset = FakePasswordReset.CreateValid(Fixture);
 
 
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
+
         _mockPasswordResetRepository
             .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);
@@ -151,9 +155,11 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         _mockAuthenticationService
             .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(true);
+
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
+
         _mockPasswordResetRepository
             .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);
@@ -179,9 +185,11 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         _mockAuthenticationService
             .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(false);
+
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
+
         _mockPasswordResetRepository
             .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);

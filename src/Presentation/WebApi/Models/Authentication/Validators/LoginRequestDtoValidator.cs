@@ -9,10 +9,9 @@ namespace Presentation.WebApi.Models.Authentication.Validators;
 
 public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
 {
+    internal const string IncorrectLoginDetails = "Incorrect login details";
     private readonly IAuthenticationService _authenticationService;
     private readonly IUserRepository _userRepository;
-
-    internal const string IncorrectLoginDetails = "Incorrect login details";
 
     public LoginRequestDtoValidator(IAuthenticationService authenticationService,
         IUserRepository userRepository)

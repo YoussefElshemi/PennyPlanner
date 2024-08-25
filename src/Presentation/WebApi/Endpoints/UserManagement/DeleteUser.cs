@@ -15,7 +15,8 @@ using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
-public class DeleteUser(IUserService userService,
+public class DeleteUser(
+    IUserService userService,
     IUserRepository userRepository) : Endpoint<UserRequestDto>
 {
     public override void Configure()
@@ -53,6 +54,6 @@ public class DeleteUser(IUserService userService,
 
         await userService.DeleteAsync(new UserId(userRequestDto.UserId), authenticatedUser!.Username);
 
-        await SendNoContentAsync(cancellation: cancellationToken);
+        await SendNoContentAsync(cancellationToken);
     }
 }

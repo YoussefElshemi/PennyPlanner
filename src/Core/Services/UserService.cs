@@ -7,7 +7,8 @@ using Core.ValueObjects;
 
 namespace Core.Services;
 
-public class UserService(IUserRepository repository,
+public class UserService(
+    IUserRepository repository,
     TimeProvider timeProvider) : IUserService
 {
     public async Task<User> CreateAsync(CreateUserRequest createUserRequest)

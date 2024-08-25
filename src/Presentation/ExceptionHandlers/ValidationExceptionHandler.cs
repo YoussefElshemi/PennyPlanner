@@ -44,7 +44,7 @@ public class ValidationExceptionHandler : IExceptionHandler
                     .GroupBy(x => x.PropertyName)
                     .ToDictionary(x => x.Key, x => x.Select(y => y.ErrorMessage)
                         .ToArray())
-            }, cancellationToken: cancellationToken);
+            }, cancellationToken);
     }
 
     private static Task WriteErrorHttpResponseAsync(HttpContext httpContext, ValidationException exception, HttpStatusCode statusCode, CancellationToken cancellationToken)
@@ -60,6 +60,6 @@ public class ValidationExceptionHandler : IExceptionHandler
                 Detail = exception.Errors.FirstOrDefault()?.ErrorMessage,
                 Instance = httpContext.Request.Path,
                 Status = httpContext.Response.StatusCode
-            }, cancellationToken: cancellationToken);
+            }, cancellationToken);
     }
 }

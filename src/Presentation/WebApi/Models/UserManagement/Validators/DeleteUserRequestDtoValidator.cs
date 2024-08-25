@@ -28,5 +28,7 @@ public class DeleteUserRequestDtoValidator : AbstractValidator<UserRequestDto>
             .WithMessage(CanNotDeleteAdminErrorMessage);
     }
 
-    public DeleteUserRequestDtoValidator() {}
+    public DeleteUserRequestDtoValidator()
+    {
+    }
 }

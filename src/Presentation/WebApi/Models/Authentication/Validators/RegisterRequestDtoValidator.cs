@@ -8,10 +8,11 @@ namespace Presentation.WebApi.Models.Authentication.Validators;
 
 public class RegisterRequestDtoValidator : AbstractValidator<RegisterRequestDto>
 {
-    private readonly IUserRepository _userRepository;
     internal const string ConfirmPasswordErrorMessage = $"{nameof(Password)}s do not match.";
     internal const string UsernameTakenErrorMessage = $"{nameof(Username)} is taken.";
     internal const string EmailAddressInUseErrorMessage = $"{nameof(EmailAddress)} is already in use.";
+
+    private readonly IUserRepository _userRepository;
 
     public RegisterRequestDtoValidator(IUserRepository userRepository)
     {

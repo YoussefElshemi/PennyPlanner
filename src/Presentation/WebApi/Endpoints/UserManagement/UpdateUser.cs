@@ -20,7 +20,8 @@ using UserManagementUpdateUserRequestDto = Presentation.WebApi.Models.UserManage
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
-public class UpdateUser(IUserService userService,
+public class UpdateUser(
+    IUserService userService,
     IUserRepository userRepository,
     TimeProvider timeProvider,
     IMapper mapper) : Endpoint<UpdateUserRequestDto, UserProfileResponseDto>
@@ -61,7 +62,7 @@ public class UpdateUser(IUserService userService,
         var updateUserRequest = UpdateUserRequestFactory.Create(user, updateUserRequestDto);
         updateUserRequest = updateUserRequest with
         {
-            UpdatedBy = user.UserId == authenticatedUser!.UserId  ? updateUserRequest.Username : authenticatedUser.Username,
+            UpdatedBy = user.UserId == authenticatedUser!.UserId ? updateUserRequest.Username : authenticatedUser.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 
@@ -74,10 +75,7 @@ public class UpdateUser(IUserService userService,
 
     private async Task ValidateAndThrowAsync(UpdateUserRequestDto updateUserRequestDto, User authenticatedUser, User user)
     {
-        var userManagementUpdateUserRequestDto = mapper.Map<UpdateUserRequestDto, UserManagementUpdateUserRequestDto>(updateUserRequestDto, opt =>
-        {
-            opt.Items["UserId"] = Route<Guid>("UserId");
-        });
+        var userManagementUpdateUserRequestDto = mapper.Map<UpdateUserRequestDto, UserManagementUpdateUserRequestDto>(updateUserRequestDto, opt => { opt.Items["UserId"] = Route<Guid>("UserId"); });
         var userManagementValidator = new UserManagementUpdateUserRequestDtoValidator(userRepository, authenticatedUser);
         await userManagementValidator.ValidateAndThrowAsync(userManagementUpdateUserRequestDto);
 

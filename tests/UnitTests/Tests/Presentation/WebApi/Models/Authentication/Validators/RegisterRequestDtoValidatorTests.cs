@@ -92,6 +92,7 @@ public class RegisterRequestDtoValidatorTests
         {
             Username = FakeUsername.Valid
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
@@ -112,6 +113,7 @@ public class RegisterRequestDtoValidatorTests
         {
             EmailAddress = FakeEmailAddress.Valid
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
@@ -132,6 +134,7 @@ public class RegisterRequestDtoValidatorTests
         _mockUserRepository
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
+
         _mockUserRepository
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(false);

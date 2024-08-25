@@ -63,9 +63,11 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
         {
             ExpiresAt = new ExpiresAt(Today.AddDays(-1))
         };
+
         _mockLoginRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
+
         _mockLoginRepository
             .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(login);
@@ -87,9 +89,11 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
         {
             IsRevoked = new IsRevoked(true)
         };
+
         _mockLoginRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
+
         _mockLoginRepository
             .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(login);
@@ -115,6 +119,7 @@ public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
         _mockLoginRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
+
         _mockLoginRepository
             .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(login);

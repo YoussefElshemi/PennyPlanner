@@ -16,7 +16,8 @@ using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.AuthenticatedUser;
 
-public class Update(IUserRepository userRepository,
+public class Update(
+    IUserRepository userRepository,
     IUserService userService,
     TimeProvider timeProvider,
     IMapper mapper) : Endpoint<UpdateUserRequestDto, UserProfileResponseDto>
@@ -63,6 +64,6 @@ public class Update(IUserRepository userRepository,
 
         var response = mapper.Map<UserProfileResponseDto>(updatedUser);
 
-        await SendAsync(response, statusCode: (int)HttpStatusCode.Created, cancellation: cancellationToken);
+        await SendAsync(response, (int)HttpStatusCode.Created, cancellationToken);
     }
 }

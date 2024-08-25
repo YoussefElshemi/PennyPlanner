@@ -26,6 +26,6 @@ public class GlobalExceptionHandler : IExceptionHandler
                 Detail = exception.Message,
                 Status = httpContext.Response.StatusCode,
                 Instance = httpContext.Request.Path
-            }, cancellationToken: cancellationToken);
+            }, cancellationToken);
     }
 }

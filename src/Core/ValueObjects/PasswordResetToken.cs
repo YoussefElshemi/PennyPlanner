@@ -2,13 +2,13 @@ namespace Core.ValueObjects;
 
 public readonly record struct PasswordResetToken
 {
-    private string Value { get; }
-
     public PasswordResetToken(string passwordResetToken)
     {
         ArgumentNullException.ThrowIfNull(passwordResetToken);
         Value = passwordResetToken;
     }
+
+    private string Value { get; }
 
     public static implicit operator string(PasswordResetToken passwordResetToken)
     {

@@ -18,10 +18,10 @@ namespace UnitTests.Tests.Core.Services;
 
 public class AuthenticationServiceTests : BaseTestClass
 {
-    private readonly Mock<IUserService> _mockUserService;
+    private readonly AuthenticationService _authenticationService;
     private readonly Mock<ILoginService> _mockLoginService;
     private readonly Mock<IPasswordResetService> _mockPasswordResetService;
-    private readonly AuthenticationService _authenticationService;
+    private readonly Mock<IUserService> _mockUserService;
 
     public AuthenticationServiceTests()
     {
@@ -50,9 +50,11 @@ public class AuthenticationServiceTests : BaseTestClass
         {
             User = user
         };
+
         _mockUserService
             .Setup(x => x.CreateAsync(It.IsAny<CreateUserRequest>()))
             .ReturnsAsync(user);
+
         _mockLoginService
             .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<IpAddress>()))
             .ReturnsAsync(login);
@@ -82,6 +84,7 @@ public class AuthenticationServiceTests : BaseTestClass
         _mockUserService
             .Setup(x => x.GetAsync(It.IsAny<Username>()))
             .ReturnsAsync(user);
+
         _mockLoginService
             .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<IpAddress>()))
             .ReturnsAsync(login);
@@ -145,6 +148,7 @@ public class AuthenticationServiceTests : BaseTestClass
         _mockPasswordResetService
             .Setup(x => x.GetAsync(It.IsAny<PasswordResetToken>()))
             .ReturnsAsync(passwordReset);
+
         _mockPasswordResetService
             .Setup(x => x.UpdateAsync(It.IsAny<PasswordReset>()))
             .Verifiable();

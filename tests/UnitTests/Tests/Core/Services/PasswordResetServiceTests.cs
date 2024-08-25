@@ -13,8 +13,8 @@ namespace UnitTests.Tests.Core.Services;
 
 public class PasswordResetServiceTests : BaseTestClass
 {
-    private readonly Mock<IPasswordResetRepository> _mockPasswordResetRepository;
     private readonly Mock<IEmailService> _mockEmailService;
+    private readonly Mock<IPasswordResetRepository> _mockPasswordResetRepository;
     private readonly PasswordResetService _passwordResetService;
 
     public PasswordResetServiceTests()
@@ -41,6 +41,7 @@ public class PasswordResetServiceTests : BaseTestClass
         _mockPasswordResetRepository
             .Setup(x => x.CreateAsync(It.IsAny<PasswordReset>()))
             .Verifiable();
+
         _mockEmailService
             .Setup(x => x.SendEmailAsync(It.IsAny<EmailMessage>()))
             .Verifiable();

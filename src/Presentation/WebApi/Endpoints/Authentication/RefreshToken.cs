@@ -12,7 +12,8 @@ using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
-public class RefreshToken(IAuthenticationService authenticationService,
+public class RefreshToken(
+    IAuthenticationService authenticationService,
     IValidator<RefreshTokenRequestDto> validator,
     IMapper mapper) : Endpoint<RefreshTokenRequestDto, AuthenticationResponseDto>
 {
@@ -45,10 +46,7 @@ public class RefreshToken(IAuthenticationService authenticationService,
         await validator.ValidateAndThrowAsync(refreshTokenRequestDto, cancellationToken);
 
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
-        var refreshTokenRequest = mapper.Map<RefreshTokenRequest>(refreshTokenRequestDto, opt =>
-        {
-            opt.Items["IpAddress"] = ipAddress;
-        });
+        var refreshTokenRequest = mapper.Map<RefreshTokenRequest>(refreshTokenRequestDto, opt => { opt.Items["IpAddress"] = ipAddress; });
 
         var authenticationResponse = await authenticationService.RefreshToken(refreshTokenRequest);
 

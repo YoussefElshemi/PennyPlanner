@@ -22,11 +22,9 @@ public static class WebApplicationExtensions
             c.Versioning.DefaultVersion = 1;
             c.Versioning.PrependToRoute = true;
             c.Serializer.Options.Converters.Add(new JsonStringEnumConverter());
-            c.Endpoints.Configurator = e =>
-            {
-                e.PreProcessor<AuthenticationPreProcessor>(Order.Before);
-            };
+            c.Endpoints.Configurator = e => { e.PreProcessor<AuthenticationPreProcessor>(Order.Before); };
         });
+
         app.UseExceptionHandler();
         app.UseSwaggerGen();
     }

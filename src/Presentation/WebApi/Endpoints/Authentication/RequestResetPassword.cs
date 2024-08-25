@@ -13,7 +13,8 @@ using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
-public class RequestResetPassword(IAuthenticationService authenticationService,
+public class RequestResetPassword(
+    IAuthenticationService authenticationService,
     IValidator<RequestResetPasswordRequestDto> validator,
     IMapper mapper) : Endpoint<RequestResetPasswordRequestDto>
 {

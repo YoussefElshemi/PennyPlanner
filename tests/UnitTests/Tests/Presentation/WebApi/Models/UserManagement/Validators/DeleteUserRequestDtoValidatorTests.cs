@@ -65,9 +65,11 @@ public class DeleteUserRequestDtoValidatorTests : BaseTestClass
         {
             UserRole = UserRole.Admin
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(true);
+
         _mockUserRepository
             .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(user);
@@ -97,6 +99,7 @@ public class DeleteUserRequestDtoValidatorTests : BaseTestClass
         _mockUserRepository
             .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(true);
+
         _mockUserRepository
             .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(user);
@@ -118,9 +121,11 @@ public class DeleteUserRequestDtoValidatorTests : BaseTestClass
         {
             UserRole = UserRole.User
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(true);
+
         _mockUserRepository
             .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(user);

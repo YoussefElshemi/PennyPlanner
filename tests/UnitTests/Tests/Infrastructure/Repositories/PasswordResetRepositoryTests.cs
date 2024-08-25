@@ -51,6 +51,7 @@ public class PasswordResetRepositoryTests : BaseTestClass
         {
             PasswordResetId = new PasswordResetId(passwordResetEntity.PasswordResetId)
         };
+
         await _context.PasswordResets.AddAsync(passwordResetEntity);
         await _context.SaveChangesAsync();
 

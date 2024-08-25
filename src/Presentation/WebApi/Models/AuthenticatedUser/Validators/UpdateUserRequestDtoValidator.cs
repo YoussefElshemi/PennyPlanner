@@ -10,11 +10,12 @@ namespace Presentation.WebApi.Models.AuthenticatedUser.Validators;
 
 public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequestDto>
 {
-    private readonly IUserRepository _userRepository;
     internal const string AtLeastOneFieldProvidedErrorMessage = "One or more fields are missing.";
     internal const string FieldDidNotUpdateErrorMessage = "Field is the same as the current value.";
     internal const string EmailAddressInUseErrorMessage = $"{nameof(EmailAddress)} is already in use.";
     internal const string UsernameInUseErrorMessage = $"{nameof(Username)} is already in use.";
+
+    private readonly IUserRepository _userRepository;
 
     public UpdateUserRequestDtoValidator(IUserRepository userRepository, User user)
     {
@@ -49,6 +50,7 @@ public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequest
                     .When(x => x.Username != null);
             });
     }
+
     private async Task<bool> UserNotExistByEmailAddress(string emailAddress)
     {
         return !await _userRepository.ExistsByEmailAddressAsync(emailAddress);

@@ -14,7 +14,6 @@ public class EmailAddressValidatorTests
     [InlineData("invalid..invalid@mail.com", false)]
     [InlineData("invalid@", false)]
     [InlineData("@invalid.com", false)]
-
     [InlineData("", false)]
     public void Validate_GivenActual_ReturnsExpectedResult(string actual, bool expected)
     {

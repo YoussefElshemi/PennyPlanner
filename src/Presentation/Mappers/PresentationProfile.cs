@@ -10,6 +10,9 @@ namespace Presentation.Mappers;
 
 public class PresentationProfile : Profile
 {
+    private const int DefaultPageNumber = 1;
+    public const int DefaultPageSize = 10;
+
     public PresentationProfile()
     {
         CreateMap<LoginRequestDto, AuthenticationRequest>()
@@ -38,7 +41,4 @@ public class PresentationProfile : Profile
 
         CreateMap<User, UserProfileResponseDto>();
     }
-
-    private const int DefaultPageNumber = 1;
-    public const int DefaultPageSize = 10;
 }

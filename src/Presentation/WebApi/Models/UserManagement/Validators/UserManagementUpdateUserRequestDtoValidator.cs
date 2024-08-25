@@ -26,5 +26,7 @@ public class UserManagementUpdateUserRequestDtoValidator : AbstractValidator<Upd
             .WithMessage(CanNotUpdateAdminErrorMessage);
     }
 
-    public UserManagementUpdateUserRequestDtoValidator() { }
+    public UserManagementUpdateUserRequestDtoValidator()
+    {
+    }
 }

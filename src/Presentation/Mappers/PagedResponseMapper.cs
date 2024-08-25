@@ -11,7 +11,8 @@ public class PagedResponseMapper(IMapper mapper) : IPagedResponseMapper
     {
         return new PagedResponseDto<TSource>
         {
-            Metadata = new PagedResponseMetadataDto {
+            Metadata = new PagedResponseMetadataDto
+            {
                 PageNumber = pagedResponse.PageNumber,
                 PageSize = pagedResponse.PageSize,
                 PageCount = pagedResponse.PageCount,

@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class LoginRepository(PennyPlannerDbContext context,
+public class LoginRepository(
+    PennyPlannerDbContext context,
     IMapper mapper) : ILoginRepository
 {
     public async Task CreateAsync(Login login)

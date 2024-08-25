@@ -71,9 +71,9 @@ public static class ExampleRequests
             PageSize = 10
         };
 
-        public static readonly UserRequestDto DeleteUser = new UserRequestDto
+        public static readonly UserRequestDto DeleteUser = new()
         {
-            UserId = Guid.NewGuid(),
+            UserId = Guid.NewGuid()
         };
 
         public static readonly UserManagementUpdateUserRequestDto UpdateUser = new()

@@ -15,8 +15,8 @@ namespace UnitTests.Tests.Core.Services;
 
 public class LoginServiceTests : BaseTestClass
 {
-    private readonly Mock<ILoginRepository> _mockLoginRepository;
     private readonly LoginService _loginService;
+    private readonly Mock<ILoginRepository> _mockLoginRepository;
 
     public LoginServiceTests()
     {

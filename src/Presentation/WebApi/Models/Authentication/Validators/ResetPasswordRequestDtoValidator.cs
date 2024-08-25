@@ -9,12 +9,12 @@ namespace Presentation.WebApi.Models.Authentication.Validators;
 
 public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordRequestDto>
 {
-    private readonly IPasswordResetRepository _passwordResetRepository;
-
     internal const string ConfirmPasswordErrorMessage = $"{nameof(Password)}s do not match.";
     internal const string PasswordResetTokenNotFoundErrorMessage = $"{nameof(PasswordResetToken)} not found.";
     internal const string PasswordResetTokenAlreadyUsedErrorMessage = $"{nameof(PasswordResetToken)} already used.";
     internal const string PasswordDidNotChangeErrorMessage = $"{nameof(Password)} did not change.";
+
+    private readonly IPasswordResetRepository _passwordResetRepository;
 
     public ResetPasswordRequestDtoValidator(IAuthenticationService authenticationService,
         IPasswordResetRepository passwordResetRepository)
@@ -53,7 +53,7 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
         return _passwordResetRepository.ExistsAsync(new PasswordResetToken(passwordResetToken));
     }
 
-    private  async Task<bool> PasswordResetRequestNotUsed(string passwordResetToken)
+    private async Task<bool> PasswordResetRequestNotUsed(string passwordResetToken)
     {
         var passwordReset = await _passwordResetRepository.GetAsync(new PasswordResetToken(passwordResetToken));
 

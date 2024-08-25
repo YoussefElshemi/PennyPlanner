@@ -6,7 +6,8 @@ using IMapper = AutoMapper.IMapper;
 
 namespace Infrastructure.Repositories;
 
-public class PasswordResetRepository(PennyPlannerDbContext context,
+public class PasswordResetRepository(
+    PennyPlannerDbContext context,
     IMapper mapper) : IPasswordResetRepository
 {
     public async Task CreateAsync(PasswordReset passwordReset)

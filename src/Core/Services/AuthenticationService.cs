@@ -92,9 +92,50 @@ public class AuthenticationService(
             UpdatedBy = new Username(Username.SystemUsername),
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
+
         await passwordResetService.UpdateAsync(passwordReset);
 
         await ChangePasswordAsync(passwordReset.User, resetPasswordRequest.Password);
+    }
+
+    public bool Authenticate(User user, Password password)
+    {
+        return user.PasswordHash == HashPassword(password, user.PasswordSalt);
+    }
+
+    public User UpdatePassword(User user, Password password)
+    {
+        var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));
+        var passwordHash = HashPassword(password, passwordSalt);
+
+        var updatedUser = user with
+        {
+            PasswordHash = new PasswordHash(passwordHash),
+            PasswordSalt = passwordSalt
+        };
+
+        return updatedUser;
+    }
+
+    public JwtSecurityToken CreateJwtSecurityToken(User user)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Value.JwtConfig.Key));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+            new Claim(ClaimTypes.Role, user.UserRole.ToString())
+        };
+
+        return new JwtSecurityToken(
+            config.Value.JwtConfig.Issuer,
+            config.Value.JwtConfig.Audience,
+            expires: DateTime.UtcNow.AddMinutes(config.Value.JwtConfig.AccessTokenLifetimeInMinutes),
+            notBefore: DateTime.UtcNow,
+            claims: claims,
+            signingCredentials: credentials
+        );
     }
 
     public static string HashPassword(Password password, PasswordSalt salt)
@@ -132,45 +173,5 @@ public class AuthenticationService(
             RefreshToken = login.RefreshToken,
             RefreshTokenExpiresIn = new ExpiresIn(refreshTokenExpiresIn)
         };
-    }
-
-    public bool Authenticate(User user, Password password)
-    {
-        return user.PasswordHash == HashPassword(password, user.PasswordSalt);
-    }
-
-    public User UpdatePassword(User user, Password password)
-    {
-        var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));
-        var passwordHash = HashPassword(password, passwordSalt);
-
-        var updatedUser = user with
-        {
-            PasswordHash = new PasswordHash(passwordHash),
-            PasswordSalt = passwordSalt
-        };
-
-        return updatedUser;
-    }
-
-    public JwtSecurityToken CreateJwtSecurityToken(User user)
-    {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Value.JwtConfig.Key));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            new Claim(ClaimTypes.Role, user.UserRole.ToString())
-        };
-
-        return new JwtSecurityToken(
-            issuer: config.Value.JwtConfig.Issuer,
-            audience: config.Value.JwtConfig.Audience,
-            expires: DateTime.UtcNow.AddMinutes(config.Value.JwtConfig.AccessTokenLifetimeInMinutes),
-            notBefore: DateTime.UtcNow,
-            claims: claims,
-            signingCredentials: credentials
-        );
     }
 }

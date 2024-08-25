@@ -8,12 +8,12 @@ namespace Presentation.WebApi.Models.Authentication.Validators;
 
 public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenRequestDto>
 {
-    private readonly ILoginRepository _loginRepository;
-    private readonly TimeProvider _timeProvider;
-
     internal const string RefreshTokenDoesNotExistErrorMessage = $"{nameof(RefreshToken)} does not exist.";
     internal const string RefreshTokenIsRevokedErrorMessage = $"{nameof(RefreshToken)} is revoked.";
     internal const string RefreshTokenIsExpiredErrorMessage = $"{nameof(RefreshToken)} is expired.";
+
+    private readonly ILoginRepository _loginRepository;
+    private readonly TimeProvider _timeProvider;
 
     public RefreshTokenRequestDtoValidator(
         ILoginRepository loginRepository,
@@ -45,6 +45,7 @@ public class RefreshTokenRequestDtoValidator : AbstractValidator<RefreshTokenReq
             {
                 ErrorCode = HttpStatusCode.Unauthorized.ToString()
             });
+
             return;
         }
 

@@ -9,16 +9,12 @@ namespace Presentation.WebApi.Models.AuthenticatedUser.Validators;
 
 public class ChangePasswordRequestDtoValidator : AbstractValidator<ChangePasswordRequestDto>
 {
-    private readonly IAuthenticationService _authenticationService;
-
     internal const string ConfirmPasswordErrorMessage = $"{nameof(Password)}s do not match.";
     internal const string PasswordDidNotChangeErrorMessage = $"{nameof(Password)} did not change.";
 
     public ChangePasswordRequestDtoValidator(IAuthenticationService authenticationService,
         User user)
     {
-        _authenticationService = authenticationService;
-
         RuleFor(x => x.Password)
             .Cascade(CascadeMode.Stop)
             .SetValidator(new PasswordValidator())
@@ -33,6 +29,5 @@ public class ChangePasswordRequestDtoValidator : AbstractValidator<ChangePasswor
 
     public ChangePasswordRequestDtoValidator(IAuthenticationService authenticationService)
     {
-        _authenticationService = authenticationService;
     }
 }

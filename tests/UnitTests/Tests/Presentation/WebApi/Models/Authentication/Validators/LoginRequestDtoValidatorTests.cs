@@ -51,9 +51,11 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
         _mockAuthenticationService
             .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(false);
+
         _mockUserRepository
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
+
         _mockUserRepository
             .Setup(x => x.GetByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(user);
@@ -76,9 +78,11 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
         _mockAuthenticationService
             .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
             .Returns(true);
+
         _mockUserRepository
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
+
         _mockUserRepository
             .Setup(x => x.GetByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(user);

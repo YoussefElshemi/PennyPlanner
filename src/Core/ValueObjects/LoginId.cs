@@ -2,13 +2,13 @@ namespace Core.ValueObjects;
 
 public readonly record struct LoginId
 {
-    internal Guid Value { get; }
-
     public LoginId(Guid loginId)
     {
         ArgumentNullException.ThrowIfNull(loginId);
         Value = loginId;
     }
+
+    internal Guid Value { get; }
 
     public static implicit operator Guid(LoginId loginId)
     {

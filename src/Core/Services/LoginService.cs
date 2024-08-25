@@ -8,7 +8,8 @@ using Microsoft.Extensions.Options;
 
 namespace Core.Services;
 
-public class LoginService(ILoginRepository loginRepository,
+public class LoginService(
+    ILoginRepository loginRepository,
     IOptions<AppConfig> config,
     TimeProvider timeProvider) : ILoginService
 {

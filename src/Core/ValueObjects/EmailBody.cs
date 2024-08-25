@@ -2,13 +2,13 @@ namespace Core.ValueObjects;
 
 public readonly record struct EmailBody
 {
-    private string Value { get; }
-
     public EmailBody(string emailBody)
     {
         ArgumentNullException.ThrowIfNull(emailBody);
         Value = emailBody;
     }
+
+    private string Value { get; }
 
     public static implicit operator string(EmailBody emailBody)
     {

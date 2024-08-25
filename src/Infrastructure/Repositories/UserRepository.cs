@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class UserRepository(PennyPlannerDbContext context,
+public class UserRepository(
+    PennyPlannerDbContext context,
     IMapper mapper) : IUserRepository
 {
     public async Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)

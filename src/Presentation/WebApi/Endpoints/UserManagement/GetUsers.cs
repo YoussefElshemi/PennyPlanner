@@ -16,7 +16,8 @@ using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
-public class GetUsers(IUserService userService,
+public class GetUsers(
+    IUserService userService,
     IUserRepository userRepository,
     IMapper mapper,
     IPagedResponseMapper pagedResponseMapper) : Endpoint<PagedRequestDto, PagedResponseDto<UserProfileResponseDto>>

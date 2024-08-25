@@ -4,8 +4,8 @@ using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Services;
 using FastEndpoints;
-using FastEndpoints.Swagger;
 using FastEndpoints.Security;
+using FastEndpoints.Swagger;
 using FluentValidation;
 using Infrastructure;
 using Infrastructure.Mappers;
@@ -80,10 +80,7 @@ public static class WebApplicationBuilderExtensions
         {
             o.AutoTagPathSegmentIndex = 0;
             o.MaxEndpointVersion = 1;
-            o.DocumentSettings = s =>
-            {
-                s.Version = "v1";
-            };
+            o.DocumentSettings = s => { s.Version = "v1"; };
             o.TagDescriptions = t =>
             {
                 t[SwaggerTags.Authentication] = SwaggerTagDescriptions.Authentication;

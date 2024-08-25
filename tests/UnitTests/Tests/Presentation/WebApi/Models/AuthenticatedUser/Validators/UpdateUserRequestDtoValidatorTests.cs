@@ -46,6 +46,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
         {
             Username = null
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
@@ -67,6 +68,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
             Username = null,
             EmailAddress = "new@email.com"
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
@@ -87,6 +89,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
         {
             EmailAddress = null
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
@@ -108,6 +111,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
             Username = "new",
             EmailAddress = null
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
@@ -129,12 +133,15 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
             Username = "new",
             EmailAddress = "new@email.com"
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByEmailAddressAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
+
         _mockUserRepository
             .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
+
         // Act
         var result = await _validator.TestValidateAsync(updateUserRequestDto);
 

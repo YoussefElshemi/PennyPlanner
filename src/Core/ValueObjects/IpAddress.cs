@@ -2,13 +2,13 @@ namespace Core.ValueObjects;
 
 public readonly record struct IpAddress
 {
-    private string Value { get; }
-
     public IpAddress(string ipAddress)
     {
         ArgumentNullException.ThrowIfNull(ipAddress);
         Value = ipAddress;
     }
+
+    private string Value { get; }
 
     public static implicit operator string(IpAddress ipAddress)
     {

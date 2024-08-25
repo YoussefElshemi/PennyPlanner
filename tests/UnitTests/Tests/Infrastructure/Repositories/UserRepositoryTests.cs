@@ -37,6 +37,7 @@ public class UserRepositoryTests : BaseTestClass
         {
             IsDeleted = false
         };
+
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -71,6 +72,7 @@ public class UserRepositoryTests : BaseTestClass
         {
             IsDeleted = false
         };
+
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -89,6 +91,7 @@ public class UserRepositoryTests : BaseTestClass
         {
             IsDeleted = false
         };
+
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -123,6 +126,7 @@ public class UserRepositoryTests : BaseTestClass
         {
             IsDeleted = false
         };
+
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -141,6 +145,7 @@ public class UserRepositoryTests : BaseTestClass
         {
             IsDeleted = false
         };
+
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -175,6 +180,7 @@ public class UserRepositoryTests : BaseTestClass
         {
             IsDeleted = false
         };
+
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync();
 
@@ -206,10 +212,12 @@ public class UserRepositoryTests : BaseTestClass
         {
             IsDeleted = false
         };
+
         var user = FakeUser.CreateValid(Fixture) with
         {
             UserId = new UserId(userEntity.UserId)
         };
+
         await _context.Users.AddAsync(userEntity);
         await _context.SaveChangesAsync();
 
@@ -236,10 +244,12 @@ public class UserRepositoryTests : BaseTestClass
         {
             IsDeleted = true
         };
+
         var user = FakeUser.CreateValid(Fixture) with
         {
             UserId = new UserId(userEntity.UserId)
         };
+
         await _context.Users.AddAsync(userEntity);
         await _context.SaveChangesAsync();
 
@@ -260,6 +270,7 @@ public class UserRepositoryTests : BaseTestClass
                 IsDeleted = false
             })
             .ToList();
+
         _context.Users.AddRange(users);
         await _context.SaveChangesAsync();
 
@@ -280,12 +291,14 @@ public class UserRepositoryTests : BaseTestClass
             PageNumber = new PageNumber(1),
             PageSize = new PageSize(10)
         };
+
         var users = Enumerable.Range(0, numberOfExpectedPages * pagedRequest.PageSize)
             .Select(_ => FakeUserEntity.CreateValid(Fixture) with
             {
                 IsDeleted = false
             })
             .ToList();
+
         _context.Users.AddRange(users);
         await _context.SaveChangesAsync();
 
@@ -297,18 +310,18 @@ public class UserRepositoryTests : BaseTestClass
         });
 
         // Assert
-       pagedResponse.PageNumber.Should().Be(new PageNumber(1));
-       pagedResponse.PageSize.Should().Be(new PageSize(10));
-       pagedResponse.PageCount.Should().Be(new PageCount(numberOfExpectedPages));
-       pagedResponse.TotalCount.Should().Be(new TotalCount(users.Count));
-       pagedResponse.HasMore.Should().Be(new HasMore(true));
-       pagedResponse.Data.Should().HaveCount(10);
+        pagedResponse.PageNumber.Should().Be(new PageNumber(1));
+        pagedResponse.PageSize.Should().Be(new PageSize(10));
+        pagedResponse.PageCount.Should().Be(new PageCount(numberOfExpectedPages));
+        pagedResponse.TotalCount.Should().Be(new TotalCount(users.Count));
+        pagedResponse.HasMore.Should().Be(new HasMore(true));
+        pagedResponse.Data.Should().HaveCount(10);
 
-       nextPagedResponse.PageNumber.Should().Be(new PageNumber(2));
-       nextPagedResponse.PageSize.Should().Be(new PageSize(10));
-       nextPagedResponse.PageCount.Should().Be(new PageCount(numberOfExpectedPages));
-       nextPagedResponse.TotalCount.Should().Be(new TotalCount(users.Count));
-       nextPagedResponse.HasMore.Should().Be(new HasMore(false));
-       nextPagedResponse.Data.Should().HaveCount(10);
+        nextPagedResponse.PageNumber.Should().Be(new PageNumber(2));
+        nextPagedResponse.PageSize.Should().Be(new PageSize(10));
+        nextPagedResponse.PageCount.Should().Be(new PageCount(numberOfExpectedPages));
+        nextPagedResponse.TotalCount.Should().Be(new TotalCount(users.Count));
+        nextPagedResponse.HasMore.Should().Be(new HasMore(false));
+        nextPagedResponse.Data.Should().HaveCount(10);
     }
 }

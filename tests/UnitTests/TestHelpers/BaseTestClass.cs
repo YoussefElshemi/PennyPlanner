@@ -8,7 +8,7 @@ public class BaseTestClass
 {
     protected readonly IFixture Fixture = new Fixture();
     protected readonly Mock<TimeProvider> MockTimeProvider = new();
-    protected readonly DateTime Today = new (2020, 1, 1);
+    protected readonly DateTime Today = new(2020, 1, 1);
 
     protected BaseTestClass()
     {

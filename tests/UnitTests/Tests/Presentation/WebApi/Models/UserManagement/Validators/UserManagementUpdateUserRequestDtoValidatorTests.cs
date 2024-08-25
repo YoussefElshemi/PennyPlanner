@@ -65,9 +65,11 @@ public class UserManagementUpdateUserRequestDtoValidatorTests : BaseTestClass
         {
             UserRole = UserRole.Admin
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(true);
+
         _mockUserRepository
             .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(user);
@@ -88,13 +90,16 @@ public class UserManagementUpdateUserRequestDtoValidatorTests : BaseTestClass
         {
             UserId = _authenticatedUser.UserId
         };
+
         var user = FakeUser.CreateValid(Fixture) with
         {
             UserRole = UserRole.Admin
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(true);
+
         _mockUserRepository
             .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(user);
@@ -115,9 +120,11 @@ public class UserManagementUpdateUserRequestDtoValidatorTests : BaseTestClass
         {
             UserRole = UserRole.User
         };
+
         _mockUserRepository
             .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(true);
+
         _mockUserRepository
             .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(user);

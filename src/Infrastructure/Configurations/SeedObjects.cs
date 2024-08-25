@@ -10,18 +10,18 @@ public static class SeedObjects
 {
     private static readonly Guid UserId = Guid.NewGuid();
     public static readonly ImmutableArray<UserRoleEntity> UserRoles =
-        [
-            ..Enum.GetValues(typeof(UserRole))
-                .Cast<UserRole>()
-                .Select(x => new UserRoleEntity
-                {
-                    UserRoleId = (int)x,
-                    Name = x.GetDescription(),
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedBy = Username.SystemUsername,
-                    UpdatedAt = DateTime.UtcNow
-                })
-        ];
+    [
+        ..Enum.GetValues(typeof(UserRole))
+            .Cast<UserRole>()
+            .Select(x => new UserRoleEntity
+            {
+                UserRoleId = (int)x,
+                Name = x.GetDescription(),
+                CreatedAt = DateTime.UtcNow,
+                UpdatedBy = Username.SystemUsername,
+                UpdatedAt = DateTime.UtcNow
+            })
+    ];
 
     public static readonly ImmutableArray<UserEntity> Users =
     [

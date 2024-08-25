@@ -12,7 +12,8 @@ using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 
-public class Login(IAuthenticationService authenticationService,
+public class Login(
+    IAuthenticationService authenticationService,
     IValidator<LoginRequestDto> validator,
     IMapper mapper) : Endpoint<LoginRequestDto, AuthenticationResponseDto>
 {
@@ -45,10 +46,7 @@ public class Login(IAuthenticationService authenticationService,
         await validator.ValidateAndThrowAsync(loginRequestDto, cancellationToken);
 
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
-        var authenticationRequest = mapper.Map<AuthenticationRequest>(loginRequestDto, opt =>
-        {
-            opt.Items["IpAddress"] = ipAddress;
-        });
+        var authenticationRequest = mapper.Map<AuthenticationRequest>(loginRequestDto, opt => { opt.Items["IpAddress"] = ipAddress; });
 
         var authenticationResponse = await authenticationService.AuthenticateAsync(authenticationRequest);
 

@@ -13,7 +13,8 @@ using ProblemDetails = FastEndpoints.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.AuthenticatedUser;
 
-public class ChangePassword(IAuthenticationService authenticationService,
+public class ChangePassword(
+    IAuthenticationService authenticationService,
     IMapper mapper) : Endpoint<ChangePasswordRequestDto, UserProfileResponseDto>
 {
     public override void Configure()
@@ -53,6 +54,6 @@ public class ChangePassword(IAuthenticationService authenticationService,
 
         var response = mapper.Map<UserProfileResponseDto>(updatedUser);
 
-        await SendOkAsync(response, cancellation: cancellationToken);
+        await SendOkAsync(response, cancellationToken);
     }
 }

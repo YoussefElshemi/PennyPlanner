@@ -21,13 +21,4 @@
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="Migrations\20240820232058_Initial.cs" />
-      <Compile Remove="Migrations\20240820232058_Initial.Designer.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Migrations\" />
-    </ItemGroup>
-
 </Project>

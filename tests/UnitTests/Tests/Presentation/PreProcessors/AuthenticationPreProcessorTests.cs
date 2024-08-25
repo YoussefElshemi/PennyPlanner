@@ -14,8 +14,8 @@ namespace UnitTests.Tests.Presentation.PreProcessors;
 
 public class AuthenticationPreProcessorTests : BaseTestClass
 {
-    private readonly Mock<IUserRepository> _mockUserRepository = new();
     private readonly AuthenticationPreProcessor _authenticationPreProcessor;
+    private readonly Mock<IUserRepository> _mockUserRepository = new();
 
     public AuthenticationPreProcessorTests()
     {
@@ -129,6 +129,7 @@ public class AuthenticationPreProcessorTests : BaseTestClass
         // Act & Assert
         await Assert.ThrowsAsync<ValidationException>(() =>
             _authenticationPreProcessor.PreProcessAsync(contextMock.Object, CancellationToken.None));
+
         _mockUserRepository.Verify(r => r.ExistsByIdAsync(It.IsAny<Guid>()), Times.Once);
     }
 }

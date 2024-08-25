@@ -34,10 +34,7 @@ public class PresentationProfileTests : BaseTestClass
         var ipAddress = Fixture.Create<string>();
 
         // Act
-        var authenticationRequest = _mapper.Map<AuthenticationRequest>(loginRequestDto, opt =>
-        {
-            opt.Items["IpAddress"] = ipAddress;
-        });
+        var authenticationRequest = _mapper.Map<AuthenticationRequest>(loginRequestDto, opt => { opt.Items["IpAddress"] = ipAddress; });
 
         // Assert
         authenticationRequest.Username.Should().Be(new Username(authenticationRequest.Username.ToString()));
@@ -84,10 +81,7 @@ public class PresentationProfileTests : BaseTestClass
         var ipAddress = Fixture.Create<string>();
 
         // Act
-        var createUserRequest = _mapper.Map<CreateUserRequest>(registerRequestDto, opt =>
-        {
-            opt.Items["IpAddress"] = ipAddress;
-        });
+        var createUserRequest = _mapper.Map<CreateUserRequest>(registerRequestDto, opt => { opt.Items["IpAddress"] = ipAddress; });
 
         // Assert
         createUserRequest.Username.Should().Be(new Username(registerRequestDto.Username));
@@ -118,10 +112,7 @@ public class PresentationProfileTests : BaseTestClass
         var ipAddress = Fixture.Create<string>();
 
         // Act
-        var refreshTokenRequest = _mapper.Map<RefreshTokenRequest>(refreshTokenRequestDto, opt =>
-        {
-            opt.Items["IpAddress"] = ipAddress;
-        });
+        var refreshTokenRequest = _mapper.Map<RefreshTokenRequest>(refreshTokenRequestDto, opt => { opt.Items["IpAddress"] = ipAddress; });
 
         // Assert
         refreshTokenRequest.RefreshToken.Should().Be(new RefreshToken(refreshTokenRequestDto.RefreshToken));
@@ -163,10 +154,7 @@ public class PresentationProfileTests : BaseTestClass
         var userUpdateRequestDto = FakeUpdateUserRequestDto.CreateValid();
 
         // Act
-        var userManagementUserUpdateRequestDto = _mapper.Map<UpdateUserRequestDto, UserManagementUpdateUserRequestDto>(userUpdateRequestDto, opt =>
-        {
-            opt.Items["UserId"] = userId;
-        });
+        var userManagementUserUpdateRequestDto = _mapper.Map<UpdateUserRequestDto, UserManagementUpdateUserRequestDto>(userUpdateRequestDto, opt => { opt.Items["UserId"] = userId; });
 
         // Assert
         userManagementUserUpdateRequestDto.UserId.Should().Be(userId);

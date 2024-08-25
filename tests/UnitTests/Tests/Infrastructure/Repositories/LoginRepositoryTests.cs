@@ -52,6 +52,7 @@ public class LoginRepositoryTests : BaseTestClass
             LoginId = new LoginId(loginEntity.LoginId),
             IsRevoked = new IsRevoked(true)
         };
+
         await _context.Logins.AddAsync(loginEntity);
         await _context.SaveChangesAsync();
 
