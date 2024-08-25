@@ -39,7 +39,7 @@ public class LoginRepositoryTests : BaseTestClass
         await _loginRepository.CreateAsync(login);
 
         // Assert
-        (await _context.Logins.FindAsync(login.LoginId.Value)).Should().NotBeNull();
+        (await _context.Logins.FindAsync((Guid)login.LoginId)).Should().NotBeNull();
     }
 
     [Fact]
@@ -60,9 +60,9 @@ public class LoginRepositoryTests : BaseTestClass
         await _loginRepository.UpdateAsync(login);
 
         // Assert
-        var updatedLogin = await _context.Logins.FindAsync(login.LoginId.Value);
+        var updatedLogin = await _context.Logins.FindAsync((Guid)login.LoginId);
         updatedLogin.Should().NotBeNull();
-        updatedLogin!.LoginId.Should().Be(login.LoginId.Value);
+        updatedLogin!.LoginId.Should().Be(login.LoginId);
         updatedLogin.IsRevoked.Should().Be(login.IsRevoked);
         updatedLogin.UpdatedAt.Should().Be(login.UpdatedAt);
     }

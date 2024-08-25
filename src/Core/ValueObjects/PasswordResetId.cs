@@ -8,16 +8,11 @@ public readonly record struct PasswordResetId
         Value = passwordResetId;
     }
 
-    internal Guid Value { get; }
+    private Guid Value { get; }
 
     public static implicit operator Guid(PasswordResetId passwordResetId)
     {
         return passwordResetId.Value;
-    }
-
-    public static implicit operator string(PasswordResetId passwordResetId)
-    {
-        return passwordResetId.Value.ToString();
     }
 
     public override string ToString()

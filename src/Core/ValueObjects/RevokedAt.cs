@@ -8,9 +8,9 @@ public readonly record struct RevokedAt
         Value = revokedAt;
     }
 
-    private DateTime? Value { get; }
+    private DateTime Value { get; }
 
-    public static implicit operator DateTime?(RevokedAt revokedAt)
+    public static implicit operator DateTime(RevokedAt revokedAt)
     {
         return revokedAt.Value;
     }

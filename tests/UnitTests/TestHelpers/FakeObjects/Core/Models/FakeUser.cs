@@ -20,6 +20,7 @@ public static class FakeUser
             IsDeleted = FakeIsDeleted.CreateValid(fixture),
             DeletedBy = FakeUsername.CreateValid(),
             DeletedAt = FakeDeletedAt.CreateValid(fixture),
+            CreatedBy = FakeUsername.CreateValid(),
             CreatedAt = FakeCreatedAt.CreateValid(fixture),
             UpdatedBy = FakeUsername.CreateValid(),
             UpdatedAt = FakeUpdatedAt.CreateValid(fixture)

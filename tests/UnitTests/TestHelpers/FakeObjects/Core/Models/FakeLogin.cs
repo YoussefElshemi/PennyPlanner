@@ -17,6 +17,7 @@ public static class FakeLogin
             ExpiresAt = FakeExpiresAt.CreateValid(fixture),
             IsRevoked = FakeIsRevoked.CreateValid(fixture),
             User = FakeUser.CreateValid(fixture),
+            CreatedBy = FakeUsername.CreateValid(),
             CreatedAt = FakeCreatedAt.CreateValid(fixture),
             UpdatedBy = FakeUsername.CreateValid(),
             UpdatedAt = FakeUpdatedAt.CreateValid(fixture)

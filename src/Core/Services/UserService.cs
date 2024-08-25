@@ -24,6 +24,7 @@ public class UserService(
             PasswordHash = new PasswordHash(passwordHash),
             PasswordSalt = passwordSalt,
             UserRole = UserRole.User,
+            CreatedBy = createUserRequest.Username,
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
             UpdatedBy = createUserRequest.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime),

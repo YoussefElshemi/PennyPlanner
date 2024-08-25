@@ -8,16 +8,11 @@ public readonly record struct LoginId
         Value = loginId;
     }
 
-    internal Guid Value { get; }
+    private Guid Value { get; }
 
     public static implicit operator Guid(LoginId loginId)
     {
         return loginId.Value;
-    }
-
-    public static implicit operator string(LoginId loginId)
-    {
-        return loginId.Value.ToString();
     }
 
     public override string ToString()

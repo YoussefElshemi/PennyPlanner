@@ -37,10 +37,13 @@ public class InfrastructureProfileTests : BaseTestClass
         login.IpAddress.Should().Be(new IpAddress(loginEntity.IpAddress));
         login.RefreshToken.Should().Be(new RefreshToken(loginEntity.RefreshToken));
         login.ExpiresAt.Should().Be(new ExpiresAt(loginEntity.ExpiresAt));
-        login.IsRevoked.Should().Be(new IsRevoked(loginEntity.IsRevoked));
-        login.RevokedAt.Should().Be(new RevokedAt(loginEntity.RevokedAt!.Value));
+        login.CreatedBy.Should().Be(new Username(loginEntity.CreatedBy));
         login.CreatedAt.Should().Be(new CreatedAt(loginEntity.CreatedAt));
+        login.UpdatedBy.Should().Be(new Username(loginEntity.UpdatedBy));
         login.UpdatedAt.Should().Be(new UpdatedAt(loginEntity.UpdatedAt));
+        login.IsRevoked.Should().Be(new IsRevoked(loginEntity.IsRevoked));
+        login.RevokedBy.Should().Be(new Username(loginEntity.RevokedBy!));
+        login.RevokedAt.Should().Be(new RevokedAt(loginEntity.RevokedAt!.Value));
     }
 
     [Fact]
@@ -58,10 +61,13 @@ public class InfrastructureProfileTests : BaseTestClass
         loginEntity.IpAddress.Should().Be(login.IpAddress.ToString());
         loginEntity.RefreshToken.Should().Be(login.RefreshToken.ToString());
         loginEntity.ExpiresAt.Should().Be(login.ExpiresAt);
-        loginEntity.IsRevoked.Should().Be(login.IsRevoked);
-        loginEntity.RevokedAt.Should().Be(login.RevokedAt);
+        loginEntity.CreatedBy.Should().Be(login.CreatedBy);
         loginEntity.CreatedAt.Should().Be(login.CreatedAt);
+        loginEntity.UpdatedBy.Should().Be(login.UpdatedBy);
         loginEntity.UpdatedAt.Should().Be(login.UpdatedAt);
+        loginEntity.IsRevoked.Should().Be(login.IsRevoked);
+        loginEntity.RevokedBy.Should().Be(loginEntity.RevokedBy);
+        loginEntity.RevokedAt.Should().Be(login.RevokedAt);
     }
 
     [Fact]
@@ -79,7 +85,9 @@ public class InfrastructureProfileTests : BaseTestClass
         passwordReset.User.Should().Be(_mapper.Map<User>(passwordResetEntity.UserEntity));
         passwordReset.ResetToken.Should().Be(new PasswordResetToken(passwordResetEntity.ResetToken));
         passwordReset.IsUsed.Should().Be(new IsUsed(passwordResetEntity.IsUsed));
+        passwordReset.CreatedBy.Should().Be(new Username(passwordResetEntity.CreatedBy));
         passwordReset.CreatedAt.Should().Be(new CreatedAt(passwordResetEntity.CreatedAt));
+        passwordReset.UpdatedBy.Should().Be(new Username(passwordResetEntity.UpdatedBy));
         passwordReset.UpdatedAt.Should().Be(new UpdatedAt(passwordResetEntity.UpdatedAt));
     }
 
@@ -97,7 +105,9 @@ public class InfrastructureProfileTests : BaseTestClass
         passwordResetEntity.UserId.Should().Be(passwordReset.UserId.ToString());
         passwordResetEntity.ResetToken.Should().Be(passwordReset.ResetToken.ToString());
         passwordResetEntity.IsUsed.Should().Be(passwordReset.IsUsed);
+        passwordResetEntity.CreatedBy.Should().Be(passwordReset.CreatedBy);
         passwordResetEntity.CreatedAt.Should().Be(passwordReset.CreatedAt);
+        passwordResetEntity.UpdatedBy.Should().Be(passwordReset.UpdatedBy);
         passwordResetEntity.UpdatedAt.Should().Be(passwordReset.UpdatedAt);
     }
 
@@ -120,7 +130,9 @@ public class InfrastructureProfileTests : BaseTestClass
         user.IsDeleted.Should().Be(new IsDeleted(userEntity.IsDeleted));
         user.DeletedBy.Should().Be(new Username(userEntity.DeletedBy!));
         user.DeletedAt.Should().Be(new DeletedAt(userEntity.DeletedAt!.Value));
+        user.CreatedBy.Should().Be(new Username(userEntity.CreatedBy));
         user.CreatedAt.Should().Be(new CreatedAt(userEntity.CreatedAt));
+        user.UpdatedBy.Should().Be(new Username(userEntity.UpdatedBy));
         user.UpdatedAt.Should().Be(new UpdatedAt(userEntity.UpdatedAt));
     }
 
@@ -140,7 +152,9 @@ public class InfrastructureProfileTests : BaseTestClass
         userEntity.PasswordHash.Should().Be(user.PasswordHash.ToString());
         userEntity.PasswordSalt.Should().Be(user.PasswordSalt.ToString());
         userEntity.UserRoleId.Should().Be((int)user.UserRole);
-        userEntity.CreatedAt.Should().Be(user.CreatedAt);
+        userEntity.CreatedBy.Should().Be(user.CreatedBy);
+        userEntity.UpdatedAt.Should().Be(user.UpdatedAt);
+        userEntity.UpdatedBy.Should().Be(user.UpdatedBy);
         userEntity.UpdatedAt.Should().Be(user.UpdatedAt);
     }
 }

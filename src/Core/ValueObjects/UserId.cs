@@ -8,7 +8,7 @@ public readonly record struct UserId
         Value = userId;
     }
 
-    internal Guid Value { get; }
+    private Guid Value { get; }
 
     public static implicit operator Guid(UserId userId)
     {

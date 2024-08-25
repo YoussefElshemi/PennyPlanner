@@ -15,11 +15,13 @@ public static class FakeLoginEntity
             IpAddress = fixture.Create<string>(),
             RefreshToken = fixture.Create<string>(),
             ExpiresAt = fixture.Create<DateTime>(),
-            IsRevoked = fixture.Create<bool>(),
-            RevokedAt = fixture.Create<DateTime>(),
+            CreatedBy = fixture.Create<string>(),
             CreatedAt = fixture.Create<DateTime>(),
             UpdatedBy = fixture.Create<string>(),
-            UpdatedAt = fixture.Create<DateTime>()
+            UpdatedAt = fixture.Create<DateTime>(),
+            IsRevoked = fixture.Create<bool>(),
+            RevokedBy = fixture.Create<string>(),
+            RevokedAt = fixture.Create<DateTime>(),
         };
     }
 }

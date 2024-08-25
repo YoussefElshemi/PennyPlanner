@@ -39,7 +39,7 @@ public class PasswordResetRepositoryTests : BaseTestClass
         await _passwordResetRepository.CreateAsync(passwordReset);
 
         // Assert
-        (await _context.PasswordResets.FindAsync(passwordReset.PasswordResetId.Value)).Should().NotBeNull();
+        (await _context.PasswordResets.FindAsync((Guid)passwordReset.PasswordResetId)).Should().NotBeNull();
     }
 
     [Fact]
@@ -59,9 +59,9 @@ public class PasswordResetRepositoryTests : BaseTestClass
         await _passwordResetRepository.UpdateAsync(passwordReset);
 
         // Assert
-        var updatedPasswordReset = await _context.PasswordResets.FindAsync(passwordReset.PasswordResetId.Value);
+        var updatedPasswordReset = await _context.PasswordResets.FindAsync((Guid)passwordReset.PasswordResetId);
         updatedPasswordReset.Should().NotBeNull();
-        updatedPasswordReset!.PasswordResetId.Should().Be(passwordReset.PasswordResetId.Value);
+        updatedPasswordReset!.PasswordResetId.Should().Be(passwordReset.PasswordResetId);
         updatedPasswordReset.IsUsed.Should().Be(passwordReset.IsUsed);
         updatedPasswordReset.UpdatedAt.Should().Be(passwordReset.UpdatedAt);
     }

@@ -15,6 +15,7 @@ public static class FakePasswordReset
             User = FakeUser.CreateValid(fixture),
             ResetToken = FakePasswordResetToken.CreateValid(fixture),
             IsUsed = FakeIsUsed.CreateValid(fixture),
+            CreatedBy = FakeUsername.CreateValid(),
             CreatedAt = FakeCreatedAt.CreateValid(fixture),
             UpdatedBy = FakeUsername.CreateValid(),
             UpdatedAt = FakeUpdatedAt.CreateValid(fixture)

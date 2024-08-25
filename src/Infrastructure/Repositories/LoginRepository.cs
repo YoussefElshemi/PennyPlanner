@@ -23,6 +23,7 @@ public class LoginRepository(
         var loginEntity = await context.Logins.SingleAsync(x => x.LoginId == loginToUpdate.LoginId);
 
         loginEntity.IsRevoked = loginToUpdate.IsRevoked;
+        loginEntity.RevokedBy = loginToUpdate.RevokedBy;
         loginEntity.RevokedAt = loginToUpdate.RevokedAt;
         loginEntity.UpdatedBy = loginToUpdate.UpdatedBy;
         loginEntity.UpdatedAt = loginToUpdate.UpdatedAt;

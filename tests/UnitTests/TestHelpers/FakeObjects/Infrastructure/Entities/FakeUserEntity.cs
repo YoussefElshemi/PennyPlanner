@@ -16,12 +16,13 @@ public static class FakeUserEntity
             PasswordHash = fixture.Create<string>(),
             PasswordSalt = fixture.Create<string>(),
             UserRoleId = (int)fixture.Create<UserRole>(),
-            IsDeleted = fixture.Create<bool>(),
-            DeletedBy = fixture.Create<string>(),
-            DeletedAt = fixture.Create<DateTime>(),
+            CreatedBy = fixture.Create<string>(),
             CreatedAt = fixture.Create<DateTime>(),
             UpdatedBy = fixture.Create<string>(),
-            UpdatedAt = fixture.Create<DateTime>()
+            UpdatedAt = fixture.Create<DateTime>(),
+            IsDeleted = fixture.Create<bool>(),
+            DeletedBy = fixture.Create<string>(),
+            DeletedAt = fixture.Create<DateTime>()
         };
     }
 }

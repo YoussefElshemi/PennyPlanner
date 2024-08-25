@@ -49,6 +49,7 @@ public class AuthenticationService(
         login = login with
         {
             IsRevoked = new IsRevoked(true),
+            RevokedBy = login.User.Username,
             RevokedAt = new RevokedAt(timeProvider.GetUtcNow().UtcDateTime),
             UpdatedBy = login.User.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)

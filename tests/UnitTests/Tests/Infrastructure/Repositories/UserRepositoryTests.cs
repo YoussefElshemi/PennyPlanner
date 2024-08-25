@@ -201,7 +201,7 @@ public class UserRepositoryTests : BaseTestClass
         await _userRepository.CreateAsync(user);
 
         // Assert
-        (await _context.Users.FindAsync(user.UserId.Value)).Should().NotBeNull();
+        (await _context.Users.FindAsync((Guid)user.UserId)).Should().NotBeNull();
     }
 
     [Fact]
@@ -225,9 +225,9 @@ public class UserRepositoryTests : BaseTestClass
         await _userRepository.UpdateAsync(user);
 
         // Assert
-        var updatedUser = await _context.Users.FindAsync(user.UserId.Value);
+        var updatedUser = await _context.Users.FindAsync((Guid)user.UserId);
         updatedUser.Should().NotBeNull();
-        updatedUser!.UserId.Should().Be(user.UserId.Value);
+        updatedUser!.UserId.Should().Be(user.UserId);
         updatedUser.Username.Should().Be(user.Username);
         updatedUser.EmailAddress.Should().Be(user.EmailAddress);
         updatedUser.PasswordSalt.Should().Be(user.PasswordSalt);

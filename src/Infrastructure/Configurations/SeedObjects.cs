@@ -17,6 +17,7 @@ public static class SeedObjects
             {
                 UserRoleId = (int)x,
                 Name = x.GetDescription(),
+                CreatedBy = Username.SystemUsername,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedBy = Username.SystemUsername,
                 UpdatedAt = DateTime.UtcNow
@@ -36,6 +37,7 @@ public static class SeedObjects
             IsDeleted = false,
             DeletedBy = null,
             DeletedAt = null,
+            CreatedBy = Username.SystemUsername,
             CreatedAt = DateTime.UtcNow,
             UpdatedBy = Username.SystemUsername,
             UpdatedAt = DateTime.UtcNow
