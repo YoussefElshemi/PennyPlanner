@@ -27,4 +27,6 @@ public class DeleteUserRequestDtoValidator : AbstractValidator<UserRequestDto>
             .WithErrorCode(HttpStatusCode.Forbidden.ToString())
             .WithMessage(CanNotDeleteAdminErrorMessage);
     }
+
+    public DeleteUserRequestDtoValidator() {}
 }
