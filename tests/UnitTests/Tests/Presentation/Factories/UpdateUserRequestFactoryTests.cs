@@ -10,14 +10,14 @@ namespace UnitTests.Tests.Presentation.Factories;
 public class UpdateUserRequestFactoryTests : BaseTestClass
 {
     [Fact]
-    public void Map_GivenUserAndUpdateUserRequestDto_ReturnsUpdatedUser()
+    public void Create_GivenUserAndUpdateUserRequestDto_ReturnsUpdatedUser()
     {
         // Arrange
         var user = FakeUser.CreateValid(Fixture);
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid();
 
         // Act
-        var createUserRequest = UpdateUserRequestFactory.Map(user, updateUserRequestDto);
+        var createUserRequest = UpdateUserRequestFactory.Create(user, updateUserRequestDto);
 
         // Assert
         createUserRequest.UserId.Should().Be(new UserId(user.UserId));

@@ -6,7 +6,7 @@ using FluentValidation;
 
 namespace Presentation.WebApi.Models.UserManagement.Validators;
 
-public class DeleteUserRequestDtoValidator : AbstractValidator<GetUserRequestDto>
+public class DeleteUserRequestDtoValidator : AbstractValidator<UserRequestDto>
 {
     internal const string UserDoesNotExistErrorMessage = $"{nameof(User)} does not exist.";
     internal const string CanNotDeleteAdminErrorMessage = $"{nameof(User)} is admin and cannot be deleted.";

@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Mime;
-using Core.Constants;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
@@ -52,7 +51,7 @@ public class Update(IUserRepository userRepository,
         var validator = new UpdateUserRequestDtoValidator(userRepository, authenticatedUser!);
         await validator.ValidateAndThrowAsync(updateUserRequestDto, cancellationToken);
 
-        var updateUserRequest = UpdateUserRequestFactory.Map(authenticatedUser!, updateUserRequestDto);
+        var updateUserRequest = UpdateUserRequestFactory.Create(authenticatedUser!, updateUserRequestDto);
         updateUserRequest = updateUserRequest with
         {
             UpdatedBy = updateUserRequest.Username,

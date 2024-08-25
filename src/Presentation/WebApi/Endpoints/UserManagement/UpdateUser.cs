@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Mime;
-using Core.Constants;
 using Core.Enums;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
@@ -58,7 +57,7 @@ public class UpdateUser(IUserService userService,
         var user = await userService.GetAsync(new UserId(Route<Guid>("UserId")));
         await ValidateAndThrowAsync(updateUserRequestDto, authenticatedUser!, user);
 
-        var updateUserRequest = UpdateUserRequestFactory.Map(user, updateUserRequestDto);
+        var updateUserRequest = UpdateUserRequestFactory.Create(user, updateUserRequestDto);
         updateUserRequest = updateUserRequest with
         {
             UpdatedBy = user.UserId == authenticatedUser!.UserId  ? updateUserRequest.Username : authenticatedUser.Username,

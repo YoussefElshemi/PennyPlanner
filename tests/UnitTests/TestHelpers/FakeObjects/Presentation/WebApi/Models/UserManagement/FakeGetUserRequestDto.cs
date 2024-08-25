@@ -6,9 +6,9 @@ namespace UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.UserManag
 
 public static class FakeGetUserRequestDto
 {
-    public static GetUserRequestDto CreateValid(IFixture fixture)
+    public static UserRequestDto CreateValid(IFixture fixture)
     {
-        return new GetUserRequestDto
+        return new UserRequestDto
         {
             UserId = FakeUserId.CreateValid(fixture)
         };

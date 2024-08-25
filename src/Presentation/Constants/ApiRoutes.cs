@@ -1,4 +1,4 @@
-namespace Core.Constants;
+namespace Presentation.Constants;
 
 public static class ApiRoutes
 {

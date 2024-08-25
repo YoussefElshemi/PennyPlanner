@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Mime;
-using Core.Constants;
 using Core.Enums;
 using Core.Interfaces.Services;
 using Core.Models;
@@ -15,7 +14,7 @@ using ProblemDetails = FastEndpoints.ProblemDetails;
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
 public class DeleteUser(IUserService userService,
-    IValidator<GetUserRequestDto> validator) : Endpoint<GetUserRequestDto>
+    IValidator<UserRequestDto> validator) : Endpoint<UserRequestDto>
 {
     public override void Configure()
     {
@@ -25,7 +24,7 @@ public class DeleteUser(IUserService userService,
         EnableAntiforgery();
 
         Description(b => b
-            .Accepts<GetUserRequestDto>(MediaTypeNames.Application.Json)
+            .Accepts<UserRequestDto>(MediaTypeNames.Application.Json)
             .Produces((int)HttpStatusCode.NoContent)
             .Produces<ValidationProblemDetails>((int)HttpStatusCode.BadRequest)
             .Produces((int)HttpStatusCode.Unauthorized)
@@ -42,13 +41,13 @@ public class DeleteUser(IUserService userService,
         Options(x => x.WithTags(SwaggerTags.UserManagement));
     }
 
-    public override async Task HandleAsync(GetUserRequestDto getUserRequestDto, CancellationToken cancellationToken)
+    public override async Task HandleAsync(UserRequestDto userRequestDto, CancellationToken cancellationToken)
     {
-        await validator.ValidateAndThrowAsync(getUserRequestDto, cancellationToken);
+        await validator.ValidateAndThrowAsync(userRequestDto, cancellationToken);
 
         var authenticatedUser = HttpContext.Items["User"] as User;
 
-        await userService.DeleteAsync(new UserId(getUserRequestDto.UserId), authenticatedUser!.Username);
+        await userService.DeleteAsync(new UserId(userRequestDto.UserId), authenticatedUser!.Username);
 
         await SendNoContentAsync(cancellation: cancellationToken);
     }

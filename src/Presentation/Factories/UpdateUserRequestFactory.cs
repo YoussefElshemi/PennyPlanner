@@ -6,7 +6,7 @@ namespace Presentation.Factories;
 
 public static class UpdateUserRequestFactory
 {
-    public static User Map(User user, UpdateUserRequestDto updateUserRequestDto)
+    public static User Create(User user, UpdateUserRequestDto updateUserRequestDto)
     {
         return user with
         {

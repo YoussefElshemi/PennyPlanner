@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Mime;
-using Core.Constants;
 using Core.Interfaces.Services;
 using Core.Models;
 using FastEndpoints;
