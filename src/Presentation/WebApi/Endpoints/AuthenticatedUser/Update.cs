@@ -47,14 +47,15 @@ public class Update(IUserRepository userRepository,
 
     public override async Task HandleAsync(UpdateUserRequestDto updateUserRequestDto, CancellationToken cancellationToken)
     {
-        var user = HttpContext.Items["User"] as User;
+        var authenticatedUser = HttpContext.Items["User"] as User;
 
-        var validator = new UpdateUserRequestDtoValidator(userRepository, user!);
+        var validator = new UpdateUserRequestDtoValidator(userRepository, authenticatedUser!);
         await validator.ValidateAndThrowAsync(updateUserRequestDto, cancellationToken);
 
-        var updateUserRequest = UpdateUserRequestFactory.Map(user!, updateUserRequestDto) with
+        var updateUserRequest = UpdateUserRequestFactory.Map(authenticatedUser!, updateUserRequestDto);
+        updateUserRequest = updateUserRequest with
         {
-            UpdatedBy = user!.Username,
+            UpdatedBy = updateUserRequest.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 

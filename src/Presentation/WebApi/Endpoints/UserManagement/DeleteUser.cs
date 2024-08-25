@@ -46,9 +46,9 @@ public class DeleteUser(IUserService userService,
     {
         await validator.ValidateAndThrowAsync(getUserRequestDto, cancellationToken);
 
-        var user = HttpContext.Items["User"] as User;
+        var authenticatedUser = HttpContext.Items["User"] as User;
 
-        await userService.DeleteAsync(new UserId(getUserRequestDto.UserId), user!.Username);
+        await userService.DeleteAsync(new UserId(getUserRequestDto.UserId), authenticatedUser!.Username);
 
         await SendNoContentAsync(cancellation: cancellationToken);
     }

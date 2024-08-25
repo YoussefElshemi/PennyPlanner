@@ -18,10 +18,9 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
 
     public ChangePasswordRequestDtoValidatorTests()
     {
-        var currentUser = FakeUser.CreateValid(Fixture);
+        var user = FakeUser.CreateValid(Fixture);
         _mockAuthenticationService = new Mock<IAuthenticationService>();
-        _validator = new ChangePasswordRequestDtoValidator(_mockAuthenticationService.Object,
-            currentUser);
+        _validator = new ChangePasswordRequestDtoValidator(_mockAuthenticationService.Object, user);
     }
 
     [Fact]

@@ -53,13 +53,15 @@ public class UpdateUser(IUserService userService,
 
     public override async Task HandleAsync(UpdateUserRequestDto updateUserRequestDto, CancellationToken cancellationToken)
     {
-        var user = HttpContext.Items["User"] as User;
+        var authenticatedUser = HttpContext.Items["User"] as User;
 
-        await ValidateAndThrowAsync(updateUserRequestDto, user);
+        var user = await userService.GetAsync(new UserId(Route<Guid>("UserId")));
+        await ValidateAndThrowAsync(updateUserRequestDto, authenticatedUser!, user);
 
-        var updateUserRequest = UpdateUserRequestFactory.Map(user!, updateUserRequestDto) with
+        var updateUserRequest = UpdateUserRequestFactory.Map(user, updateUserRequestDto);
+        updateUserRequest = updateUserRequest with
         {
-            UpdatedBy = user!.Username,
+            UpdatedBy = user.UserId == authenticatedUser!.UserId  ? updateUserRequest.Username : authenticatedUser.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 
@@ -70,16 +72,16 @@ public class UpdateUser(IUserService userService,
         await SendAsync(response, cancellation: cancellationToken);
     }
 
-    private async Task ValidateAndThrowAsync(UpdateUserRequestDto updateUserRequestDto, User? user)
+    private async Task ValidateAndThrowAsync(UpdateUserRequestDto updateUserRequestDto, User authenticatedUser, User user)
     {
         var userManagementUpdateUserRequestDto = mapper.Map<UpdateUserRequestDto, UserManagementUpdateUserRequestDto>(updateUserRequestDto, opt =>
         {
             opt.Items["UserId"] = Route<Guid>("UserId");
         });
-        var userManagementValidator = new UserManagementUpdateUserRequestDtoValidator(userRepository);
+        var userManagementValidator = new UserManagementUpdateUserRequestDtoValidator(userRepository, authenticatedUser);
         await userManagementValidator.ValidateAndThrowAsync(userManagementUpdateUserRequestDto);
 
-        var validator = new UpdateUserRequestDtoValidator(userRepository, user!);
+        var validator = new UpdateUserRequestDtoValidator(userRepository, user);
         await validator.ValidateAndThrowAsync(updateUserRequestDto);
     }
 }

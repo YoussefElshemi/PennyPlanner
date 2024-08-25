@@ -15,9 +15,9 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
 
     public UpdateUserRequestDtoValidatorTests()
     {
-        var currentUser = FakeUser.CreateValid(Fixture);
+        var user = FakeUser.CreateValid(Fixture);
         _mockUserRepository = new Mock<IUserRepository>();
-        _validator = new UpdateUserRequestDtoValidator(_mockUserRepository.Object, currentUser);
+        _validator = new UpdateUserRequestDtoValidator(_mockUserRepository.Object, user);
     }
 
     [Fact]

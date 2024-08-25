@@ -11,7 +11,7 @@ public class UserManagementUpdateUserRequestDtoValidator : AbstractValidator<Upd
     internal const string UserDoesNotExistErrorMessage = $"{nameof(User)} does not exist.";
     internal const string CanNotUpdateAdminErrorMessage = $"{nameof(User)} is admin and cannot be updated.";
 
-    public UserManagementUpdateUserRequestDtoValidator(IUserRepository userRepository)
+    public UserManagementUpdateUserRequestDtoValidator(IUserRepository userRepository, User authenticatedUser)
     {
         RuleFor(x => x.UserId)
             .Cascade(CascadeMode.Stop)
@@ -19,8 +19,12 @@ public class UserManagementUpdateUserRequestDtoValidator : AbstractValidator<Upd
             .MustAsync(async (x, _) => await userRepository.ExistsByIdAsync(x))
             .WithErrorCode(HttpStatusCode.Conflict.ToString())
             .WithMessage(UserDoesNotExistErrorMessage)
-            .MustAsync(async (x, _) => (await userRepository.GetByIdAsync(x)).UserRole != UserRole.Admin)
+            .MustAsync(async (x, _) =>
+                (await userRepository.GetByIdAsync(x)).UserRole != UserRole.Admin ||
+                authenticatedUser.UserId == x)
             .WithErrorCode(HttpStatusCode.Forbidden.ToString())
             .WithMessage(CanNotUpdateAdminErrorMessage);
     }
+
+    public UserManagementUpdateUserRequestDtoValidator() { }
 }

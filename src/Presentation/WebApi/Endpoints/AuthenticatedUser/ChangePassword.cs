@@ -42,14 +42,14 @@ public class ChangePassword(IAuthenticationService authenticationService,
 
     public override async Task HandleAsync(ChangePasswordRequestDto changePasswordRequestDto, CancellationToken cancellationToken)
     {
-        var user = HttpContext.Items["User"] as User;
+        var authenticatedUser = HttpContext.Items["User"] as User;
 
-        var validator = new ChangePasswordRequestDtoValidator(authenticationService, user!);
+        var validator = new ChangePasswordRequestDtoValidator(authenticationService, authenticatedUser!);
         await validator.ValidateAndThrowAsync(changePasswordRequestDto, cancellationToken);
 
         var changePasswordRequest = mapper.Map<ChangePasswordRequest>(changePasswordRequestDto);
 
-        var updatedUser = await authenticationService.ChangePasswordAsync(user!, changePasswordRequest.Password);
+        var updatedUser = await authenticationService.ChangePasswordAsync(authenticatedUser!, changePasswordRequest.Password);
 
         var response = mapper.Map<UserProfileResponseDto>(updatedUser);
 

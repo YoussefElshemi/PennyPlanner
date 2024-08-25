@@ -31,7 +31,6 @@ public class GetUsers(IUserService userService,
         EnableAntiforgery();
 
         Description(b => b
-            .Accepts<PagedRequestDto>(MediaTypeNames.Application.Json)
             .Produces<PagedResponseDto<UserProfileResponseDto>>()
             .Produces<ValidationProblemDetails>((int)HttpStatusCode.BadRequest)
             .Produces((int)HttpStatusCode.Unauthorized)

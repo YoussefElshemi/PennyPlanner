@@ -33,9 +33,9 @@ public class Get(IMapper mapper) : EndpointWithoutRequest<UserProfileResponseDto
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var user = HttpContext.Items["User"] as User;
+        var authenticatedUser = HttpContext.Items["User"] as User;
 
-        var response = mapper.Map<UserProfileResponseDto>(user!);
+        var response = mapper.Map<UserProfileResponseDto>(authenticatedUser!);
 
         await SendAsync(response, cancellation: cancellationToken);
     }
