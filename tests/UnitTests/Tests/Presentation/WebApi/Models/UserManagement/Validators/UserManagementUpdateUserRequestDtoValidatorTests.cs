@@ -1,5 +1,6 @@
 using Core.Enums;
 using Core.Interfaces.Repositories;
+using Core.Models;
 using FluentValidation.TestHelper;
 using Moq;
 using Presentation.WebApi.Models.UserManagement.Validators;
@@ -11,13 +12,14 @@ namespace UnitTests.Tests.Presentation.WebApi.Models.UserManagement.Validators;
 
 public class UserManagementUpdateUserRequestDtoValidatorTests : BaseTestClass
 {
+    private readonly User _authenticatedUser;
     private readonly Mock<IUserRepository> _mockUserRepository = new();
     private readonly UserManagementUpdateUserRequestDtoValidator _validator;
 
     public UserManagementUpdateUserRequestDtoValidatorTests()
     {
-        var authenticatedUser = FakeUser.CreateValid(Fixture);
-        _validator = new UserManagementUpdateUserRequestDtoValidator(_mockUserRepository.Object, authenticatedUser);
+        _authenticatedUser = FakeUser.CreateValid(Fixture);
+        _validator = new UserManagementUpdateUserRequestDtoValidator(_mockUserRepository.Object, _authenticatedUser);
     }
 
     [Fact]
@@ -76,6 +78,32 @@ public class UserManagementUpdateUserRequestDtoValidatorTests : BaseTestClass
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.UserId)
             .WithErrorMessage(UserManagementUpdateUserRequestDtoValidator.CanNotUpdateAdminErrorMessage);
+    }
+
+    [Fact]
+    public async Task ValidateAsync_UserIsAdminButUpdatingThesmelves_ReturnsError()
+    {
+        // Arrange
+        var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid(Fixture) with
+        {
+            UserId = _authenticatedUser.UserId
+        };
+        var user = FakeUser.CreateValid(Fixture) with
+        {
+            UserRole = UserRole.Admin
+        };
+        _mockUserRepository
+            .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+        _mockUserRepository
+            .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(user);
+
+        // Act
+        var result = await _validator.TestValidateAsync(updateUserRequestDto);
+
+        // Assert
+        result.ShouldNotHaveAnyValidationErrors();
     }
 
     [Fact]
