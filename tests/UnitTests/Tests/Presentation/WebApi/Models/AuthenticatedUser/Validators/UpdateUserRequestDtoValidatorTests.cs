@@ -1,4 +1,5 @@
 using Core.Interfaces.Repositories;
+using Core.ValueObjects;
 using FluentValidation.TestHelper;
 using Moq;
 using Presentation.WebApi.Models.AuthenticatedUser.Validators;
@@ -56,7 +57,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.EmailAddress)
-            .WithErrorMessage(UpdateUserRequestDtoValidator.FieldDidNotUpdateErrorMessage);
+            .WithErrorMessage(UpdateUserRequestDtoValidator.FieldDidNotUpdateErrorMessage(nameof(EmailAddress)));
     }
 
     [Fact]
@@ -99,7 +100,7 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Username)
-            .WithErrorMessage(UpdateUserRequestDtoValidator.FieldDidNotUpdateErrorMessage);
+            .WithErrorMessage(UpdateUserRequestDtoValidator.FieldDidNotUpdateErrorMessage(nameof(Username)));
     }
 
     [Fact]

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Core.Enums;
 using Core.ValueObjects;
 using FluentAssertions;
 using Infrastructure;
@@ -282,14 +283,15 @@ public class UserRepositoryTests : BaseTestClass
     }
 
     [Fact]
-    public async Task GetAllAsync_ExistingUser_ReturnsOne()
+    public async Task GetAllAsync_TwoPages_ReturnsCorrectNumberOfUsers()
     {
         // Arrange
         const int numberOfExpectedPages = 2;
         var pagedRequest = FakePagedRequest.CreateValid(Fixture) with
         {
             PageNumber = new PageNumber(1),
-            PageSize = new PageSize(10)
+            PageSize = new PageSize(10),
+            SortBy = null
         };
 
         var users = Enumerable.Range(0, numberOfExpectedPages * pagedRequest.PageSize)
@@ -323,5 +325,38 @@ public class UserRepositoryTests : BaseTestClass
         nextPagedResponse.TotalCount.Should().Be(new TotalCount(users.Count));
         nextPagedResponse.HasMore.Should().Be(new HasMore(false));
         nextPagedResponse.Data.Should().HaveCount(10);
+    }
+
+    [Fact]
+    public async Task GetAllAsync_SortBy_ReturnsCorrectNumberOfUsers()
+    {
+        // Arrange
+        var pagedRequest = FakePagedRequest.CreateValid(Fixture) with
+        {
+            PageNumber = new PageNumber(1),
+            PageSize = new PageSize(10),
+            SortBy = new SortBy("UserId")
+        };
+
+        var users = Enumerable.Range(0, pagedRequest.PageSize)
+            .Select(_ => FakeUserEntity.CreateValid(Fixture) with
+            {
+                IsDeleted = false
+            })
+            .ToList();
+
+        _context.Users.AddRange(users);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var pagedResponse = await _userRepository.GetAllAsync(pagedRequest);
+        var sortedPagedResponse = await _userRepository.GetAllAsync(pagedRequest with
+        {
+            SortOrder = SortOrder.Desc
+        });
+
+        // Assert
+        pagedResponse.Data.Select(x => x.UserId).Should()
+            .Equal(sortedPagedResponse.Data.Select(x => x.UserId).Reverse());
     }
 }

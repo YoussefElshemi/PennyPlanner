@@ -176,5 +176,9 @@ public class PresentationProfileTests : BaseTestClass
         userProfileResponseDto.Username.Should().Be(user.Username);
         userProfileResponseDto.EmailAddress.Should().Be(user.EmailAddress);
         userProfileResponseDto.UserRole.Should().Be(user.UserRole.ToString());
+        userProfileResponseDto.CreatedBy.Should().Be(user.CreatedBy.ToString());
+        userProfileResponseDto.CreatedAt.Should().Be(user.CreatedAt.ToString());
+        userProfileResponseDto.UpdatedBy.Should().Be(user.UpdatedBy.ToString());
+        userProfileResponseDto.UpdatedAt.Should().Be(user.UpdatedAt.ToString());
     }
 }

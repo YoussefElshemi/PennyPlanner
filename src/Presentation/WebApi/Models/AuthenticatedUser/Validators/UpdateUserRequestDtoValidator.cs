@@ -11,9 +11,9 @@ namespace Presentation.WebApi.Models.AuthenticatedUser.Validators;
 public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequestDto>
 {
     internal const string AtLeastOneFieldProvidedErrorMessage = "One or more fields are missing.";
-    internal const string FieldDidNotUpdateErrorMessage = "Field is the same as the current value.";
     internal const string EmailAddressInUseErrorMessage = $"{nameof(EmailAddress)} is already in use.";
     internal const string UsernameInUseErrorMessage = $"{nameof(Username)} is already in use.";
+    internal static readonly Func<string, string> FieldDidNotUpdateErrorMessage = field => $"{field} is the same as the current value.";
 
     private readonly IUserRepository _userRepository;
 
@@ -32,7 +32,7 @@ public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequest
                     .SetValidator(new EmailAddressValidator()!)
                     .Must(x => x != user.EmailAddress)
                     .WithErrorCode(HttpStatusCode.Conflict.ToString())
-                    .WithMessage(FieldDidNotUpdateErrorMessage)
+                    .WithMessage(FieldDidNotUpdateErrorMessage(nameof(EmailAddress)))
                     .MustAsync(async (x, _) => await UserNotExistByEmailAddress(x!))
                     .WithErrorCode(HttpStatusCode.Conflict.ToString())
                     .WithMessage(EmailAddressInUseErrorMessage)
@@ -43,7 +43,7 @@ public class UpdateUserRequestDtoValidator : AbstractValidator<UpdateUserRequest
                     .SetValidator(new UsernameValidator()!)
                     .Must(x => x != user.Username)
                     .WithErrorCode(HttpStatusCode.Conflict.ToString())
-                    .WithMessage(FieldDidNotUpdateErrorMessage)
+                    .WithMessage(FieldDidNotUpdateErrorMessage(nameof(Username)))
                     .MustAsync(async (x, _) => await UserNotExistByUsername(x!))
                     .WithErrorCode(HttpStatusCode.Conflict.ToString())
                     .WithMessage(UsernameInUseErrorMessage)

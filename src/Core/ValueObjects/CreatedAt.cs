@@ -1,3 +1,5 @@
+using Core.Constants;
+
 namespace Core.ValueObjects;
 
 public readonly record struct CreatedAt
@@ -13,5 +15,10 @@ public readonly record struct CreatedAt
     public static implicit operator DateTime(CreatedAt createdAt)
     {
         return createdAt.Value;
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString(DateTimeConstants.DateTimeFormat);
     }
 }

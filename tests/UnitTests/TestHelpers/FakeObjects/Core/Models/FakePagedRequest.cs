@@ -1,4 +1,5 @@
 using AutoFixture;
+using Core.Enums;
 using Core.Models;
 using Core.ValueObjects;
 
@@ -11,7 +12,9 @@ public static class FakePagedRequest
         return new PagedRequest
         {
             PageNumber = new PageNumber(fixture.Create<int>()),
-            PageSize = new PageSize(fixture.Create<int>())
+            PageSize = new PageSize(fixture.Create<int>()),
+            SortBy = new SortBy(fixture.Create<string>()),
+            SortOrder = fixture.Create<SortOrder>(),
         };
     }
 }

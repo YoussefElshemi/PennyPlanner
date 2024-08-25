@@ -14,4 +14,9 @@ public readonly record struct TotalCount
     {
         return totalCount.Value;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

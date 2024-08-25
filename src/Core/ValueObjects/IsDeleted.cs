@@ -14,4 +14,9 @@ public readonly record struct IsDeleted
     {
         return isDeleted.Value;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

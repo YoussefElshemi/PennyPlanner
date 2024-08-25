@@ -12,7 +12,7 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
     internal const string ConfirmPasswordErrorMessage = $"{nameof(Password)}s do not match.";
     internal const string PasswordResetTokenNotFoundErrorMessage = $"{nameof(PasswordResetToken)} not found.";
     internal const string PasswordResetTokenAlreadyUsedErrorMessage = $"{nameof(PasswordResetToken)} already used.";
-    internal const string PasswordDidNotChangeErrorMessage = $"{nameof(Password)} did not change.";
+    internal const string PasswordDidNotChangeErrorMessage = $"{nameof(Password)} is the same as the current value.";
 
     private readonly IPasswordResetRepository _passwordResetRepository;
 

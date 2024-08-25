@@ -14,4 +14,9 @@ public readonly record struct IsRevoked
     {
         return isRevoked.Value;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

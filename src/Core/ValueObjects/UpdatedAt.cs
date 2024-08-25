@@ -1,3 +1,5 @@
+using Core.Constants;
+
 namespace Core.ValueObjects;
 
 public readonly record struct UpdatedAt
@@ -13,5 +15,10 @@ public readonly record struct UpdatedAt
     public static implicit operator DateTime(UpdatedAt updatedAt)
     {
         return updatedAt.Value;
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString(DateTimeConstants.DateTimeFormat);
     }
 }

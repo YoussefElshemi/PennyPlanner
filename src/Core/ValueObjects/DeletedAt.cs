@@ -1,3 +1,5 @@
+using Core.Constants;
+
 namespace Core.ValueObjects;
 
 public readonly record struct DeletedAt
@@ -13,5 +15,10 @@ public readonly record struct DeletedAt
     public static implicit operator DateTime(DeletedAt deletedAt)
     {
         return deletedAt.Value;
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString(DateTimeConstants.DateTimeFormat);
     }
 }

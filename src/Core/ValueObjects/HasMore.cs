@@ -14,4 +14,9 @@ public readonly record struct HasMore
     {
         return hasMore.Value;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

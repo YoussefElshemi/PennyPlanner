@@ -1,3 +1,5 @@
+using Core.Constants;
+
 namespace Core.ValueObjects;
 
 public readonly record struct ExpiresAt
@@ -13,5 +15,10 @@ public readonly record struct ExpiresAt
     public static implicit operator DateTime(ExpiresAt expiresAt)
     {
         return expiresAt.Value;
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString(DateTimeConstants.DateTimeFormat);
     }
 }

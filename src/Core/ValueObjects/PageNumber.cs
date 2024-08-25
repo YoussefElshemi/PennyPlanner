@@ -14,4 +14,9 @@ public readonly record struct PageNumber
     {
         return pageNumber.Value;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

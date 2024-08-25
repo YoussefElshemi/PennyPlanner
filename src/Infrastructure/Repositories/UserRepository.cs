@@ -1,4 +1,5 @@
 using AutoMapper;
+using Core.Enums;
 using Core.Interfaces.Repositories;
 using Core.Models;
 using Core.ValueObjects;
@@ -16,9 +17,27 @@ public class UserRepository(
         var totalCount = await GetCountAsync();
         var pageCount = (totalCount + pagedRequest.PageSize - 1) / pagedRequest.PageSize;
 
-        var users = await context.Users
-            .Where(x => !x.IsDeleted)
-            .OrderBy(x => x.UserId)
+        var query = context.Users.AsQueryable()
+            .Where(x => !x.IsDeleted);
+
+        if (pagedRequest.SortBy.HasValue)
+        {
+            var sortByProperty = typeof(User)
+                .GetProperties()
+                .FirstOrDefault(p => string.Equals(p.Name, pagedRequest.SortBy.ToString(), StringComparison.OrdinalIgnoreCase));
+
+            query = pagedRequest.SortOrder is null or SortOrder.Asc
+                ? query.OrderBy(x => EF.Property<object>(x, sortByProperty!.Name))
+                : query.OrderByDescending(x => EF.Property<object>(x, sortByProperty!.Name));
+        }
+        else
+        {
+            query = pagedRequest.SortOrder is null or SortOrder.Asc
+                ? query.OrderBy(x => x.UserId)
+                : query.OrderByDescending(x => x.UserId);
+        }
+
+        var users = await query
             .Skip((pagedRequest.PageNumber - 1) * pagedRequest.PageSize)
             .Take(pagedRequest.PageSize)
             .Select(entity => mapper.Map<User>(entity))
@@ -33,6 +52,17 @@ public class UserRepository(
             HasMore = new HasMore(pagedRequest.PageNumber < pageCount),
             Data = users
         };
+    }
+
+    public List<string> GetSortableFields()
+    {
+        return
+        [
+            nameof(User.Username),
+            nameof(User.EmailAddress),
+            nameof(User.CreatedAt),
+            nameof(User.UpdatedAt)
+        ];
     }
 
     public Task<int> GetCountAsync()

@@ -14,4 +14,9 @@ public readonly record struct PageCount
     {
         return pageCount.Value;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

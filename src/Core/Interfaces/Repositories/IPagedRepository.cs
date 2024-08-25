@@ -6,4 +6,5 @@ public interface IPagedRepository<T>
 {
     Task<int> GetCountAsync();
     Task<PagedResponse<T>> GetAllAsync(PagedRequest pagedRequest);
+    List<string> GetSortableFields();
 }

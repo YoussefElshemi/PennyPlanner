@@ -14,4 +14,9 @@ public readonly record struct ExpiresIn
     {
         return expiresIn.Value;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }
