@@ -1,4 +1,5 @@
 using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
 using Core.ValueObjects;
 using FluentValidation.TestHelper;
 using Moq;
@@ -12,14 +13,18 @@ namespace UnitTests.Tests.Presentation.WebApi.Validators.Authentication;
 
 public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
 {
+    private readonly Mock<IAuthenticationService> _mockAuthenticationService;
     private readonly Mock<IPasswordResetRepository> _mockPasswordResetRepository;
     private readonly ResetPasswordRequestDtoValidator _validator;
 
     public ResetPasswordRequestDtoValidatorTests()
     {
         var currentUser = FakeUser.CreateValid(Fixture);
+        _mockAuthenticationService = new Mock<IAuthenticationService>();
         _mockPasswordResetRepository = new Mock<IPasswordResetRepository>();
-        _validator = new ResetPasswordRequestDtoValidator(_mockPasswordResetRepository.Object, currentUser);
+        _validator = new ResetPasswordRequestDtoValidator(_mockAuthenticationService.Object,
+            _mockPasswordResetRepository.Object,
+            currentUser);
     }
 
     [Fact]
@@ -121,10 +126,10 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         };
         var passwordReset = FakePasswordReset.CreateValid(Fixture);
 
+
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
-
         _mockPasswordResetRepository
             .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);
@@ -144,10 +149,12 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture);
         var passwordReset = FakePasswordReset.CreateValid(Fixture);
 
+        _mockAuthenticationService
+            .Setup(x => x.Authenticate(It.IsAny<global::Core.Models.User>(), It.IsAny<Password>()))
+            .Returns(true);
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
-
         _mockPasswordResetRepository
             .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);
@@ -164,21 +171,18 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
     public async Task ValidateAsync_ValidRequest_IsValid()
     {
         // Arrange
-        var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture) with
-        {
-            Password = string.Join("", FakePassword.Valid.ToCharArray().Reverse()),
-            ConfirmPassword = string.Join("", FakePassword.Valid.ToCharArray().Reverse())
-        };
-
+        var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture);
         var passwordReset = FakePasswordReset.CreateValid(Fixture) with
         {
             IsUsed = new IsUsed(false)
         };
 
+        _mockAuthenticationService
+            .Setup(x => x.Authenticate(It.IsAny<global::Core.Models.User>(), It.IsAny<Password>()))
+            .Returns(false);
         _mockPasswordResetRepository
             .Setup(x => x.ExistsAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
-
         _mockPasswordResetRepository
             .Setup(x => x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(passwordReset);

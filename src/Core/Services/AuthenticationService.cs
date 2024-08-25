@@ -1,13 +1,16 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Core.Configs;
 using Core.Enums;
 using Core.Extensions;
+using Core.Helpers;
 using Core.Interfaces.Services;
 using Core.Models;
 using Core.ValueObjects;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Services;
 
@@ -67,6 +70,19 @@ public class AuthenticationService(
         await passwordResetService.InitiateAsync(user);
     }
 
+    public async Task<User> ChangePasswordAsync(User user, Password password)
+    {
+        var updatedUser = UpdatePassword(user, password) with
+        {
+            UpdatedBy = user.Username,
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
+        };
+
+        await userService.UpdateAsync(updatedUser);
+
+        return updatedUser;
+    }
+
     public async Task ResetPassword(ResetPasswordRequest resetPasswordRequest)
     {
         var passwordReset = await passwordResetService.GetAsync(resetPasswordRequest.PasswordResetToken);
@@ -79,29 +95,30 @@ public class AuthenticationService(
         };
         await passwordResetService.UpdateAsync(passwordReset);
 
-        await userService.ChangePasswordAsync(passwordReset.User, resetPasswordRequest.Password);
+        await ChangePasswordAsync(passwordReset.User, resetPasswordRequest.Password);
     }
 
-    public static string HashPassword(string password, byte[] salt)
+    public static string HashPassword(Password password, PasswordSalt salt)
     {
         var passwordBytes = Encoding.UTF8.GetBytes(password);
-        var saltedPassword = new byte[passwordBytes.Length + salt.Length];
+        var saltBytes = Convert.FromBase64String(salt);
+        var saltedPassword = new byte[passwordBytes.Length + saltBytes.Length];
 
         Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-        Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+        Buffer.BlockCopy(saltBytes, 0, saltedPassword, passwordBytes.Length, saltBytes.Length);
 
         var hashedBytes = SHA256.HashData(saltedPassword);
 
-        var hashedPasswordWithSalt = new byte[hashedBytes.Length + salt.Length];
-        Buffer.BlockCopy(salt, 0, hashedPasswordWithSalt, 0, salt.Length);
-        Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, salt.Length, hashedBytes.Length);
+        var hashedPasswordWithSalt = new byte[hashedBytes.Length + saltBytes.Length];
+        Buffer.BlockCopy(saltBytes, 0, hashedPasswordWithSalt, 0, saltBytes.Length);
+        Buffer.BlockCopy(hashedBytes, 0, hashedPasswordWithSalt, saltBytes.Length, hashedBytes.Length);
 
         return Convert.ToBase64String(hashedPasswordWithSalt);
     }
 
     private AuthenticationResponse HandleAuthentication(Login login)
     {
-        var jwtSecurityToken = login.User.CreateJwtSecurityToken(config.Value.JwtConfig);
+        var jwtSecurityToken = CreateJwtSecurityToken(login.User);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         var accessTokenExpiresIn = Convert.ToInt32((jwtSecurityToken.ValidTo - jwtSecurityToken.ValidFrom).TotalSeconds);
 
@@ -116,5 +133,45 @@ public class AuthenticationService(
             RefreshToken = login.RefreshToken,
             RefreshTokenExpiresIn = new ExpiresIn(refreshTokenExpiresIn)
         };
+    }
+
+    public bool Authenticate(User user, Password password)
+    {
+        return user.PasswordHash == HashPassword(password, user.PasswordSalt);
+    }
+
+    public User UpdatePassword(User user, Password password)
+    {
+        var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));
+        var passwordHash = HashPassword(password, passwordSalt);
+
+        var updatedUser = user with
+        {
+            PasswordHash = new PasswordHash(passwordHash),
+            PasswordSalt = passwordSalt
+        };
+
+        return updatedUser;
+    }
+
+    public JwtSecurityToken CreateJwtSecurityToken(User user)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Value.JwtConfig.Key));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+            new Claim(ClaimTypes.Role, user.UserRole.ToString())
+        };
+
+        return new JwtSecurityToken(
+            issuer: config.Value.JwtConfig.Issuer,
+            audience: config.Value.JwtConfig.Audience,
+            expires: DateTime.UtcNow.AddMinutes(config.Value.JwtConfig.AccessTokenLifetimeInMinutes),
+            notBefore: DateTime.UtcNow,
+            claims: claims,
+            signingCredentials: credentials
+        );
     }
 }

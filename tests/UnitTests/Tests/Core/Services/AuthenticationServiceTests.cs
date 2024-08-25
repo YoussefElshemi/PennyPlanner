@@ -12,6 +12,7 @@ using Moq;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Configs;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
+using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
 namespace UnitTests.Tests.Core.Services;
 
@@ -147,16 +148,12 @@ public class AuthenticationServiceTests : BaseTestClass
         _mockPasswordResetService
             .Setup(x => x.UpdateAsync(It.IsAny<PasswordReset>()))
             .Verifiable();
-        _mockUserService
-            .Setup(x => x.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<Password>()))
-            .Verifiable();
 
         // Act
         await _authenticationService.ResetPassword(resetPasswordRequest);
 
         // Assert
         _mockPasswordResetService.Verify(x => x.UpdateAsync(It.IsAny<PasswordReset>()), Times.Once);
-        _mockUserService.Verify(x => x.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<Password>()), Times.Once);
     }
 
     [Fact]
@@ -201,5 +198,41 @@ public class AuthenticationServiceTests : BaseTestClass
 
         // Assert
         _mockLoginService.Verify(x => x.UpdateAsync(It.IsAny<Login>()), Times.Once);
+    }
+
+    [Fact]
+    public void Authenticate_PasswordMatches_ReturnsTrue()
+    {
+        // Arrange
+        var password = FakePassword.CreateValid();
+        var user = FakeUser.CreateValid(Fixture);
+        user = user with
+        {
+            PasswordHash = new PasswordHash(AuthenticationService.HashPassword(password, user.PasswordSalt))
+        };
+
+        // Act
+        var authenticated = _authenticationService.Authenticate(user, password);
+
+        // Assert
+        authenticated.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Authenticate_PasswordDoesNotMatch_ReturnsFalse()
+    {
+        // Arrange
+        var password = FakePassword.CreateValid();
+        var user = FakeUser.CreateValid(Fixture);
+        user = user with
+        {
+            PasswordHash = new PasswordHash(AuthenticationService.HashPassword(password, user.PasswordSalt))
+        };
+
+        // Act
+        var authenticated = _authenticationService.Authenticate(user, new Password("not password"));
+
+        // Assert
+        authenticated.Should().BeFalse();
     }
 }

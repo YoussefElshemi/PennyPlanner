@@ -1,6 +1,7 @@
 using System.Net;
 using Core.Extensions;
 using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
 using Core.ValueObjects;
 using FluentValidation;
 using Presentation.WebApi.Models.Authentication;
@@ -9,11 +10,15 @@ namespace Presentation.WebApi.Validators.Authentication;
 
 public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
 {
+    private readonly IAuthenticationService _authenticationService;
     private readonly IUserRepository _userRepository;
+
     internal const string IncorrectLoginDetails = "Incorrect login details";
 
-    public LoginRequestDtoValidator(IUserRepository userRepository)
+    public LoginRequestDtoValidator(IAuthenticationService authenticationService,
+        IUserRepository userRepository)
     {
+        _authenticationService = authenticationService;
         _userRepository = userRepository;
 
         RuleFor(x => new { x.Username, x.Password })
@@ -41,6 +46,6 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
         }
 
         var user = await _userRepository.GetByUsernameAsync(username);
-        return user.Authenticate(password);
+        return _authenticationService.Authenticate(user, new Password(password));
     }
 }

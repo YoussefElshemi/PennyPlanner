@@ -13,8 +13,8 @@ public class UserService(IUserRepository repository,
 {
     public async Task<User> CreateAsync(CreateUserRequest createUserRequest)
     {
-        var passwordSalt = SecurityTokenHelper.GenerateSalt();
-        var passwordHash = AuthenticationService.HashPassword(createUserRequest.Password.ToString(), passwordSalt);
+        var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));;
+        var passwordHash = AuthenticationService.HashPassword(createUserRequest.Password, passwordSalt);
 
         var user = new User
         {
@@ -22,7 +22,7 @@ public class UserService(IUserRepository repository,
             Username = createUserRequest.Username,
             EmailAddress = createUserRequest.EmailAddress,
             PasswordHash = new PasswordHash(passwordHash),
-            PasswordSalt = new PasswordSalt(Convert.ToBase64String(passwordSalt)),
+            PasswordSalt = passwordSalt,
             UserRole = UserRole.User,
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
             UpdatedBy = createUserRequest.Username,
@@ -39,18 +39,6 @@ public class UserService(IUserRepository repository,
     public Task<int> GetCountAsync()
     {
         return repository.GetCountAsync();
-    }
-
-    public async Task<User> ChangePasswordAsync(User user, Password password)
-    {
-        var updatedUser = user.UpdatePassword(password) with
-        {
-            UpdatedBy = user.Username,
-            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
-        };
-        await UpdateAsync(updatedUser);
-
-        return updatedUser;
     }
 
     public Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)

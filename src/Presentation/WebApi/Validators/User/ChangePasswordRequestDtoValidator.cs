@@ -1,4 +1,5 @@
 using Core.Extensions;
+using Core.Interfaces.Services;
 using Core.Validators;
 using Core.ValueObjects;
 using FluentValidation;
@@ -8,15 +9,20 @@ namespace Presentation.WebApi.Validators.User;
 
 public class ChangePasswordRequestDtoValidator : AbstractValidator<ChangePasswordRequestDto>
 {
+    private readonly IAuthenticationService _authenticationService;
+
     internal const string ConfirmPasswordErrorMessage = $"{nameof(Password)}s do not match.";
     internal const string PasswordDidNotChangeErrorMessage = $"{nameof(Password)} did not change.";
 
-    public ChangePasswordRequestDtoValidator(Core.Models.User user)
+    public ChangePasswordRequestDtoValidator(IAuthenticationService authenticationService,
+        Core.Models.User user)
     {
+        _authenticationService = authenticationService;
+
         RuleFor(x => x.Password)
             .Cascade(CascadeMode.Stop)
             .SetValidator(new PasswordValidator())
-            .Must(x => !user.Authenticate(x))
+            .Must(x => !_authenticationService.Authenticate(user, new Password(x)))
             .WithMessage(PasswordDidNotChangeErrorMessage);
 
         RuleFor(x => new { x.Password, x.ConfirmPassword })
@@ -24,5 +30,8 @@ public class ChangePasswordRequestDtoValidator : AbstractValidator<ChangePasswor
             .WithMessage(ConfirmPasswordErrorMessage);
     }
 
-    public ChangePasswordRequestDtoValidator() {}
+    public ChangePasswordRequestDtoValidator(IAuthenticationService authenticationService)
+    {
+        _authenticationService = authenticationService;
+    }
 }

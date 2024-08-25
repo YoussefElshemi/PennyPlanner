@@ -9,7 +9,7 @@ using Presentation.WebApi.Validators.User;
 
 namespace Presentation.WebApi.Endpoints.User;
 
-public class ChangePassword(IUserService userService) : Endpoint<ChangePasswordRequestDto>
+public class ChangePassword(IAuthenticationService authenticationService) : Endpoint<ChangePasswordRequestDto>
 {
     public override void Configure()
     {
@@ -21,12 +21,12 @@ public class ChangePassword(IUserService userService) : Endpoint<ChangePasswordR
     {
         var user = HttpContext.Items["User"] as Core.Models.User;
 
-        var validator = new ChangePasswordRequestDtoValidator(user!);
+        var validator = new ChangePasswordRequestDtoValidator(authenticationService, user!);
         await validator.ValidateAndThrowAsync(changePasswordRequestDto, cancellationToken);
 
         var changePasswordRequest = ChangePasswordRequestMapper.Map(changePasswordRequestDto);
 
-        var updatedUser = await userService.ChangePasswordAsync(user!, changePasswordRequest.Password);
+        var updatedUser = await authenticationService.ChangePasswordAsync(user!, changePasswordRequest.Password);
 
         var response = UserProfileResponseMapper.Map(updatedUser);
 

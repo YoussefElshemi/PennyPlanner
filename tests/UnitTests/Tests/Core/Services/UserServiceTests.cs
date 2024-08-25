@@ -1,5 +1,6 @@
 using Core.Enums;
 using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
 using Core.Models;
 using Core.Services;
 using FluentAssertions;
@@ -17,7 +18,8 @@ public class UserServiceTests : BaseTestClass
     public UserServiceTests()
     {
         _mockUserRepository = new Mock<IUserRepository>();
-        _userService = new UserService(_mockUserRepository.Object, MockTimeProvider.Object);
+        _userService = new UserService(_mockUserRepository.Object,
+            MockTimeProvider.Object);
     }
 
     [Fact]
