@@ -2,7 +2,7 @@ using AutoMapper;
 using Core.Models;
 using FluentAssertions;
 using Presentation.Mappers;
-using Presentation.WebApi.Models.AuthenticatedUser;
+using Presentation.WebApi.AuthenticatedUser.Models.Responses;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 

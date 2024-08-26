@@ -3,7 +3,7 @@ using FluentAssertions;
 using Presentation.Factories;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
-using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.User;
+using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.User.Models.Requests;
 
 namespace UnitTests.Tests.Presentation.Factories;
 

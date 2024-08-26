@@ -6,6 +6,8 @@ using Core.Models;
 using Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
+namespace Infrastructure.Repositories;
+
 public abstract class PagedRepository<T> : IPagedRepository<T> where T : class
 {
     private readonly DbContext _context;

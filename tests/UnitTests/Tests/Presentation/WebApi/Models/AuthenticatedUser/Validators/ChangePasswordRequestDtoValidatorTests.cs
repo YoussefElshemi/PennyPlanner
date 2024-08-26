@@ -3,11 +3,11 @@ using Core.Models;
 using Core.ValueObjects;
 using FluentValidation.TestHelper;
 using Moq;
-using Presentation.WebApi.Models.AuthenticatedUser.Validators;
+using Presentation.WebApi.AuthenticatedUser.Validators;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
-using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.User;
+using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.User.Models.Requests;
 
 namespace UnitTests.Tests.Presentation.WebApi.Models.AuthenticatedUser.Validators;
 

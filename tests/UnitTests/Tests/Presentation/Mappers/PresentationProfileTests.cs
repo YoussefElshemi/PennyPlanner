@@ -4,15 +4,15 @@ using Core.Models;
 using Core.ValueObjects;
 using FluentAssertions;
 using Presentation.Mappers;
-using Presentation.WebApi.Models.AuthenticatedUser;
-using Presentation.WebApi.Models.Authentication;
+using Presentation.WebApi.AuthenticatedUser.Models.Responses;
+using Presentation.WebApi.Authentication.Models.Responses;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
-using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.Authentication;
-using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.Common;
-using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Models.User;
-using UpdateUserRequestDto = Presentation.WebApi.Models.AuthenticatedUser.UpdateUserRequestDto;
-using UserManagementUpdateUserRequestDto = Presentation.WebApi.Models.UserManagement.UpdateUserRequestDto;
+using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
+using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Common.Models.Requests;
+using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.User.Models.Requests;
+using UpdateUserRequestDto = Presentation.WebApi.AuthenticatedUser.Models.Requests.UpdateUserRequestDto;
+using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
 
 namespace UnitTests.Tests.Presentation.Mappers;
 

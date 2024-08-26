@@ -595,12 +595,12 @@ JWTBearerAuth ( Scopes: Admin )
 
 <h4 id="retrieves-fields-which-can-be-used-to-search-users.-responses">Responses</h4>
 
-| Status | Meaning                                                                    | Description  | Schema                                  |
-|--------|----------------------------------------------------------------------------|--------------|-----------------------------------------|
-| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [QueryFieldsDto](#schemaqueryfieldsdto) |
-| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                    |
-| 403    | [Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)             | Forbidden    | None                                    |
-| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails) |
+| Status | Meaning                                                                    | Description  | Schema                                                  |
+|--------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [QueryFieldsResponseDto](#schemaQueryFieldsResponseDto) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                    |
+| 403    | [Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)             | Forbidden    | None                                                    |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                 |
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -627,12 +627,12 @@ JWTBearerAuth ( Scopes: Admin )
 
 <h4 id="retrieves-fields-which-can-be-used-to-sort-users.-responses">Responses</h4>
 
-| Status | Meaning                                                                    | Description  | Schema                                  |
-|--------|----------------------------------------------------------------------------|--------------|-----------------------------------------|
-| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [QueryFieldsDto](#schemaqueryfieldsdto) |
-| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                    |
-| 403    | [Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)             | Forbidden    | None                                    |
-| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails) |
+| Status | Meaning                                                                    | Description  | Schema                                                  |
+|--------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [QueryFieldsResponseDto](#schemaQueryFieldsResponseDto) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                    |
+| 403    | [Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)             | Forbidden    | None                                                    |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                 |
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -820,12 +820,12 @@ DTO for user profile information response.
 | updatedBy    | string       | true     | none         | The username of the person who last updated the user profile. |
 | updatedAt    | string       | true     | none         | The date and time when the user profile was last updated.     |
 
-<h3 id="tocS_QueryFieldsDto">QueryFieldsDto</h3>
+<h3 id="tocS_QueryFieldsResponseDto">QueryFieldsResponseDto</h3>
 <!-- backwards compatibility -->
-<a id="schemaqueryfieldsdto"></a>
-<a id="schema_QueryFieldsDto"></a>
-<a id="tocSqueryfieldsdto"></a>
-<a id="tocsqueryfieldsdto"></a>
+<a id="schemaQueryFieldsResponseDto"></a>
+<a id="schema_QueryFieldsResponseDto"></a>
+<a id="tocSQueryFieldsResponseDto"></a>
+<a id="tocsQueryFieldsResponseDto"></a>
 
 ```json
 {

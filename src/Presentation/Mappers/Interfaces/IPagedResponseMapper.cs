@@ -1,5 +1,5 @@
 using Core.Models;
-using Presentation.WebApi.Models.Common;
+using Presentation.WebApi.Common.Models.Responses;
 
 namespace Presentation.Mappers.Interfaces;
 

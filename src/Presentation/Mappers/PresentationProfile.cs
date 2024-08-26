@@ -1,10 +1,12 @@
 using AutoMapper;
 using Core.Models;
 using Core.ValueObjects;
-using Presentation.WebApi.Models.AuthenticatedUser;
-using Presentation.WebApi.Models.Authentication;
-using Presentation.WebApi.Models.Common;
-using UserManagementUpdateUserRequestDto = Presentation.WebApi.Models.UserManagement.UpdateUserRequestDto;
+using Presentation.WebApi.AuthenticatedUser.Models.Requests;
+using Presentation.WebApi.AuthenticatedUser.Models.Responses;
+using Presentation.WebApi.Authentication.Models.Requests;
+using Presentation.WebApi.Authentication.Models.Responses;
+using Presentation.WebApi.Common.Models.Requests;
+using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
 
 namespace Presentation.Mappers;
 

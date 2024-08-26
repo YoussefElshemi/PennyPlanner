@@ -1,9 +1,9 @@
-using Presentation.WebApi.Models.AuthenticatedUser;
-using Presentation.WebApi.Models.Authentication;
-using Presentation.WebApi.Models.Common;
-using Presentation.WebApi.Models.UserManagement;
-using UpdateUserRequestDto = Presentation.WebApi.Models.AuthenticatedUser.UpdateUserRequestDto;
-using UserManagementUpdateUserRequestDto = Presentation.WebApi.Models.UserManagement.UpdateUserRequestDto;
+using Presentation.WebApi.AuthenticatedUser.Models.Requests;
+using Presentation.WebApi.Authentication.Models.Requests;
+using Presentation.WebApi.Common.Models.Requests;
+using Presentation.WebApi.UserManagement.Models.Requests;
+using UpdateUserRequestDto = Presentation.WebApi.AuthenticatedUser.Models.Requests.UpdateUserRequestDto;
+using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
 
 namespace Presentation.Constants;
 

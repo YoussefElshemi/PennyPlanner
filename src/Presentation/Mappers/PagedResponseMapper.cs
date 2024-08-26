@@ -1,6 +1,6 @@
 using AutoMapper;
 using Core.Models;
-using Presentation.WebApi.Models.Common;
+using Presentation.WebApi.Common.Models.Responses;
 using IPagedResponseMapper = Presentation.Mappers.Interfaces.IPagedResponseMapper;
 
 namespace Presentation.Mappers;
