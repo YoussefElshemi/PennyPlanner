@@ -3,6 +3,7 @@ using Core.Interfaces.Repositories;
 using Core.Models;
 using Core.ValueObjects;
 using FluentValidation;
+using FluentValidation.Resources;
 using FluentValidation.Results;
 using Presentation.Mappers;
 
@@ -45,7 +46,6 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
             .When(x => !string.IsNullOrWhiteSpace(x.SearchField))
             .DependentRules(() =>
             {
-
                 RuleFor(x => x)
                     .CustomAsync(async (x, ctx, _) => await ValidatePageNumber(x, ctx));
             });
@@ -64,7 +64,7 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
             PageSize = new PageSize(GetPageSize(pagedRequestDto)),
             SortBy = null,
             SortOrder = null,
-            SearchField = !string.IsNullOrWhiteSpace(pagedRequestDto.SearchField)? new QueryField(pagedRequestDto.SearchField) : null,
+            SearchField = !string.IsNullOrWhiteSpace(pagedRequestDto.SearchField) ? new QueryField(pagedRequestDto.SearchField) : null,
             SearchTerm = !string.IsNullOrWhiteSpace(pagedRequestDto.SearchTerm) ? new SearchTerm(pagedRequestDto.SearchTerm) : null
         };
 
@@ -77,8 +77,7 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
             context.MessageFormatter.AppendArgument("ComparisonValue", maxPageNumber);
 
             var errorMessage = context.MessageFormatter.BuildMessage(
-                new FluentValidation.Resources.LanguageManager()
-                    .GetString("LessThanOrEqualValidator"));
+                new LanguageManager().GetString("LessThanOrEqualValidator"));
 
             context.AddFailure(new ValidationFailure(nameof(PageNumber), errorMessage)
             {
