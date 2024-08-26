@@ -179,18 +179,6 @@ This operation does not require authentication
 | body         | body | [RequestResetPasswordRequestDto](#schemarequestresetpasswordrequestdto) | true     | none                                                                              |
 | emailAddress | body | string                                                                  | true     | The email address associated with the user account requesting the password reset. |
 
-> Example responses
-
-> 200 Response
-
-```
-null
-```
-
-```json
-null
-```
-
 <h4 id="requests-a-password-reset-for-the-specified-email-address.-responses">Responses</h4>
 
 | Status | Meaning                                                                    | Description  | Schema                                                      |
@@ -231,18 +219,6 @@ This operation does not require authentication
 | password           | body | string                                                    | true     | The new password the user wants to set.                              |
 | confirmPassword    | body | string                                                    | true     | Confirmation of the new password to ensure it was entered correctly. |
 
-> Example responses
-
-> 200 Response
-
-```
-null
-```
-
-```json
-null
-```
-
 <h4 id="resets-the-password-using-a-password-reset-token.-responses">Responses</h4>
 
 | Status | Meaning                                                                    | Description  | Schema                                                      |
@@ -280,18 +256,6 @@ This operation does not require authentication
 |--------------|------|---------------------------------------------------------|----------|------------------------------------------------------|
 | body         | body | [RefreshTokenRequestDto](#schemarefreshtokenrequestdto) | true     | none                                                 |
 | refreshToken | body | string                                                  | true     | The refresh token used to obtain a new access token. |
-
-> Example responses
-
-> 200 Response
-
-```
-null
-```
-
-```json
-null
-```
 
 <h4 id="revokes-a-refresh-token-to-prevent-further-use.-responses">Responses</h4>
 
@@ -474,18 +438,6 @@ Operations for managing users in the system, listing, updating, and deleting use
 | Name   | In   | Type         | Required | Description                         |
 |--------|------|--------------|----------|-------------------------------------|
 | userId | path | string(guid) | true     | The unique identifier for the user. |
-
-> Example responses
-
-> 200 Response
-
-```
-null
-```
-
-```json
-null
-```
 
 <h4 id="deletes-a-user-with-the-specified-userid.-responses">Responses</h4>
 
