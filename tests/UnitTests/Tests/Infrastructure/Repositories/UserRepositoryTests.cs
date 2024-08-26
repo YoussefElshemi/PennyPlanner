@@ -346,7 +346,7 @@ public class UserRepositoryTests : BaseTestClass
         {
             PageNumber = new PageNumber(1),
             PageSize = new PageSize(10),
-            SortBy = new SortBy("UserId"),
+            SortBy = new QueryField("UserId"),
             SearchField = null
         };
 
@@ -391,7 +391,7 @@ public class UserRepositoryTests : BaseTestClass
             PageNumber = new PageNumber(1),
             PageSize = new PageSize(10),
             SortBy = null,
-            SearchField = new SearchField("UserId"),
+            SearchField = new QueryField("UserId"),
             SearchTerm = new SearchTerm(users[0].UserId.ToString())
         };
 

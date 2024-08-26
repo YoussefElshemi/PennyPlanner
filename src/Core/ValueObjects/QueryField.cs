@@ -1,8 +1,8 @@
 namespace Core.ValueObjects;
 
-public readonly record struct SortBy
+public readonly record struct QueryField
 {
-    public SortBy(string sortBy)
+    public QueryField(string sortBy)
     {
         ArgumentNullException.ThrowIfNull(sortBy);
         Value = sortBy;
@@ -10,9 +10,9 @@ public readonly record struct SortBy
 
     private string Value { get; }
 
-    public static implicit operator string(SortBy sortBy)
+    public static implicit operator string(QueryField queryField)
     {
-        return sortBy.Value;
+        return queryField.Value;
     }
 
     public override string ToString()

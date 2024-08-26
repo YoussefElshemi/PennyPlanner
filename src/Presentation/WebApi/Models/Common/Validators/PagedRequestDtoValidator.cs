@@ -13,10 +13,10 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
     private readonly IPagedRepository<T> _repository;
     public const int MaxPageSize = 100;
 
-    internal const string InvalidSearchTermErrorMessage = $"{nameof(SearchTerm)} must be empty when {nameof(SearchField)} is empty";
+    internal const string InvalidSearchTermErrorMessage = $"{nameof(SearchTerm)} must be empty when {nameof(PagedRequestDto.SearchField)} is empty";
     internal const string InvalidSortOrderErrorMessage = $"{nameof(SortOrder)} must be {nameof(SortOrder.Asc)} or {nameof(SortOrder.Desc)}";
-    internal readonly Func<List<string>, string> InvalidSortByErrorMessage = fields => $"{nameof(SortBy)} must be one of: {string.Join(", ", fields)}";
-    internal readonly Func<List<string>, string> InvalidSearchFieldErrorMessage = fields => $"{nameof(SearchField)} must be one of: {string.Join(", ", fields)}";
+    internal readonly Func<List<string>, string> InvalidSortByErrorMessage = fields => $"{nameof(QueryField)} must be one of: {string.Join(", ", fields)}";
+    internal readonly Func<List<string>, string> InvalidSearchFieldErrorMessage = fields => $"{nameof(PagedRequestDto.SearchField)} must be one of: {string.Join(", ", fields)}";
 
     public PagedRequestDtoValidator(IPagedRepository<T> repository)
     {
@@ -64,7 +64,7 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
             PageSize = new PageSize(GetPageSize(pagedRequestDto)),
             SortBy = null,
             SortOrder = null,
-            SearchField = !string.IsNullOrWhiteSpace(pagedRequestDto.SearchField)? new SearchField(pagedRequestDto.SearchField) : null,
+            SearchField = !string.IsNullOrWhiteSpace(pagedRequestDto.SearchField)? new QueryField(pagedRequestDto.SearchField) : null,
             SearchTerm = !string.IsNullOrWhiteSpace(pagedRequestDto.SearchTerm) ? new SearchTerm(pagedRequestDto.SearchTerm) : null
         };
 
