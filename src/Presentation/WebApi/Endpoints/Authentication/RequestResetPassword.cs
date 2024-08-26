@@ -34,7 +34,6 @@ public class RequestResetPassword(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.Authentication.RequestResetPassword;
-            s.Description = SwaggerSummaries.Authentication.RequestResetPassword;
             s.ExampleRequest = ExampleRequests.Authentication.RequestResetPassword;
         });
 

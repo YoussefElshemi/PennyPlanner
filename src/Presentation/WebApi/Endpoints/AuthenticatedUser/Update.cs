@@ -39,7 +39,6 @@ public class Update(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.User.Update;
-            s.Description = SwaggerSummaries.User.Update;
             s.ExampleRequest = ExampleRequests.User.Update;
         });
 

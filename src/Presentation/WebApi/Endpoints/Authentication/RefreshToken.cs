@@ -34,7 +34,6 @@ public class RefreshToken(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.Authentication.RefreshToken;
-            s.Description = SwaggerSummaries.Authentication.RefreshToken;
             s.ExampleRequest = ExampleRequests.Authentication.RefreshToken;
         });
 

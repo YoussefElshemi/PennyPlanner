@@ -34,7 +34,6 @@ public class Register(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.Authentication.Register;
-            s.Description = SwaggerSummaries.Authentication.Register;
             s.ExampleRequest = ExampleRequests.Authentication.Register;
         });
 

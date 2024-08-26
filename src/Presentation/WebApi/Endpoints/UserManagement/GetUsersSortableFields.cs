@@ -27,7 +27,6 @@ public class GetUsersSortableFields(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.UserManagement.GetUsersSortableFields;
-            s.Description = SwaggerSummaries.UserManagement.GetUsersSortableFields;
         });
 
         Options(x => x.WithTags(SwaggerTags.UserManagement));

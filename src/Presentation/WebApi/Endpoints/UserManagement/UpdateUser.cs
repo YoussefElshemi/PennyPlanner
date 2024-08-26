@@ -45,7 +45,6 @@ public class UpdateUser(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.UserManagement.UpdateUser;
-            s.Description = SwaggerSummaries.UserManagement.UpdateUser;
             s.ExampleRequest = ExampleRequests.UserManagement.UpdateUser;
         });
 

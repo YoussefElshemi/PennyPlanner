@@ -39,7 +39,6 @@ public class GetUsers(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.UserManagement.GetUsers;
-            s.Description = SwaggerSummaries.UserManagement.GetUsers;
             s.ExampleRequest = ExampleRequests.UserManagement.GetUsers;
         });
 

@@ -34,7 +34,6 @@ public class ChangePassword(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.User.ChangePassword;
-            s.Description = SwaggerSummaries.User.ChangePassword;
             s.ExampleRequest = ExampleRequests.User.ChangePassword;
         });
 

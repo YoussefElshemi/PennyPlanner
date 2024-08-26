@@ -24,7 +24,6 @@ public class Get(IMapper mapper) : EndpointWithoutRequest<UserProfileResponseDto
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.User.Get;
-            s.Description = SwaggerSummaries.User.Get;
         });
 
         Options(x => x.WithTags(SwaggerTags.User));

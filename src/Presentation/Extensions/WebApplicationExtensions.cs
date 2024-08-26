@@ -26,6 +26,7 @@ public static class WebApplicationExtensions
         });
 
         app.UseExceptionHandler();
+        app.UseSwaggerUi();
         app.UseSwaggerGen();
     }
 }

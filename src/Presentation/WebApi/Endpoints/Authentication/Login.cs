@@ -34,7 +34,6 @@ public class Login(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.Authentication.Login;
-            s.Description = SwaggerSummaries.Authentication.Login;
             s.ExampleRequest = ExampleRequests.Authentication.Login;
         });
 

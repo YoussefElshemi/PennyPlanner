@@ -38,7 +38,6 @@ public class DeleteUser(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.UserManagement.DeleteUser;
-            s.Description = SwaggerSummaries.UserManagement.DeleteUser;
             s.ExampleRequest = ExampleRequests.UserManagement.DeleteUser;
         });
 

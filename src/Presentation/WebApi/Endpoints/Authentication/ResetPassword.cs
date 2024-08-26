@@ -35,7 +35,6 @@ public class ResetPassword(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.Authentication.ResetPassword;
-            s.Description = SwaggerSummaries.Authentication.ResetPassword;
             s.ExampleRequest = ExampleRequests.Authentication.ResetPassword;
         });
 

@@ -71,16 +71,26 @@ public static class WebApplicationBuilderExtensions
         return services;
     }
 
-    public static IServiceCollection AddFastEndpoints(this IServiceCollection services)
+    public static IServiceCollection AddFastEndpoints(this IServiceCollection services, IConfiguration configuration)
     {
-        MainExtensions.AddFastEndpoints(services);
+        var appConfig = new AppConfig();
+        configuration.GetSection(nameof(AppConfig)).Bind(appConfig);
+
+        services.AddFastEndpoints();
         services.AddAntiforgery();
         services.AddCors();
         services.SwaggerDocument(o =>
         {
+            o.ShortSchemaNames = true;
+            o.RemoveEmptyRequestSchema = true;
             o.AutoTagPathSegmentIndex = 0;
             o.MaxEndpointVersion = 1;
-            o.DocumentSettings = s => { s.Version = "v1"; };
+            o.DocumentSettings = s =>
+            {
+                s.Title = appConfig.ServiceConfig.ServiceName;
+                s.DocumentName = appConfig.ServiceConfig.ServiceName;
+                s.Version = "v1";
+            };
             o.TagDescriptions = t =>
             {
                 t[SwaggerTags.Authentication] = SwaggerTagDescriptions.Authentication;

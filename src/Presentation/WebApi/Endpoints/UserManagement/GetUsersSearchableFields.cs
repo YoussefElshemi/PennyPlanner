@@ -27,7 +27,6 @@ public class GetUsersSearchableFields(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.UserManagement.GetUsersSearchableFields;
-            s.Description = SwaggerSummaries.UserManagement.GetUsersSearchableFields;
         });
 
         Options(x => x.WithTags(SwaggerTags.UserManagement));
