@@ -1,25 +1,30 @@
 using Core.Enums;
+using Core.Extensions;
 using Core.Interfaces.Repositories;
+using Core.Models;
 using Core.ValueObjects;
 using FluentValidation;
+using FluentValidation.Results;
 using Presentation.Mappers;
 
 namespace Presentation.WebApi.Models.Common.Validators;
 
 public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
 {
+    private readonly IPagedRepository<T> _repository;
     public const int MaxPageSize = 100;
 
-    internal const string InvalidSortOrderErrorMessage = $"Sort Order must be {nameof(SortOrder.Asc)} or {nameof(SortOrder.Desc)}";
-    internal static readonly Func<List<string>, string> InvalidSortByErrorMessage = fields => $"{nameof(SortBy)} must be one of: {string.Join(", ", fields)}";
+    internal const string InvalidSearchTermErrorMessage = $"{nameof(SearchTerm)} must be empty when {nameof(SearchField)} is empty";
+    internal const string InvalidSortOrderErrorMessage = $"{nameof(SortOrder)} must be {nameof(SortOrder.Asc)} or {nameof(SortOrder.Desc)}";
+    internal readonly Func<List<string>, string> InvalidSortByErrorMessage = fields => $"{nameof(SortBy)} must be one of: {string.Join(", ", fields)}";
+    internal readonly Func<List<string>, string> InvalidSearchFieldErrorMessage = fields => $"{nameof(SearchField)} must be one of: {string.Join(", ", fields)}";
 
     public PagedRequestDtoValidator(IPagedRepository<T> repository)
     {
-        RuleFor(x => x.PageNumber)
-            .GreaterThanOrEqualTo(1);
+        _repository = repository;
 
         RuleFor(x => x.PageNumber)
-            .LessThanOrEqualTo(x => (repository.GetCountAsync().Result + GetPageSize(x) - 1) / GetPageSize(x));
+            .GreaterThanOrEqualTo(1);
 
         RuleFor(x => x.PageSize)
             .GreaterThanOrEqualTo(1)
@@ -31,9 +36,56 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
             .When(x => !string.IsNullOrWhiteSpace(x.SortOrder));
 
         RuleFor(x => x.SortBy)
-            .Must(x => repository.GetSortableFields().Contains(x!, StringComparer.OrdinalIgnoreCase))
-            .WithMessage(InvalidSortByErrorMessage(repository.GetSortableFields()))
+            .Must(x => _repository.GetSortableFields().Contains(x!, StringComparer.OrdinalIgnoreCase))
+            .WithMessage(InvalidSortByErrorMessage(_repository.GetSortableFields()))
             .When(x => !string.IsNullOrWhiteSpace(x.SortBy));
+
+        RuleFor(x => x.SearchField)
+            .Must(x => _repository.GetSearchableFields().Contains(x!, StringComparer.OrdinalIgnoreCase))
+            .WithMessage(InvalidSearchFieldErrorMessage(_repository.GetSearchableFields()))
+            .When(x => !string.IsNullOrWhiteSpace(x.SearchField))
+            .DependentRules(() =>
+            {
+
+                RuleFor(x => x)
+                    .CustomAsync(async (x, ctx, _) => await ValidatePageNumber(x, ctx));
+            });
+
+        RuleFor(x => x.SearchTerm)
+            .Must(string.IsNullOrWhiteSpace)
+            .When(x => string.IsNullOrWhiteSpace(x.SearchField))
+            .WithMessage(InvalidSearchTermErrorMessage);
+    }
+
+    private async Task ValidatePageNumber(PagedRequestDto pagedRequestDto, ValidationContext<PagedRequestDto> context)
+    {
+        var pagedRequest = new PagedRequest
+        {
+            PageNumber = new PageNumber(1),
+            PageSize = new PageSize(GetPageSize(pagedRequestDto)),
+            SortBy = null,
+            SortOrder = null,
+            SearchField = !string.IsNullOrWhiteSpace(pagedRequestDto.SearchField)? new SearchField(pagedRequestDto.SearchField) : null,
+            SearchTerm = !string.IsNullOrWhiteSpace(pagedRequestDto.SearchTerm) ? new SearchTerm(pagedRequestDto.SearchTerm) : null
+        };
+
+        var count = await _repository.GetCountAsync(pagedRequest);
+        var maxPageNumber = ((count == 0 ? 1 : count) + GetPageSize(pagedRequestDto) - 1) / GetPageSize(pagedRequestDto);
+
+        if (pagedRequestDto.PageNumber > maxPageNumber)
+        {
+            context.MessageFormatter.AppendPropertyName(nameof(PageNumber));
+            context.MessageFormatter.AppendArgument("ComparisonValue", maxPageNumber);
+
+            var errorMessage = context.MessageFormatter.BuildMessage(
+                new FluentValidation.Resources.LanguageManager()
+                    .GetString("LessThanOrEqualValidator"));
+
+            context.AddFailure(new ValidationFailure(nameof(PageNumber), errorMessage)
+            {
+                ErrorCode = "LessThanOrEqualValidator"
+            });
+        }
     }
 
     private static int GetPageSize(PagedRequestDto x)

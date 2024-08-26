@@ -1,5 +1,6 @@
 using Core.Enums;
 using Core.Interfaces.Repositories;
+using Core.Models;
 using FluentValidation.TestHelper;
 using Moq;
 using Presentation.WebApi.Models.Common.Validators;
@@ -16,11 +17,15 @@ public class PagedRequestDtoValidatorTests : BaseTestClass
     public PagedRequestDtoValidatorTests()
     {
         _mockPageRepository
-            .Setup(x => x.GetCountAsync())
+            .Setup(x => x.GetCountAsync(It.IsAny<PagedRequest>()))
             .ReturnsAsync(10);
 
         _mockPageRepository
             .Setup(x => x.GetSortableFields())
+            .Returns(["Id"]);
+
+        _mockPageRepository
+            .Setup(x => x.GetSearchableFields())
             .Returns(["Id"]);
 
         _validator = new PagedRequestDtoValidator<object>(_mockPageRepository.Object);
@@ -52,7 +57,9 @@ public class PagedRequestDtoValidatorTests : BaseTestClass
         {
             PageSize = 10,
             PageNumber = 2,
-            SortBy = null
+            SortBy = null,
+            SearchField = null,
+            SearchTerm = null
         };
 
         // Act
@@ -108,7 +115,7 @@ public class PagedRequestDtoValidatorTests : BaseTestClass
             PageNumber = 1,
             PageSize = PagedRequestDtoValidator<object>.MaxPageSize,
             SortOrder = "invalid",
-            SortBy = null,
+            SortBy = null
         };
 
         // Act
@@ -127,7 +134,7 @@ public class PagedRequestDtoValidatorTests : BaseTestClass
         {
             PageNumber = 1,
             PageSize = PagedRequestDtoValidator<object>.MaxPageSize,
-            SortBy = "invalid",
+            SortBy = "invalid"
         };
 
         // Act
@@ -135,7 +142,45 @@ public class PagedRequestDtoValidatorTests : BaseTestClass
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.SortBy)
-            .WithErrorMessage(PagedRequestDtoValidator<object>.InvalidSortByErrorMessage(["Id"]));
+            .WithErrorMessage(_validator.InvalidSortByErrorMessage(["Id"]));
+    }
+
+    [Fact]
+    public async Task ValidateAsync_InvalidSearchField_ReturnsError()
+    {
+        // Arrange
+        var pagedRequestDto = FakePagedRequestDto.CreateValid(Fixture) with
+        {
+            PageNumber = 1,
+            PageSize = PagedRequestDtoValidator<object>.MaxPageSize,
+            SearchField = "invalid"
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(pagedRequestDto);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.SearchField)
+            .WithErrorMessage(_validator.InvalidSearchFieldErrorMessage(["Id"]));
+    }
+
+    [Fact]
+    public async Task ValidateAsync_SearchTermProvidedAndNoSearchField_ReturnsError()
+    {
+        // Arrange
+        var pagedRequestDto = FakePagedRequestDto.CreateValid(Fixture) with
+        {
+            PageNumber = 1,
+            PageSize = PagedRequestDtoValidator<object>.MaxPageSize,
+            SearchField = null
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(pagedRequestDto);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.SearchTerm)
+            .WithErrorMessage(PagedRequestDtoValidator<object>.InvalidSearchTermErrorMessage);
     }
 
     [Fact]
@@ -146,7 +191,8 @@ public class PagedRequestDtoValidatorTests : BaseTestClass
         {
             PageNumber = 1,
             PageSize = PagedRequestDtoValidator<object>.MaxPageSize,
-            SortBy = "Id"
+            SortBy = "Id",
+            SearchField = "Id"
         };
 
         // Act

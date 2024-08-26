@@ -1,5 +1,6 @@
 using AutoMapper;
 using Core.Enums;
+using Core.Models;
 using Core.ValueObjects;
 using FluentAssertions;
 using Infrastructure;
@@ -265,6 +266,16 @@ public class UserRepositoryTests : BaseTestClass
     public async Task GetCountAsync_ExistingUsers_ReturnsNumberOfUsers()
     {
         // Arrange
+        var pageRequest = FakePagedRequest.CreateValid(Fixture) with
+        {
+            PageNumber = new PageNumber(1),
+            PageSize = new PageSize(10),
+            SortBy = null,
+            SortOrder = null,
+            SearchField = null,
+            SearchTerm = null
+        };
+
         var users = Enumerable.Range(0, 20)
             .Select(_ => FakeUserEntity.CreateValid(Fixture) with
             {
@@ -276,7 +287,7 @@ public class UserRepositoryTests : BaseTestClass
         await _context.SaveChangesAsync();
 
         // Act
-        var count = await _userRepository.GetCountAsync();
+        var count = await _userRepository.GetCountAsync(pageRequest);
 
         // Assert
         count.Should().Be(users.Count);
@@ -291,7 +302,8 @@ public class UserRepositoryTests : BaseTestClass
         {
             PageNumber = new PageNumber(1),
             PageSize = new PageSize(10),
-            SortBy = null
+            SortBy = null,
+            SearchField = null
         };
 
         var users = Enumerable.Range(0, numberOfExpectedPages * pagedRequest.PageSize)
@@ -335,7 +347,8 @@ public class UserRepositoryTests : BaseTestClass
         {
             PageNumber = new PageNumber(1),
             PageSize = new PageSize(10),
-            SortBy = new SortBy("UserId")
+            SortBy = new SortBy("UserId"),
+            SearchField = null
         };
 
         var users = Enumerable.Range(0, pagedRequest.PageSize)
@@ -358,5 +371,36 @@ public class UserRepositoryTests : BaseTestClass
         // Assert
         pagedResponse.Data.Select(x => x.UserId).Should()
             .Equal(sortedPagedResponse.Data.Select(x => x.UserId).Reverse());
+    }
+
+    [Fact]
+    public async Task GetAllAsync_SearchField_ReturnsCorrectNumberOfUsers()
+    {
+        // Arrange
+        var users = Enumerable.Range(0, 10)
+            .Select(_ => FakeUserEntity.CreateValid(Fixture) with
+            {
+                IsDeleted = false
+            })
+            .ToList();
+
+        _context.Users.AddRange(users);
+        await _context.SaveChangesAsync();
+
+        var pagedRequest = FakePagedRequest.CreateValid(Fixture) with
+        {
+            PageNumber = new PageNumber(1),
+            PageSize = new PageSize(10),
+            SortBy = null,
+            SearchField = new SearchField("UserId"),
+            SearchTerm = new SearchTerm(users[0].UserId.ToString())
+        };
+
+        // Act
+        var pagedResponse = await _userRepository.GetAllAsync(pagedRequest);
+
+        // Assert
+        pagedResponse.Data.Should().HaveCount(1);
+        pagedResponse.Data[0].UserId.Should().Be(new UserId(users[0].UserId));
     }
 }

@@ -37,9 +37,9 @@ public class UserService(
         return user;
     }
 
-    public Task<int> GetCountAsync()
+    public Task<int> GetCountAsync(PagedRequest pagedRequest)
     {
-        return repository.GetCountAsync();
+        return repository.GetCountAsync(pagedRequest);
     }
 
     public Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)

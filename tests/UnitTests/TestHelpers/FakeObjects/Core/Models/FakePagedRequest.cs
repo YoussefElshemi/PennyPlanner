@@ -15,6 +15,8 @@ public static class FakePagedRequest
             PageSize = new PageSize(fixture.Create<int>()),
             SortBy = new SortBy(fixture.Create<string>()),
             SortOrder = fixture.Create<SortOrder>(),
+            SearchField = new SearchField(fixture.Create<string>()),
+            SearchTerm = new SearchTerm(fixture.Create<string>())
         };
     }
 }

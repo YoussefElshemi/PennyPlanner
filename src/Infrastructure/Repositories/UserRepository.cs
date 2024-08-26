@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Core.Enums;
 using Core.Interfaces.Repositories;
@@ -14,15 +15,29 @@ public class UserRepository(
 {
     public async Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)
     {
-        var totalCount = await GetCountAsync();
-        var pageCount = (totalCount + pagedRequest.PageSize - 1) / pagedRequest.PageSize;
+        var totalCount = await GetCountAsync(pagedRequest);
+        var pageCount = ((totalCount == 0 ? 1 : totalCount) + pagedRequest.PageSize - 1) / pagedRequest.PageSize;
 
         var query = context.Users.AsQueryable()
             .Where(x => !x.IsDeleted);
 
+        if (pagedRequest.SearchField != null && !string.IsNullOrWhiteSpace(pagedRequest.SearchTerm))
+        {
+            var parameter = Expression.Parameter(typeof(UserEntity), "e");
+            var property = Expression.Property(parameter, pagedRequest.SearchField);
+            var toStringCall = Expression.Call(property, "ToString", null);
+            var toLowerCall = Expression.Call(toStringCall, "ToLower", null);
+            var searchValue = Expression.Constant(pagedRequest.SearchTerm.Value.ToString().ToLower());
+            var containsMethod = typeof(string).GetMethod("Contains", [typeof(string)]);
+            var containsExpression = Expression.Call(toLowerCall, containsMethod!, searchValue);
+
+            var lambda = Expression.Lambda<Func<UserEntity, bool>>(containsExpression, parameter);
+            query = query.Where(lambda);
+        }
+
         if (pagedRequest.SortBy.HasValue)
         {
-            var sortByProperty = typeof(User)
+            var sortByProperty = typeof(UserEntity)
                 .GetProperties()
                 .FirstOrDefault(p => string.Equals(p.Name, pagedRequest.SortBy.ToString(), StringComparison.OrdinalIgnoreCase));
 
@@ -58,16 +73,43 @@ public class UserRepository(
     {
         return
         [
-            nameof(User.Username),
-            nameof(User.EmailAddress),
-            nameof(User.CreatedAt),
-            nameof(User.UpdatedAt)
+            nameof(UserEntity.Username),
+            nameof(UserEntity.EmailAddress),
+            nameof(UserEntity.CreatedAt),
+            nameof(UserEntity.UpdatedAt)
         ];
     }
 
-    public Task<int> GetCountAsync()
+    public List<string> GetSearchableFields()
     {
-        return context.Users
+        return
+        [
+            nameof(UserEntity.Username),
+            nameof(UserEntity.EmailAddress),
+            nameof(UserEntity.CreatedBy),
+            nameof(UserEntity.UpdatedBy)
+        ];
+    }
+
+    public Task<int> GetCountAsync(PagedRequest pagedRequest)
+    {
+        var query = context.Users.AsQueryable();
+
+        if (pagedRequest.SearchField != null && !string.IsNullOrWhiteSpace(pagedRequest.SearchTerm))
+        {
+            var parameter = Expression.Parameter(typeof(UserEntity), "e");
+            var property = Expression.Property(parameter, pagedRequest.SearchField);
+            var toStringCall = Expression.Call(property, "ToString", null);
+            var toLowerCall = Expression.Call(toStringCall, "ToLower", null);
+            var searchValue = Expression.Constant(pagedRequest.SearchTerm.Value.ToString().ToLower());
+            var containsMethod = typeof(string).GetMethod("Contains", [typeof(string)]);
+            var containsExpression = Expression.Call(toLowerCall, containsMethod!, searchValue);
+
+            var lambda = Expression.Lambda<Func<UserEntity, bool>>(containsExpression, parameter);
+            query = query.Where(lambda);
+        }
+
+        return query
             .Where(x => !x.IsDeleted)
             .CountAsync();
     }

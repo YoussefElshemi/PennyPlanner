@@ -21,7 +21,7 @@ public static class FakeLoginEntity
             UpdatedAt = fixture.Create<DateTime>(),
             IsRevoked = fixture.Create<bool>(),
             RevokedBy = fixture.Create<string>(),
-            RevokedAt = fixture.Create<DateTime>(),
+            RevokedAt = fixture.Create<DateTime>()
         };
     }
 }
