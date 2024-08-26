@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -15,50 +16,60 @@ namespace Infrastructure.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Infrastructure.Entities.LoginEntity", b =>
                 {
                     b.Property<Guid>("LoginId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("IpAddress")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsRevoked")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("RefreshToken")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("RevokedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("RevokedBy")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
+
+                    b.Property<uint>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
                     b.HasKey("LoginId");
 
@@ -71,31 +82,37 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<Guid>("PasswordResetId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsUsed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ResetToken")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
+
+                    b.Property<uint>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
                     b.HasKey("PasswordResetId");
 
@@ -108,49 +125,55 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("PasswordSalt")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
+
+                    b.Property<uint>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("UserRoleId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId");
 
@@ -167,14 +190,15 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("8d642c89-fc7c-45f0-ab42-065648a77029"),
-                            CreatedAt = new DateTime(2024, 8, 25, 16, 17, 44, 606, DateTimeKind.Utc).AddTicks(396),
+                            UserId = new Guid("042d614a-dc7c-4b37-8f77-d1d990c1a4bf"),
+                            CreatedAt = new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(3851),
                             CreatedBy = "System",
                             EmailAddress = "admin@admin.com",
                             IsDeleted = false,
                             PasswordHash = "",
                             PasswordSalt = "",
-                            UpdatedAt = new DateTime(2024, 8, 25, 16, 17, 44, 606, DateTimeKind.Utc).AddTicks(397),
+                            RowVersion = 0u,
+                            UpdatedAt = new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(3852),
                             UpdatedBy = "System",
                             UserRoleId = 2,
                             Username = "admin"
@@ -185,25 +209,33 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<int>("UserRoleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserRoleId"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
+
+                    b.Property<uint>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("UserRoleId");
 
@@ -213,19 +245,21 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserRoleId = 1,
-                            CreatedAt = new DateTime(2024, 8, 25, 16, 17, 44, 605, DateTimeKind.Utc).AddTicks(6608),
+                            CreatedAt = new DateTime(2024, 8, 26, 14, 35, 16, 944, DateTimeKind.Utc).AddTicks(9988),
                             CreatedBy = "System",
                             Name = "User",
-                            UpdatedAt = new DateTime(2024, 8, 25, 16, 17, 44, 605, DateTimeKind.Utc).AddTicks(6882),
+                            RowVersion = 0u,
+                            UpdatedAt = new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(381),
                             UpdatedBy = "System"
                         },
                         new
                         {
                             UserRoleId = 2,
-                            CreatedAt = new DateTime(2024, 8, 25, 16, 17, 44, 605, DateTimeKind.Utc).AddTicks(7324),
+                            CreatedAt = new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(838),
                             CreatedBy = "System",
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2024, 8, 25, 16, 17, 44, 605, DateTimeKind.Utc).AddTicks(7325),
+                            RowVersion = 0u,
+                            UpdatedAt = new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(839),
                             UpdatedBy = "System"
                         });
                 });

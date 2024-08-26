@@ -486,4 +486,7 @@ $RECYCLE.BIN/
 # SQLite
 *.db*
 
+# Postgres
+postgres-data
+
 appsettings.Development.json

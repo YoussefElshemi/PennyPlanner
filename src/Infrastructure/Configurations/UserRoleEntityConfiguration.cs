@@ -6,7 +6,7 @@ namespace Infrastructure.Configurations;
 
 public class UserRoleEntityConfiguration : IEntityTypeConfiguration<UserRoleEntity>
 {
-    private const string TableName = "UserRoles";
+    public const string TableName = "UserRoles";
 
     public void Configure(EntityTypeBuilder<UserRoleEntity> builder)
     {
@@ -16,6 +16,8 @@ public class UserRoleEntityConfiguration : IEntityTypeConfiguration<UserRoleEnti
             .HasMany(x => x.Users)
             .WithOne(x => x.UserRoleEntity)
             .HasForeignKey(x => x.UserRoleId);
+
+        builder.Property(x => x.RowVersion).IsRowVersion();
 
         builder.ToTable(TableName);
 

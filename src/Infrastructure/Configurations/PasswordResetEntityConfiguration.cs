@@ -18,6 +18,8 @@ public class PasswordResetEntityConfiguration : IEntityTypeConfiguration<Passwor
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.ClientSetNull);
 
+        builder.Property(x => x.RowVersion).IsRowVersion();
+
         builder.ToTable(TableName);
     }
 }
