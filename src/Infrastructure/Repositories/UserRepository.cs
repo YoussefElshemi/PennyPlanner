@@ -1,9 +1,6 @@
-using System.Linq.Expressions;
 using AutoMapper;
-using Core.Enums;
 using Core.Interfaces.Repositories;
 using Core.Models;
-using Core.ValueObjects;
 using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,65 +8,11 @@ namespace Infrastructure.Repositories;
 
 public class UserRepository(
     PennyPlannerDbContext context,
-    IMapper mapper) : IUserRepository
+    IMapper mapper) : PagedRepository<UserEntity>(context, mapper), IUserRepository
 {
-    public async Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)
-    {
-        var totalCount = await GetCountAsync(pagedRequest);
-        var pageCount = ((totalCount == 0 ? 1 : totalCount) + pagedRequest.PageSize - 1) / pagedRequest.PageSize;
+    private readonly IMapper _mapper = mapper;
 
-        var query = context.Users.AsQueryable()
-            .Where(x => !x.IsDeleted);
-
-        if (pagedRequest.SearchField != null && !string.IsNullOrWhiteSpace(pagedRequest.SearchTerm))
-        {
-            var parameter = Expression.Parameter(typeof(UserEntity), "e");
-            var property = Expression.Property(parameter, pagedRequest.SearchField);
-            var toStringCall = Expression.Call(property, "ToString", null);
-            var toLowerCall = Expression.Call(toStringCall, "ToLower", null);
-            var searchValue = Expression.Constant(pagedRequest.SearchTerm.Value.ToString().ToLower());
-            var containsMethod = typeof(string).GetMethod("Contains", [typeof(string)]);
-            var containsExpression = Expression.Call(toLowerCall, containsMethod!, searchValue);
-
-            var lambda = Expression.Lambda<Func<UserEntity, bool>>(containsExpression, parameter);
-            query = query.Where(lambda);
-        }
-
-        if (pagedRequest.SortBy.HasValue)
-        {
-            var sortByProperty = typeof(UserEntity)
-                .GetProperties()
-                .FirstOrDefault(p => string.Equals(p.Name, pagedRequest.SortBy.ToString(), StringComparison.OrdinalIgnoreCase));
-
-            query = pagedRequest.SortOrder is null or SortOrder.Asc
-                ? query.OrderBy(x => EF.Property<object>(x, sortByProperty!.Name))
-                : query.OrderByDescending(x => EF.Property<object>(x, sortByProperty!.Name));
-        }
-        else
-        {
-            query = pagedRequest.SortOrder is null or SortOrder.Asc
-                ? query.OrderBy(x => x.UserId)
-                : query.OrderByDescending(x => x.UserId);
-        }
-
-        var users = await query
-            .Skip((pagedRequest.PageNumber - 1) * pagedRequest.PageSize)
-            .Take(pagedRequest.PageSize)
-            .Select(entity => mapper.Map<User>(entity))
-            .ToListAsync();
-
-        return new PagedResponse<User>
-        {
-            PageNumber = pagedRequest.PageNumber,
-            PageSize = pagedRequest.PageSize,
-            PageCount = new PageCount(pageCount),
-            TotalCount = new TotalCount(totalCount),
-            HasMore = new HasMore(pagedRequest.PageNumber < pageCount),
-            Data = users
-        };
-    }
-
-    public List<string> GetSortableFields()
+    public override List<string> GetSortableFields()
     {
         return
         [
@@ -80,7 +23,7 @@ public class UserRepository(
         ];
     }
 
-    public List<string> GetSearchableFields()
+    public override List<string> GetSearchableFields()
     {
         return
         [
@@ -89,29 +32,6 @@ public class UserRepository(
             nameof(UserEntity.CreatedBy),
             nameof(UserEntity.UpdatedBy)
         ];
-    }
-
-    public Task<int> GetCountAsync(PagedRequest pagedRequest)
-    {
-        var query = context.Users.AsQueryable();
-
-        if (pagedRequest.SearchField != null && !string.IsNullOrWhiteSpace(pagedRequest.SearchTerm))
-        {
-            var parameter = Expression.Parameter(typeof(UserEntity), "e");
-            var property = Expression.Property(parameter, pagedRequest.SearchField);
-            var toStringCall = Expression.Call(property, "ToString", null);
-            var toLowerCall = Expression.Call(toStringCall, "ToLower", null);
-            var searchValue = Expression.Constant(pagedRequest.SearchTerm.Value.ToString().ToLower());
-            var containsMethod = typeof(string).GetMethod("Contains", [typeof(string)]);
-            var containsExpression = Expression.Call(toLowerCall, containsMethod!, searchValue);
-
-            var lambda = Expression.Lambda<Func<UserEntity, bool>>(containsExpression, parameter);
-            query = query.Where(lambda);
-        }
-
-        return query
-            .Where(x => !x.IsDeleted)
-            .CountAsync();
     }
 
     public Task<bool> ExistsByIdAsync(Guid userId)
@@ -127,7 +47,7 @@ public class UserRepository(
             .Where(x => !x.IsDeleted)
             .FirstAsync(u => u.UserId == userId);
 
-        return mapper.Map<User>(userEntity);
+        return _mapper.Map<User>(userEntity);
     }
 
     public Task<bool> ExistsByUsernameAsync(string username)
@@ -143,7 +63,7 @@ public class UserRepository(
             .Where(x => !x.IsDeleted)
             .FirstAsync(u => u.Username == username);
 
-        return mapper.Map<User>(userEntity);
+        return _mapper.Map<User>(userEntity);
     }
 
     public Task<bool> ExistsByEmailAddressAsync(string emailAddress)
@@ -159,12 +79,12 @@ public class UserRepository(
             .Where(x => !x.IsDeleted)
             .FirstAsync(u => u.EmailAddress == emailAddress);
 
-        return mapper.Map<User>(userEntity);
+        return _mapper.Map<User>(userEntity);
     }
 
     public async Task CreateAsync(User user)
     {
-        var userEntity = mapper.Map<UserEntity>(user);
+        var userEntity = _mapper.Map<UserEntity>(user);
         context.Users.Add(userEntity);
 
         await context.SaveChangesAsync();
@@ -172,7 +92,7 @@ public class UserRepository(
 
     public async Task UpdateAsync(User user)
     {
-        var userToUpdate = mapper.Map<UserEntity>(user);
+        var userToUpdate = _mapper.Map<UserEntity>(user);
         var userEntity = await context.Users
             .Where(x => !x.IsDeleted)
             .SingleAsync(x => x.UserId == userToUpdate.UserId);

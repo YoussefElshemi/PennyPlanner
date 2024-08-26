@@ -1,5 +1,6 @@
 using AutoMapper;
 using Core.Enums;
+using Core.Models;
 using Core.ValueObjects;
 using FluentAssertions;
 using Infrastructure;
@@ -316,8 +317,8 @@ public class UserRepositoryTests : BaseTestClass
         await _context.SaveChangesAsync();
 
         // Act
-        var pagedResponse = await _userRepository.GetAllAsync(pagedRequest);
-        var nextPagedResponse = await _userRepository.GetAllAsync(pagedRequest with
+        var pagedResponse = await _userRepository.GetAllAsync<User>(pagedRequest);
+        var nextPagedResponse = await _userRepository.GetAllAsync<User>(pagedRequest with
         {
             PageNumber = new PageNumber(2)
         });
@@ -361,8 +362,8 @@ public class UserRepositoryTests : BaseTestClass
         await _context.SaveChangesAsync();
 
         // Act
-        var pagedResponse = await _userRepository.GetAllAsync(pagedRequest);
-        var sortedPagedResponse = await _userRepository.GetAllAsync(pagedRequest with
+        var pagedResponse = await _userRepository.GetAllAsync<User>(pagedRequest);
+        var sortedPagedResponse = await _userRepository.GetAllAsync<User>(pagedRequest with
         {
             SortOrder = SortOrder.Desc
         });
@@ -396,7 +397,7 @@ public class UserRepositoryTests : BaseTestClass
         };
 
         // Act
-        var pagedResponse = await _userRepository.GetAllAsync(pagedRequest);
+        var pagedResponse = await _userRepository.GetAllAsync<User>(pagedRequest);
 
         // Assert
         pagedResponse.Data.Should().HaveCount(1);

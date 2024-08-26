@@ -54,7 +54,7 @@ public class UserService(
 
     public Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)
     {
-        return repository.GetAllAsync(pagedRequest);
+        return repository.GetAllAsync<User>(pagedRequest);
     }
 
     public async Task<User> UpdateAsync(User user)
