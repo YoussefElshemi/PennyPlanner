@@ -15,4 +15,15 @@ public static class FakeRegisterRequestDto
             ConfirmPassword = FakePassword.Valid
         };
     }
+
+    public static RegisterRequestDto CreateInvalid()
+    {
+        return new RegisterRequestDto
+        {
+            Username = FakeUsername.Invalid,
+            EmailAddress = FakeEmailAddress.Invalid,
+            Password = FakePassword.Invalid,
+            ConfirmPassword = FakePassword.Invalid
+        };
+    }
 }

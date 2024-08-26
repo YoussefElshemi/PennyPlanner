@@ -16,9 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		Directory.Packages.props = Directory.Packages.props
-		src\Presentation\data.db = src\Presentation\data.db
 		README.md = README.md
+		docker-compose.yaml = docker-compose.yaml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BehaviouralTests", "tests\BehaviouralTests\BehaviouralTests.csproj", "{D674AB5C-364E-41B8-B34A-1D9A56F708A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,11 +44,16 @@ Global
 		{EC3352BB-B96C-40E4-9C77-41C135954C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC3352BB-B96C-40E4-9C77-41C135954C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC3352BB-B96C-40E4-9C77-41C135954C88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D674AB5C-364E-41B8-B34A-1D9A56F708A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D674AB5C-364E-41B8-B34A-1D9A56F708A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D674AB5C-364E-41B8-B34A-1D9A56F708A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D674AB5C-364E-41B8-B34A-1D9A56F708A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{20237DE3-3387-47DC-B8FD-C2AFBB33E27F} = {4C907F19-F646-495E-AC43-4E896A5B3DFB}
 		{CB841C4A-7D12-452C-B13C-31CCDEF6ECE3} = {4C907F19-F646-495E-AC43-4E896A5B3DFB}
 		{D086C732-E518-4CF2-842C-A583ABB4BD60} = {DC8E0360-B649-4846-A5F1-A4215211501F}
 		{EC3352BB-B96C-40E4-9C77-41C135954C88} = {4C907F19-F646-495E-AC43-4E896A5B3DFB}
+		{D674AB5C-364E-41B8-B34A-1D9A56F708A2} = {DC8E0360-B649-4846-A5F1-A4215211501F}
 	EndGlobalSection
 EndGlobal

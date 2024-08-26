@@ -15,3 +15,10 @@ var app = builder.Build();
 app.ConfigureMiddlewares();
 
 app.Run();
+
+namespace Presentation
+{
+    public abstract partial class Program
+    {
+    }
+}
