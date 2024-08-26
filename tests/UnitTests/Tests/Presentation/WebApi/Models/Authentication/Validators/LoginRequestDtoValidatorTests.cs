@@ -38,7 +38,7 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
 
         // Assert
         result.ShouldHaveAnyValidationError()
-            .WithErrorMessage(LoginRequestDtoValidator.IncorrectLoginDetails);
+            .WithErrorMessage(LoginRequestDtoValidator.IncorrectLoginDetailsErrorMessage);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
 
         // Assert
         result.ShouldHaveAnyValidationError()
-            .WithErrorMessage(LoginRequestDtoValidator.IncorrectLoginDetails);
+            .WithErrorMessage(LoginRequestDtoValidator.IncorrectLoginDetailsErrorMessage);
     }
 
     [Fact]

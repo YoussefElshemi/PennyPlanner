@@ -9,7 +9,7 @@ namespace Presentation.WebApi.Models.Authentication.Validators;
 
 public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
 {
-    internal const string IncorrectLoginDetails = "Incorrect login details";
+    internal const string IncorrectLoginDetailsErrorMessage = "Incorrect login details";
     private readonly IAuthenticationService _authenticationService;
     private readonly IUserRepository _userRepository;
 
@@ -24,10 +24,10 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
             .WithDisplayName($"{nameof(Username)} or {nameof(Password)}")
             .MustAsync(async (x, _) => await UserExistByUsername(x.Username))
             .WithErrorCode(HttpStatusCode.Unauthorized.ToString())
-            .WithMessage(IncorrectLoginDetails)
+            .WithMessage(IncorrectLoginDetailsErrorMessage)
             .MustAsync(async (x, _) => await CorrectPassword(x.Username, x.Password))
             .WithErrorCode(HttpStatusCode.Unauthorized.ToString())
-            .WithMessage(IncorrectLoginDetails);
+            .WithMessage(IncorrectLoginDetailsErrorMessage);
     }
 
     private Task<bool> UserExistByUsername(string username)
