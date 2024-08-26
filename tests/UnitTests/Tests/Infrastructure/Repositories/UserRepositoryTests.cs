@@ -1,6 +1,5 @@
 using AutoMapper;
 using Core.Enums;
-using Core.Models;
 using Core.ValueObjects;
 using FluentAssertions;
 using Infrastructure;

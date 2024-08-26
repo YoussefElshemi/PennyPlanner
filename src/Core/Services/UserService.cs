@@ -42,6 +42,16 @@ public class UserService(
         return repository.GetCountAsync(pagedRequest);
     }
 
+    public List<string> GetSortableFields()
+    {
+        return repository.GetSortableFields();
+    }
+
+    public List<string> GetSearchableFields()
+    {
+        return repository.GetSearchableFields();
+    }
+
     public Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)
     {
         return repository.GetAllAsync(pagedRequest);

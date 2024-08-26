@@ -22,6 +22,8 @@ public static class SwaggerSummaries
     public static class UserManagement
     {
         public const string GetUsers = "Retrieves a paginated list of users.";
+        public const string GetUsersSortableFields = "Retrieves fields which can be used to sort users.";
+        public const string GetUsersSearchableFields = "Retrieves fields which can be used to search users.";
         public const string DeleteUser = "Deletes a user with the specified userId.";
         public const string UpdateUser = "Updates the profile information of a user with the specified userId.";
     }

@@ -9,6 +9,8 @@ public interface IUserService
     Task<User> UpdateAsync(User user);
     Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest);
     Task<int> GetCountAsync(PagedRequest pagedRequest);
+    List<string> GetSortableFields();
+    List<string> GetSearchableFields();
     Task<bool> ExistsAsync(UserId userId);
     Task<bool> ExistsAsync(Username username);
     Task<bool> ExistsAsync(EmailAddress emailAddress);

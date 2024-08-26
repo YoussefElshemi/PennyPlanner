@@ -12,7 +12,7 @@ using Presentation.Factories;
 using Presentation.WebApi.Models.AuthenticatedUser;
 using Presentation.WebApi.Models.AuthenticatedUser.Validators;
 using IMapper = AutoMapper.IMapper;
-using ProblemDetails = FastEndpoints.ProblemDetails;
+using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.AuthenticatedUser;
 

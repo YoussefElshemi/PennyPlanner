@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
 using Presentation.WebApi.Models.Authentication;
 using IMapper = AutoMapper.IMapper;
-using ProblemDetails = FastEndpoints.ProblemDetails;
+using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.Authentication;
 

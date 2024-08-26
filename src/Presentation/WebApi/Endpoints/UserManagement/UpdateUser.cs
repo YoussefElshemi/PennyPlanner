@@ -14,7 +14,7 @@ using Presentation.WebApi.Models.AuthenticatedUser;
 using Presentation.WebApi.Models.AuthenticatedUser.Validators;
 using Presentation.WebApi.Models.UserManagement.Validators;
 using IMapper = AutoMapper.IMapper;
-using ProblemDetails = FastEndpoints.ProblemDetails;
+using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 using UpdateUserRequestDto = Presentation.WebApi.Models.AuthenticatedUser.UpdateUserRequestDto;
 using UserManagementUpdateUserRequestDto = Presentation.WebApi.Models.UserManagement.UpdateUserRequestDto;
 

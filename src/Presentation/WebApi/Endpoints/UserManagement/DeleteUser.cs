@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
 using Presentation.WebApi.Models.UserManagement;
 using Presentation.WebApi.Models.UserManagement.Validators;
-using ProblemDetails = FastEndpoints.ProblemDetails;
+using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 

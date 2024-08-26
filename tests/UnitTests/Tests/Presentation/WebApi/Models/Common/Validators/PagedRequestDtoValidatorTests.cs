@@ -1,4 +1,3 @@
-using Core.Enums;
 using Core.Interfaces.Repositories;
 using Core.Models;
 using FluentValidation.TestHelper;

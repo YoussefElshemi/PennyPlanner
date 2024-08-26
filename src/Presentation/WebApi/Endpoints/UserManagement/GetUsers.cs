@@ -12,7 +12,7 @@ using Presentation.WebApi.Models.AuthenticatedUser;
 using Presentation.WebApi.Models.Common;
 using Presentation.WebApi.Models.Common.Validators;
 using IMapper = AutoMapper.IMapper;
-using ProblemDetails = FastEndpoints.ProblemDetails;
+using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace Presentation.WebApi.Endpoints.UserManagement;
 
@@ -54,7 +54,6 @@ public class GetUsers(
         var pagedRequest = mapper.Map<PagedRequest>(pagedRequestDto);
 
         var pagedResponse = await userService.GetAllAsync(pagedRequest);
-
 
         var pagedResponseDto = pagedResponseMapper.Map<User, UserProfileResponseDto>(pagedResponse);
 
