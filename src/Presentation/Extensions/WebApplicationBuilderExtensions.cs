@@ -91,6 +91,7 @@ public static class WebApplicationBuilderExtensions
                 s.DocumentName = appConfig.ServiceConfig.ServiceName;
                 s.Version = "v1";
             };
+
             o.TagDescriptions = t =>
             {
                 t[SwaggerTags.Authentication] = SwaggerTagDescriptions.Authentication;

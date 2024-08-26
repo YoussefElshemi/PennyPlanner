@@ -1,16 +1,5 @@
 <h1 id="user-management">User Management v1</h1>
-
-> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
-
-Base URLs:
-
-* <a href="http://localhost:5000">http://localhost:5000</a>
-
-# Authentication
-
-- HTTP Authentication, scheme: Bearer Enter a JWT token to authorize the requests...
-
-<h1 id="user-management-authentication">Authentication</h1>
+<h2 id="user-management-authentication">Authentication</h2>
 
 Operations related to user authentication, including login, registration, token management, and password resets.
 
@@ -29,13 +18,13 @@ Operations related to user authentication, including login, registration, token 
 }
 ```
 
-<h3 id="authenticates-a-user-and-provides-a-jwt-token.-parameters">Parameters</h3>
+<h4 id="authenticates-a-user-and-provides-a-jwt-token.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[LoginRequestDto](#schemaloginrequestdto)|true|none|
-|username|body|string|true|The username of the user attempting to log in.|
-|password|body|string|true|The password of the user attempting to log in.|
+| Name     | In   | Type                                      | Required | Description                                    |
+|----------|------|-------------------------------------------|----------|------------------------------------------------|
+| body     | body | [LoginRequestDto](#schemaloginrequestdto) | true     | none                                           |
+| username | body | string                                    | true     | The username of the user attempting to log in. |
+| password | body | string                                    | true     | The password of the user attempting to log in. |
 
 > Example responses
 
@@ -52,14 +41,14 @@ Operations related to user authentication, including login, registration, token 
 }
 ```
 
-<h3 id="authenticates-a-user-and-provides-a-jwt-token.-responses">Responses</h3>
+<h4 id="authenticates-a-user-and-provides-a-jwt-token.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[AuthenticationResponseDto](#schemaauthenticationresponsedto)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                        |
+|--------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [AuthenticationResponseDto](#schemaauthenticationresponsedto) |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails)   |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                          |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                       |
 
 <aside class="success">
 This operation does not require authentication
@@ -79,12 +68,12 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="refreshes-the-access-token-using-a-refresh-token.-parameters">Parameters</h3>
+<h4 id="refreshes-the-access-token-using-a-refresh-token.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[RefreshTokenRequestDto](#schemarefreshtokenrequestdto)|true|none|
-|refreshToken|body|string|true|The refresh token used to obtain a new access token.|
+| Name         | In   | Type                                                    | Required | Description                                          |
+|--------------|------|---------------------------------------------------------|----------|------------------------------------------------------|
+| body         | body | [RefreshTokenRequestDto](#schemarefreshtokenrequestdto) | true     | none                                                 |
+| refreshToken | body | string                                                  | true     | The refresh token used to obtain a new access token. |
 
 > Example responses
 
@@ -101,14 +90,14 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="refreshes-the-access-token-using-a-refresh-token.-responses">Responses</h3>
+<h4 id="refreshes-the-access-token-using-a-refresh-token.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[AuthenticationResponseDto](#schemaauthenticationresponsedto)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                        |
+|--------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [AuthenticationResponseDto](#schemaauthenticationresponsedto) |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails)   |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                          |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                       |
 
 <aside class="success">
 This operation does not require authentication
@@ -131,15 +120,15 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="registers-a-new-user.-parameters">Parameters</h3>
+<h4 id="registers-a-new-user.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[RegisterRequestDto](#schemaregisterrequestdto)|true|none|
-|username|body|string|true|The desired username for the new user account.|
-|password|body|string|true|The password for the new user account.|
-|confirmPassword|body|string|true|Confirmation of the password to ensure it was entered correctly.|
-|emailAddress|body|string|true|The email address for the new user account.|
+| Name            | In   | Type                                            | Required | Description                                                      |
+|-----------------|------|-------------------------------------------------|----------|------------------------------------------------------------------|
+| body            | body | [RegisterRequestDto](#schemaregisterrequestdto) | true     | none                                                             |
+| username        | body | string                                          | true     | The desired username for the new user account.                   |
+| password        | body | string                                          | true     | The password for the new user account.                           |
+| confirmPassword | body | string                                          | true     | Confirmation of the password to ensure it was entered correctly. |
+| emailAddress    | body | string                                          | true     | The email address for the new user account.                      |
 
 > Example responses
 
@@ -156,14 +145,14 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="registers-a-new-user.-responses">Responses</h3>
+<h4 id="registers-a-new-user.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[AuthenticationResponseDto](#schemaauthenticationresponsedto)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|none|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                        |
+|--------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [AuthenticationResponseDto](#schemaauthenticationresponsedto) |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails)   |
+| 409    | [Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)              | none         | None                                                          |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                       |
 
 <aside class="success">
 This operation does not require authentication
@@ -183,12 +172,12 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="requests-a-password-reset-for-the-specified-email-address.-parameters">Parameters</h3>
+<h4 id="requests-a-password-reset-for-the-specified-email-address.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[RequestResetPasswordRequestDto](#schemarequestresetpasswordrequestdto)|true|none|
-|emailAddress|body|string|true|The email address associated with the user account requesting the password reset.|
+| Name         | In   | Type                                                                    | Required | Description                                                                       |
+|--------------|------|-------------------------------------------------------------------------|----------|-----------------------------------------------------------------------------------|
+| body         | body | [RequestResetPasswordRequestDto](#schemarequestresetpasswordrequestdto) | true     | none                                                                              |
+| emailAddress | body | string                                                                  | true     | The email address associated with the user account requesting the password reset. |
 
 > Example responses
 
@@ -202,16 +191,16 @@ null
 null
 ```
 
-<h3 id="requests-a-password-reset-for-the-specified-email-address.-responses">Responses</h3>
+<h4 id="requests-a-password-reset-for-the-specified-email-address.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|Inline|
-|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Accepted|None|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                      |
+|--------|----------------------------------------------------------------------------|--------------|-------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | Inline                                                      |
+| 202    | [Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)              | Accepted     | None                                                        |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails) |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                     |
 
-<h3 id="requests-a-password-reset-for-the-specified-email-address.-responseschema">Response Schema</h3>
+<h4 id="requests-a-password-reset-for-the-specified-email-address.-responseschema">Response Schema</h4>
 
 <aside class="success">
 This operation does not require authentication
@@ -233,14 +222,14 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="resets-the-password-using-a-password-reset-token.-parameters">Parameters</h3>
+<h4 id="resets-the-password-using-a-password-reset-token.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[ResetPasswordRequestDto](#schemaresetpasswordrequestdto)|true|none|
-|passwordResetToken|body|string|true|The token provided to the user for password reset.|
-|password|body|string|true|The new password the user wants to set.|
-|confirmPassword|body|string|true|Confirmation of the new password to ensure it was entered correctly.|
+| Name               | In   | Type                                                      | Required | Description                                                          |
+|--------------------|------|-----------------------------------------------------------|----------|----------------------------------------------------------------------|
+| body               | body | [ResetPasswordRequestDto](#schemaresetpasswordrequestdto) | true     | none                                                                 |
+| passwordResetToken | body | string                                                    | true     | The token provided to the user for password reset.                   |
+| password           | body | string                                                    | true     | The new password the user wants to set.                              |
+| confirmPassword    | body | string                                                    | true     | Confirmation of the new password to ensure it was entered correctly. |
 
 > Example responses
 
@@ -254,18 +243,18 @@ null
 null
 ```
 
-<h3 id="resets-the-password-using-a-password-reset-token.-responses">Responses</h3>
+<h4 id="resets-the-password-using-a-password-reset-token.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|Inline|
-|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No Content|None|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
-|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|none|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                      |
+|--------|----------------------------------------------------------------------------|--------------|-------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | Inline                                                      |
+| 204    | [No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)            | No Content   | None                                                        |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails) |
+| 404    | [Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)             | Not Found    | None                                                        |
+| 409    | [Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)              | none         | None                                                        |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                     |
 
-<h3 id="resets-the-password-using-a-password-reset-token.-responseschema">Response Schema</h3>
+<h4 id="resets-the-password-using-a-password-reset-token.-responseschema">Response Schema</h4>
 
 <aside class="success">
 This operation does not require authentication
@@ -285,12 +274,12 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="revokes-a-refresh-token-to-prevent-further-use.-parameters">Parameters</h3>
+<h4 id="revokes-a-refresh-token-to-prevent-further-use.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[RefreshTokenRequestDto](#schemarefreshtokenrequestdto)|true|none|
-|refreshToken|body|string|true|The refresh token used to obtain a new access token.|
+| Name         | In   | Type                                                    | Required | Description                                          |
+|--------------|------|---------------------------------------------------------|----------|------------------------------------------------------|
+| body         | body | [RefreshTokenRequestDto](#schemarefreshtokenrequestdto) | true     | none                                                 |
+| refreshToken | body | string                                                  | true     | The refresh token used to obtain a new access token. |
 
 > Example responses
 
@@ -304,23 +293,23 @@ null
 null
 ```
 
-<h3 id="revokes-a-refresh-token-to-prevent-further-use.-responses">Responses</h3>
+<h4 id="revokes-a-refresh-token-to-prevent-further-use.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|Inline|
-|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No Content|None|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                      |
+|--------|----------------------------------------------------------------------------|--------------|-------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | Inline                                                      |
+| 204    | [No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)            | No Content   | None                                                        |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                        |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                     |
 
-<h3 id="revokes-a-refresh-token-to-prevent-further-use.-responseschema">Response Schema</h3>
+<h4 id="revokes-a-refresh-token-to-prevent-further-use.-responseschema">Response Schema</h4>
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-<h1 id="user-management-user">User</h1>
+<h2 id="user-management-user">User</h2>
 
 Operations related to the current user's profile, including retrieving and updating personal information.
 
@@ -339,13 +328,13 @@ Operations related to the current user's profile, including retrieving and updat
 }
 ```
 
-<h3 id="updates-the-current-user's-password.-parameters">Parameters</h3>
+<h4 id="updates-the-current-user's-password.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[ChangePasswordRequestDto](#schemachangepasswordrequestdto)|true|none|
-|password|body|string|true|The new password the user wants to set.|
-|confirmPassword|body|string|true|Confirmation of the new password to ensure it was entered correctly.|
+| Name            | In   | Type                                                        | Required | Description                                                          |
+|-----------------|------|-------------------------------------------------------------|----------|----------------------------------------------------------------------|
+| body            | body | [ChangePasswordRequestDto](#schemachangepasswordrequestdto) | true     | none                                                                 |
+| password        | body | string                                                      | true     | The new password the user wants to set.                              |
+| confirmPassword | body | string                                                      | true     | Confirmation of the new password to ensure it was entered correctly. |
 
 > Example responses
 
@@ -364,15 +353,15 @@ Operations related to the current user's profile, including retrieving and updat
 }
 ```
 
-<h3 id="updates-the-current-user's-password.-responses">Responses</h3>
+<h4 id="updates-the-current-user's-password.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[UserProfileResponseDto](#schemauserprofileresponsedto)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|none|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                      |
+|--------|----------------------------------------------------------------------------|--------------|-------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [UserProfileResponseDto](#schemauserprofileresponsedto)     |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                        |
+| 409    | [Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)              | none         | None                                                        |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                     |
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -402,13 +391,13 @@ JWTBearerAuth
 }
 ```
 
-<h3 id="retrieves-the-profile-information-of-the-currently-authenticated-user.-responses">Responses</h3>
+<h4 id="retrieves-the-profile-information-of-the-currently-authenticated-user.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[UserProfileResponseDto](#schemauserprofileresponsedto)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                  |
+|--------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [UserProfileResponseDto](#schemauserprofileresponsedto) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                    |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                 |
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -430,13 +419,13 @@ JWTBearerAuth
 }
 ```
 
-<h3 id="updates-the-current-user's-profile-information.-parameters">Parameters</h3>
+<h4 id="updates-the-current-user's-profile-information.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[UpdateUserRequestDto](#schemaupdateuserrequestdto)|true|none|
-|username|body|string¦null|false|The new username for the user.|
-|emailAddress|body|string¦null|false|The new email address for the user.|
+| Name         | In   | Type                                                | Required | Description                         |
+|--------------|------|-----------------------------------------------------|----------|-------------------------------------|
+| body         | body | [UpdateUserRequestDto](#schemaupdateuserrequestdto) | true     | none                                |
+| username     | body | string¦null                                         | false    | The new username for the user.      |
+| emailAddress | body | string¦null                                         | false    | The new email address for the user. |
 
 > Example responses
 
@@ -455,22 +444,22 @@ JWTBearerAuth
 }
 ```
 
-<h3 id="updates-the-current-user's-profile-information.-responses">Responses</h3>
+<h4 id="updates-the-current-user's-profile-information.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[UserProfileResponseDto](#schemauserprofileresponsedto)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|none|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                      |
+|--------|----------------------------------------------------------------------------|--------------|-------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [UserProfileResponseDto](#schemauserprofileresponsedto)     |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                        |
+| 409    | [Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)              | none         | None                                                        |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                     |
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
 JWTBearerAuth
 </aside>
 
-<h1 id="user-management-user-management">User Management</h1>
+<h2 id="user-management-user-management">User Management</h2>
 
 Operations for managing users in the system, listing, updating, and deleting user accounts.
 
@@ -480,11 +469,11 @@ Operations for managing users in the system, listing, updating, and deleting use
 
 `DELETE /api/v1/user-management/users/{userId}`
 
-<h3 id="deletes-a-user-with-the-specified-userid.-parameters">Parameters</h3>
+<h4 id="deletes-a-user-with-the-specified-userid.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|userId|path|string(guid)|true|The unique identifier for the user.|
+| Name   | In   | Type         | Required | Description                         |
+|--------|------|--------------|----------|-------------------------------------|
+| userId | path | string(guid) | true     | The unique identifier for the user. |
 
 > Example responses
 
@@ -498,19 +487,19 @@ null
 null
 ```
 
-<h3 id="deletes-a-user-with-the-specified-userid.-responses">Responses</h3>
+<h4 id="deletes-a-user-with-the-specified-userid.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|Inline|
-|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No Content|None|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                      |
+|--------|----------------------------------------------------------------------------|--------------|-------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | Inline                                                      |
+| 204    | [No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)            | No Content   | None                                                        |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                        |
+| 403    | [Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)             | Forbidden    | None                                                        |
+| 404    | [Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)             | Not Found    | None                                                        |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                     |
 
-<h3 id="deletes-a-user-with-the-specified-userid.-responseschema">Response Schema</h3>
+<h4 id="deletes-a-user-with-the-specified-userid.-responseschema">Response Schema</h4>
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -532,14 +521,14 @@ JWTBearerAuth ( Scopes: Admin )
 }
 ```
 
-<h3 id="updates-the-profile-information-of-a-user-with-the-specified-userid.-parameters">Parameters</h3>
+<h4 id="updates-the-profile-information-of-a-user-with-the-specified-userid.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|userId|path|string(guid)|true|none|
-|body|body|[UpdateUserRequestDto](#schemaupdateuserrequestdto)|true|none|
-|username|body|string¦null|false|The new username for the user.|
-|emailAddress|body|string¦null|false|The new email address for the user.|
+| Name         | In   | Type                                                | Required | Description                         |
+|--------------|------|-----------------------------------------------------|----------|-------------------------------------|
+| userId       | path | string(guid)                                        | true     | none                                |
+| body         | body | [UpdateUserRequestDto](#schemaupdateuserrequestdto) | true     | none                                |
+| username     | body | string¦null                                         | false    | The new username for the user.      |
+| emailAddress | body | string¦null                                         | false    | The new email address for the user. |
 
 > Example responses
 
@@ -558,16 +547,16 @@ JWTBearerAuth ( Scopes: Admin )
 }
 ```
 
-<h3 id="updates-the-profile-information-of-a-user-with-the-specified-userid.-responses">Responses</h3>
+<h4 id="updates-the-profile-information-of-a-user-with-the-specified-userid.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[UserProfileResponseDto](#schemauserprofileresponsedto)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                      |
+|--------|----------------------------------------------------------------------------|--------------|-------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [UserProfileResponseDto](#schemauserprofileresponsedto)     |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                        |
+| 403    | [Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)             | Forbidden    | None                                                        |
+| 404    | [Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)             | Not Found    | None                                                        |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                     |
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -580,16 +569,16 @@ JWTBearerAuth ( Scopes: Admin )
 
 `GET /api/v1/user-management/users`
 
-<h3 id="retrieves-a-paginated-list-of-users.-parameters">Parameters</h3>
+<h4 id="retrieves-a-paginated-list-of-users.-parameters">Parameters</h4>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|pageNumber|query|integer(int32)|false|The page number to retrieve, starting from 1.|
-|pageSize|query|integer(int32)|false|The number of items to include per page.|
-|sortBy|query|string|false|The field by which to sort the results.|
-|sortOrder|query|string|false|The order in which to sort the results.|
-|searchField|query|string|false|The specific field to search within.|
-|searchTerm|query|string|false|The term to search for in the results.|
+| Name        | In    | Type           | Required | Description                                   |
+|-------------|-------|----------------|----------|-----------------------------------------------|
+| pageNumber  | query | integer(int32) | false    | The page number to retrieve, starting from 1. |
+| pageSize    | query | integer(int32) | false    | The number of items to include per page.      |
+| sortBy      | query | string         | false    | The field by which to sort the results.       |
+| sortOrder   | query | string         | false    | The order in which to sort the results.       |
+| searchField | query | string         | false    | The specific field to search within.          |
+| searchTerm  | query | string         | false    | The term to search for in the results.        |
 
 > Example responses
 
@@ -619,15 +608,15 @@ JWTBearerAuth ( Scopes: Admin )
 }
 ```
 
-<h3 id="retrieves-a-paginated-list-of-users.-responses">Responses</h3>
+<h4 id="retrieves-a-paginated-list-of-users.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PagedResponseDtoOfUserProfileResponseDto](#schemapagedresponsedtoofuserprofileresponsedto)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ValidationProblemDetails](#schemavalidationproblemdetails)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                                                                      |
+|--------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [PagedResponseDtoOfUserProfileResponseDto](#schemapagedresponsedtoofuserprofileresponsedto) |
+| 400    | [Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)           | Bad Request  | [ValidationProblemDetails](#schemavalidationproblemdetails)                                 |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                                                                        |
+| 403    | [Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)             | Forbidden    | None                                                                                        |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails)                                                     |
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -652,14 +641,14 @@ JWTBearerAuth ( Scopes: Admin )
 }
 ```
 
-<h3 id="retrieves-fields-which-can-be-used-to-search-users.-responses">Responses</h3>
+<h4 id="retrieves-fields-which-can-be-used-to-search-users.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[QueryFieldsDto](#schemaqueryfieldsdto)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                  |
+|--------|----------------------------------------------------------------------------|--------------|-----------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [QueryFieldsDto](#schemaqueryfieldsdto) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                    |
+| 403    | [Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)             | Forbidden    | None                                    |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails) |
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -684,14 +673,14 @@ JWTBearerAuth ( Scopes: Admin )
 }
 ```
 
-<h3 id="retrieves-fields-which-can-be-used-to-sort-users.-responses">Responses</h3>
+<h4 id="retrieves-fields-which-can-be-used-to-sort-users.-responses">Responses</h4>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[QueryFieldsDto](#schemaqueryfieldsdto)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Server Error|[ProblemDetails](#schemaproblemdetails)|
+| Status | Meaning                                                                    | Description  | Schema                                  |
+|--------|----------------------------------------------------------------------------|--------------|-----------------------------------------|
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)                    | Success      | [QueryFieldsDto](#schemaqueryfieldsdto) |
+| 401    | [Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)            | Unauthorized | None                                    |
+| 403    | [Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)             | Forbidden    | None                                    |
+| 500    | [Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1) | Server Error | [ProblemDetails](#schemaproblemdetails) |
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -700,7 +689,7 @@ JWTBearerAuth ( Scopes: Admin )
 
 # Schemas
 
-<h2 id="tocS_ValidationProblemDetails">ValidationProblemDetails</h2>
+<h3 id="tocS_ValidationProblemDetails">ValidationProblemDetails</h3>
 <!-- backwards compatibility -->
 <a id="schemavalidationproblemdetails"></a>
 <a id="schema_ValidationProblemDetails"></a>
@@ -730,18 +719,18 @@ JWTBearerAuth ( Scopes: Admin )
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|**additionalProperties**|any|false|none|none|
-|errors|object|false|none|none|
-|» **additionalProperties**|[string]|false|none|none|
-|type|string¦null|false|none|none|
-|title|string¦null|false|none|none|
-|status|integer(int32)¦null|false|none|none|
-|detail|string¦null|false|none|none|
-|instance|string¦null|false|none|none|
+| Name                       | Type                | Required | Restrictions | Description |
+|----------------------------|---------------------|----------|--------------|-------------|
+| **additionalProperties**   | any                 | false    | none         | none        |
+| errors                     | object              | false    | none         | none        |
+| » **additionalProperties** | [string]            | false    | none         | none        |
+| type                       | string¦null         | false    | none         | none        |
+| title                      | string¦null         | false    | none         | none        |
+| status                     | integer(int32)¦null | false    | none         | none        |
+| detail                     | string¦null         | false    | none         | none        |
+| instance                   | string¦null         | false    | none         | none        |
 
-<h2 id="tocS_ProblemDetails">ProblemDetails</h2>
+<h3 id="tocS_ProblemDetails">ProblemDetails</h3>
 <!-- backwards compatibility -->
 <a id="schemaproblemdetails"></a>
 <a id="schema_ProblemDetails"></a>
@@ -763,16 +752,16 @@ JWTBearerAuth ( Scopes: Admin )
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|**additionalProperties**|any|false|none|none|
-|type|string¦null|false|none|none|
-|title|string¦null|false|none|none|
-|status|integer(int32)¦null|false|none|none|
-|detail|string¦null|false|none|none|
-|instance|string¦null|false|none|none|
+| Name                     | Type                | Required | Restrictions | Description |
+|--------------------------|---------------------|----------|--------------|-------------|
+| **additionalProperties** | any                 | false    | none         | none        |
+| type                     | string¦null         | false    | none         | none        |
+| title                    | string¦null         | false    | none         | none        |
+| status                   | integer(int32)¦null | false    | none         | none        |
+| detail                   | string¦null         | false    | none         | none        |
+| instance                 | string¦null         | false    | none         | none        |
 
-<h2 id="tocS_PagedResponseDtoOfUserProfileResponseDto">PagedResponseDtoOfUserProfileResponseDto</h2>
+<h3 id="tocS_PagedResponseDtoOfUserProfileResponseDto">PagedResponseDtoOfUserProfileResponseDto</h3>
 <!-- backwards compatibility -->
 <a id="schemapagedresponsedtoofuserprofileresponsedto"></a>
 <a id="schema_PagedResponseDtoOfUserProfileResponseDto"></a>
@@ -808,12 +797,12 @@ DTO for paginated responses, including metadata and data for a specific type.
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|metadata|[PagedResponseMetadataDto](#schemapagedresponsemetadatadto)|true|none|Metadata about the pagination, such as total count and current page details.|
-|data|[[UserProfileResponseDto](#schemauserprofileresponsedto)]|true|none|The data items for the current page.|
+| Name     | Type                                                        | Required | Restrictions | Description                                                                  |
+|----------|-------------------------------------------------------------|----------|--------------|------------------------------------------------------------------------------|
+| metadata | [PagedResponseMetadataDto](#schemapagedresponsemetadatadto) | true     | none         | Metadata about the pagination, such as total count and current page details. |
+| data     | [[UserProfileResponseDto](#schemauserprofileresponsedto)]   | true     | none         | The data items for the current page.                                         |
 
-<h2 id="tocS_PagedResponseMetadataDto">PagedResponseMetadataDto</h2>
+<h3 id="tocS_PagedResponseMetadataDto">PagedResponseMetadataDto</h3>
 <!-- backwards compatibility -->
 <a id="schemapagedresponsemetadatadto"></a>
 <a id="schema_PagedResponseMetadataDto"></a>
@@ -835,15 +824,15 @@ Metadata for paginated responses, providing details about pagination and result 
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|pageNumber|integer(int32)|true|none|The current page number in the paginated result.|
-|pageSize|integer(int32)|true|none|The number of items per page.|
-|pageCount|integer(int32)|true|none|The total number of pages available based on the current page size and total count.|
-|totalCount|integer(int32)|true|none|The total number of items available across all pages.|
-|hasMore|boolean|true|none|Indicates whether there are more pages of data available beyond the current page.|
+| Name       | Type           | Required | Restrictions | Description                                                                         |
+|------------|----------------|----------|--------------|-------------------------------------------------------------------------------------|
+| pageNumber | integer(int32) | true     | none         | The current page number in the paginated result.                                    |
+| pageSize   | integer(int32) | true     | none         | The number of items per page.                                                       |
+| pageCount  | integer(int32) | true     | none         | The total number of pages available based on the current page size and total count. |
+| totalCount | integer(int32) | true     | none         | The total number of items available across all pages.                               |
+| hasMore    | boolean        | true     | none         | Indicates whether there are more pages of data available beyond the current page.   |
 
-<h2 id="tocS_UserProfileResponseDto">UserProfileResponseDto</h2>
+<h3 id="tocS_UserProfileResponseDto">UserProfileResponseDto</h3>
 <!-- backwards compatibility -->
 <a id="schemauserprofileresponsedto"></a>
 <a id="schema_UserProfileResponseDto"></a>
@@ -868,18 +857,18 @@ DTO for user profile information response.
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|userId|string(guid)|true|none|The unique identifier for the user.|
-|username|string|true|none|The username of the user.|
-|emailAddress|string|true|none|The email address of the user.|
-|userRole|string|true|none|The role assigned to the user.|
-|createdBy|string|true|none|The username of the person who created the user profile.|
-|createdAt|string|true|none|The date and time when the user profile was created.|
-|updatedBy|string|true|none|The username of the person who last updated the user profile.|
-|updatedAt|string|true|none|The date and time when the user profile was last updated.|
+| Name         | Type         | Required | Restrictions | Description                                                   |
+|--------------|--------------|----------|--------------|---------------------------------------------------------------|
+| userId       | string(guid) | true     | none         | The unique identifier for the user.                           |
+| username     | string       | true     | none         | The username of the user.                                     |
+| emailAddress | string       | true     | none         | The email address of the user.                                |
+| userRole     | string       | true     | none         | The role assigned to the user.                                |
+| createdBy    | string       | true     | none         | The username of the person who created the user profile.      |
+| createdAt    | string       | true     | none         | The date and time when the user profile was created.          |
+| updatedBy    | string       | true     | none         | The username of the person who last updated the user profile. |
+| updatedAt    | string       | true     | none         | The date and time when the user profile was last updated.     |
 
-<h2 id="tocS_QueryFieldsDto">QueryFieldsDto</h2>
+<h3 id="tocS_QueryFieldsDto">QueryFieldsDto</h3>
 <!-- backwards compatibility -->
 <a id="schemaqueryfieldsdto"></a>
 <a id="schema_QueryFieldsDto"></a>
@@ -899,11 +888,11 @@ DTO for specifying fields that can be used for searching or sorting.
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|fields|[string]|true|none|An array of field names that can be used for search or sorting operations.|
+| Name   | Type     | Required | Restrictions | Description                                                                |
+|--------|----------|----------|--------------|----------------------------------------------------------------------------|
+| fields | [string] | true     | none         | An array of field names that can be used for search or sorting operations. |
 
-<h2 id="tocS_UpdateUserRequestDto">UpdateUserRequestDto</h2>
+<h3 id="tocS_UpdateUserRequestDto">UpdateUserRequestDto</h3>
 <!-- backwards compatibility -->
 <a id="schemaupdateuserrequestdto"></a>
 <a id="schema_UpdateUserRequestDto"></a>
@@ -922,12 +911,12 @@ DTO for updating user information.
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|username|string¦null|false|none|The new username for the user.|
-|emailAddress|string¦null|false|none|The new email address for the user.|
+| Name         | Type        | Required | Restrictions | Description                         |
+|--------------|-------------|----------|--------------|-------------------------------------|
+| username     | string¦null | false    | none         | The new username for the user.      |
+| emailAddress | string¦null | false    | none         | The new email address for the user. |
 
-<h2 id="tocS_AuthenticationResponseDto">AuthenticationResponseDto</h2>
+<h3 id="tocS_AuthenticationResponseDto">AuthenticationResponseDto</h3>
 <!-- backwards compatibility -->
 <a id="schemaauthenticationresponsedto"></a>
 <a id="schema_AuthenticationResponseDto"></a>
@@ -950,16 +939,16 @@ DTO for the authentication response, containing tokens and expiration details.
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|userId|string(guid)|true|none|The unique identifier for the authenticated user.|
-|tokenType|string|true|none|The type of token issued (e.g., Bearer).|
-|accessToken|string|true|none|The access token issued for the authenticated user.|
-|accessTokenExpiresIn|integer(int32)|true|none|The duration in seconds until the access token expires.|
-|refreshToken|string|true|none|The refresh token that can be used to obtain a new access token.|
-|refreshTokenExpiresIn|integer(int32)|true|none|The duration in seconds until the refresh token expires.|
+| Name                  | Type           | Required | Restrictions | Description                                                      |
+|-----------------------|----------------|----------|--------------|------------------------------------------------------------------|
+| userId                | string(guid)   | true     | none         | The unique identifier for the authenticated user.                |
+| tokenType             | string         | true     | none         | The type of token issued (e.g., Bearer).                         |
+| accessToken           | string         | true     | none         | The access token issued for the authenticated user.              |
+| accessTokenExpiresIn  | integer(int32) | true     | none         | The duration in seconds until the access token expires.          |
+| refreshToken          | string         | true     | none         | The refresh token that can be used to obtain a new access token. |
+| refreshTokenExpiresIn | integer(int32) | true     | none         | The duration in seconds until the refresh token expires.         |
 
-<h2 id="tocS_LoginRequestDto">LoginRequestDto</h2>
+<h3 id="tocS_LoginRequestDto">LoginRequestDto</h3>
 <!-- backwards compatibility -->
 <a id="schemaloginrequestdto"></a>
 <a id="schema_LoginRequestDto"></a>
@@ -978,12 +967,12 @@ DTO for user login request containing username and password.
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|username|string|true|none|The username of the user attempting to log in.|
-|password|string|true|none|The password of the user attempting to log in.|
+| Name     | Type   | Required | Restrictions | Description                                    |
+|----------|--------|----------|--------------|------------------------------------------------|
+| username | string | true     | none         | The username of the user attempting to log in. |
+| password | string | true     | none         | The password of the user attempting to log in. |
 
-<h2 id="tocS_RefreshTokenRequestDto">RefreshTokenRequestDto</h2>
+<h3 id="tocS_RefreshTokenRequestDto">RefreshTokenRequestDto</h3>
 <!-- backwards compatibility -->
 <a id="schemarefreshtokenrequestdto"></a>
 <a id="schema_RefreshTokenRequestDto"></a>
@@ -1001,11 +990,11 @@ DTO for requesting a new access token using a refresh token.
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|refreshToken|string|true|none|The refresh token used to obtain a new access token.|
+| Name         | Type   | Required | Restrictions | Description                                          |
+|--------------|--------|----------|--------------|------------------------------------------------------|
+| refreshToken | string | true     | none         | The refresh token used to obtain a new access token. |
 
-<h2 id="tocS_RegisterRequestDto">RegisterRequestDto</h2>
+<h3 id="tocS_RegisterRequestDto">RegisterRequestDto</h3>
 <!-- backwards compatibility -->
 <a id="schemaregisterrequestdto"></a>
 <a id="schema_RegisterRequestDto"></a>
@@ -1026,14 +1015,14 @@ DTO for user registration request containing username, password, and email addre
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|username|string|true|none|The desired username for the new user account.|
-|password|string|true|none|The password for the new user account.|
-|confirmPassword|string|true|none|Confirmation of the password to ensure it was entered correctly.|
-|emailAddress|string|true|none|The email address for the new user account.|
+| Name            | Type   | Required | Restrictions | Description                                                      |
+|-----------------|--------|----------|--------------|------------------------------------------------------------------|
+| username        | string | true     | none         | The desired username for the new user account.                   |
+| password        | string | true     | none         | The password for the new user account.                           |
+| confirmPassword | string | true     | none         | Confirmation of the password to ensure it was entered correctly. |
+| emailAddress    | string | true     | none         | The email address for the new user account.                      |
 
-<h2 id="tocS_RequestResetPasswordRequestDto">RequestResetPasswordRequestDto</h2>
+<h3 id="tocS_RequestResetPasswordRequestDto">RequestResetPasswordRequestDto</h3>
 <!-- backwards compatibility -->
 <a id="schemarequestresetpasswordrequestdto"></a>
 <a id="schema_RequestResetPasswordRequestDto"></a>
@@ -1051,11 +1040,11 @@ DTO for requesting a password reset, containing the user's email address.
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|emailAddress|string|true|none|The email address associated with the user account requesting the password reset.|
+| Name         | Type   | Required | Restrictions | Description                                                                       |
+|--------------|--------|----------|--------------|-----------------------------------------------------------------------------------|
+| emailAddress | string | true     | none         | The email address associated with the user account requesting the password reset. |
 
-<h2 id="tocS_ResetPasswordRequestDto">ResetPasswordRequestDto</h2>
+<h3 id="tocS_ResetPasswordRequestDto">ResetPasswordRequestDto</h3>
 <!-- backwards compatibility -->
 <a id="schemaresetpasswordrequestdto"></a>
 <a id="schema_ResetPasswordRequestDto"></a>
@@ -1075,13 +1064,13 @@ DTO for resetting a user's password, including the reset token and new password 
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|passwordResetToken|string|true|none|The token provided to the user for password reset.|
-|password|string|true|none|The new password the user wants to set.|
-|confirmPassword|string|true|none|Confirmation of the new password to ensure it was entered correctly.|
+| Name               | Type   | Required | Restrictions | Description                                                          |
+|--------------------|--------|----------|--------------|----------------------------------------------------------------------|
+| passwordResetToken | string | true     | none         | The token provided to the user for password reset.                   |
+| password           | string | true     | none         | The new password the user wants to set.                              |
+| confirmPassword    | string | true     | none         | Confirmation of the new password to ensure it was entered correctly. |
 
-<h2 id="tocS_ChangePasswordRequestDto">ChangePasswordRequestDto</h2>
+<h3 id="tocS_ChangePasswordRequestDto">ChangePasswordRequestDto</h3>
 <!-- backwards compatibility -->
 <a id="schemachangepasswordrequestdto"></a>
 <a id="schema_ChangePasswordRequestDto"></a>
@@ -1100,8 +1089,8 @@ DTO for changing the user's password.
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|password|string|true|none|The new password the user wants to set.|
-|confirmPassword|string|true|none|Confirmation of the new password to ensure it was entered correctly.|
+| Name            | Type   | Required | Restrictions | Description                                                          |
+|-----------------|--------|----------|--------------|----------------------------------------------------------------------|
+| password        | string | true     | none         | The new password the user wants to set.                              |
+| confirmPassword | string | true     | none         | Confirmation of the new password to ensure it was entered correctly. |
 

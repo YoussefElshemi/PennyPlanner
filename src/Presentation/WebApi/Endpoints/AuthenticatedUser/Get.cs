@@ -21,10 +21,7 @@ public class Get(IMapper mapper) : EndpointWithoutRequest<UserProfileResponseDto
             .Produces((int)HttpStatusCode.Unauthorized)
             .Produces<ProblemDetails>((int)HttpStatusCode.InternalServerError));
 
-        Summary(s =>
-        {
-            s.Summary = SwaggerSummaries.User.Get;
-        });
+        Summary(s => s.Summary = SwaggerSummaries.User.Get);
 
         Options(x => x.WithTags(SwaggerTags.User));
     }

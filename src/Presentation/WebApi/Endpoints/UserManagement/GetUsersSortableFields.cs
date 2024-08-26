@@ -24,10 +24,7 @@ public class GetUsersSortableFields(
             .Produces((int)HttpStatusCode.Forbidden)
             .Produces<ProblemDetails>((int)HttpStatusCode.InternalServerError));
 
-        Summary(s =>
-        {
-            s.Summary = SwaggerSummaries.UserManagement.GetUsersSortableFields;
-        });
+        Summary(s => s.Summary = SwaggerSummaries.UserManagement.GetUsersSortableFields);
 
         Options(x => x.WithTags(SwaggerTags.UserManagement));
     }

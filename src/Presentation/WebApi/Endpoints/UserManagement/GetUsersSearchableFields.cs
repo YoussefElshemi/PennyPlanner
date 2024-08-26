@@ -24,10 +24,7 @@ public class GetUsersSearchableFields(
             .Produces((int)HttpStatusCode.Forbidden)
             .Produces<ProblemDetails>((int)HttpStatusCode.InternalServerError));
 
-        Summary(s =>
-        {
-            s.Summary = SwaggerSummaries.UserManagement.GetUsersSearchableFields;
-        });
+        Summary(s => s.Summary = SwaggerSummaries.UserManagement.GetUsersSearchableFields);
 
         Options(x => x.WithTags(SwaggerTags.UserManagement));
     }
