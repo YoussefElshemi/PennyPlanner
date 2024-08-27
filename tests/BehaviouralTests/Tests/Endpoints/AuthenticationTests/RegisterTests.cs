@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.WebApi.Authentication.Endpoints;
 using Presentation.WebApi.Authentication.Models.Requests;
-using Presentation.WebApi.Authentication.Models.Responses;
 using Presentation.WebApi.Authentication.Validators;
 using UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
@@ -103,11 +102,6 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         await AssertUserExists(registerRequest.Username, registerRequest.EmailAddress, true);
     }
 
-    protected override async Task TearDownAsync()
-    {
-        await testFixture.ResetDatabaseAsync();
-    }
-
     private async Task InsertUser(UserEntity existingUserEntity)
     {
         using var scope = _serviceProvider.CreateScope();
@@ -124,5 +118,11 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
 
         var exists = await context.Users.AnyAsync(x => x.Username == username && x.EmailAddress == emailAddress);
         exists.Should().Be(expected);
+    }
+
+
+    protected override async Task TearDownAsync()
+    {
+        await testFixture.ResetDatabaseAsync();
     }
 }

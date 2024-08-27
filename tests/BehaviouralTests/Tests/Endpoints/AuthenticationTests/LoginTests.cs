@@ -111,11 +111,6 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
         await AssertLoginExists(authenticationResponse.UserId, true);
     }
 
-    protected override async Task TearDownAsync()
-    {
-        await testFixture.ResetDatabaseAsync();
-    }
-
     private async Task InsertUser(UserEntity existingUserEntity)
     {
         using var scope = _serviceProvider.CreateScope();
@@ -132,5 +127,10 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
 
         var exists = await context.Logins.AnyAsync(x => x.UserId == userId);
         exists.Should().Be(expected);
+    }
+
+    protected override async Task TearDownAsync()
+    {
+        await testFixture.ResetDatabaseAsync();
     }
 }

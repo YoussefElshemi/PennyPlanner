@@ -15,7 +15,6 @@ using UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
 using Xunit;
 using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
-using RefreshToken = Presentation.WebApi.Authentication.Endpoints.RefreshToken;
 
 namespace BehaviouralTests.Tests.Endpoints.AuthenticationTests;
 
@@ -140,5 +139,4 @@ public class RevokeRefreshTokenTests(TestFixture testFixture) : TestBase<TestFix
     {
         await testFixture.ResetDatabaseAsync();
     }
-
 }

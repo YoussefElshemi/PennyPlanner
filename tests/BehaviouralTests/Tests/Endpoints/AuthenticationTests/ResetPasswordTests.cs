@@ -14,7 +14,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.WebApi.Authentication.Endpoints;
 using Presentation.WebApi.Authentication.Models.Requests;
-using Presentation.WebApi.Authentication.Models.Responses;
 using Presentation.WebApi.Authentication.Validators;
 using UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
@@ -152,11 +151,6 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         await AssertPasswordResetIsUsed(resetPasswordRequest.PasswordResetToken, true);
     }
 
-    protected override async Task TearDownAsync()
-    {
-        await testFixture.ResetDatabaseAsync();
-    }
-
     private async Task InsertPasswordReset(PasswordResetEntity existingPasswordResetEntity)
     {
         using var scope = _serviceProvider.CreateScope();
@@ -173,5 +167,10 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
 
         var entity = await context.PasswordResets.SingleAsync(x => x.ResetToken == resetToken);
         entity.IsUsed.Should().Be(expected);
+    }
+
+    protected override async Task TearDownAsync()
+    {
+        await testFixture.ResetDatabaseAsync();
     }
 }
