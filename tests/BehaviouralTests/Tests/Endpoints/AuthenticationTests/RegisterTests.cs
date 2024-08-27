@@ -5,7 +5,6 @@ using FastEndpoints;
 using FastEndpoints.Testing;
 using FluentAssertions;
 using Infrastructure;
-using Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,7 +51,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
             IsDeleted = false
         };
 
-        await InsertUser(existingUserEntity);
+        await DatabaseSeeder.InsertUser(_serviceProvider, existingUserEntity);
 
         // Act
         var (httpResponseMessage, problemDetails) =
@@ -75,7 +74,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
             IsDeleted = false
         };
 
-        await InsertUser(existingUserEntity);
+        await DatabaseSeeder.InsertUser(_serviceProvider, existingUserEntity);
 
         // Act
         var (httpResponseMessage, problemDetails) =
@@ -100,15 +99,6 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         await AssertUserExists(registerRequest.Username, registerRequest.EmailAddress, true);
-    }
-
-    private async Task InsertUser(UserEntity existingUserEntity)
-    {
-        using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
-
-        await context.Users.AddAsync(existingUserEntity);
-        await context.SaveChangesAsync();
     }
 
     private async Task AssertUserExists(string username, string emailAddress, bool expected)

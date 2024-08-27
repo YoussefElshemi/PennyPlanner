@@ -13,4 +13,13 @@ public static class FakeUpdateUserRequestDto
             Username = FakeUsername.Valid
         };
     }
+
+    public static UpdateUserRequestDto CreateInvalid()
+    {
+        return new UpdateUserRequestDto
+        {
+            EmailAddress = FakeEmailAddress.Invalid,
+            Username = FakeUsername.Invalid
+        };
+    }
 }

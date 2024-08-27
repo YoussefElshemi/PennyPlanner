@@ -15,4 +15,9 @@ public static class ConfigurationHelper
     {
         return Config.GetConnectionString(connectionString) ?? string.Empty;
     }
+
+    internal static IConfigurationSection GetSection(string connectionString)
+    {
+        return Config.GetSection(connectionString);
+    }
 }

@@ -8,7 +8,6 @@ using FastEndpoints;
 using FastEndpoints.Testing;
 using FluentAssertions;
 using Infrastructure;
-using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.WebApi.Authentication.Endpoints;
@@ -44,7 +43,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
             IsDeleted = false
         };
 
-        await InsertUser(existingUserEntity);
+        await DatabaseSeeder.InsertUser(_serviceProvider, existingUserEntity);
 
         // Act
         var (httpResponseMessage, problemDetails) =
@@ -73,7 +72,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
             IsDeleted = false
         };
 
-        await InsertUser(existingUserEntity);
+        await DatabaseSeeder.InsertUser(_serviceProvider, existingUserEntity);
 
         // Act
         var (httpResponseMessage, problemDetails) =
@@ -101,7 +100,8 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
             IsDeleted = false
         };
 
-        await InsertUser(existingUserEntity);
+        await DatabaseSeeder.InsertUser(_serviceProvider, existingUserEntity);
+
         // Act
         var (httpResponseMessage, authenticationResponse) =
             await testFixture.Client.POSTAsync<Login, LoginRequestDto, AuthenticationResponseDto>(loginRequest);
@@ -109,15 +109,6 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         await AssertLoginExists(authenticationResponse.UserId, true);
-    }
-
-    private async Task InsertUser(UserEntity existingUserEntity)
-    {
-        using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
-
-        await context.Users.AddAsync(existingUserEntity);
-        await context.SaveChangesAsync();
     }
 
     private async Task AssertLoginExists(Guid userId, bool expected)

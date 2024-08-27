@@ -4,7 +4,7 @@ using Presentation.Mappers;
 
 namespace BehaviouralTests.TestHelpers;
 
-public class AutoMapperHelper
+public static class AutoMapperHelper
 {
     public static IMapper Create()
     {

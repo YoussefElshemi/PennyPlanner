@@ -1,21 +1,12 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text;
 using AutoFixture;
 using BehaviouralTests.TestHelpers;
-using Core.Configs;
-using Core.Models;
 using Core.ValueObjects;
 using FastEndpoints;
 using FastEndpoints.Testing;
 using FluentAssertions;
-using Infrastructure;
 using Infrastructure.Entities;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Presentation.WebApi.AuthenticatedUser.Endpoints;
 using Presentation.WebApi.AuthenticatedUser.Models.Responses;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
@@ -55,8 +46,8 @@ public class GetTests : TestBase<TestFixture>
         // Arrange
         var user = FakeUser.CreateValid(_fixture);
         var userEntity = _mapper.Map<UserEntity>(user);
-        var accessToken = CreateAccessToken(user, -10);
-        await InsertUser(userEntity);
+        var accessToken = AuthenticationHelper.CreateAccessToken(user, -10);
+        await DatabaseSeeder.InsertUser(_serviceProvider, userEntity);
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -75,8 +66,8 @@ public class GetTests : TestBase<TestFixture>
             IsDeleted = new IsDeleted(true)
         };
         var userEntity = _mapper.Map<UserEntity>(user);
-        var accessToken = CreateAccessToken(user, 10);
-        await InsertUser(userEntity);
+        var accessToken = AuthenticationHelper.CreateAccessToken(user, 10);
+        await DatabaseSeeder.InsertUser(_serviceProvider, userEntity);
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -95,8 +86,8 @@ public class GetTests : TestBase<TestFixture>
             IsDeleted = new IsDeleted(false)
         };
         var userEntity = _mapper.Map<UserEntity>(user);
-        var accessToken = CreateAccessToken(user, 10);
-        await InsertUser(userEntity);
+        var accessToken = AuthenticationHelper.CreateAccessToken(user, 10);
+        await DatabaseSeeder.InsertUser(_serviceProvider, userEntity);
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -105,41 +96,6 @@ public class GetTests : TestBase<TestFixture>
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         userProfileResponse.UserId.Should().Be(user.UserId);
-    }
-
-    private string CreateAccessToken(User user, int tokenLifeTime)
-    {
-        var appConfig = new AppConfig();
-        _serviceProvider.GetRequiredService<IConfiguration>().GetSection(nameof(AppConfig)).Bind(appConfig);
-
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appConfig.JwtConfig.Key));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            new Claim(ClaimTypes.Role, user.UserRole.ToString())
-        };
-
-        var jwtSecurityToken = new JwtSecurityToken(
-            appConfig.JwtConfig.Issuer,
-            appConfig.JwtConfig.Audience,
-            expires: DateTime.UtcNow.AddMinutes(tokenLifeTime),
-            notBefore: DateTime.UtcNow.AddMinutes(tokenLifeTime).AddMinutes(-10),
-            claims: claims,
-            signingCredentials: credentials
-        );
-
-        return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-    }
-
-    private async Task InsertUser(UserEntity existingUserEntity)
-    {
-        using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
-
-        await context.Users.AddAsync(existingUserEntity);
-        await context.SaveChangesAsync();
     }
 
     protected override async Task TearDownAsync()

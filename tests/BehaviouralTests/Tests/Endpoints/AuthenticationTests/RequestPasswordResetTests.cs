@@ -5,7 +5,6 @@ using FastEndpoints;
 using FastEndpoints.Testing;
 using FluentAssertions;
 using Infrastructure;
-using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.WebApi.Authentication.Endpoints;
@@ -33,7 +32,7 @@ public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestF
             IsDeleted = false
         };
 
-        await InsertUser(existingUserEntity);
+        await DatabaseSeeder.InsertUser(_serviceProvider, existingUserEntity);
 
         // Act
         var httpResponseMessage =
@@ -55,7 +54,7 @@ public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestF
             IsDeleted = false
         };
 
-        await InsertUser(existingUserEntity);
+        await DatabaseSeeder.InsertUser(_serviceProvider, existingUserEntity);
 
         // Act
         var httpResponseMessage =
@@ -65,16 +64,6 @@ public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestF
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Accepted);
         await AssertPasswordResetExists(existingUserEntity.UserId, true);
     }
-
-    private async Task InsertUser(UserEntity existingUserEntity)
-    {
-        using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
-
-        await context.Users.AddAsync(existingUserEntity);
-        await context.SaveChangesAsync();
-    }
-
 
     private async Task AssertPasswordResetExists(Guid userId, bool expected)
     {
