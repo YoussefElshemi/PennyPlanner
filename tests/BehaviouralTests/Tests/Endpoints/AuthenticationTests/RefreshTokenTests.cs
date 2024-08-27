@@ -1,19 +1,13 @@
 using System.Net;
 using AutoFixture;
 using BehaviouralTests.TestHelpers;
-using Core.Helpers;
-using Core.Services;
-using Core.ValueObjects;
 using FastEndpoints;
 using FastEndpoints.Testing;
 using FluentAssertions;
 using Infrastructure;
 using Infrastructure.Entities;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Presentation.WebApi.Authentication.Endpoints;
 using Presentation.WebApi.Authentication.Models.Requests;
-using Presentation.WebApi.Authentication.Models.Responses;
 using Presentation.WebApi.Authentication.Validators;
 using UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
@@ -120,16 +114,6 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    protected override async Task SetupAsync()
-    {
-        await testFixture.SeedDatabaseAsync();
-    }
-
-    protected override async Task TearDownAsync()
-    {
-        await testFixture.ResetDatabaseAsync();
-    }
-
     private async Task InsertLogin(LoginEntity existingLoginEntity)
     {
         using var scope = _serviceProvider.CreateScope();
@@ -138,4 +122,10 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         await context.Logins.AddAsync(existingLoginEntity);
         await context.SaveChangesAsync();
     }
+
+    protected override async Task TearDownAsync()
+    {
+        await testFixture.ResetDatabaseAsync();
+    }
+
 }

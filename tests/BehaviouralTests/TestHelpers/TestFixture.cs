@@ -1,6 +1,7 @@
 using System.Data.Common;
+using BehaviouralTests.Mocks;
+using Core.Interfaces.Services;
 using FastEndpoints.Testing;
-using Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
@@ -27,16 +28,14 @@ public class TestFixture : AppFixture<Presentation.Program>
         a.UseEnvironment("Development");
     }
 
+    protected override void ConfigureServices(IServiceCollection s)
+    {
+        s.AddSingleton<IEmailService, MockEmailService>();
+    }
+
     protected override async Task TearDownAsync()
     {
         await _dbConnection.CloseAsync();
-    }
-
-    public async Task SeedDatabaseAsync()
-    {
-        using var scope = Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
-        await context.SaveChangesAsync();
     }
 
     public async Task ResetDatabaseAsync()

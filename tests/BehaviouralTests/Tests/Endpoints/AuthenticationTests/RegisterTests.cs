@@ -7,6 +7,7 @@ using FluentAssertions;
 using Infrastructure;
 using Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.WebApi.Authentication.Endpoints;
 using Presentation.WebApi.Authentication.Models.Requests;
@@ -99,11 +100,6 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         await AssertUserExists(authenticationResponse.UserId);
     }
 
-    protected override async Task SetupAsync()
-    {
-        await testFixture.SeedDatabaseAsync();
-    }
-
     protected override async Task TearDownAsync()
     {
         await testFixture.ResetDatabaseAsync();
@@ -123,7 +119,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
-        var user = await context.Users.FindAsync(userId);
-        (user is not null).Should().BeTrue();
+        var exists = await context.Users.AnyAsync(x => x.UserId == userId);
+        exists.Should().BeTrue();
     }
 }
