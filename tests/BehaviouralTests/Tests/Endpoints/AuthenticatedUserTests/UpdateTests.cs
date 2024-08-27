@@ -41,7 +41,7 @@ public class UpdateTests : TestBase<TestFixture>
         // Act
         var (httpResponseMessage, _) = await _testFixture.Client.PUTAsync<Update, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -58,7 +58,7 @@ public class UpdateTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.PUTAsync<Update, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -78,7 +78,7 @@ public class UpdateTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.PUTAsync<Update, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -100,7 +100,7 @@ public class UpdateTests : TestBase<TestFixture>
         var (httpResponseMessage, validationProblemDetails) =
             await _testFixture.Client.PUTAsync<Update, UpdateUserRequestDto, ValidationProblemDetails>(updateUserRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         validationProblemDetails.Errors.Should().HaveCount(2);
     }
@@ -126,7 +126,7 @@ public class UpdateTests : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await _testFixture.Client.PUTAsync<Update, UpdateUserRequestDto, ProblemDetails>(updateUserRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Conflict);
         problemDetails.Detail.Should().Be(UpdateUserRequestDtoValidator.FieldDidNotUpdateErrorMessage(nameof(EmailAddress)));
     }
@@ -152,7 +152,7 @@ public class UpdateTests : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await _testFixture.Client.PUTAsync<Update, UpdateUserRequestDto, ProblemDetails>(updateUserRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Conflict);
         problemDetails.Detail.Should().Be(UpdateUserRequestDtoValidator.FieldDidNotUpdateErrorMessage(nameof(Username)));
     }
@@ -179,7 +179,7 @@ public class UpdateTests : TestBase<TestFixture>
         var (httpResponseMessage, userProfileResponse) =
             await _testFixture.Client.PUTAsync<Update, UpdateUserRequestDto, UserProfileResponseDto>(updateUserRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
         userProfileResponse.UserId.Should().Be(user.UserId);
         userProfileResponse.Username.Should().Be(updateUserRequest.Username);

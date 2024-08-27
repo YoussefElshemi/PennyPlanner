@@ -37,7 +37,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
         // Act
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -54,7 +54,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -74,7 +74,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
@@ -95,7 +95,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
@@ -116,7 +116,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, queryFieldsResponse) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         queryFieldsResponse.Fields.Should().NotBeEmpty();
     }

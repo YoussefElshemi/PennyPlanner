@@ -36,7 +36,7 @@ public class GetTests : TestBase<TestFixture>
         // Act
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<Get, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -53,7 +53,7 @@ public class GetTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<Get, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -73,7 +73,7 @@ public class GetTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<Get, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -93,7 +93,7 @@ public class GetTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, userProfileResponse) = await _testFixture.Client.GETAsync<Get, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         userProfileResponse.UserId.Should().Be(user.UserId);
     }

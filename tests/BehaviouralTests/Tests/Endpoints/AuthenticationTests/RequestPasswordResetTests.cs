@@ -38,7 +38,7 @@ public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestF
         var httpResponseMessage =
             await testFixture.Client.POSTAsync<RequestPasswordReset, RequestPasswordResetRequestDto>(requestPasswordResetRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Accepted);
         await AssertPasswordResetExists(existingUserEntity.UserId, false);
     }
@@ -60,7 +60,7 @@ public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestF
         var httpResponseMessage =
             await testFixture.Client.POSTAsync<RequestPasswordReset, RequestPasswordResetRequestDto>(requestPasswordResetRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Accepted);
         await AssertPasswordResetExists(existingUserEntity.UserId, true);
     }

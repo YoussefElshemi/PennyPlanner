@@ -42,7 +42,7 @@ public class RevokeRefreshTokenTests(TestFixture testFixture) : TestBase<TestFix
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<RevokeRefreshToken, RefreshTokenRequestDto, ProblemDetails>(refreshTokenRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(RefreshTokenRequestDtoValidator.RefreshTokenDoesNotExistErrorMessage);
     }
@@ -65,7 +65,7 @@ public class RevokeRefreshTokenTests(TestFixture testFixture) : TestBase<TestFix
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<RevokeRefreshToken, RefreshTokenRequestDto, ProblemDetails>(refreshTokenRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(RefreshTokenRequestDtoValidator.RefreshTokenIsExpiredErrorMessage);
         await AssertRefreshTokenIsRevoked(refreshTokenRequest.RefreshToken, false);
@@ -89,7 +89,7 @@ public class RevokeRefreshTokenTests(TestFixture testFixture) : TestBase<TestFix
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<RevokeRefreshToken, RefreshTokenRequestDto, ProblemDetails>(refreshTokenRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(RefreshTokenRequestDtoValidator.RefreshTokenIsRevokedErrorMessage);
     }
@@ -112,7 +112,7 @@ public class RevokeRefreshTokenTests(TestFixture testFixture) : TestBase<TestFix
         var httpResponseMessage =
             await testFixture.Client.POSTAsync<RevokeRefreshToken, RefreshTokenRequestDto>(refreshTokenRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         await AssertRefreshTokenIsRevoked(refreshTokenRequest.RefreshToken, true);
     }
@@ -131,7 +131,7 @@ public class RevokeRefreshTokenTests(TestFixture testFixture) : TestBase<TestFix
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
-        var entity = await context.Logins.SingleAsync(x => x.RefreshToken == refreshToken);
+        var entity = await context.Logins.FirstAsync(x => x.RefreshToken == refreshToken);
         entity.IsRevoked.Should().Be(expected);
     }
 

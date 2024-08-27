@@ -165,7 +165,7 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
-        var entity = await context.PasswordResets.SingleAsync(x => x.ResetToken == resetToken);
+        var entity = await context.PasswordResets.FirstAsync(x => x.ResetToken == resetToken);
         entity.IsUsed.Should().Be(expected);
     }
 

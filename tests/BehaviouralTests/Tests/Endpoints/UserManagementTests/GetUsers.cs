@@ -42,7 +42,7 @@ public class GetUsersTests : TestBase<TestFixture>
         // Act
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsers, QueryFieldsResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -59,7 +59,7 @@ public class GetUsersTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsers, QueryFieldsResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -79,7 +79,7 @@ public class GetUsersTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsers, QueryFieldsResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
@@ -100,7 +100,7 @@ public class GetUsersTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsers, QueryFieldsResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
@@ -141,7 +141,7 @@ public class GetUsersTests : TestBase<TestFixture>
         var (httpResponseMessage, queryFieldsResponse) =
             await _testFixture.Client.GETAsync<GetUsers, PagedRequestDto, PagedResponseDto<UserProfileResponseDto>>(pagedRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         queryFieldsResponse.Data.Should().HaveCount(10);
     }

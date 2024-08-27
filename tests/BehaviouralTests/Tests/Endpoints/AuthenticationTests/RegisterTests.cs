@@ -57,7 +57,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<Register, RegisterRequestDto, ProblemDetails>(registerRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Conflict);
         problemDetails.Detail.Should().Be(RegisterRequestDtoValidator.UsernameTakenErrorMessage);
         await AssertUserExists(registerRequest.Username, registerRequest.EmailAddress, false);
@@ -80,7 +80,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<Register, RegisterRequestDto, ProblemDetails>(registerRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Conflict);
         problemDetails.Detail.Should().Be(RegisterRequestDtoValidator.EmailAddressInUseErrorMessage);
         await AssertUserExists(registerRequest.Username, registerRequest.EmailAddress, false);

@@ -49,7 +49,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<Login, LoginRequestDto, ProblemDetails>(loginRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(LoginRequestDtoValidator.IncorrectLoginDetailsErrorMessage);
         await AssertLoginExists(existingUserEntity.UserId, false);
@@ -78,7 +78,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<Login, LoginRequestDto, ProblemDetails>(loginRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(LoginRequestDtoValidator.IncorrectLoginDetailsErrorMessage);
         await AssertLoginExists(existingUserEntity.UserId, false);

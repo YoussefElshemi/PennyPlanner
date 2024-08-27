@@ -44,7 +44,7 @@ public class ChangePasswordTests : TestBase<TestFixture>
         // Act
         var (httpResponseMessage, _) = await _testFixture.Client.PATCHAsync<ChangePassword, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -61,7 +61,7 @@ public class ChangePasswordTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.PATCHAsync<ChangePassword, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -81,7 +81,7 @@ public class ChangePasswordTests : TestBase<TestFixture>
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, _) = await _testFixture.Client.PATCHAsync<ChangePassword, UserProfileResponseDto>();
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
@@ -103,7 +103,7 @@ public class ChangePasswordTests : TestBase<TestFixture>
         var (httpResponseMessage, validationProblemDetails) =
             await _testFixture.Client.PATCHAsync<ChangePassword, ChangePasswordRequestDto, ValidationProblemDetails>(updateUserRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         validationProblemDetails.Errors.Should().HaveCount(1);
     }
@@ -132,7 +132,7 @@ public class ChangePasswordTests : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await _testFixture.Client.PATCHAsync<ChangePassword, ChangePasswordRequestDto, ProblemDetails>(updateUserRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Conflict);
         problemDetails.Detail.Should().Be(ChangePasswordRequestDtoValidator.PasswordDidNotChangeErrorMessage);
     }
@@ -160,7 +160,7 @@ public class ChangePasswordTests : TestBase<TestFixture>
         var (httpResponseMessage, userProfileResponse) =
             await _testFixture.Client.PATCHAsync<ChangePassword, ChangePasswordRequestDto, UserProfileResponseDto>(updateUserRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         userProfileResponse.UserId.Should().Be(user.UserId);
     }

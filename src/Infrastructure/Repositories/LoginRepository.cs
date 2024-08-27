@@ -20,7 +20,7 @@ public class LoginRepository(
     public async Task UpdateAsync(Login login)
     {
         var loginToUpdate = mapper.Map<LoginEntity>(login);
-        var loginEntity = await context.Logins.SingleAsync(x => x.LoginId == loginToUpdate.LoginId);
+        var loginEntity = await context.Logins.FirstAsync(x => x.LoginId == loginToUpdate.LoginId);
 
         loginEntity.IsRevoked = loginToUpdate.IsRevoked;
         loginEntity.RevokedBy = loginToUpdate.RevokedBy;

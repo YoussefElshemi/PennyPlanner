@@ -41,7 +41,7 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<RefreshToken, RefreshTokenRequestDto, ProblemDetails>(refreshTokenRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(RefreshTokenRequestDtoValidator.RefreshTokenDoesNotExistErrorMessage);
     }
@@ -64,7 +64,7 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<RefreshToken, RefreshTokenRequestDto, ProblemDetails>(refreshTokenRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(RefreshTokenRequestDtoValidator.RefreshTokenIsExpiredErrorMessage);
     }
@@ -87,7 +87,7 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         var (httpResponseMessage, problemDetails) =
             await testFixture.Client.POSTAsync<RefreshToken, RefreshTokenRequestDto, ProblemDetails>(refreshTokenRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(RefreshTokenRequestDtoValidator.RefreshTokenIsRevokedErrorMessage);
     }
@@ -110,7 +110,7 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         var httpResponseMessage =
             await testFixture.Client.POSTAsync<RefreshToken, RefreshTokenRequestDto>(refreshTokenRequest);
 
-        // Arrange
+        // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 

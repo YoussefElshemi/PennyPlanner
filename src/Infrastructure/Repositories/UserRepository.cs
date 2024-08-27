@@ -95,7 +95,7 @@ public class UserRepository(
         var userToUpdate = _mapper.Map<UserEntity>(user);
         var userEntity = await context.Users
             .Where(x => !x.IsDeleted)
-            .SingleAsync(x => x.UserId == userToUpdate.UserId);
+            .FirstAsync(x => x.UserId == userToUpdate.UserId);
 
         userEntity.Username = userToUpdate.Username;
         userEntity.EmailAddress = userToUpdate.EmailAddress;

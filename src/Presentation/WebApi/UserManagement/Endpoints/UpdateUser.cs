@@ -15,7 +15,6 @@ using Presentation.WebApi.AuthenticatedUser.Validators;
 using Presentation.WebApi.UserManagement.Validators;
 using IMapper = AutoMapper.IMapper;
 using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
-using Requests_UpdateUserRequestDto = Presentation.WebApi.AuthenticatedUser.Models.Requests.UpdateUserRequestDto;
 using UpdateUserRequestDto = Presentation.WebApi.AuthenticatedUser.Models.Requests.UpdateUserRequestDto;
 using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
 
@@ -25,7 +24,7 @@ public class UpdateUser(
     IUserService userService,
     IUserRepository userRepository,
     TimeProvider timeProvider,
-    IMapper mapper) : Endpoint<Requests_UpdateUserRequestDto, UserProfileResponseDto>
+    IMapper mapper) : Endpoint<UserManagementUpdateUserRequestDto, UserProfileResponseDto>
 {
     public override void Configure()
     {
@@ -52,12 +51,11 @@ public class UpdateUser(
         Options(x => x.WithTags(SwaggerTags.UserManagement));
     }
 
-    public override async Task HandleAsync(UpdateUserRequestDto updateUserRequestDto, CancellationToken cancellationToken)
+    public override async Task HandleAsync(UserManagementUpdateUserRequestDto updateUserRequestDto, CancellationToken cancellationToken)
     {
         var authenticatedUser = HttpContext.Items["User"] as User;
 
-        var user = await userService.GetAsync(new UserId(Route<Guid>("UserId")));
-        await ValidateAndThrowAsync(updateUserRequestDto, authenticatedUser!, user);
+        var user = await ValidateAndThrowAsync(updateUserRequestDto, authenticatedUser!);
 
         var updateUserRequest = UpdateUserRequestFactory.Create(user, updateUserRequestDto);
         updateUserRequest = updateUserRequest with
@@ -73,13 +71,16 @@ public class UpdateUser(
         await SendAsync(response, cancellation: cancellationToken);
     }
 
-    private async Task ValidateAndThrowAsync(UpdateUserRequestDto updateUserRequestDto, User authenticatedUser, User user)
+    private async Task<User> ValidateAndThrowAsync(UserManagementUpdateUserRequestDto updateUserRequestDto, User authenticatedUser)
     {
-        var userManagementUpdateUserRequestDto = mapper.Map<UpdateUserRequestDto, UserManagementUpdateUserRequestDto>(updateUserRequestDto, opt => { opt.Items["UserId"] = Route<Guid>("UserId"); });
         var userManagementValidator = new UserManagementUpdateUserRequestDtoValidator(userRepository, authenticatedUser);
-        await userManagementValidator.ValidateAndThrowAsync(userManagementUpdateUserRequestDto);
+        await userManagementValidator.ValidateAndThrowAsync(updateUserRequestDto);
+
+        var user = await userService.GetAsync(new UserId(updateUserRequestDto.UserId));
 
         var validator = new UpdateUserRequestDtoValidator(userRepository, user);
         await validator.ValidateAndThrowAsync(updateUserRequestDto);
+
+        return user;
     }
 }

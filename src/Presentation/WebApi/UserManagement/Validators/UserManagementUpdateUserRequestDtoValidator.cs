@@ -18,7 +18,7 @@ public class UserManagementUpdateUserRequestDtoValidator : AbstractValidator<Upd
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .MustAsync(async (x, _) => await userRepository.ExistsByIdAsync(x))
-            .WithErrorCode(HttpStatusCode.Conflict.ToString())
+            .WithErrorCode(HttpStatusCode.NotFound.ToString())
             .WithMessage(UserDoesNotExistErrorMessage)
             .MustAsync(async (x, _) =>
                 (await userRepository.GetByIdAsync(x)).UserRole != UserRole.Admin ||
