@@ -79,7 +79,7 @@ public class UpdateTests : TestBase<TestFixture>
         var (httpResponseMessage, _) = await _testFixture.Client.PUTAsync<Update, UserProfileResponseDto>();
 
         // Arrange
-        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]

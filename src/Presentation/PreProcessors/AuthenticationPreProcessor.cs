@@ -29,7 +29,7 @@ public class AuthenticationPreProcessor(IServiceScopeFactory scopeFactory) : IGl
                     throw new ValidationException([
                         new ValidationFailure(nameof(User), UserDoesNotExistErrorMessage)
                         {
-                            ErrorCode = HttpStatusCode.NotFound.ToString()
+                            ErrorCode = HttpStatusCode.Unauthorized.ToString()
                         }
                     ]);
                 }

@@ -2,28 +2,29 @@ using System.Net;
 using System.Net.Http.Headers;
 using AutoFixture;
 using BehaviouralTests.TestHelpers;
+using Core.Enums;
 using Core.ValueObjects;
 using FastEndpoints;
 using FastEndpoints.Testing;
 using FluentAssertions;
 using Infrastructure.Entities;
-using Presentation.WebApi.AuthenticatedUser.Endpoints;
-using Presentation.WebApi.AuthenticatedUser.Models.Responses;
+using Presentation.WebApi.Common.Models;
+using Presentation.WebApi.UserManagement.Endpoints;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using Xunit;
 using IMapper = AutoMapper.IMapper;
 
-namespace BehaviouralTests.Tests.Endpoints.AuthenticatedUserTests;
+namespace BehaviouralTests.Tests.Endpoints.UserManagementTests;
 
 [Collection("Sequential")]
-public class GetTests : TestBase<TestFixture>
+public class GetUsersSortableFieldsTests : TestBase<TestFixture>
 {
     private readonly IFixture _fixture = AutoFixtureHelper.Create();
     private readonly IMapper _mapper = AutoMapperHelper.Create();
     private readonly IServiceProvider _serviceProvider;
     private readonly TestFixture _testFixture;
 
-    public GetTests(TestFixture testFixture)
+    public GetUsersSortableFieldsTests(TestFixture testFixture)
     {
         _testFixture = testFixture;
         _serviceProvider = testFixture.Services;
@@ -34,7 +35,7 @@ public class GetTests : TestBase<TestFixture>
     public async Task Get_NotLoggedIn_ReturnsUnauthorized()
     {
         // Act
-        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<Get, UserProfileResponseDto>();
+        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
 
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -51,7 +52,7 @@ public class GetTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<Get, UserProfileResponseDto>();
+        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
 
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -71,10 +72,31 @@ public class GetTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<Get, UserProfileResponseDto>();
+        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
 
         // Arrange
-        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task Get_UserNotAdmin_ReturnsForbidden()
+    {
+        // Arrange
+        var user = FakeUser.CreateValid(_fixture) with
+        {
+            UserRole = UserRole.User,
+            IsDeleted = new IsDeleted(true)
+        };
+        var userEntity = _mapper.Map<UserEntity>(user);
+        var accessToken = AuthenticationHelper.CreateAccessToken(user, 10);
+        await DatabaseSeeder.InsertUser(_serviceProvider, userEntity);
+
+        // Act
+        _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
+
+        // Arrange
+        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
     [Fact]
@@ -83,6 +105,7 @@ public class GetTests : TestBase<TestFixture>
         // Arrange
         var user = FakeUser.CreateValid(_fixture) with
         {
+            UserRole = UserRole.Admin,
             IsDeleted = new IsDeleted(false)
         };
         var userEntity = _mapper.Map<UserEntity>(user);
@@ -91,11 +114,11 @@ public class GetTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var (httpResponseMessage, userProfileResponse) = await _testFixture.Client.GETAsync<Get, UserProfileResponseDto>();
+        var (httpResponseMessage, queryFieldsResponse) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
 
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        userProfileResponse.UserId.Should().Be(user.UserId);
+        queryFieldsResponse.Fields.Should().NotBeEmpty();
     }
 
     protected override async Task TearDownAsync()
