@@ -85,7 +85,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Register_GivenValidRequest_ReturnsOkWithExpectedBody()
+    public async Task Register_GivenValidRequest_ReturnsOk()
     {
         // Arrange
         var registerRequest = FakeRegisterRequestDto.CreateValid();
@@ -96,7 +96,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        await AssertUserExists(authenticationResponse.UserId, true);
+        await AssertUserExists(authenticationResponse.UserId);
     }
 
     protected override async Task SetupAsync()
@@ -118,12 +118,12 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         await context.SaveChangesAsync();
     }
 
-    private async Task AssertUserExists(Guid userId, bool exists)
+    private async Task AssertUserExists(Guid userId)
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
         var user = await context.Users.FindAsync(userId);
-        (user is not null).Should().Be(exists);
+        (user is not null).Should().BeTrue();
     }
 }

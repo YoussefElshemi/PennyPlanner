@@ -10,6 +10,7 @@ using FluentAssertions;
 using Infrastructure;
 using Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.WebApi.Authentication.Endpoints;
 using Presentation.WebApi.Authentication.Models.Requests;
@@ -29,22 +30,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
     private readonly IServiceProvider _serviceProvider = testFixture.Services;
 
     [Fact]
-    public async Task Login_UserDoesNotExist_ReturnsConflict()
-    {
-        // Arrange
-        var loginRequest = FakeLoginRequestDto.CreateValid();
-
-        // Act
-        var (httpResponseMessage, problemDetails) =
-            await testFixture.Client.POSTAsync<Login, LoginRequestDto, ProblemDetails>(loginRequest);
-
-        // Arrange
-        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-        problemDetails.Detail.Should().Be(LoginRequestDtoValidator.IncorrectLoginDetailsErrorMessage);
-    }
-
-    [Fact]
-    public async Task Login_UserExistsUsernameIncorrect_ReturnsUnauthorized()
+    public async Task Login_UsernameIncorrect_ReturnsUnauthorized()
     {
         // Arrange
         var loginRequest = FakeLoginRequestDto.CreateValid();
@@ -71,7 +57,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Login_UserExistsPasswordIncorrect_ReturnsUnauthorized()
+    public async Task Login_PasswordIncorrect_ReturnsUnauthorized()
     {
         // Arrange
         var loginRequest = FakeLoginRequestDto.CreateValid();
@@ -99,7 +85,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Login_GivenValidRequest_ReturnsOkWithExpectedBody()
+    public async Task Login_GivenValidRequest_ReturnsOk()
     {
         // Arrange
         var loginRequest = FakeLoginRequestDto.CreateValid();
@@ -121,7 +107,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        await AssertUserExists(authenticationResponse.UserId, true);
+        await AssertLoginExists(authenticationResponse.UserId);
     }
 
     protected override async Task SetupAsync()
@@ -143,12 +129,12 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
         await context.SaveChangesAsync();
     }
 
-    private async Task AssertUserExists(Guid userId, bool exists)
+    private async Task AssertLoginExists(Guid userId)
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
-        var user = await context.Users.FindAsync(userId);
-        (user is not null).Should().Be(exists);
+        var user = await context.Logins.FirstOrDefaultAsync(x => x.UserId == userId);
+        (user is not null).Should().BeTrue();
     }
 }
