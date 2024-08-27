@@ -2,9 +2,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Core.Configs;
+using Core.Enums;
 using Core.Models;
+using Core.ValueObjects;
+using Infrastructure.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using UnitTests.TestHelpers.FakeObjects.Core.Models;
 
 namespace BehaviouralTests.TestHelpers;
 
