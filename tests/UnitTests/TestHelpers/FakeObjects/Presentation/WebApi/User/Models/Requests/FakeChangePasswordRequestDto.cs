@@ -13,4 +13,13 @@ public static class FakeChangePasswordRequestDto
             ConfirmPassword = FakePassword.Valid
         };
     }
+
+    public static ChangePasswordRequestDto CreateInvalid()
+    {
+        return new ChangePasswordRequestDto
+        {
+            Password = FakePassword.Invalid,
+            ConfirmPassword = FakePassword.Invalid
+        };
+    }
 }

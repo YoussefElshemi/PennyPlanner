@@ -29,4 +29,8 @@
       <ProjectReference Include="..\..\src\Presentation\Presentation.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="BehaviouralTests" />
+    </ItemGroup>
+
 </Project>
