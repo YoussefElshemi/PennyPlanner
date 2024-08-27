@@ -7,11 +7,13 @@ public static class FakeLoginEntity
 {
     public static LoginEntity CreateValid(IFixture fixture)
     {
+        var userEntity = FakeUserEntity.CreateValid(fixture);
+
         return new LoginEntity
         {
             LoginId = fixture.Create<Guid>(),
-            UserId = fixture.Create<Guid>(),
-            UserEntity = FakeUserEntity.CreateValid(fixture),
+            UserId = userEntity.UserId,
+            UserEntity = userEntity,
             IpAddress = fixture.Create<string>(),
             RefreshToken = fixture.Create<string>(),
             ExpiresAt = fixture.Create<DateTime>(),
@@ -19,7 +21,7 @@ public static class FakeLoginEntity
             CreatedAt = fixture.Create<DateTime>(),
             UpdatedBy = fixture.Create<string>(),
             UpdatedAt = fixture.Create<DateTime>(),
-            IsRevoked = fixture.Create<bool>(),
+            IsRevoked = false,
             RevokedBy = fixture.Create<string>(),
             RevokedAt = fixture.Create<DateTime>()
         };

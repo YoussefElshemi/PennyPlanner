@@ -7,13 +7,15 @@ public static class FakePasswordResetEntity
 {
     public static PasswordResetEntity CreateValid(IFixture fixture)
     {
+        var userEntity = FakeUserEntity.CreateValid(fixture);
+
         return new PasswordResetEntity
         {
             PasswordResetId = fixture.Create<Guid>(),
-            UserId = fixture.Create<Guid>(),
-            UserEntity = FakeUserEntity.CreateValid(fixture),
+            UserId = userEntity.UserId,
+            UserEntity = userEntity,
             ResetToken = fixture.Create<string>(),
-            IsUsed = fixture.Create<bool>(),
+            IsUsed = false,
             CreatedBy = fixture.Create<string>(),
             CreatedAt = fixture.Create<DateTime>(),
             UpdatedBy = fixture.Create<string>(),
