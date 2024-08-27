@@ -38,11 +38,12 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         await InsertPasswordReset(existingPasswordResetEntity);
 
         // Act
-        var httpResponseMessage =
-            await testFixture.Client.POSTAsync<ResetPassword, ResetPasswordRequestDto>(resetPasswordRequest);
+        var (httpResponseMessage, problemDetail) =
+            await testFixture.Client.POSTAsync<ResetPassword, ResetPasswordRequestDto, ProblemDetails>(resetPasswordRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        problemDetail.Detail.Should().Be(ResetPasswordRequestDtoValidator.PasswordResetTokenNotFoundErrorMessage);
     }
 
     [Fact]
@@ -59,11 +60,12 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         await InsertPasswordReset(existingPasswordResetEntity);
 
         // Act
-        var httpResponseMessage =
-            await testFixture.Client.POSTAsync<ResetPassword, ResetPasswordRequestDto>(resetPasswordRequest);
+        var (httpResponseMessage, problemDetail) =
+            await testFixture.Client.POSTAsync<ResetPassword, ResetPasswordRequestDto, ProblemDetails>(resetPasswordRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        problemDetail.Detail.Should().Be(ResetPasswordRequestDtoValidator.PasswordResetTokenAlreadyUsedErrorMessage);
     }
 
     [Fact]
@@ -92,11 +94,13 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         await InsertPasswordReset(existingPasswordResetEntity);
 
         // Act
-        var httpResponseMessage =
-            await testFixture.Client.POSTAsync<ResetPassword, ResetPasswordRequestDto>(resetPasswordRequest);
+        var (httpResponseMessage, problemDetail) =
+            await testFixture.Client.POSTAsync<ResetPassword, ResetPasswordRequestDto, ProblemDetails>(resetPasswordRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        problemDetail.Detail.Should().Be(ResetPasswordRequestDtoValidator.PasswordDidNotChangeErrorMessage);
+        await AssertPasswordResetIsUsed(resetPasswordRequest.PasswordResetToken, false);
     }
 
     [Fact]
@@ -117,11 +121,13 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         await InsertPasswordReset(existingPasswordResetEntity);
 
         // Act
-        var httpResponseMessage =
-            await testFixture.Client.POSTAsync<ResetPassword, ResetPasswordRequestDto>(resetPasswordRequest);
+        var (httpResponseMessage, validationProblemDetails) =
+            await testFixture.Client.POSTAsync<ResetPassword, ResetPasswordRequestDto, ValidationProblemDetails>(resetPasswordRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        validationProblemDetails.Errors.Values.First().Should().Contain(ResetPasswordRequestDtoValidator.ConfirmPasswordErrorMessage);
+        await AssertPasswordResetIsUsed(resetPasswordRequest.PasswordResetToken, false);
     }
 
     [Fact]
@@ -143,6 +149,7 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        await AssertPasswordResetIsUsed(resetPasswordRequest.PasswordResetToken, true);
     }
 
     protected override async Task TearDownAsync()
@@ -159,12 +166,12 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         await context.SaveChangesAsync();
     }
 
-    private async Task AssertPasswordResetExists(Guid userId)
+    private async Task AssertPasswordResetIsUsed(string resetToken, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
-        var exists = await context.PasswordResets.AnyAsync(x => x.PasswordResetId == userId);
-        exists.Should().BeTrue();
+        var entity = await context.PasswordResets.SingleAsync(x => x.ResetToken == resetToken);
+        entity.IsUsed.Should().Be(expected);
     }
 }

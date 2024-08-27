@@ -53,6 +53,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(LoginRequestDtoValidator.IncorrectLoginDetailsErrorMessage);
+        await AssertLoginExists(existingUserEntity.UserId, false);
     }
 
     [Fact]
@@ -81,6 +82,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         problemDetails.Detail.Should().Be(LoginRequestDtoValidator.IncorrectLoginDetailsErrorMessage);
+        await AssertLoginExists(existingUserEntity.UserId, false);
     }
 
     [Fact]
@@ -106,7 +108,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        await AssertLoginExists(authenticationResponse.UserId);
+        await AssertLoginExists(authenticationResponse.UserId, true);
     }
 
     protected override async Task TearDownAsync()
@@ -123,12 +125,12 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
         await context.SaveChangesAsync();
     }
 
-    private async Task AssertLoginExists(Guid userId)
+    private async Task AssertLoginExists(Guid userId, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
         var exists = await context.Logins.AnyAsync(x => x.UserId == userId);
-        exists.Should().BeTrue();
+        exists.Should().Be(expected);
     }
 }

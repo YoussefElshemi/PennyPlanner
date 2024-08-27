@@ -39,6 +39,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         validationProblemDetails.Errors.Should().HaveCount(3);
+        await AssertUserExists(registerRequest.Username, registerRequest.EmailAddress, false);
     }
 
     [Fact]
@@ -61,6 +62,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Conflict);
         problemDetails.Detail.Should().Be(RegisterRequestDtoValidator.UsernameTakenErrorMessage);
+        await AssertUserExists(registerRequest.Username, registerRequest.EmailAddress, false);
     }
 
     [Fact]
@@ -83,6 +85,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Conflict);
         problemDetails.Detail.Should().Be(RegisterRequestDtoValidator.EmailAddressInUseErrorMessage);
+        await AssertUserExists(registerRequest.Username, registerRequest.EmailAddress, false);
     }
 
     [Fact]
@@ -92,12 +95,12 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         var registerRequest = FakeRegisterRequestDto.CreateValid();
 
         // Act
-        var (httpResponseMessage, authenticationResponse) =
-            await testFixture.Client.POSTAsync<Register, RegisterRequestDto, AuthenticationResponseDto>(registerRequest);
+        var httpResponseMessage =
+            await testFixture.Client.POSTAsync<Register, RegisterRequestDto>(registerRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        await AssertUserExists(authenticationResponse.UserId);
+        await AssertUserExists(registerRequest.Username, registerRequest.EmailAddress, true);
     }
 
     protected override async Task TearDownAsync()
@@ -114,12 +117,12 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         await context.SaveChangesAsync();
     }
 
-    private async Task AssertUserExists(Guid userId)
+    private async Task AssertUserExists(string username, string emailAddress, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
-        var exists = await context.Users.AnyAsync(x => x.UserId == userId);
-        exists.Should().BeTrue();
+        var exists = await context.Users.AnyAsync(x => x.Username == username && x.EmailAddress == emailAddress);
+        exists.Should().Be(expected);
     }
 }
