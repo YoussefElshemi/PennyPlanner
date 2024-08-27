@@ -48,7 +48,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         var existingUserEntity = FakeUserEntity.CreateValid(_fixture) with
         {
             Username = registerRequest.Username,
-            IsDeleted = false,
+            IsDeleted = false
         };
 
         await InsertUser(existingUserEntity);
@@ -70,7 +70,7 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         var existingUserEntity = FakeUserEntity.CreateValid(_fixture) with
         {
             EmailAddress = registerRequest.EmailAddress,
-            IsDeleted = false,
+            IsDeleted = false
         };
 
         await InsertUser(existingUserEntity);
