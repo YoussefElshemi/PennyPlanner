@@ -24,7 +24,7 @@ public static class ApiRoutes
         public const string GetUsers = "/user-management/users";
         public const string GetUsersSearchableFields = "/user-management/users/searchable-fields";
         public const string GetUsersSortableFields = "/user-management/users/sortable-fields";
-        public const string DeleteUser = "/user-management/users/{userId:guid}";
-        public const string UpdateUser = "/user-management/users/{userId:guid}";
+        public const string DeleteUser = "/user-management/users/{userId}";
+        public const string UpdateUser = "/user-management/users/{userId}";
     }
 }

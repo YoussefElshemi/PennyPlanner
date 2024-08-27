@@ -4,7 +4,7 @@ using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
 namespace UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.UserManagement.Models.Requests;
 
-public static class FakeGetUserRequestDto
+public static class FakeUserRequestDto
 {
     public static UserRequestDto CreateValid(IFixture fixture)
     {

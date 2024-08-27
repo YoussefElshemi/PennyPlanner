@@ -26,7 +26,7 @@ public class DeleteUserRequestDtoValidatorTests : BaseTestClass
     public async Task ValidateAsync_UserIdIsEmpty_ReturnsError()
     {
         // Arrange
-        var deleteUserRequestDto = FakeGetUserRequestDto.CreateValid(Fixture) with
+        var deleteUserRequestDto = FakeUserRequestDto.CreateValid(Fixture) with
         {
             UserId = Guid.Empty
         };
@@ -43,7 +43,7 @@ public class DeleteUserRequestDtoValidatorTests : BaseTestClass
     public async Task ValidateAsync_UserDoesNotExist_ReturnsError()
     {
         // Arrange
-        var deleteUserRequestDto = FakeGetUserRequestDto.CreateValid(Fixture);
+        var deleteUserRequestDto = FakeUserRequestDto.CreateValid(Fixture);
         _mockUserRepository
             .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(false);
@@ -60,7 +60,7 @@ public class DeleteUserRequestDtoValidatorTests : BaseTestClass
     public async Task ValidateAsync_UserIsAdmin_ReturnsError()
     {
         // Arrange
-        var deleteUserRequestDto = FakeGetUserRequestDto.CreateValid(Fixture);
+        var deleteUserRequestDto = FakeUserRequestDto.CreateValid(Fixture);
         var user = FakeUser.CreateValid(Fixture) with
         {
             UserRole = UserRole.Admin
@@ -86,7 +86,7 @@ public class DeleteUserRequestDtoValidatorTests : BaseTestClass
     public async Task ValidateAsync_UserIsAuthenticatedUser_ReturnsError()
     {
         // Arrange
-        var deleteUserRequestDto = FakeGetUserRequestDto.CreateValid(Fixture) with
+        var deleteUserRequestDto = FakeUserRequestDto.CreateValid(Fixture) with
         {
             UserId = _authenticatedUser.UserId
         };
@@ -116,7 +116,7 @@ public class DeleteUserRequestDtoValidatorTests : BaseTestClass
     public async Task ValidateAsync_ValidRequest_IsValid()
     {
         // Arrange
-        var deleteUserRequestDto = FakeGetUserRequestDto.CreateValid(Fixture);
+        var deleteUserRequestDto = FakeUserRequestDto.CreateValid(Fixture);
         var user = FakeUser.CreateValid(Fixture) with
         {
             UserRole = UserRole.User

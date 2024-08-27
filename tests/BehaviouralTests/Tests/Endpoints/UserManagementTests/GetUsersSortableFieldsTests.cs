@@ -32,7 +32,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_NotLoggedIn_ReturnsUnauthorized()
+    public async Task GetUsersSortableFields_NotLoggedIn_ReturnsUnauthorized()
     {
         // Act
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsersSortableFields, QueryFieldsResponseDto>();
@@ -42,7 +42,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_ExpiredAccessToken_ReturnsUnauthorized()
+    public async Task GetUsersSortableFields_ExpiredAccessToken_ReturnsUnauthorized()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture);
@@ -59,7 +59,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_UserNoLongerExists_ReturnsUnauthorized()
+    public async Task GetUsersSortableFields_UserNoLongerExists_ReturnsUnauthorized()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture) with
@@ -79,7 +79,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_UserNotAdmin_ReturnsForbidden()
+    public async Task GetUsersSortableFields_UserNotAdmin_ReturnsForbidden()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture) with
@@ -100,7 +100,7 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_GivenValidRequest_ReturnsOk()
+    public async Task GetUsersSortableFields_GivenValidRequest_ReturnsOk()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture) with

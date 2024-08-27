@@ -37,7 +37,7 @@ public class GetUsersTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_NotLoggedIn_ReturnsUnauthorized()
+    public async Task GetUsers_NotLoggedIn_ReturnsUnauthorized()
     {
         // Act
         var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsers, QueryFieldsResponseDto>();
@@ -47,7 +47,7 @@ public class GetUsersTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_ExpiredAccessToken_ReturnsUnauthorized()
+    public async Task GetUsers_ExpiredAccessToken_ReturnsUnauthorized()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture);
@@ -64,7 +64,7 @@ public class GetUsersTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_UserNoLongerExists_ReturnsUnauthorized()
+    public async Task GetUsers_UserNoLongerExists_ReturnsUnauthorized()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture) with
@@ -84,7 +84,7 @@ public class GetUsersTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_UserNotAdmin_ReturnsForbidden()
+    public async Task GetUsers_UserNotAdmin_ReturnsForbidden()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture) with
@@ -105,7 +105,7 @@ public class GetUsersTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Get_GivenValidRequest_ReturnsOk()
+    public async Task GetUsers_GivenValidRequest_ReturnsOk()
     {
         // Arrange
         var pagedRequest = FakePagedRequestDto.CreateValid(_fixture) with
