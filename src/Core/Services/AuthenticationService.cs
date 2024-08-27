@@ -58,15 +58,15 @@ public class AuthenticationService(
         await loginService.UpdateAsync(login);
     }
 
-    public async Task RequestResetPassword(RequestResetPasswordRequest requestResetPasswordRequest)
+    public async Task RequestPasswordReset(RequestPasswordResetRequest requestPasswordResetRequest)
     {
-        var userExists = await userService.ExistsAsync(requestResetPasswordRequest.EmailAddress);
+        var userExists = await userService.ExistsAsync(requestPasswordResetRequest.EmailAddress);
         if (!userExists)
         {
             return;
         }
 
-        var user = await userService.GetAsync(requestResetPasswordRequest.EmailAddress);
+        var user = await userService.GetAsync(requestPasswordResetRequest.EmailAddress);
         await passwordResetService.InitiateAsync(user);
     }
 

@@ -120,16 +120,16 @@ public class PresentationProfileTests : BaseTestClass
     }
 
     [Fact]
-    public void Map_GivenRequestResetPasswordRequestDto_ReturnsRequestResetPasswordRequest()
+    public void Map_GivenRequestPasswordResetRequestDto_ReturnsRequestPasswordResetRequest()
     {
         // Arrange
-        var requestResetPasswordRequestDto = FakeRequestResetPasswordRequestDto.CreateValid();
+        var requestPasswordResetRequestDto = FakeRequestPasswordResetRequestDto.CreateValid();
 
         // Act
-        var requestResetPasswordRequest = _mapper.Map<RequestResetPasswordRequest>(requestResetPasswordRequestDto);
+        var requestPasswordResetRequest = _mapper.Map<RequestPasswordResetRequest>(requestPasswordResetRequestDto);
 
         // Assert
-        requestResetPasswordRequest.EmailAddress.Should().Be(new EmailAddress(requestResetPasswordRequestDto.EmailAddress));
+        requestPasswordResetRequest.EmailAddress.Should().Be(new EmailAddress(requestPasswordResetRequestDto.EmailAddress));
     }
 
     [Fact]

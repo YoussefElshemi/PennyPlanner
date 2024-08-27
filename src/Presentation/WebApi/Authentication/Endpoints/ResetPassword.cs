@@ -41,11 +41,11 @@ public class ResetPassword(
         Options(x => x.WithTags(SwaggerTags.Authentication));
     }
 
-    public override async Task HandleAsync(ResetPasswordRequestDto requestResetPasswordRequestDto, CancellationToken cancellationToken)
+    public override async Task HandleAsync(ResetPasswordRequestDto requestPasswordResetRequestDto, CancellationToken cancellationToken)
     {
-        await validator.ValidateAndThrowAsync(requestResetPasswordRequestDto, cancellationToken);
+        await validator.ValidateAndThrowAsync(requestPasswordResetRequestDto, cancellationToken);
 
-        var resetPasswordReset = mapper.Map<ResetPasswordRequest>(requestResetPasswordRequestDto);
+        var resetPasswordReset = mapper.Map<ResetPasswordRequest>(requestPasswordResetRequestDto);
 
         await authenticationService.ResetPassword(resetPasswordReset);
 

@@ -13,40 +13,40 @@ using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace Presentation.WebApi.Authentication.Endpoints;
 
-public class RequestResetPassword(
+public class RequestPasswordReset(
     IAuthenticationService authenticationService,
-    IValidator<RequestResetPasswordRequestDto> validator,
-    IMapper mapper) : Endpoint<RequestResetPasswordRequestDto>
+    IValidator<RequestPasswordResetRequestDto> validator,
+    IMapper mapper) : Endpoint<RequestPasswordResetRequestDto>
 {
     public override void Configure()
     {
         Version(1);
-        Post(ApiRoutes.Authentication.RequestResetPassword);
+        Post(ApiRoutes.Authentication.RequestPasswordReset);
         AllowAnonymous();
         EnableAntiforgery();
 
         Description(b => b
-            .Accepts<RequestResetPasswordRequestDto>(MediaTypeNames.Application.Json)
+            .Accepts<RequestPasswordResetRequestDto>(MediaTypeNames.Application.Json)
             .Produces((int)HttpStatusCode.Accepted)
             .Produces<ValidationProblemDetails>((int)HttpStatusCode.BadRequest)
             .Produces<ProblemDetails>((int)HttpStatusCode.InternalServerError));
 
         Summary(s =>
         {
-            s.Summary = SwaggerSummaries.Authentication.RequestResetPassword;
-            s.ExampleRequest = ExampleRequests.Authentication.RequestResetPassword;
+            s.Summary = SwaggerSummaries.Authentication.RequestPasswordReset;
+            s.ExampleRequest = ExampleRequests.Authentication.RequestPasswordReset;
         });
 
         Options(x => x.WithTags(SwaggerTags.Authentication));
     }
 
-    public override async Task HandleAsync(RequestResetPasswordRequestDto requestResetPasswordRequestDto, CancellationToken cancellationToken)
+    public override async Task HandleAsync(RequestPasswordResetRequestDto requestPasswordResetRequestDto, CancellationToken cancellationToken)
     {
-        await validator.ValidateAndThrowAsync(requestResetPasswordRequestDto, cancellationToken);
+        await validator.ValidateAndThrowAsync(requestPasswordResetRequestDto, cancellationToken);
 
-        var requestResetPasswordRequest = mapper.Map<RequestResetPasswordRequest>(requestResetPasswordRequestDto);
+        var requestPasswordResetRequest = mapper.Map<RequestPasswordResetRequest>(requestPasswordResetRequestDto);
 
-        await authenticationService.RequestResetPassword(requestResetPasswordRequest);
+        await authenticationService.RequestPasswordReset(requestPasswordResetRequest);
 
         await this.SendAccepted(cancellationToken);
     }

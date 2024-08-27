@@ -17,19 +17,19 @@ using Xunit;
 namespace BehaviouralTests.Tests.Endpoints.AuthenticationTests;
 
 [Collection("Sequential")]
-public class RequestResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
+public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestFixture>
 {
     private readonly IFixture _fixture = AutoFixtureHelper.Create();
     private readonly IServiceProvider _serviceProvider = testFixture.Services;
 
     [Fact]
-    public async Task RequestResetPassword_UserDoesNotExist_ReturnsAccepted()
+    public async Task RequestPasswordReset_UserDoesNotExist_ReturnsAccepted()
     {
         // Arrange
-        var requestResetPasswordRequest = FakeRequestResetPasswordRequestDto.CreateValid();
+        var requestPasswordResetRequest = FakeRequestPasswordResetRequestDto.CreateValid();
         var existingUserEntity = FakeUserEntity.CreateValid(_fixture) with
         {
-            EmailAddress = string.Join("", requestResetPasswordRequest.EmailAddress.ToCharArray().Reverse()),
+            EmailAddress = string.Join("", requestPasswordResetRequest.EmailAddress.ToCharArray().Reverse()),
             IsDeleted = false
         };
 
@@ -37,7 +37,7 @@ public class RequestResetPasswordTests(TestFixture testFixture) : TestBase<TestF
 
         // Act
         var httpResponseMessage =
-            await testFixture.Client.POSTAsync<RequestResetPassword, RequestResetPasswordRequestDto>(requestResetPasswordRequest);
+            await testFixture.Client.POSTAsync<RequestPasswordReset, RequestPasswordResetRequestDto>(requestPasswordResetRequest);
 
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Accepted);
@@ -45,13 +45,13 @@ public class RequestResetPasswordTests(TestFixture testFixture) : TestBase<TestF
     }
 
     [Fact]
-    public async Task RequestResetPassword_UserDoesExist_ReturnsAccepted()
+    public async Task RequestPasswordReset_UserDoesExist_ReturnsAccepted()
     {
         // Arrange
-        var requestResetPasswordRequest = FakeRequestResetPasswordRequestDto.CreateValid();
+        var requestPasswordResetRequest = FakeRequestPasswordResetRequestDto.CreateValid();
         var existingUserEntity = FakeUserEntity.CreateValid(_fixture) with
         {
-            EmailAddress = requestResetPasswordRequest.EmailAddress,
+            EmailAddress = requestPasswordResetRequest.EmailAddress,
             IsDeleted = false
         };
 
@@ -59,7 +59,7 @@ public class RequestResetPasswordTests(TestFixture testFixture) : TestBase<TestF
 
         // Act
         var httpResponseMessage =
-            await testFixture.Client.POSTAsync<RequestResetPassword, RequestResetPasswordRequestDto>(requestResetPasswordRequest);
+            await testFixture.Client.POSTAsync<RequestPasswordReset, RequestPasswordResetRequestDto>(requestPasswordResetRequest);
 
         // Arrange
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Accepted);

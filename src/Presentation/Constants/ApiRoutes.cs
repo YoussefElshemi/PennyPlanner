@@ -8,7 +8,7 @@ public static class ApiRoutes
         public const string Register = "/auth/register";
         public const string RefreshToken = "/auth/refresh-token";
         public const string RevokeRefreshToken = "/auth/revoke-refresh-token";
-        public const string RequestResetPassword = "/auth/request-reset-password";
+        public const string RequestPasswordReset = "/auth/request-password-reset";
         public const string ResetPassword = "/auth/reset-password";
     }
 

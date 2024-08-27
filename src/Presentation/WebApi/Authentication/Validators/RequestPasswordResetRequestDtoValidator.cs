@@ -4,9 +4,9 @@ using Presentation.WebApi.Authentication.Models.Requests;
 
 namespace Presentation.WebApi.Authentication.Validators;
 
-public class RequestResetPasswordRequestDtoValidator : AbstractValidator<RequestResetPasswordRequestDto>
+public class RequestPasswordResetRequestDtoValidator : AbstractValidator<RequestPasswordResetRequestDto>
 {
-    public RequestResetPasswordRequestDtoValidator()
+    public RequestPasswordResetRequestDtoValidator()
     {
         RuleFor(x => x.EmailAddress)
             .SetValidator(new EmailAddressValidator());

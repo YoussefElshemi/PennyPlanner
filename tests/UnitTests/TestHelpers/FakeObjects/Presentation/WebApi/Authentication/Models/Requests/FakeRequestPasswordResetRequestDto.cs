@@ -3,11 +3,11 @@ using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
 namespace UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
 
-public static class FakeRequestResetPasswordRequestDto
+public static class FakeRequestPasswordResetRequestDto
 {
-    public static RequestResetPasswordRequestDto CreateValid()
+    public static RequestPasswordResetRequestDto CreateValid()
     {
-        return new RequestResetPasswordRequestDto
+        return new RequestPasswordResetRequestDto
         {
             EmailAddress = FakeEmailAddress.Valid
         };

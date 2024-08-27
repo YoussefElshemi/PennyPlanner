@@ -2,7 +2,7 @@ using Core.ValueObjects;
 
 namespace Core.Models;
 
-public record RequestResetPasswordRequest
+public record RequestPasswordResetRequest
 {
     public required EmailAddress EmailAddress { get; init; }
 }

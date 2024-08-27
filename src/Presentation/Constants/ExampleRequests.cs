@@ -35,7 +35,7 @@ public static class ExampleRequests
             RefreshToken = "token"
         };
 
-        public static readonly RequestResetPasswordRequestDto RequestResetPassword = new()
+        public static readonly RequestPasswordResetRequestDto RequestPasswordReset = new()
         {
             EmailAddress = "username@mail.com"
         };

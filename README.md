@@ -160,7 +160,7 @@ This operation does not require authentication
 
 ## Requests a password reset for the specified email address.
 
-<a id="opIdPresentationWebApiEndpointsAuthenticationRequestResetPassword"></a>
+<a id="opIdPresentationWebApiEndpointsAuthenticationRequestPasswordReset"></a>
 
 `POST /api/v1/auth/request-reset-password`
 
@@ -176,7 +176,7 @@ This operation does not require authentication
 
 | Name         | In   | Type                                                                    | Required | Description                                                                       |
 |--------------|------|-------------------------------------------------------------------------|----------|-----------------------------------------------------------------------------------|
-| body         | body | [RequestResetPasswordRequestDto](#schemarequestresetpasswordrequestdto) | true     | none                                                                              |
+| body         | body | [RequestPasswordResetRequestDto](#schemarequestpasswordresetrequestdto) | true     | none                                                                              |
 | emailAddress | body | string                                                                  | true     | The email address associated with the user account requesting the password reset. |
 
 <h4 id="requests-a-password-reset-for-the-specified-email-address.-responses">Responses</h4>
@@ -974,12 +974,12 @@ DTO for user registration request containing username, password, and email addre
 | confirmPassword | string | true     | none         | Confirmation of the password to ensure it was entered correctly. |
 | emailAddress    | string | true     | none         | The email address for the new user account.                      |
 
-<h3 id="tocS_RequestResetPasswordRequestDto">RequestResetPasswordRequestDto</h3>
+<h3 id="tocS_RequestPasswordResetRequestDto">RequestPasswordResetRequestDto</h3>
 <!-- backwards compatibility -->
-<a id="schemarequestresetpasswordrequestdto"></a>
-<a id="schema_RequestResetPasswordRequestDto"></a>
-<a id="tocSrequestresetpasswordrequestdto"></a>
-<a id="tocsrequestresetpasswordrequestdto"></a>
+<a id="schemarequestpasswordresetrequestdto"></a>
+<a id="schema_RequestPasswordResetRequestDto"></a>
+<a id="tocSrequestpasswordresetrequestdto"></a>
+<a id="tocsrequestpasswordresetrequestdto"></a>
 
 ```json
 {

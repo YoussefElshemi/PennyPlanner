@@ -8,7 +8,7 @@ public static class SwaggerSummaries
         public const string Register = "Registers a new user.";
         public const string RefreshToken = "Refreshes the access token using a refresh token.";
         public const string RevokeRefreshToken = "Revokes a refresh token to prevent further use.";
-        public const string RequestResetPassword = "Requests a password reset for the specified email address.";
+        public const string RequestPasswordReset = "Requests a password reset for the specified email address.";
         public const string ResetPassword = "Resets the password using a password reset token.";
     }
 

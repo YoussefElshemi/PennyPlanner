@@ -101,27 +101,27 @@ public class AuthenticationServiceTests : BaseTestClass
     }
 
     [Fact]
-    public async Task RequestResetPassword_UserDoesNotExist_Returns()
+    public async Task RequestPasswordReset_UserDoesNotExist_Returns()
     {
         // Arrange
-        var requestResetPasswordRequest = FakeRequestResetPasswordRequest.CreateValid();
+        var requestPasswordResetRequest = FakeRequestPasswordResetRequest.CreateValid();
 
         _mockUserService
             .Setup(x => x.ExistsAsync(It.IsAny<Username>()))
             .ReturnsAsync(false);
 
         // Act
-        await _authenticationService.RequestResetPassword(requestResetPasswordRequest);
+        await _authenticationService.RequestPasswordReset(requestPasswordResetRequest);
 
         // Assert
         _mockPasswordResetService.Verify(x => x.InitiateAsync(It.IsAny<User>()), Times.Never);
     }
 
     [Fact]
-    public async Task RequestResetPassword_UserDoesExist_InitiatesPasswordReset()
+    public async Task RequestPasswordReset_UserDoesExist_InitiatesPasswordReset()
     {
         // Arrange
-        var requestResetPasswordRequest = FakeRequestResetPasswordRequest.CreateValid();
+        var requestPasswordResetRequest = FakeRequestPasswordResetRequest.CreateValid();
         var user = FakeUser.CreateValid(Fixture);
 
         _mockUserService
@@ -133,7 +133,7 @@ public class AuthenticationServiceTests : BaseTestClass
             .ReturnsAsync(user);
 
         // Act
-        await _authenticationService.RequestResetPassword(requestResetPasswordRequest);
+        await _authenticationService.RequestPasswordReset(requestPasswordResetRequest);
 
         // Assert
         _mockPasswordResetService.Verify(x => x.InitiateAsync(It.IsAny<User>()), Times.Never);

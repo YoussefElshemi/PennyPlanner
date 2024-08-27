@@ -5,7 +5,7 @@ namespace Presentation.WebApi.Authentication.Models.Requests;
 /// <summary>
 ///     DTO for requesting a password reset, containing the user's email address.
 /// </summary>
-public record RequestResetPasswordRequestDto
+public record RequestPasswordResetRequestDto
 {
     /// <summary>
     ///     The email address associated with the user account requesting the password reset.

@@ -11,7 +11,7 @@ public interface IAuthenticationService
     Task<AuthenticationResponse> RefreshToken(RefreshTokenRequest refreshTokenRequest);
     Task RevokeToken(RefreshTokenRequest refreshTokenRequest);
     Task<User> ChangePasswordAsync(User user, Password password);
-    Task RequestResetPassword(RequestResetPasswordRequest requestResetPasswordRequest);
+    Task RequestPasswordReset(RequestPasswordResetRequest requestPasswordResetRequest);
     Task ResetPassword(ResetPasswordRequest resetPasswordRequest);
     bool Authenticate(User user, Password password);
     User UpdatePassword(User user, Password password);

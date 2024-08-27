@@ -34,7 +34,7 @@ public class PresentationProfile : Profile
         CreateMap<RefreshTokenRequestDto, RefreshTokenRequest>()
             .ForMember(dest => dest.IpAddress, opt => opt.MapFrom((_, _, _, context) => new IpAddress(context.Items["IpAddress"].ToString()!)));
 
-        CreateMap<RequestResetPasswordRequestDto, RequestResetPasswordRequest>();
+        CreateMap<RequestPasswordResetRequestDto, RequestPasswordResetRequest>();
 
         CreateMap<ResetPasswordRequestDto, ResetPasswordRequest>();
 
