@@ -18,9 +18,9 @@ public static class SeedObjects
                 UserRoleId = (int)x,
                 Name = x.GetDescription(),
                 CreatedBy = Username.SystemUsername,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = TimeProvider.System.GetUtcNow().UtcDateTime,
                 UpdatedBy = Username.SystemUsername,
-                UpdatedAt = DateTime.UtcNow
+                UpdatedAt = TimeProvider.System.GetUtcNow().UtcDateTime
             })
     ];
 
@@ -38,9 +38,9 @@ public static class SeedObjects
             DeletedBy = null,
             DeletedAt = null,
             CreatedBy = Username.SystemUsername,
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = TimeProvider.System.GetUtcNow().UtcDateTime,
             UpdatedBy = Username.SystemUsername,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = TimeProvider.System.GetUtcNow().UtcDateTime
         }
     ];
 }

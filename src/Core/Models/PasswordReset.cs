@@ -8,6 +8,7 @@ public record PasswordReset
     public required UserId UserId { get; init; }
     public required User User { get; init; }
     public required PasswordResetToken ResetToken { get; init; }
+    public required ExpiresAt ExpiresAt { get; init; }
     public required IsUsed IsUsed { get; init; }
     public required Username CreatedBy { get; init; }
     public required CreatedAt CreatedAt { get; init; }

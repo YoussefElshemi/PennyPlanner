@@ -97,6 +97,7 @@ namespace Infrastructure.Migrations
                     PasswordResetId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     ResetToken = table.Column<string>(type: "text", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsUsed = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -120,14 +121,14 @@ namespace Infrastructure.Migrations
                 columns: new[] { "UserRoleId", "CreatedAt", "CreatedBy", "Name", "UpdatedAt", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 26, 14, 35, 16, 944, DateTimeKind.Utc).AddTicks(9988), "System", "User", new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(381), "System" },
-                    { 2, new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(838), "System", "Admin", new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(839), "System" }
+                    { 1, new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(8927), "System", "User", new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(9329), "System" },
+                    { 2, new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(9782), "System", "Admin", new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(9783), "System" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "CreatedAt", "CreatedBy", "DeletedAt", "DeletedBy", "EmailAddress", "IsDeleted", "PasswordHash", "PasswordSalt", "UpdatedAt", "UpdatedBy", "UserRoleId", "Username" },
-                values: new object[] { new Guid("042d614a-dc7c-4b37-8f77-d1d990c1a4bf"), new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(3851), "System", null, null, "admin@admin.com", false, "", "", new DateTime(2024, 8, 26, 14, 35, 16, 945, DateTimeKind.Utc).AddTicks(3852), "System", 2, "admin" });
+                values: new object[] { new Guid("ce0b3ff9-499a-403f-bb80-9091e6f4fac2"), new DateTime(2024, 8, 28, 0, 18, 55, 275, DateTimeKind.Utc).AddTicks(2909), "System", null, null, "admin@admin.com", false, "", "", new DateTime(2024, 8, 28, 0, 18, 55, 275, DateTimeKind.Utc).AddTicks(2910), "System", 2, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_UserId",

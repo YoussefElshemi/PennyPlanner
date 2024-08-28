@@ -31,7 +31,7 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         var existingLoginEntity = FakeLoginEntity.CreateValid(_fixture) with
         {
             RefreshToken = string.Join("", refreshTokenRequest.RefreshToken.ToCharArray().Reverse()),
-            ExpiresAt = DateTime.UtcNow.AddMinutes(10),
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(10),
             IsRevoked = false
         };
 
@@ -54,7 +54,7 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         var existingLoginEntity = FakeLoginEntity.CreateValid(_fixture) with
         {
             RefreshToken = refreshTokenRequest.RefreshToken,
-            ExpiresAt = DateTime.UtcNow.AddMinutes(-10),
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(-10),
             IsRevoked = false
         };
 
@@ -77,7 +77,7 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         var existingLoginEntity = FakeLoginEntity.CreateValid(_fixture) with
         {
             RefreshToken = refreshTokenRequest.RefreshToken,
-            ExpiresAt = DateTime.UtcNow.AddMinutes(10),
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(10),
             IsRevoked = true
         };
 
@@ -100,7 +100,7 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         var existingLoginEntity = FakeLoginEntity.CreateValid(_fixture) with
         {
             RefreshToken = refreshTokenRequest.RefreshToken,
-            ExpiresAt = DateTime.UtcNow.AddMinutes(10),
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(10),
             IsRevoked = false
         };
 

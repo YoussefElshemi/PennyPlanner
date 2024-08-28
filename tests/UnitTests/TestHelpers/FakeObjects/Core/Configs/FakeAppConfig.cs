@@ -11,7 +11,8 @@ public static class FakeAppConfig
         {
             JwtConfig = FakeJwtConfig.CreateValid(fixture),
             SmtpConfig = FakeSmtpConfig.CreateValid(fixture),
-            ServiceConfig = FakeServiceConfig.CreateValid(fixture)
+            ServiceConfig = FakeServiceConfig.CreateValid(fixture),
+            PasswordResetConfig = FakePasswordResetConfig.CreateValid(fixture)
         };
     }
 }

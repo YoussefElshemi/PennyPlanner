@@ -23,7 +23,7 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         _mockAuthenticationService = new Mock<IAuthenticationService>();
         _mockPasswordResetRepository = new Mock<IPasswordResetRepository>();
         _validator = new ResetPasswordRequestDtoValidator(_mockAuthenticationService.Object,
-            _mockPasswordResetRepository.Object);
+            _mockPasswordResetRepository.Object, MockTimeProvider.Object);
     }
 
     [Fact]
@@ -88,6 +88,33 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
         // Assert
         result.ShouldHaveAnyValidationError()
             .WithErrorMessage(ResetPasswordRequestDtoValidator.PasswordResetTokenAlreadyUsedErrorMessage);
+    }
+
+    [Fact]
+    public async Task ValidateAsync_PasswordResetTokenExpired_ReturnsError()
+    {
+        // Arrange
+        var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture);
+        var passwordReset = FakePasswordReset.CreateValid(Fixture) with
+        {
+            IsUsed = new IsUsed(false),
+            ExpiresAt = new ExpiresAt(new DateTime(2000, 1, 1))
+        };
+
+        _mockPasswordResetRepository
+            .Setup(x => x.ExistsAsync(It.IsAny<string>()))
+            .ReturnsAsync(true);
+
+        _mockPasswordResetRepository
+            .Setup(x => x.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync(passwordReset);
+
+        // Act
+        var result = await _validator.TestValidateAsync(resetPasswordRequestDto);
+
+        // Assert
+        result.ShouldHaveAnyValidationError()
+            .WithErrorMessage(ResetPasswordRequestDtoValidator.PasswordResetTokenExpiredErrorMessage);
     }
 
     [Fact]

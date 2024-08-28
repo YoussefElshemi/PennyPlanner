@@ -68,6 +68,29 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
     }
 
     [Fact]
+    public async Task ResetPassword_PasswordResetTokenExpired_ReturnsGone()
+    {
+        // Arrange
+        var resetPasswordRequest = FakeResetPasswordRequestDto.CreateValid(_fixture);
+        var existingPasswordResetEntity = FakePasswordResetEntity.CreateValid(_fixture) with
+        {
+            ResetToken = resetPasswordRequest.PasswordResetToken,
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(-10),
+            IsUsed = false
+        };
+
+        await InsertPasswordReset(existingPasswordResetEntity);
+
+        // Act
+        var (httpResponseMessage, problemDetail) =
+            await testFixture.Client.POSTAsync<ResetPassword, ResetPasswordRequestDto, ProblemDetails>(resetPasswordRequest);
+
+        // Assert
+        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Gone);
+        problemDetail.Detail.Should().Be(ResetPasswordRequestDtoValidator.PasswordResetTokenExpiredErrorMessage);
+    }
+
+    [Fact]
     public async Task ResetPassword_PasswordDidNotChange_ReturnsConflict()
     {
         // Arrange

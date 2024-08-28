@@ -27,8 +27,8 @@ public static class AuthenticationHelper
         var jwtSecurityToken = new JwtSecurityToken(
             appConfig.JwtConfig.Issuer,
             appConfig.JwtConfig.Audience,
-            expires: DateTime.UtcNow.AddMinutes(tokenLifeTime),
-            notBefore: DateTime.UtcNow.AddMinutes(tokenLifeTime).AddMinutes(-10),
+            expires: TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(tokenLifeTime),
+            notBefore: TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(tokenLifeTime).AddMinutes(-10),
             claims: claims,
             signingCredentials: credentials
         );

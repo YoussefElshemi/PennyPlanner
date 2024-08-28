@@ -21,6 +21,7 @@ public class PasswordResetService(
             UserId = user.UserId,
             User = user,
             ResetToken = new PasswordResetToken(Guid.NewGuid().ToString("N")),
+            ExpiresAt = new ExpiresAt(timeProvider.GetUtcNow().UtcDateTime.AddMinutes(appConfig.Value.PasswordResetConfig.PasswordResetTokenLifetimeInMinutes)),
             IsUsed = new IsUsed(false),
             CreatedBy = user.Username,
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
@@ -30,7 +31,7 @@ public class PasswordResetService(
 
         await passwordResetRepository.CreateAsync(passwordReset);
 
-        var passwordResetUrl = $"{appConfig.Value.ServiceConfig.PasswordResetUrl}?token={passwordReset.ResetToken}";
+        var passwordResetUrl = $"{appConfig.Value.PasswordResetConfig.PasswordResetUrl}?token={passwordReset.ResetToken}";
 
         var emailMessage = new EmailMessage
         {

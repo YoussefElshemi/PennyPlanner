@@ -132,8 +132,8 @@ public class AuthenticationService(
         return new JwtSecurityToken(
             config.Value.JwtConfig.Issuer,
             config.Value.JwtConfig.Audience,
-            expires: timeProvider.GetUtcNow().DateTime.AddMinutes(config.Value.JwtConfig.AccessTokenLifetimeInMinutes),
-            notBefore: timeProvider.GetUtcNow().DateTime,
+            expires: timeProvider.GetUtcNow().UtcDateTime.AddMinutes(config.Value.JwtConfig.AccessTokenLifetimeInMinutes),
+            notBefore: timeProvider.GetUtcNow().UtcDateTime,
             claims: claims,
             signingCredentials: credentials
         );

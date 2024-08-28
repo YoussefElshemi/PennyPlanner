@@ -9,7 +9,7 @@ public static class FakeServiceConfig
     {
         return new ServiceConfig
         {
-            PasswordResetUrl = fixture.Create<string>()
+            ServiceName = fixture.Create<string>()
         };
     }
 }
