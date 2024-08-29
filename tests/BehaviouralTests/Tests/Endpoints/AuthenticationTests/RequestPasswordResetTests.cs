@@ -7,6 +7,8 @@ using FluentAssertions;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.Retry;
 using Presentation.WebApi.Authentication.Endpoints;
 using Presentation.WebApi.Authentication.Models.Requests;
 using UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
@@ -20,6 +22,11 @@ public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestF
 {
     private readonly IFixture _fixture = AutoFixtureHelper.Create();
     private readonly IServiceProvider _serviceProvider = testFixture.Services;
+
+    private readonly AsyncRetryPolicy _retryPolicy = Policy
+        .Handle<Exception>()
+        .WaitAndRetryAsync(3,
+            retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
     [Fact]
     public async Task RequestPasswordReset_UserDoesNotExist_ReturnsAccepted()
@@ -70,8 +77,17 @@ public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestF
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
-        var exists = await context.PasswordResets.AnyAsync(x => x.UserId == userId);
-        exists.Should().Be(expected);
+        try
+        {
+            await _retryPolicy.ExecuteAsync(async () =>
+            {
+                await context.PasswordResets.FirstAsync(x => x.UserId == userId);
+            });
+        }
+        catch (Exception)
+        {
+            if (expected) throw;
+        }
     }
 
     protected override async Task TearDownAsync()

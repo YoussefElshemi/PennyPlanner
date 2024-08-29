@@ -13,9 +13,7 @@ using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace Presentation.WebApi.Authentication.Endpoints;
 
-public class RequestPasswordReset(
-    IAuthenticationService authenticationService,
-    IValidator<RequestPasswordResetRequestDto> validator,
+public class RequestPasswordReset(IValidator<RequestPasswordResetRequestDto> validator,
     IMapper mapper) : Endpoint<RequestPasswordResetRequestDto>
 {
     public override void Configure()
@@ -46,7 +44,7 @@ public class RequestPasswordReset(
 
         var requestPasswordResetRequest = mapper.Map<RequestPasswordResetRequest>(requestPasswordResetRequestDto);
 
-        await authenticationService.RequestPasswordReset(requestPasswordResetRequest);
+        await PublishAsync(requestPasswordResetRequest, Mode.WaitForNone, cancellation: cancellationToken);
 
         await this.SendAccepted(cancellationToken);
     }

@@ -14,6 +14,4 @@ public interface IAuthenticationService
     Task RequestPasswordReset(RequestPasswordResetRequest requestPasswordResetRequest);
     Task ResetPassword(ResetPasswordRequest resetPasswordRequest);
     bool Authenticate(User user, Password password);
-    User UpdatePassword(User user, Password password);
-    JwtSecurityToken CreateJwtSecurityToken(User user);
 }

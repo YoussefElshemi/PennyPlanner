@@ -72,8 +72,13 @@ public class AuthenticationService(
 
     public async Task<User> ChangePasswordAsync(User user, Password password)
     {
-        var updatedUser = UpdatePassword(user, password) with
+        var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));
+        var passwordHash = HashPassword(password, passwordSalt);
+
+        var updatedUser = user with
         {
+            PasswordHash = new PasswordHash(passwordHash),
+            PasswordSalt = passwordSalt,
             UpdatedBy = user.Username,
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
@@ -104,21 +109,7 @@ public class AuthenticationService(
         return user.PasswordHash == HashPassword(password, user.PasswordSalt);
     }
 
-    public User UpdatePassword(User user, Password password)
-    {
-        var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));
-        var passwordHash = HashPassword(password, passwordSalt);
-
-        var updatedUser = user with
-        {
-            PasswordHash = new PasswordHash(passwordHash),
-            PasswordSalt = passwordSalt
-        };
-
-        return updatedUser;
-    }
-
-    public JwtSecurityToken CreateJwtSecurityToken(User user)
+    private JwtSecurityToken CreateJwtSecurityToken(User user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Value.JwtConfig.Key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
