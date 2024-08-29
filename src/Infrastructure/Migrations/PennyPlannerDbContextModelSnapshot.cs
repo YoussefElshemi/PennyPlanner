@@ -22,6 +22,52 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Infrastructure.Entities.EmailMessageOutboxEntity", b =>
+                {
+                    b.Property<Guid>("EmailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmailBody")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmailSubject")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsProcessed")
+                        .HasColumnType("boolean");
+
+                    b.Property<uint>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("EmailId");
+
+                    b.ToTable("EmailOutbox", (string)null);
+                });
+
             modelBuilder.Entity("Infrastructure.Entities.LoginEntity", b =>
                 {
                     b.Property<Guid>("LoginId")
@@ -193,15 +239,15 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("ce0b3ff9-499a-403f-bb80-9091e6f4fac2"),
-                            CreatedAt = new DateTime(2024, 8, 28, 0, 18, 55, 275, DateTimeKind.Utc).AddTicks(2909),
+                            UserId = new Guid("6d53e3ae-7172-47b6-9208-c5f1793d3dab"),
+                            CreatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(5807),
                             CreatedBy = "System",
                             EmailAddress = "admin@admin.com",
                             IsDeleted = false,
                             PasswordHash = "",
                             PasswordSalt = "",
                             RowVersion = 0u,
-                            UpdatedAt = new DateTime(2024, 8, 28, 0, 18, 55, 275, DateTimeKind.Utc).AddTicks(2910),
+                            UpdatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(5809),
                             UpdatedBy = "System",
                             UserRoleId = 2,
                             Username = "admin"
@@ -248,21 +294,21 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserRoleId = 1,
-                            CreatedAt = new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(8927),
+                            CreatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2131),
                             CreatedBy = "System",
                             Name = "User",
                             RowVersion = 0u,
-                            UpdatedAt = new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(9329),
+                            UpdatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2467),
                             UpdatedBy = "System"
                         },
                         new
                         {
                             UserRoleId = 2,
-                            CreatedAt = new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(9782),
+                            CreatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2917),
                             CreatedBy = "System",
                             Name = "Admin",
                             RowVersion = 0u,
-                            UpdatedAt = new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(9783),
+                            UpdatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2918),
                             UpdatedBy = "System"
                         });
                 });

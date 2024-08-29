@@ -15,6 +15,26 @@ namespace Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "EmailOutbox",
+                columns: table => new
+                {
+                    EmailId = table.Column<Guid>(type: "uuid", nullable: false),
+                    EmailAddress = table.Column<string>(type: "text", nullable: false),
+                    EmailSubject = table.Column<string>(type: "text", nullable: false),
+                    EmailBody = table.Column<string>(type: "text", nullable: false),
+                    IsProcessed = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "text", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailOutbox", x => x.EmailId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
                 {
@@ -121,14 +141,14 @@ namespace Infrastructure.Migrations
                 columns: new[] { "UserRoleId", "CreatedAt", "CreatedBy", "Name", "UpdatedAt", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(8927), "System", "User", new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(9329), "System" },
-                    { 2, new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(9782), "System", "Admin", new DateTime(2024, 8, 28, 0, 18, 55, 274, DateTimeKind.Utc).AddTicks(9783), "System" }
+                    { 1, new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2131), "System", "User", new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2467), "System" },
+                    { 2, new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2917), "System", "Admin", new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2918), "System" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "CreatedAt", "CreatedBy", "DeletedAt", "DeletedBy", "EmailAddress", "IsDeleted", "PasswordHash", "PasswordSalt", "UpdatedAt", "UpdatedBy", "UserRoleId", "Username" },
-                values: new object[] { new Guid("ce0b3ff9-499a-403f-bb80-9091e6f4fac2"), new DateTime(2024, 8, 28, 0, 18, 55, 275, DateTimeKind.Utc).AddTicks(2909), "System", null, null, "admin@admin.com", false, "", "", new DateTime(2024, 8, 28, 0, 18, 55, 275, DateTimeKind.Utc).AddTicks(2910), "System", 2, "admin" });
+                values: new object[] { new Guid("6d53e3ae-7172-47b6-9208-c5f1793d3dab"), new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(5807), "System", null, null, "admin@admin.com", false, "", "", new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(5809), "System", 2, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_UserId",
@@ -161,6 +181,9 @@ namespace Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "EmailOutbox");
+
             migrationBuilder.DropTable(
                 name: "Logins");
 

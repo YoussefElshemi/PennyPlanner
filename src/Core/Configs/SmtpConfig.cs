@@ -7,4 +7,5 @@ public record SmtpConfig
     public string EmailAddress { get; init; } = null!;
     public string Name { get; init; } = null!;
     public string Password { get; init; } = null!;
+    public int NumberOfRetries { get; init; }
 }

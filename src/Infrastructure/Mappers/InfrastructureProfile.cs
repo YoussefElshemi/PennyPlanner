@@ -24,5 +24,9 @@ public class InfrastructureProfile : Profile
 
         CreateMap<User, UserEntity>()
             .ForMember(dest => dest.UserRoleId, opt => opt.MapFrom(src => (int)src.UserRole));
+
+        CreateMap<EmailMessageOutboxEntity, EmailMessage>();
+
+        CreateMap<EmailMessage, EmailMessageOutboxEntity>();
     }
 }

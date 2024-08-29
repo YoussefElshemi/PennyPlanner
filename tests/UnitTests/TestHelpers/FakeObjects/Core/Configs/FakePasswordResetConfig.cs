@@ -10,8 +10,7 @@ public static class FakePasswordResetConfig
         return new PasswordResetConfig
         {
             PasswordResetUrl = fixture.Create<string>(),
-            PasswordResetTokenLifetimeInMinutes = fixture.Create<int>(),
-            NumberOfEmailRetries = fixture.Create<int>()
+            PasswordResetTokenLifetimeInMinutes = fixture.Create<int>()
         };
     }
 }

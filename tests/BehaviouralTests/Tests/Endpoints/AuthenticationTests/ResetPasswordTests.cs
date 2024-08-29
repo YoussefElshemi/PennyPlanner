@@ -110,7 +110,8 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
             UserId = userEntity.UserId,
             UserEntity = userEntity,
             ResetToken = resetPasswordRequest.PasswordResetToken,
-            IsUsed = false
+            IsUsed = false,
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(10)
         };
 
         await InsertPasswordReset(existingPasswordResetEntity);
@@ -137,7 +138,8 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         var existingPasswordResetEntity = FakePasswordResetEntity.CreateValid(_fixture) with
         {
             ResetToken = resetPasswordRequest.PasswordResetToken,
-            IsUsed = false
+            IsUsed = false,
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(10)
         };
 
         await InsertPasswordReset(existingPasswordResetEntity);
@@ -160,7 +162,8 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         var existingPasswordResetEntity = FakePasswordResetEntity.CreateValid(_fixture) with
         {
             ResetToken = resetPasswordRequest.PasswordResetToken,
-            IsUsed = false
+            IsUsed = false,
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(10)
         };
 
         await InsertPasswordReset(existingPasswordResetEntity);

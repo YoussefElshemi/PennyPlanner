@@ -35,9 +35,15 @@ public class PasswordResetService(
 
         var emailMessage = new EmailMessage
         {
+            EmailId = new EmailId(Guid.NewGuid()),
             EmailAddress = user.EmailAddress,
             EmailSubject = new EmailSubject("Password Reset"),
-            EmailBody = new EmailBody($"Please reset your password by clicking <a href={passwordResetUrl}>here</a>")
+            EmailBody = new EmailBody($"Please reset your password by clicking <a href={passwordResetUrl}>here</a>"),
+            IsProcessed = new IsProcessed(false),
+            CreatedBy = user.Username,
+            CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
+            UpdatedBy = user.Username,
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 
         await emailService.SendEmailAsync(emailMessage);

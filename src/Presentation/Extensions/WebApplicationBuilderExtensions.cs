@@ -50,6 +50,7 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILoginRepository, LoginRepository>();
         services.AddScoped<IPasswordResetRepository, PasswordResetRepository>();
+        services.AddScoped<IEmailRepository, EmailRepository>();
 
         return services;
     }
