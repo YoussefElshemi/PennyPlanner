@@ -5,7 +5,7 @@ using Presentation.WebApi.Authentication.Validators;
 using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
 
-namespace UnitTests.Tests.Presentation.WebApi.Models.Authentication.Validators;
+namespace UnitTests.Tests.Presentation.WebApi.Authentication.Validators;
 
 public class RegisterRequestDtoValidatorTests
 {

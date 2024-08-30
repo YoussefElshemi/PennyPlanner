@@ -8,7 +8,7 @@ using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.UserManagement.Models.Requests;
 
-namespace UnitTests.Tests.Presentation.WebApi.Models.UserManagement.Validators;
+namespace UnitTests.Tests.Presentation.WebApi.UserManagement.Validators;
 
 public class DeleteUserRequestDtoValidatorTests : BaseTestClass
 {

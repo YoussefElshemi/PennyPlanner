@@ -90,7 +90,7 @@ public class GetUsersTests : TestBase<TestFixture>
         var user = FakeUser.CreateValid(_fixture) with
         {
             UserRole = UserRole.User,
-            IsDeleted = new IsDeleted(true)
+            IsDeleted = new IsDeleted(false)
         };
         var userEntity = _mapper.Map<UserEntity>(user);
         var accessToken = AuthenticationHelper.CreateAccessToken(user, 10);

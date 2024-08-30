@@ -7,7 +7,7 @@ using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
 
-namespace UnitTests.Tests.Presentation.WebApi.Models.Authentication.Validators;
+namespace UnitTests.Tests.Presentation.WebApi.Authentication.Validators;
 
 public class RefreshTokenRequestDtoValidatorTests : BaseTestClass
 {

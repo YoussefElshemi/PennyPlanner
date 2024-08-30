@@ -5,13 +5,17 @@ using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
 using Core.ValueObjects;
+using Infrastructure.Interfaces.Services;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Retry;
 
 namespace Infrastructure.Services;
 
-public class EmailService(IEmailRepository emailRepository, IOptions<AppConfig> config) : IEmailService
+public class EmailService(ISmtpClient smtpClient,
+    IEmailRepository emailRepository,
+    TimeProvider timeProvider,
+    IOptions<AppConfig> config) : IEmailService
 {
     private readonly AsyncRetryPolicy _retryPolicy = Policy
             .Handle<Exception>()
@@ -21,7 +25,36 @@ public class EmailService(IEmailRepository emailRepository, IOptions<AppConfig> 
     public async Task SendEmailAsync(EmailMessage emailMessage)
     {
         await emailRepository.CreateAsync(emailMessage);
+        var success = await SendMessageAsync(emailMessage);
 
+        emailMessage = emailMessage with
+        {
+            IsProcessed = new IsProcessed(success),
+            UpdatedBy = new Username(Username.SystemUsername),
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
+        };
+
+        await emailRepository.UpdateAsync(emailMessage);
+    }
+
+    public async Task<EmailMessage> RedriveEmailAsync(EmailId emailId)
+    {
+        var emailMessage = await emailRepository.GetAsync(emailId);
+        var success = await SendMessageAsync(emailMessage);
+
+        emailMessage = emailMessage with
+        {
+            IsProcessed = new IsProcessed(success),
+            UpdatedBy = new Username(Username.SystemUsername),
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
+        };
+
+        await emailRepository.UpdateAsync(emailMessage);
+        return emailMessage;
+    }
+
+    private async Task<bool> SendMessageAsync(EmailMessage emailMessage)
+    {
         var fromAddress = new MailAddress(config.Value.SmtpConfig.EmailAddress, config.Value.SmtpConfig.Name);
         var credentials = new NetworkCredential(fromAddress.Address, config.Value.SmtpConfig.Password);
 
@@ -32,23 +65,11 @@ public class EmailService(IEmailRepository emailRepository, IOptions<AppConfig> 
         message.Body = emailMessage.EmailBody;
         message.IsBodyHtml = true;
 
-        await _retryPolicy.ExecuteAsync(async () =>
+        var result = await _retryPolicy.ExecuteAndCaptureAsync(async () =>
         {
-            var smtp = new SmtpClient
-            {
-                Host = config.Value.SmtpConfig.Host,
-                Port = config.Value.SmtpConfig.Port,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = credentials
-            };
-
-            await smtp.SendMailAsync(message);
-
-            emailMessage.IsProcessed = new IsProcessed(true);
-            emailMessage.UpdatedBy = new Username(Username.SystemUsername);
-            await emailRepository.UpdateAsync(emailMessage);
+            await smtpClient.SendMailAsync(message);
         });
+
+        return result.Outcome == OutcomeType.Successful;
     }
 }

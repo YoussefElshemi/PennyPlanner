@@ -65,6 +65,7 @@ public class LoginRepositoryTests : BaseTestClass
         updatedLogin!.LoginId.Should().Be(login.LoginId);
         updatedLogin.IsRevoked.Should().Be(login.IsRevoked);
         updatedLogin.UpdatedAt.Should().Be(login.UpdatedAt);
+        updatedLogin.UpdatedBy.Should().Be(login.UpdatedBy);
     }
 
     [Fact]

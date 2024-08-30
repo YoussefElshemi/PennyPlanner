@@ -20,6 +20,12 @@ public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
         _authenticationService = authenticationService;
         _userRepository = userRepository;
 
+        RuleFor(x => x.Username)
+            .NotEmpty();
+
+        RuleFor(x => x.Password)
+            .NotEmpty();
+
         RuleFor(x => new { x.Username, x.Password })
             .Cascade(CascadeMode.Stop)
             .WithDisplayName($"{nameof(Username)} or {nameof(Password)}")

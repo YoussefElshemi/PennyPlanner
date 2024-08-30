@@ -5,8 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddExceptionHandling()
     .AddMappers()
+    .AddServices()
     .AddFastEndpoints(builder.Configuration)
-    .AddServices().AddAppConfiguration(builder.Configuration)
+    .AddAppConfiguration(builder.Configuration)
     .AddDataAccess(builder.Configuration)
     .AddAuthenticationSetup(builder.Configuration);
 

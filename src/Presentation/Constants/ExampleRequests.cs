@@ -1,6 +1,7 @@
 using Presentation.WebApi.AuthenticatedUser.Models.Requests;
 using Presentation.WebApi.Authentication.Models.Requests;
 using Presentation.WebApi.Common.Models.Requests;
+using Presentation.WebApi.Email.Models;
 using Presentation.WebApi.UserManagement.Models.Requests;
 using UpdateUserRequestDto = Presentation.WebApi.AuthenticatedUser.Models.Requests.UpdateUserRequestDto;
 using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
@@ -81,6 +82,14 @@ public static class ExampleRequests
             UserId = Guid.NewGuid(),
             Username = "username",
             EmailAddress = "username@mail.com"
+        };
+    }
+
+    public static class Email
+    {
+        public static readonly RedriveEmailRequestDto Redrive = new()
+        {
+            EmailId = Guid.NewGuid()
         };
     }
 }

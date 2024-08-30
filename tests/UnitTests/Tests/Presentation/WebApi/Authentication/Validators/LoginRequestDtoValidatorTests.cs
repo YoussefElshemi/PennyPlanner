@@ -9,7 +9,7 @@ using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
 
-namespace UnitTests.Tests.Presentation.WebApi.Models.Authentication.Validators;
+namespace UnitTests.Tests.Presentation.WebApi.Authentication.Validators;
 
 public class LoginRequestDtoValidatorTests : BaseTestClass
 {
@@ -21,6 +21,48 @@ public class LoginRequestDtoValidatorTests : BaseTestClass
     {
         _validator = new LoginRequestDtoValidator(_mockAuthenticationService.Object,
             _mockUserRepository.Object);
+    }
+
+    [Fact]
+    public async Task ValidateAsync_UsernameEmpty_Throws()
+    {
+        // Arrange
+        var loginRequestDto = FakeLoginRequestDto.CreateValid() with
+        {
+            Username = string.Empty
+        };
+
+        _mockUserRepository
+            .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
+            .ReturnsAsync(false);
+
+        // Act
+        var result = await _validator.TestValidateAsync(loginRequestDto);
+
+        // Assert
+        result.ShouldHaveAnyValidationError()
+            .WithErrorCode("NotEmptyValidator");
+    }
+
+    [Fact]
+    public async Task ValidateAsync_PasswordEmpty_Throws()
+    {
+        // Arrange
+        var loginRequestDto = FakeLoginRequestDto.CreateValid() with
+        {
+            Password = string.Empty
+        };
+
+        _mockUserRepository
+            .Setup(x => x.ExistsByUsernameAsync(It.IsAny<string>()))
+            .ReturnsAsync(false);
+
+        // Act
+        var result = await _validator.TestValidateAsync(loginRequestDto);
+
+        // Assert
+        result.ShouldHaveAnyValidationError()
+            .WithErrorCode("NotEmptyValidator");
     }
 
     [Fact]

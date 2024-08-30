@@ -6,7 +6,7 @@ using Presentation.WebApi.Common.Validators;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Common.Models.Requests;
 
-namespace UnitTests.Tests.Presentation.WebApi.Models.Common.Validators;
+namespace UnitTests.Tests.Presentation.WebApi.Common.Validators;
 
 public class PagedRequestDtoValidatorTests : BaseTestClass
 {

@@ -27,4 +27,9 @@ public static class SwaggerSummaries
         public const string DeleteUser = "Deletes a user with the specified userId.";
         public const string UpdateUser = "Updates the profile information of a user with the specified userId.";
     }
+
+    public static class Email
+    {
+        public const string Redrive = "Retries to send an email which has failed to send.";
+    }
 }

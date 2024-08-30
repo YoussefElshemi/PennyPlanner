@@ -7,7 +7,7 @@ using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.User.Models.Requests;
 
-namespace UnitTests.Tests.Presentation.WebApi.Models.AuthenticatedUser.Validators;
+namespace UnitTests.Tests.Presentation.WebApi.AuthenticatedUser.Validators;
 
 public class UpdateUserRequestDtoValidatorTests : BaseTestClass
 {

@@ -10,6 +10,19 @@ public class EmailRepository(
     PennyPlannerDbContext context,
     IMapper mapper) : IEmailRepository
 {
+    public Task<bool> ExistsAsync(Guid emailId)
+    {
+        return context.Emails.AnyAsync(x => x.EmailId == emailId);
+    }
+
+    public async Task<EmailMessage> GetAsync(Guid emailId)
+    {
+        var emailMessageEntity = await context.Emails
+            .FirstAsync(x => x.EmailId == emailId);
+
+        return mapper.Map<EmailMessage>(emailMessageEntity);
+    }
+
     public async Task CreateAsync(EmailMessage emailMessage)
     {
         var emailMessageEntity = mapper.Map<EmailMessageOutboxEntity>(emailMessage);

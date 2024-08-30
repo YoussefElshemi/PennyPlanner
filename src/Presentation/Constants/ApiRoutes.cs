@@ -27,4 +27,9 @@ public static class ApiRoutes
         public const string DeleteUser = "/user-management/users/{userId}";
         public const string UpdateUser = "/user-management/users/{userId}";
     }
+
+    public static class Email
+    {
+        public const string Redrive = "/email/redrive";
+    }
 }
