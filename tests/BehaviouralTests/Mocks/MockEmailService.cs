@@ -10,15 +10,13 @@ namespace BehaviouralTests.Mocks;
 
 public class MockEmailService : BaseTestClass, IEmailService
 {
-    private readonly IFixture _autoFixture = AutoFixtureHelper.Create();
-    public Task SendEmailAsync(EmailMessage emailMessage)
+    public Task CreateAsync(EmailMessage emailMessage)
     {
         return Task.CompletedTask;
     }
 
-    public Task<EmailMessage> RedriveEmailAsync(EmailId emailId)
+    public Task ProcessAwaitingEmailsAsync()
     {
-        var emailMessage = FakeEmailMessage.CreateValid(_autoFixture);
-        return Task.FromResult(emailMessage);
+        return Task.CompletedTask;
     }
 }

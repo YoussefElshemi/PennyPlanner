@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Mail;
 using Core.Configs;
 using Core.Interfaces.Repositories;
@@ -22,24 +21,23 @@ public class EmailService(ISmtpClient smtpClient,
             .WaitAndRetryAsync(config.Value.SmtpConfig.NumberOfRetries,
                 retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
-    public async Task SendEmailAsync(EmailMessage emailMessage)
+    public async Task CreateAsync(EmailMessage emailMessage)
     {
         await emailRepository.CreateAsync(emailMessage);
-        var success = await SendMessageAsync(emailMessage);
-
-        emailMessage = emailMessage with
-        {
-            IsProcessed = new IsProcessed(success),
-            UpdatedBy = new Username(Username.SystemUsername),
-            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
-        };
-
-        await emailRepository.UpdateAsync(emailMessage);
     }
 
-    public async Task<EmailMessage> RedriveEmailAsync(EmailId emailId)
+    public async Task ProcessAwaitingEmailsAsync()
     {
-        var emailMessage = await emailRepository.GetAsync(emailId);
+        var emailsToSend = await emailRepository.GetAwaitingEmailsAsync();
+
+        foreach (var email in emailsToSend)
+        {
+            await SendEmailAsync(email);
+        }
+    }
+
+    private async Task SendEmailAsync(EmailMessage emailMessage)
+    {
         var success = await SendMessageAsync(emailMessage);
 
         emailMessage = emailMessage with
@@ -50,14 +48,11 @@ public class EmailService(ISmtpClient smtpClient,
         };
 
         await emailRepository.UpdateAsync(emailMessage);
-        return emailMessage;
     }
 
     private async Task<bool> SendMessageAsync(EmailMessage emailMessage)
     {
         var fromAddress = new MailAddress(config.Value.SmtpConfig.EmailAddress, config.Value.SmtpConfig.Name);
-        var credentials = new NetworkCredential(fromAddress.Address, config.Value.SmtpConfig.Password);
-
         var toAddress = new MailAddress(emailMessage.EmailAddress);
         using var message = new MailMessage(fromAddress, toAddress);
 

@@ -6,7 +6,6 @@ using FluentAssertions;
 using Presentation.Mappers;
 using Presentation.WebApi.AuthenticatedUser.Models.Responses;
 using Presentation.WebApi.Authentication.Models.Responses;
-using Presentation.WebApi.Email.Models;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
@@ -181,19 +180,5 @@ public class PresentationProfileTests : BaseTestClass
         userProfileResponseDto.CreatedAt.Should().Be(user.CreatedAt.ToString());
         userProfileResponseDto.UpdatedBy.Should().Be(user.UpdatedBy.ToString());
         userProfileResponseDto.UpdatedAt.Should().Be(user.UpdatedAt.ToString());
-    }
-
-    [Fact]
-    public void Map_EmailMessage_ReturnsEmailResponseDto()
-    {
-        // Arrange
-        var emailMessage = FakeEmailMessage.CreateValid(Fixture);
-
-        // Act
-        var emailMessageResponseDto = _mapper.Map<EmailResponseDto>(emailMessage);
-
-        // Assert
-        emailMessageResponseDto.EmailId.Should().Be(emailMessage.EmailId);
-        emailMessageResponseDto.IsProcessed.Should().Be(emailMessage.IsProcessed);
     }
 }

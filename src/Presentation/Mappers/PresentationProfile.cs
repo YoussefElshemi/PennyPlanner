@@ -6,7 +6,6 @@ using Presentation.WebApi.AuthenticatedUser.Models.Responses;
 using Presentation.WebApi.Authentication.Models.Requests;
 using Presentation.WebApi.Authentication.Models.Responses;
 using Presentation.WebApi.Common.Models.Requests;
-using Presentation.WebApi.Email.Models;
 using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
 
 namespace Presentation.Mappers;
@@ -43,7 +42,5 @@ public class PresentationProfile : Profile
             .ForMember(dest => dest.UserId, opt => opt.MapFrom((_, _, _, context) => new UserId(Guid.Parse(context.Items["UserId"].ToString()!))));
 
         CreateMap<User, UserProfileResponseDto>();
-
-        CreateMap<EmailMessage, EmailResponseDto>();
     }
 }

@@ -43,7 +43,7 @@ public class PasswordResetServiceTests : BaseTestClass
             .Verifiable();
 
         _mockEmailService
-            .Setup(x => x.SendEmailAsync(It.IsAny<EmailMessage>()))
+            .Setup(x => x.CreateAsync(It.IsAny<EmailMessage>()))
             .Verifiable();
 
         // Act
@@ -51,6 +51,6 @@ public class PasswordResetServiceTests : BaseTestClass
 
         // Assert
         _mockPasswordResetRepository.Verify(x => x.CreateAsync(It.IsAny<PasswordReset>()), Times.Once);
-        _mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<EmailMessage>()), Times.Once);
+        _mockEmailService.Verify(x => x.CreateAsync(It.IsAny<EmailMessage>()), Times.Once);
     }
 }

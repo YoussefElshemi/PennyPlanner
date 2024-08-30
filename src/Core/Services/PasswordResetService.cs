@@ -46,7 +46,7 @@ public class PasswordResetService(
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 
-        await emailService.SendEmailAsync(emailMessage);
+        await emailService.CreateAsync(emailMessage);
     }
 
     public Task CreateAsync(PasswordReset passwordReset)

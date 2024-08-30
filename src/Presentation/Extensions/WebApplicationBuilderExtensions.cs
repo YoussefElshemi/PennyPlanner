@@ -8,6 +8,7 @@ using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 using FluentValidation;
 using Infrastructure;
+using Infrastructure.BackgroundServices;
 using Infrastructure.Interfaces.Services;
 using Infrastructure.Mappers;
 using Infrastructure.Repositories;
@@ -42,6 +43,8 @@ public static class WebApplicationBuilderExtensions
         services.AddSingleton<IPagedResponseMapper, PagedResponseMapper>();
         services.AddSingleton<ISmtpClient, SmtpClientWrapper>();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+        services.AddHostedService<EmailOutboxBackgroundService>();
 
         return services;
     }
@@ -100,7 +103,6 @@ public static class WebApplicationBuilderExtensions
                 t[SwaggerTags.Authentication] = SwaggerTagDescriptions.Authentication;
                 t[SwaggerTags.User] = SwaggerTagDescriptions.User;
                 t[SwaggerTags.UserManagement] = SwaggerTagDescriptions.UserManagement;
-                t[SwaggerTags.Email] = SwaggerTagDescriptions.Email;
             };
         });
 

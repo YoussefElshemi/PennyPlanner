@@ -8,4 +8,5 @@ public interface IEmailRepository
     Task<EmailMessage> GetAsync(Guid emailId);
     Task CreateAsync(EmailMessage emailMessage);
     Task UpdateAsync(EmailMessage emailMessage);
+    Task<IEnumerable<EmailMessage>> GetAwaitingEmailsAsync();
 }

@@ -42,4 +42,12 @@ public class EmailRepository(
         context.Emails.Update(emailMessageEntity);
         await context.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<EmailMessage>> GetAwaitingEmailsAsync()
+    {
+        var emailMessageEntities = await context.Emails
+            .Where(x => x.IsProcessed == false).ToListAsync();
+
+        return emailMessageEntities.Select(mapper.Map<EmailMessage>);
+    }
 }
