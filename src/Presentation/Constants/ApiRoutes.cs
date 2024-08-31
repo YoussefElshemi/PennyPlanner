@@ -28,8 +28,8 @@ public static class ApiRoutes
         public const string UpdateUser = "/user-management/users/{userId}";
     }
 
-    public static class Email
+    public static class Emails
     {
-        public const string Redrive = "/email/redrive";
+        public const string GetEmails = "/emails";
     }
 }

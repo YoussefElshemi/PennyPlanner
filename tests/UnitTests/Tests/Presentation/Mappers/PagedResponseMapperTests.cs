@@ -24,7 +24,7 @@ public class PagedResponseMapperTests : BaseTestClass
     public void Map_GivenPagedResponseDto_ReturnsPageResponse()
     {
         // Arrange
-        var pagedResponse = FakePagedResponse.CreateValid(Fixture);
+        var pagedResponse = FakePagedResponse<User>.CreateValid(Fixture);
 
         // Act
         var pagedResponseDto = _pagedResponseMapper.Map<User, UserProfileResponseDto>(pagedResponse);

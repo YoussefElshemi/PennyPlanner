@@ -98,6 +98,11 @@ public class GetTests : TestBase<TestFixture>
         userProfileResponse.UserId.Should().Be(user.UserId);
     }
 
+    protected override async Task SetupAsync()
+    {
+       await _testFixture.ResetDatabaseAsync();
+    }
+
     protected override async Task TearDownAsync()
     {
         await _testFixture.ResetDatabaseAsync();

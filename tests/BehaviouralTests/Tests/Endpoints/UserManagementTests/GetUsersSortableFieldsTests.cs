@@ -121,6 +121,11 @@ public class GetUsersSortableFieldsTests : TestBase<TestFixture>
         queryFieldsResponse.Fields.Should().NotBeEmpty();
     }
 
+    protected override async Task SetupAsync()
+    {
+       await _testFixture.ResetDatabaseAsync();
+    }
+
     protected override async Task TearDownAsync()
     {
         await _testFixture.ResetDatabaseAsync();

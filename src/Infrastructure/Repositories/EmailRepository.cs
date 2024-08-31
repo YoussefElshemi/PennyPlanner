@@ -8,7 +8,7 @@ namespace Infrastructure.Repositories;
 
 public class EmailRepository(
     PennyPlannerDbContext context,
-    IMapper mapper) : IEmailRepository
+    IMapper mapper) : PagedRepository<EmailMessageOutboxEntity>(context, mapper), IEmailRepository
 {
     public Task<bool> ExistsAsync(Guid emailId)
     {
@@ -41,6 +41,21 @@ public class EmailRepository(
 
         context.Emails.Update(emailMessageEntity);
         await context.SaveChangesAsync();
+    }
+
+    public override List<string> GetSortableFields()
+    {
+        return
+        [
+            nameof(EmailMessageOutboxEntity.EmailAddress),
+            nameof(UserEntity.CreatedAt),
+            nameof(UserEntity.UpdatedAt)
+        ];
+    }
+
+    public override List<string> GetSearchableFields()
+    {
+        return [];
     }
 
     public async Task<IEnumerable<EmailMessage>> GetAwaitingEmailsAsync()

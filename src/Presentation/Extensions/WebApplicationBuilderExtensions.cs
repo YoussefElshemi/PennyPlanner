@@ -103,6 +103,7 @@ public static class WebApplicationBuilderExtensions
                 t[SwaggerTags.Authentication] = SwaggerTagDescriptions.Authentication;
                 t[SwaggerTags.User] = SwaggerTagDescriptions.User;
                 t[SwaggerTags.UserManagement] = SwaggerTagDescriptions.UserManagement;
+                t[SwaggerTags.Emails] = SwaggerTagDescriptions.Emails;
             };
         });
 

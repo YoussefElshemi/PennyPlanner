@@ -8,23 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public abstract class PagedRepository<T> : IPagedRepository<T> where T : class
+public abstract class PagedRepository<T>(DbContext context, IMapper mapper) : IPagedRepository<T>
+    where T : class
 {
-    private readonly DbContext _context;
-    private readonly IMapper _mapper;
-
-    public PagedRepository(DbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public abstract List<string> GetSortableFields();
     public abstract List<string> GetSearchableFields();
 
     public async Task<int> GetCountAsync(PagedRequest pagedRequest)
     {
-        var query = _context.Set<T>().AsQueryable();
+        var query = context.Set<T>().AsQueryable();
+        query = FilterDeleted(query);
 
         if (pagedRequest.SearchField != null && !string.IsNullOrWhiteSpace(pagedRequest.SearchTerm?.ToString()))
         {
@@ -40,7 +33,8 @@ public abstract class PagedRepository<T> : IPagedRepository<T> where T : class
         var totalCount = await GetCountAsync(pagedRequest);
         var pageCount = ((totalCount == 0 ? 1 : totalCount) + pagedRequest.PageSize - 1) / pagedRequest.PageSize;
 
-        var query = _context.Set<T>().AsQueryable();
+        var query = context.Set<T>().AsQueryable();
+        query = FilterDeleted(query);
 
         if (pagedRequest.SearchField != null && !string.IsNullOrWhiteSpace(pagedRequest.SearchTerm?.ToString()))
         {
@@ -54,7 +48,7 @@ public abstract class PagedRepository<T> : IPagedRepository<T> where T : class
             .Take(pagedRequest.PageSize)
             .ToListAsync();
 
-        var data = _mapper.Map<List<TModel>>(entities);
+        var data = mapper.Map<List<TModel>>(entities);
 
         return new PagedResponse<TModel>
         {
@@ -67,7 +61,22 @@ public abstract class PagedRepository<T> : IPagedRepository<T> where T : class
         };
     }
 
-    private IQueryable<T> ApplySearch(IQueryable<T> query, PagedRequest pagedRequest)
+    private static IQueryable<T> FilterDeleted(IQueryable<T> query)
+    {
+        if (typeof(T).GetProperties().All(x => x.Name != "IsDeleted"))
+        {
+            return query;
+        }
+
+        var parameter = Expression.Parameter(typeof(T), "e");
+        var property = Expression.Property(parameter, "IsDeleted");
+        var equalsExpression = Expression.Equal(property, Expression.Constant(false));
+
+        var lambda = Expression.Lambda<Func<T, bool>>(equalsExpression, parameter);
+        return query.Where(lambda);
+    }
+
+    private static IQueryable<T> ApplySearch(IQueryable<T> query, PagedRequest pagedRequest)
     {
         var parameter = Expression.Parameter(typeof(T), "e");
         var property = Expression.Property(parameter, pagedRequest.SearchField!);
@@ -81,7 +90,7 @@ public abstract class PagedRepository<T> : IPagedRepository<T> where T : class
         return query.Where(lambda);
     }
 
-    private IQueryable<T> ApplySorting(IQueryable<T> query, PagedRequest pagedRequest)
+    private static IQueryable<T> ApplySorting(IQueryable<T> query, PagedRequest pagedRequest)
     {
         if (pagedRequest.SortBy != null)
         {

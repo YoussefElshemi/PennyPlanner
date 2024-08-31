@@ -186,6 +186,11 @@ public class UpdateTests : TestBase<TestFixture>
         userProfileResponse.EmailAddress.Should().Be(updateUserRequest.EmailAddress);
     }
 
+    protected override async Task SetupAsync()
+    {
+       await _testFixture.ResetDatabaseAsync();
+    }
+
     protected override async Task TearDownAsync()
     {
         await _testFixture.ResetDatabaseAsync();

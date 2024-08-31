@@ -4,18 +4,18 @@ using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
 namespace UnitTests.TestHelpers.FakeObjects.Core.Models;
 
-public static class FakePagedResponse
+public static class FakePagedResponse<T>
 {
-    public static PagedResponse<User> CreateValid(IFixture fixture)
+    public static PagedResponse<T> CreateValid(IFixture fixture)
     {
-        return new PagedResponse<User>
+        return new PagedResponse<T>
         {
             PageNumber = FakePageNumber.CreateValid(fixture),
             PageSize = FakePageSize.CreateValid(fixture),
             PageCount = FakePageCount.CreateValid(fixture),
             TotalCount = FakeTotalCount.CreateValid(fixture),
             HasMore = FakeHasMore.CreateValid(fixture),
-            Data = [FakeUser.CreateValid(fixture)]
+            Data = [fixture.Create<T>()]
         };
     }
 }

@@ -6,6 +6,7 @@ using FluentAssertions;
 using Presentation.Mappers;
 using Presentation.WebApi.AuthenticatedUser.Models.Responses;
 using Presentation.WebApi.Authentication.Models.Responses;
+using Presentation.WebApi.Emails.Models;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
@@ -180,5 +181,26 @@ public class PresentationProfileTests : BaseTestClass
         userProfileResponseDto.CreatedAt.Should().Be(user.CreatedAt.ToString());
         userProfileResponseDto.UpdatedBy.Should().Be(user.UpdatedBy.ToString());
         userProfileResponseDto.UpdatedAt.Should().Be(user.UpdatedAt.ToString());
+    }
+
+    [Fact]
+    public void Map_EmailMessage_ReturnsEmailResponseDto()
+    {
+        // Arrange
+        var emailMessage = FakeEmailMessage.CreateValid(Fixture);
+
+        // Act
+        var emailMessageResponseDto = _mapper.Map<EmailResponseDto>(emailMessage);
+
+        // Assert
+        emailMessageResponseDto.EmailId.Should().Be(emailMessage.EmailId.ToString());
+        emailMessageResponseDto.EmailAddress.Should().Be(emailMessage.EmailAddress.ToString());
+        emailMessageResponseDto.EmailSubject.Should().Be(emailMessage.EmailSubject.ToString());
+        emailMessageResponseDto.EmailBody.Should().Be(emailMessage.EmailBody.ToString());
+        emailMessageResponseDto.IsProcessed.Should().Be(emailMessage.IsProcessed);
+        emailMessageResponseDto.CreatedBy.Should().Be(emailMessage.CreatedBy.ToString());
+        emailMessageResponseDto.CreatedAt.Should().Be(emailMessage.CreatedAt.ToString());
+        emailMessageResponseDto.UpdatedBy.Should().Be(emailMessage.UpdatedBy.ToString());
+        emailMessageResponseDto.UpdatedAt.Should().Be(emailMessage.UpdatedAt.ToString());
     }
 }

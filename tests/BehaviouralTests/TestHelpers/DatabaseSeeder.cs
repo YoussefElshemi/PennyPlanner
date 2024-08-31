@@ -23,4 +23,13 @@ public static class DatabaseSeeder
         await context.Users.AddRangeAsync(userEntities);
         await context.SaveChangesAsync();
     }
+
+    public static async Task InsertEmails(IServiceProvider serviceProvider, List<EmailMessageOutboxEntity> emailEntities)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+
+        await context.Emails.AddRangeAsync(emailEntities);
+        await context.SaveChangesAsync();
+    }
 }

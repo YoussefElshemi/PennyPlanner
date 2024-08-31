@@ -1,22 +1,17 @@
-using AutoFixture;
-using BehaviouralTests.TestHelpers;
-using Core.Interfaces.Services;
-using Core.Models;
-using Core.ValueObjects;
+using System.Net.Mail;
+using Infrastructure.Interfaces.Services;
 using UnitTests.TestHelpers;
-using UnitTests.TestHelpers.FakeObjects.Core.Models;
 
 namespace BehaviouralTests.Mocks;
 
-public class MockEmailService : BaseTestClass, IEmailService
+public class MockSmtpClient : BaseTestClass, ISmtpClient
 {
-    public Task CreateAsync(EmailMessage emailMessage)
+    public Task SendMailAsync(MailMessage mailMessage)
     {
         return Task.CompletedTask;
     }
 
-    public Task ProcessAwaitingEmailsAsync()
+    public void Dispose()
     {
-        return Task.CompletedTask;
     }
 }

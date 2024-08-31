@@ -83,4 +83,13 @@ public static class ExampleRequests
             EmailAddress = "username@mail.com"
         };
     }
+
+    public static class Emails
+    {
+        public static readonly PagedRequestDto GetEmails = new()
+        {
+            PageNumber = 1,
+            PageSize = 10
+        };
+    }
 }

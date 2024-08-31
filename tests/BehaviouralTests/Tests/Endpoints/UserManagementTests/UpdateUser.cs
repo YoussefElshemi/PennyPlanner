@@ -242,6 +242,11 @@ public class UpdateUserTests : TestBase<TestFixture>
         exists.Should().Be(expected);
     }
 
+    protected override async Task SetupAsync()
+    {
+       await _testFixture.ResetDatabaseAsync();
+    }
+
     protected override async Task TearDownAsync()
     {
         await _testFixture.ResetDatabaseAsync();

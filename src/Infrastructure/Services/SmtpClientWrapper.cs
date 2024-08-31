@@ -58,12 +58,6 @@ public class SmtpClientWrapper : ISmtpClient
         }
     }
 
-    public void Send(MailMessage mailMessage)
-    {
-        CheckDisposed();
-        _smtpClient.Send(mailMessage);
-    }
-
     public Task SendMailAsync(MailMessage mailMessage)
     {
         CheckDisposed();

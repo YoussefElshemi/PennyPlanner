@@ -2,7 +2,6 @@ using System.Net.Mail;
 using Core.Configs;
 using Core.Interfaces.Repositories;
 using Core.Models;
-using Core.ValueObjects;
 using Infrastructure.Interfaces.Services;
 using Infrastructure.Services;
 using Microsoft.Extensions.Options;

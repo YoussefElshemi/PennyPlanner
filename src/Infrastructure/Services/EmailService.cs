@@ -21,6 +21,11 @@ public class EmailService(ISmtpClient smtpClient,
             .WaitAndRetryAsync(config.Value.SmtpConfig.NumberOfRetries,
                 retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
+    public Task<PagedResponse<EmailMessage>> GetAllAsync(PagedRequest pagedRequest)
+    {
+        return emailRepository.GetAllAsync<EmailMessage>(pagedRequest);
+    }
+
     public async Task CreateAsync(EmailMessage emailMessage)
     {
         await emailRepository.CreateAsync(emailMessage);

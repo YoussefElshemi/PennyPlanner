@@ -8,28 +8,28 @@ using FastEndpoints;
 using FastEndpoints.Testing;
 using FluentAssertions;
 using Infrastructure.Entities;
-using Presentation.WebApi.AuthenticatedUser.Models.Responses;
 using Presentation.WebApi.Common.Models;
 using Presentation.WebApi.Common.Models.Requests;
 using Presentation.WebApi.Common.Models.Responses;
-using Presentation.WebApi.UserManagement.Endpoints;
+using Presentation.WebApi.Emails.Endpoints;
+using Presentation.WebApi.Emails.Models;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Common.Models.Requests;
 using Xunit;
 using IMapper = AutoMapper.IMapper;
 
-namespace BehaviouralTests.Tests.Endpoints.UserManagementTests;
+namespace BehaviouralTests.Tests.Endpoints.EmailTests;
 
 [Collection("Sequential")]
-public class GetUsersTests : TestBase<TestFixture>
+public class GetEmailsTests : TestBase<TestFixture>
 {
     private readonly IFixture _fixture = AutoFixtureHelper.Create();
     private readonly IMapper _mapper = AutoMapperHelper.Create();
     private readonly IServiceProvider _serviceProvider;
     private readonly TestFixture _testFixture;
 
-    public GetUsersTests(TestFixture testFixture)
+    public GetEmailsTests(TestFixture testFixture)
     {
         _testFixture = testFixture;
         _serviceProvider = testFixture.Services;
@@ -37,17 +37,17 @@ public class GetUsersTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task GetUsers_NotLoggedIn_ReturnsUnauthorized()
+    public async Task GetEmails_NotLoggedIn_ReturnsUnauthorized()
     {
         // Act
-        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsers, QueryFieldsResponseDto>();
+        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetEmails, QueryFieldsResponseDto>();
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
-    public async Task GetUsers_ExpiredAccessToken_ReturnsUnauthorized()
+    public async Task GetEmails_ExpiredAccessToken_ReturnsUnauthorized()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture);
@@ -57,14 +57,14 @@ public class GetUsersTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsers, QueryFieldsResponseDto>();
+        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetEmails, QueryFieldsResponseDto>();
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
-    public async Task GetUsers_UserNoLongerExists_ReturnsUnauthorized()
+    public async Task GetEmails_UserNoLongerExists_ReturnsUnauthorized()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture) with
@@ -77,14 +77,14 @@ public class GetUsersTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsers, QueryFieldsResponseDto>();
+        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetEmails, QueryFieldsResponseDto>();
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
     [Fact]
-    public async Task GetUsers_UserNotAdmin_ReturnsForbidden()
+    public async Task GetEmails_UserNotAdmin_ReturnsForbidden()
     {
         // Arrange
         var user = FakeUser.CreateValid(_fixture) with
@@ -98,14 +98,14 @@ public class GetUsersTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetUsers, QueryFieldsResponseDto>();
+        var (httpResponseMessage, _) = await _testFixture.Client.GETAsync<GetEmails, QueryFieldsResponseDto>();
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
     [Fact]
-    public async Task GetUsers_GivenValidRequest_ReturnsOk()
+    public async Task GetEmails_GivenValidRequest_ReturnsOk()
     {
         // Arrange
         var pagedRequest = FakePagedRequestDto.CreateValid(_fixture) with
@@ -125,21 +125,18 @@ public class GetUsersTests : TestBase<TestFixture>
         };
         var userEntity = _mapper.Map<UserEntity>(user);
         var accessToken = AuthenticationHelper.CreateAccessToken(user, 10);
+        await DatabaseSeeder.InsertUser(_serviceProvider, userEntity);
 
-        var users = Enumerable.Range(0, 20)
-            .Select(_ => FakeUserEntity.CreateValid(_fixture) with
-            {
-                IsDeleted = false
-            })
+        var emails = Enumerable.Range(0, 20)
+            .Select(_ => FakeEmailMessageOutboxEntity.CreateValid(_fixture))
             .ToList();
 
-        users.Add(userEntity);
-        await DatabaseSeeder.InsertUsers(_serviceProvider, users);
+        await DatabaseSeeder.InsertEmails(_serviceProvider, emails);
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var (httpResponseMessage, queryFieldsResponse) =
-            await _testFixture.Client.GETAsync<GetUsers, PagedRequestDto, PagedResponseDto<UserProfileResponseDto>>(pagedRequest);
+            await _testFixture.Client.GETAsync<GetEmails, PagedRequestDto, PagedResponseDto<EmailResponseDto>>(pagedRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
