@@ -6,15 +6,15 @@ using Presentation.Constants;
 using Presentation.WebApi.Common.Models;
 using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
-namespace Presentation.WebApi.UserManagement.Endpoints;
+namespace Presentation.WebApi.Emails.Endpoints;
 
-public class GetUsersSortableFields(
-    IUserService userService) : EndpointWithoutRequest<QueryFieldsResponseDto>
+public class GetEmailsSearchableFields(
+    IEmailService emailService) : EndpointWithoutRequest<QueryFieldsResponseDto>
 {
     public override void Configure()
     {
         Version(1);
-        Get(ApiRoutes.UserManagement.GetUsersSortableFields);
+        Get(ApiRoutes.Emails.GetEmailsSearchableFields);
         Roles(UserRole.Admin.ToString());
         EnableAntiforgery();
 
@@ -24,16 +24,16 @@ public class GetUsersSortableFields(
             .Produces((int)HttpStatusCode.Forbidden)
             .Produces<ProblemDetails>((int)HttpStatusCode.InternalServerError));
 
-        Summary(s => s.Summary = SwaggerSummaries.UserManagement.GetUsersSortableFields);
+        Summary(s => s.Summary = SwaggerSummaries.Emails.GetEmailsSearchableFields);
 
-        Options(x => x.WithTags(SwaggerTags.UserManagement));
+        Options(x => x.WithTags(SwaggerTags.Emails));
     }
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
         var queryFieldsResponseDto = new QueryFieldsResponseDto
         {
-            Fields = userService.GetSortableFields().Keys.ToArray()
+            Fields = emailService.GetSearchableFields().Keys.ToArray()
         };
 
         await SendAsync(queryFieldsResponseDto, cancellation: cancellationToken);

@@ -1,6 +1,5 @@
 using System.Data.Common;
 using BehaviouralTests.Mocks;
-using Core.Interfaces.Services;
 using FastEndpoints.Testing;
 using Infrastructure.Interfaces.Services;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +26,7 @@ public class TestFixture : AppFixture<Presentation.Program>
     protected override void ConfigureApp(IWebHostBuilder a)
     {
         a.UseEnvironment("Development");
+        a.UseConfiguration(ConfigurationHelper.Config);
     }
 
     protected override void ConfigureServices(IServiceCollection s)

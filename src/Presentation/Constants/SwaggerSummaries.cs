@@ -31,5 +31,7 @@ public static class SwaggerSummaries
     public static class Emails
     {
         public const string GetEmails = "Retrieves a paginated list of emails.";
+        public const string GetEmailsSortableFields = "Retrieves fields which can be used to sort emails.";
+        public const string GetEmailsSearchableFields = "Retrieves fields which can be used to search emails.";
     }
 }

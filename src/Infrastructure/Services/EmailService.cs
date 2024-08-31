@@ -26,6 +26,16 @@ public class EmailService(ISmtpClient smtpClient,
         return emailRepository.GetAllAsync<EmailMessage>(pagedRequest);
     }
 
+    public IDictionary<string, string> GetSortableFields()
+    {
+        return emailRepository.GetSortableFields();
+    }
+
+    public IDictionary<string, string> GetSearchableFields()
+    {
+        return emailRepository.GetSearchableFields();
+    }
+
     public async Task CreateAsync(EmailMessage emailMessage)
     {
         await emailRepository.CreateAsync(emailMessage);

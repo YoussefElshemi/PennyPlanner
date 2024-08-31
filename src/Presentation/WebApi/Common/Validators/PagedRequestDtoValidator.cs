@@ -37,13 +37,13 @@ public class PagedRequestDtoValidator<T> : AbstractValidator<PagedRequestDto>
             .When(x => !string.IsNullOrWhiteSpace(x.SortOrder));
 
         RuleFor(x => x.SortBy)
-            .Must(x => _repository.GetSortableFields().Contains(x!, StringComparer.OrdinalIgnoreCase))
-            .WithMessage(InvalidSortByErrorMessage(_repository.GetSortableFields()))
+            .Must(x => _repository.GetSortableFields().Values.Contains(x!, StringComparer.OrdinalIgnoreCase))
+            .WithMessage(InvalidSortByErrorMessage(_repository.GetSortableFields().Keys.ToList()))
             .When(x => !string.IsNullOrWhiteSpace(x.SortBy));
 
         RuleFor(x => x.SearchField)
-            .Must(x => _repository.GetSearchableFields().Contains(x!, StringComparer.OrdinalIgnoreCase))
-            .WithMessage(InvalidSearchFieldErrorMessage(_repository.GetSearchableFields()))
+            .Must(x => _repository.GetSearchableFields().Values.Contains(x!, StringComparer.OrdinalIgnoreCase))
+            .WithMessage(InvalidSearchFieldErrorMessage(_repository.GetSearchableFields().Keys.ToList()))
             .When(x => !string.IsNullOrWhiteSpace(x.SearchField))
             .DependentRules(() =>
             {

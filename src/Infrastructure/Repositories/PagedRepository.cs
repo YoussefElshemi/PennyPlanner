@@ -11,8 +11,8 @@ namespace Infrastructure.Repositories;
 public abstract class PagedRepository<T>(DbContext context, IMapper mapper) : IPagedRepository<T>
     where T : class
 {
-    public abstract List<string> GetSortableFields();
-    public abstract List<string> GetSearchableFields();
+    public abstract IDictionary<string, string> GetSortableFields();
+    public abstract IDictionary<string, string> GetSearchableFields();
 
     public async Task<int> GetCountAsync(PagedRequest pagedRequest)
     {
@@ -81,7 +81,11 @@ public abstract class PagedRepository<T>(DbContext context, IMapper mapper) : IP
         var parameter = Expression.Parameter(typeof(T), "e");
         var property = Expression.Property(parameter, pagedRequest.SearchField!);
         var toStringCall = Expression.Call(property, "ToString", null);
-        var toLowerCall = Expression.Call(toStringCall, "ToLower", null);
+        var toLowerCall = Expression.Call(
+            property.Type == typeof(string)
+                ? property
+                : toStringCall,
+            "ToLower", null);
         var searchValue = Expression.Constant(pagedRequest.SearchTerm.ToString()!.ToLower());
         var containsMethod = typeof(string).GetMethod("Contains", [typeof(string)]);
         var containsExpression = Expression.Call(toLowerCall, containsMethod!, searchValue);

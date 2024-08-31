@@ -48,6 +48,9 @@ public class GetUsers(
 
     public override async Task HandleAsync(PagedRequestDto pagedRequestDto, CancellationToken cancellationToken)
     {
+        pagedRequestDto = MapValuesToDatabaseValues(pagedRequestDto);
+        pagedRequestDto = MapPropertiesToDatabaseProperties(pagedRequestDto);
+
         var validator = new PagedRequestDtoValidator<User>(userRepository);
         await validator.ValidateAndThrowAsync(pagedRequestDto, cancellationToken);
 
@@ -58,5 +61,54 @@ public class GetUsers(
         var pagedResponseDto = pagedResponseMapper.Map<User, UserProfileResponseDto>(pagedResponse);
 
         await SendAsync(pagedResponseDto, cancellation: cancellationToken);
+    }
+
+    private PagedRequestDto MapPropertiesToDatabaseProperties(PagedRequestDto pagedRequestDto)
+    {
+        if (!string.IsNullOrWhiteSpace(pagedRequestDto.SearchField))
+        {
+            var searchableFields = userService.GetSearchableFields();
+            if (searchableFields.TryGetValue(pagedRequestDto.SearchField, out var field))
+            {
+                pagedRequestDto = pagedRequestDto with
+                {
+                    SearchField = field,
+                };
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(pagedRequestDto.SortBy))
+        {
+            var sortableFields = userService.GetSortableFields();
+            if (sortableFields.TryGetValue(pagedRequestDto.SortBy, out var field))
+            {
+                pagedRequestDto = pagedRequestDto with
+                {
+                    SortBy = field
+                };
+            }
+        }
+
+        return pagedRequestDto;
+    }
+
+    private PagedRequestDto MapValuesToDatabaseValues(PagedRequestDto pagedRequestDto)
+    {
+        if (!string.IsNullOrWhiteSpace(pagedRequestDto.SearchField) && !string.IsNullOrWhiteSpace(pagedRequestDto.SearchTerm))
+        {
+            var mappableValues = userService.GetMappableValues();
+            if (mappableValues.TryGetValue(pagedRequestDto.SearchField, out var values))
+            {
+                if (values.TryGetValue(pagedRequestDto.SearchTerm, out var value))
+                {
+                    pagedRequestDto = pagedRequestDto with
+                    {
+                        SearchTerm = value
+                    };
+                }
+            }
+        }
+
+        return pagedRequestDto;
     }
 }

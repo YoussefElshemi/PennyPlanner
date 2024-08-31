@@ -12,26 +12,27 @@ public class UserRepository(
 {
     private readonly IMapper _mapper = mapper;
 
-    public override List<string> GetSortableFields()
+    public override IDictionary<string, string> GetSortableFields()
     {
-        return
-        [
-            nameof(UserEntity.Username),
-            nameof(UserEntity.EmailAddress),
-            nameof(UserEntity.CreatedAt),
-            nameof(UserEntity.UpdatedAt)
-        ];
+        return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            { nameof(User.Username), nameof(UserEntity.Username) },
+            { nameof(User.EmailAddress), nameof(UserEntity.EmailAddress) },
+            { nameof(User.CreatedAt), nameof(UserEntity.CreatedAt) },
+            { nameof(User.UpdatedAt), nameof(UserEntity.UpdatedAt) }
+        };
     }
 
-    public override List<string> GetSearchableFields()
+    public override IDictionary<string, string> GetSearchableFields()
     {
-        return
-        [
-            nameof(UserEntity.Username),
-            nameof(UserEntity.EmailAddress),
-            nameof(UserEntity.CreatedBy),
-            nameof(UserEntity.UpdatedBy)
-        ];
+        return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            { nameof(User.Username), nameof(UserEntity.Username) },
+            { nameof(User.EmailAddress), nameof(UserEntity.EmailAddress) },
+            { nameof(User.UserRole), nameof(UserEntity.UserRoleId) },
+            { nameof(User.CreatedBy), nameof(UserEntity.CreatedBy) },
+            { nameof(User.UpdatedBy), nameof(UserEntity.UpdatedBy) }
+        };
     }
 
     public Task<bool> ExistsByIdAsync(Guid userId)

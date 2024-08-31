@@ -21,11 +21,17 @@ public class PagedRequestDtoValidatorTests : BaseTestClass
 
         _mockPageRepository
             .Setup(x => x.GetSortableFields())
-            .Returns(["Id"]);
+            .Returns(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "Id", "Id" }
+            });
 
         _mockPageRepository
             .Setup(x => x.GetSearchableFields())
-            .Returns(["Id"]);
+            .Returns(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "Id", "Id" }
+            });
 
         _validator = new PagedRequestDtoValidator<object>(_mockPageRepository.Object);
     }

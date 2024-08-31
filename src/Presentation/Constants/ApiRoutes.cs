@@ -31,5 +31,7 @@ public static class ApiRoutes
     public static class Emails
     {
         public const string GetEmails = "/emails";
+        public const string GetEmailsSearchableFields = "/emails/searchable-fields";
+        public const string GetEmailsSortableFields = "/emails/sortable-fields";
     }
 }

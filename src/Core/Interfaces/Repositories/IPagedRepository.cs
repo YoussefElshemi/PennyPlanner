@@ -6,6 +6,6 @@ public interface IPagedRepository<_>
 {
     Task<int> GetCountAsync(PagedRequest pagedRequest);
     Task<PagedResponse<TModel>> GetAllAsync<TModel>(PagedRequest pagedRequest) where TModel : class;
-    List<string> GetSortableFields();
-    List<string> GetSearchableFields();
+    IDictionary<string, string> GetSortableFields();
+    IDictionary<string, string> GetSearchableFields();
 }

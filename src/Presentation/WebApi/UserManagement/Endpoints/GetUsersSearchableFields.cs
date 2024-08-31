@@ -31,8 +31,11 @@ public class GetUsersSearchableFields(
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var QueryFieldsResponseDto = new QueryFieldsResponseDto { Fields = userService.GetSearchableFields().ToArray() };
+        var queryFieldsResponseDto = new QueryFieldsResponseDto
+        {
+            Fields = userService.GetSearchableFields().Keys.ToArray()
+        };
 
-        await SendAsync(QueryFieldsResponseDto, cancellation: cancellationToken);
+        await SendAsync(queryFieldsResponseDto, cancellation: cancellationToken);
     }
 }

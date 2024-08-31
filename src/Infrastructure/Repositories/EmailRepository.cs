@@ -43,19 +43,24 @@ public class EmailRepository(
         await context.SaveChangesAsync();
     }
 
-    public override List<string> GetSortableFields()
+    public override IDictionary<string, string> GetSortableFields()
     {
-        return
-        [
-            nameof(EmailMessageOutboxEntity.EmailAddress),
-            nameof(UserEntity.CreatedAt),
-            nameof(UserEntity.UpdatedAt)
-        ];
+        return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            { nameof(EmailMessage.EmailAddress), nameof(EmailMessageOutboxEntity.EmailAddress) },
+            { nameof(EmailMessage.CreatedAt), nameof(EmailMessageOutboxEntity.CreatedAt) },
+            { nameof(EmailMessage.UpdatedAt), nameof(EmailMessageOutboxEntity.UpdatedAt) }
+        };
     }
 
-    public override List<string> GetSearchableFields()
+    public override IDictionary<string, string> GetSearchableFields()
     {
-        return [];
+        return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            { nameof(EmailMessage.EmailAddress), nameof(EmailMessageOutboxEntity.EmailAddress) },
+            { nameof(EmailMessage.CreatedBy), nameof(EmailMessageOutboxEntity.CreatedBy) },
+            { nameof(EmailMessage.UpdatedBy), nameof(EmailMessageOutboxEntity.UpdatedBy) }
+        };
     }
 
     public async Task<IEnumerable<EmailMessage>> GetAwaitingEmailsAsync()

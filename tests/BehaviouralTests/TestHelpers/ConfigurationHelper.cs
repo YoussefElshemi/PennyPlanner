@@ -6,9 +6,10 @@ public static class ConfigurationHelper
 {
     private const string SettingsFile = "appsettings.Testing.json";
 
-    private static readonly IConfigurationRoot Config =
+    public static readonly IConfigurationRoot Config =
         new ConfigurationBuilder()
             .AddJsonFile(SettingsFile, optional: false)
+            .AddEnvironmentVariables()
             .Build();
 
     internal static string GetConnectionString(string connectionString)

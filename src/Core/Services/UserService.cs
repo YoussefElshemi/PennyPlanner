@@ -42,14 +42,28 @@ public class UserService(
         return repository.GetCountAsync(pagedRequest);
     }
 
-    public List<string> GetSortableFields()
+    public IDictionary<string, string> GetSortableFields()
     {
         return repository.GetSortableFields();
     }
 
-    public List<string> GetSearchableFields()
+    public IDictionary<string, string> GetSearchableFields()
     {
         return repository.GetSearchableFields();
+    }
+
+    public IDictionary<string, Dictionary<string, string>> GetMappableValues()
+    {
+        return new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase)
+        {
+            {
+                nameof(User.UserRole), new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    { UserRole.User.ToString(), ((int)UserRole.User).ToString() },
+                    { UserRole.Admin.ToString(), ((int)UserRole.Admin).ToString() }
+                }
+            }
+        };
     }
 
     public Task<PagedResponse<User>> GetAllAsync(PagedRequest pagedRequest)
