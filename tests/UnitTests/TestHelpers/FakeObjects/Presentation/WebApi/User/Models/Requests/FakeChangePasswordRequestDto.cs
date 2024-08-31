@@ -9,6 +9,7 @@ public static class FakeChangePasswordRequestDto
     {
         return new ChangePasswordRequestDto
         {
+            CurrentPassword = FakePassword.Valid,
             Password = FakePassword.Valid,
             ConfirmPassword = FakePassword.Valid
         };
@@ -18,6 +19,7 @@ public static class FakeChangePasswordRequestDto
     {
         return new ChangePasswordRequestDto
         {
+            CurrentPassword = FakePassword.Invalid,
             Password = FakePassword.Invalid,
             ConfirmPassword = FakePassword.Invalid
         };

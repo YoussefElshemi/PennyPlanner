@@ -4,6 +4,7 @@ using Core.Helpers;
 using Core.Services;
 using Core.ValueObjects;
 using Infrastructure.Entities;
+using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 
 namespace UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
 
@@ -11,7 +12,7 @@ public static class FakeUserEntity
 {
     public static UserEntity CreateValid(IFixture fixture)
     {
-        var password = fixture.Create<string>();
+        var password = FakePassword.Valid;
         var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));
         var passwordHash = AuthenticationService.HashPassword(new Password(password), passwordSalt);
 

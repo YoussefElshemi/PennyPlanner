@@ -32,6 +32,10 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
             Password = ""
         };
 
+        _mockAuthenticationService
+            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
+            .Returns(true);
+
         // Act
         var result = await _validator.TestValidateAsync(changePasswordRequestDto);
 
@@ -49,6 +53,10 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
             ConfirmPassword = string.Join("", FakePassword.Valid.ToCharArray().Reverse())
         };
 
+        _mockAuthenticationService
+            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
+            .Returns(true);
+
         // Act
         var result = await _validator.TestValidateAsync(changePasswordRequestDto);
 
@@ -64,7 +72,8 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
         var changePasswordRequestDto = FakeChangePasswordRequestDto.CreateValid();
 
         _mockAuthenticationService
-            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
+            .SetupSequence(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
+            .Returns(true)
             .Returns(true);
 
         // Act
@@ -76,13 +85,34 @@ public class ChangePasswordRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
+    public async Task ValidateAsync_PasswordIncorrect_ReturnsError()
+    {
+        // Arrange
+        var changePasswordRequestDto = FakeChangePasswordRequestDto.CreateValid();
+
+        _mockAuthenticationService
+            .SetupSequence(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
+            .Returns(false)
+            .Returns(true);
+
+
+        // Act
+        var result = await _validator.TestValidateAsync(changePasswordRequestDto);
+
+        // Assert
+        result.ShouldHaveAnyValidationError()
+            .WithErrorMessage(ChangePasswordRequestDtoValidator.PasswordIncorrectErrorMessage);
+    }
+
+    [Fact]
     public async Task ValidateAsync_ValidRequest_IsValid()
     {
         // Arrange
         var changePasswordRequestDto = FakeChangePasswordRequestDto.CreateValid();
 
         _mockAuthenticationService
-            .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
+            .SetupSequence(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))
+            .Returns(true)
             .Returns(false);
 
         // Act

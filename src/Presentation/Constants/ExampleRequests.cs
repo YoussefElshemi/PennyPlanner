@@ -58,6 +58,7 @@ public static class ExampleRequests
 
         public static readonly ChangePasswordRequestDto ChangePassword = new()
         {
+            CurrentPassword = "P@$$w0rd",
             Password = "P@$$w0rd",
             ConfirmPassword = "P@$$w0rd"
         };

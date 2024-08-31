@@ -8,6 +8,12 @@ namespace Presentation.WebApi.AuthenticatedUser.Models.Requests;
 public record ChangePasswordRequestDto
 {
     /// <summary>
+    ///     The current password of the user.
+    /// </summary>
+    [Required]
+    public required string CurrentPassword { get; init; }
+
+    /// <summary>
     ///     The new password the user wants to set.
     /// </summary>
     [Required]

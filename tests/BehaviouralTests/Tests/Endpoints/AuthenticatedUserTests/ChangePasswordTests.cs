@@ -89,7 +89,10 @@ public class ChangePasswordTests : TestBase<TestFixture>
     public async Task ChangePassword_InvalidRequest_ReturnsBadRequest()
     {
         // Arrange
-        var updateUserRequest = FakeChangePasswordRequestDto.CreateInvalid();
+        var updateUserRequest = FakeChangePasswordRequestDto.CreateInvalid() with
+        {
+            CurrentPassword = FakePassword.Valid
+        };
         var user = FakeUser.CreateValid(_fixture) with
         {
             IsDeleted = new IsDeleted(false)

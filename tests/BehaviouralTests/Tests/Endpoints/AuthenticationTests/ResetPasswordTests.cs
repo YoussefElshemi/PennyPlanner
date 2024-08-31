@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Presentation.WebApi.Authentication.Endpoints;
 using Presentation.WebApi.Authentication.Models.Requests;
 using Presentation.WebApi.Authentication.Validators;
+using UnitTests.TestHelpers.FakeObjects.Core.ValueObjects;
 using UnitTests.TestHelpers.FakeObjects.Infrastructure.Entities;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
 using Xunit;
@@ -132,6 +133,7 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         // Arrange
         var resetPasswordRequest = FakeResetPasswordRequestDto.CreateValid(_fixture) with
         {
+            Password = string.Join("", FakePassword.Valid.ToCharArray().Reverse()),
             ConfirmPassword = string.Empty
         };
 
@@ -158,7 +160,12 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
     public async Task ResetPassword_GivenValidRequest_ReturnsNoContent()
     {
         // Arrange
-        var resetPasswordRequest = FakeResetPasswordRequestDto.CreateValid(_fixture);
+        var newPassword = string.Join("", FakePassword.Valid.ToCharArray().Reverse());
+        var resetPasswordRequest = FakeResetPasswordRequestDto.CreateValid(_fixture) with
+        {
+            Password = newPassword,
+            ConfirmPassword = newPassword
+        };
         var existingPasswordResetEntity = FakePasswordResetEntity.CreateValid(_fixture) with
         {
             ResetToken = resetPasswordRequest.PasswordResetToken,
