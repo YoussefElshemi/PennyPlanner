@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Presentation.WebApi.Common.Models;
+namespace Presentation.WebApi.Common.Models.Responses;
 
 /// <summary>
 ///     DTO for specifying fields that can be used for searching or sorting.

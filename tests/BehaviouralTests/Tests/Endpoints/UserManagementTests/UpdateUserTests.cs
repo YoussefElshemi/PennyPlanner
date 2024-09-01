@@ -11,7 +11,7 @@ using Infrastructure;
 using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Presentation.WebApi.Common.Models;
+using Presentation.WebApi.Common.Models.Responses;
 using Presentation.WebApi.UserManagement.Endpoints;
 using Presentation.WebApi.UserManagement.Models.Requests;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;

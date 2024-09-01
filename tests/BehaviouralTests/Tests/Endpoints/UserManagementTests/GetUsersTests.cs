@@ -9,7 +9,6 @@ using FastEndpoints.Testing;
 using FluentAssertions;
 using Infrastructure.Entities;
 using Presentation.WebApi.AuthenticatedUser.Models.Responses;
-using Presentation.WebApi.Common.Models;
 using Presentation.WebApi.Common.Models.Requests;
 using Presentation.WebApi.Common.Models.Responses;
 using Presentation.WebApi.UserManagement.Endpoints;

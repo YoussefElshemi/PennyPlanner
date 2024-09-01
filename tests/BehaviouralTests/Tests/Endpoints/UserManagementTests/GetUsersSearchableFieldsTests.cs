@@ -8,7 +8,7 @@ using FastEndpoints;
 using FastEndpoints.Testing;
 using FluentAssertions;
 using Infrastructure.Entities;
-using Presentation.WebApi.Common.Models;
+using Presentation.WebApi.Common.Models.Responses;
 using Presentation.WebApi.UserManagement.Endpoints;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using Xunit;

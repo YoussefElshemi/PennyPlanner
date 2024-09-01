@@ -3,7 +3,7 @@ using Core.Enums;
 using Core.Interfaces.Services;
 using FastEndpoints;
 using Presentation.Constants;
-using Presentation.WebApi.Common.Models;
+using Presentation.WebApi.Common.Models.Responses;
 using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace Presentation.WebApi.UserManagement.Endpoints;
