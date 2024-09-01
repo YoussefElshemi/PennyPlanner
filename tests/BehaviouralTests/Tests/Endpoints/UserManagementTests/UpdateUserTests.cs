@@ -59,7 +59,7 @@ public class UpdateUserTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UpdateUserRequestDto>(updateUserRequest);
+        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UserManagementUpdateUserRequestDto>(updateUserRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -123,7 +123,7 @@ public class UpdateUserTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UpdateUserRequestDto>(updateUserRequest);
+        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UserManagementUpdateUserRequestDto>(updateUserRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -159,7 +159,7 @@ public class UpdateUserTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UpdateUserRequestDto>(updateUserRequest);
+        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UserManagementUpdateUserRequestDto>(updateUserRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -189,7 +189,7 @@ public class UpdateUserTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UpdateUserRequestDto>(updateUserRequest);
+        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UserManagementUpdateUserRequestDto>(updateUserRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -226,7 +226,7 @@ public class UpdateUserTests : TestBase<TestFixture>
 
         // Act
         _testFixture.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UpdateUserRequestDto>(updateUserRequest);
+        var httpResponseMessage = await _testFixture.Client.PUTAsync<UpdateUser, UserManagementUpdateUserRequestDto>(updateUserRequest);
 
         // Assert
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);

@@ -1,9 +1,9 @@
+using Core.Enums;
 using Presentation.WebApi.AuthenticatedUser.Models.Requests;
 using Presentation.WebApi.Authentication.Models.Requests;
 using Presentation.WebApi.Common.Models.Requests;
 using Presentation.WebApi.UserManagement.Models.Requests;
 using UpdateUserRequestDto = Presentation.WebApi.AuthenticatedUser.Models.Requests.UpdateUserRequestDto;
-using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
 
 namespace Presentation.Constants;
 
@@ -77,11 +77,12 @@ public static class ExampleRequests
             UserId = Guid.NewGuid()
         };
 
-        public static readonly UserManagementUpdateUserRequestDto UpdateUser = new()
+        public static readonly UserManagementUpdateUserRequestDto UserManagementUpdateUser = new()
         {
             UserId = Guid.NewGuid(),
             Username = "username",
-            EmailAddress = "username@mail.com"
+            EmailAddress = "username@mail.com",
+            UserRole = UserRole.User.ToString()
         };
     }
 

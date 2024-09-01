@@ -12,11 +12,10 @@ using Presentation.Constants;
 using Presentation.Factories;
 using Presentation.WebApi.AuthenticatedUser.Models.Responses;
 using Presentation.WebApi.AuthenticatedUser.Validators;
+using Presentation.WebApi.UserManagement.Models.Requests;
 using Presentation.WebApi.UserManagement.Validators;
 using IMapper = AutoMapper.IMapper;
 using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
-using UpdateUserRequestDto = Presentation.WebApi.AuthenticatedUser.Models.Requests.UpdateUserRequestDto;
-using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
 
 namespace Presentation.WebApi.UserManagement.Endpoints;
 
@@ -34,7 +33,7 @@ public class UpdateUser(
         EnableAntiforgery();
 
         Description(b => b
-            .Accepts<UpdateUserRequestDto>(MediaTypeNames.Application.Json)
+            .Accepts<UserManagementUpdateUserRequestDto>(MediaTypeNames.Application.Json)
             .Produces<UserProfileResponseDto>()
             .Produces<ValidationProblemDetails>((int)HttpStatusCode.BadRequest)
             .Produces((int)HttpStatusCode.Unauthorized)
@@ -45,19 +44,19 @@ public class UpdateUser(
         Summary(s =>
         {
             s.Summary = SwaggerSummaries.UserManagement.UpdateUser;
-            s.ExampleRequest = ExampleRequests.UserManagement.UpdateUser;
+            s.ExampleRequest = ExampleRequests.UserManagement.UserManagementUpdateUser;
         });
 
         Options(x => x.WithTags(SwaggerTags.UserManagement));
     }
 
-    public override async Task HandleAsync(UserManagementUpdateUserRequestDto updateUserRequestDto, CancellationToken cancellationToken)
+    public override async Task HandleAsync(UserManagementUpdateUserRequestDto userManagementUpdateUserRequestDto, CancellationToken cancellationToken)
     {
         var authenticatedUser = HttpContext.Items["User"] as User;
 
-        var user = await ValidateAndThrowAsync(updateUserRequestDto, authenticatedUser!);
+        var user = await ValidateAndThrowAsync(userManagementUpdateUserRequestDto, authenticatedUser!);
 
-        var updateUserRequest = UpdateUserRequestFactory.Create(user, updateUserRequestDto);
+        var updateUserRequest = UserManagementUpdateUserRequestFactory.Create(user, userManagementUpdateUserRequestDto);
         updateUserRequest = updateUserRequest with
         {
             UpdatedBy = user.UserId == authenticatedUser!.UserId ? updateUserRequest.Username : authenticatedUser.Username,
@@ -71,15 +70,15 @@ public class UpdateUser(
         await SendAsync(response, cancellation: cancellationToken);
     }
 
-    private async Task<User> ValidateAndThrowAsync(UserManagementUpdateUserRequestDto updateUserRequestDto, User authenticatedUser)
+    private async Task<User> ValidateAndThrowAsync(UserManagementUpdateUserRequestDto userManagementUpdateUserRequestDto, User authenticatedUser)
     {
         var userManagementValidator = new UserManagementUpdateUserRequestDtoValidator(userRepository, authenticatedUser);
-        await userManagementValidator.ValidateAndThrowAsync(updateUserRequestDto);
+        await userManagementValidator.ValidateAndThrowAsync(userManagementUpdateUserRequestDto);
 
-        var user = await userService.GetAsync(new UserId(updateUserRequestDto.UserId));
+        var user = await userService.GetAsync(new UserId(userManagementUpdateUserRequestDto.UserId));
 
         var validator = new UpdateUserRequestDtoValidator(userRepository, user);
-        await validator.ValidateAndThrowAsync(updateUserRequestDto);
+        await validator.ValidateAndThrowAsync(userManagementUpdateUserRequestDto);
 
         return user;
     }

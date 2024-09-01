@@ -83,7 +83,121 @@ public class UserManagementUpdateUserRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task ValidateAsync_UserIsAdminButUpdatingAlsoAuthenticatedUser_ReturnsError()
+    public async Task ValidateAsync_UserRoleIsInvalid_ReturnsError()
+    {
+        // Arrange
+        var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid(Fixture) with
+        {
+            UserId = _authenticatedUser.UserId,
+            UserRole = "invalid"
+        };
+
+        var user = FakeUser.CreateValid(Fixture);
+
+        _mockUserRepository
+            .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        _mockUserRepository
+            .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(user);
+
+        // Act
+        var result = await _validator.TestValidateAsync(updateUserRequestDto);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.UserRole)
+            .WithErrorMessage(UserManagementUpdateUserRequestDtoValidator.InvalidUserRoleErrorMessage);
+    }
+
+    [Fact]
+    public async Task ValidateAsync_UserRoleDidNotChange_ReturnsError()
+    {
+        // Arrange
+        var user = FakeUser.CreateValid(Fixture);
+        var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid(Fixture) with
+        {
+            UserId = _authenticatedUser.UserId,
+            UserRole = user.UserRole.ToString()
+        };
+
+        _mockUserRepository
+            .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        _mockUserRepository
+            .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(user);
+
+        // Act
+        var result = await _validator.TestValidateAsync(updateUserRequestDto);
+
+        // Assert
+        result.ShouldHaveAnyValidationError()
+            .WithErrorMessage(UserManagementUpdateUserRequestDtoValidator.FieldDidNotUpdateErrorMessage(nameof(UserRole)));
+    }
+
+    [Fact]
+    public async Task ValidateAsync_CanNotUpdateAdminUserRole_ReturnsError()
+    {
+        // Arrange
+        var user = FakeUser.CreateValid(Fixture) with
+        {
+            UserRole = UserRole.Admin
+        };
+        var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid(Fixture) with
+        {
+            UserId = _authenticatedUser.UserId,
+            UserRole = UserRole.User.ToString()
+        };
+
+        _mockUserRepository
+            .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        _mockUserRepository
+            .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(user);
+
+        // Act
+        var result = await _validator.TestValidateAsync(updateUserRequestDto);
+
+        // Assert
+        result.ShouldHaveAnyValidationError()
+            .WithErrorMessage(UserManagementUpdateUserRequestDtoValidator.CanNotUpdateAdminErrorMessage);
+    }
+
+    [Fact]
+    public async Task ValidateAsync_UpdateUserToAdmin_IsValid()
+    {
+        // Arrange
+        var user = FakeUser.CreateValid(Fixture) with
+        {
+            UserRole = UserRole.User
+        };
+        var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid(Fixture) with
+        {
+            UserId = _authenticatedUser.UserId,
+            UserRole = UserRole.Admin.ToString()
+        };
+
+        _mockUserRepository
+            .Setup(x => x.ExistsByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        _mockUserRepository
+            .Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(user);
+
+        // Act
+        var result = await _validator.TestValidateAsync(updateUserRequestDto);
+
+        // Assert
+        result.ShouldNotHaveAnyValidationErrors();
+    }
+
+    [Fact]
+    public async Task ValidateAsync_UserIsAdminButUpdatingAlsoAuthenticatedUser_IsValid()
     {
         // Arrange
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid(Fixture) with

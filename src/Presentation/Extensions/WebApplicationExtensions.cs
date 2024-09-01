@@ -18,6 +18,9 @@ public static class WebApplicationExtensions
         app.UseCors();
         app.UseFastEndpoints(c =>
         {
+            var appConfig = new AppConfig();
+            app.Configuration.GetSection(nameof(AppConfig)).Bind(appConfig);
+
             c.Endpoints.RoutePrefix = "api";
             c.Security.RoleClaimType = ClaimTypes.Role;
             c.Versioning.Prefix = "v";
@@ -27,17 +30,12 @@ public static class WebApplicationExtensions
             c.Endpoints.Configurator = e =>
             {
                 e.PreProcessor<AuthenticationPreProcessor>(Order.Before);
-            };
 
-            var appConfig = new AppConfig();
-            app.Configuration.GetSection(nameof(AppConfig)).Bind(appConfig);
-            if (appConfig.ServiceConfig.Environment == Core.Configs.Environment.Local)
-            {
-                c.Endpoints.Configurator = ep =>
+                if (appConfig.ServiceConfig.Environment == Core.Configs.Environment.Local)
                 {
-                    ep.Roles(UserRole.User.ToString());
-                };
-            }
+                    e.Roles(UserRole.User.ToString());
+                }
+            };
         });
 
         app.UseExceptionHandler();

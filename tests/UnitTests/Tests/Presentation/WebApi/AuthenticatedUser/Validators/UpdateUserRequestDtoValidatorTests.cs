@@ -22,24 +22,6 @@ public class UpdateUserRequestDtoValidatorTests : BaseTestClass
     }
 
     [Fact]
-    public async Task ValidateAsync_NoFieldsProvided_ReturnsError()
-    {
-        // Arrange
-        var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid() with
-        {
-            Username = null,
-            EmailAddress = null
-        };
-
-        // Act
-        var result = await _validator.TestValidateAsync(updateUserRequestDto);
-
-        // Assert
-        result.ShouldHaveAnyValidationError()
-            .WithErrorMessage(UpdateUserRequestDtoValidator.AtLeastOneFieldProvidedErrorMessage);
-    }
-
-    [Fact]
     public async Task ValidateAsync_EmailAddressIsCurrentEmailAddress_ReturnsError()
     {
         // Arrange

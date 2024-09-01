@@ -7,7 +7,7 @@ using Presentation.WebApi.Authentication.Models.Requests;
 using Presentation.WebApi.Authentication.Models.Responses;
 using Presentation.WebApi.Common.Models.Requests;
 using Presentation.WebApi.Emails.Models;
-using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
+using Presentation.WebApi.UserManagement.Models.Requests;
 
 namespace Presentation.Mappers;
 

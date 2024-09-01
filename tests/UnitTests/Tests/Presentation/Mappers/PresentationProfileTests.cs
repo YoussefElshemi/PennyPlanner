@@ -7,13 +7,13 @@ using Presentation.Mappers;
 using Presentation.WebApi.AuthenticatedUser.Models.Responses;
 using Presentation.WebApi.Authentication.Models.Responses;
 using Presentation.WebApi.Emails.Models;
+using Presentation.WebApi.UserManagement.Models.Requests;
 using UnitTests.TestHelpers;
 using UnitTests.TestHelpers.FakeObjects.Core.Models;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Authentication.Models.Requests;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.Common.Models.Requests;
 using UnitTests.TestHelpers.FakeObjects.Presentation.WebApi.User.Models.Requests;
 using UpdateUserRequestDto = Presentation.WebApi.AuthenticatedUser.Models.Requests.UpdateUserRequestDto;
-using UserManagementUpdateUserRequestDto = Presentation.WebApi.UserManagement.Models.Requests.UpdateUserRequestDto;
 
 namespace UnitTests.Tests.Presentation.Mappers;
 
