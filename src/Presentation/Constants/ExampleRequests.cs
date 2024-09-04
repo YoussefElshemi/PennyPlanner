@@ -77,6 +77,11 @@ public static class ExampleRequests
             UserId = Guid.NewGuid()
         };
 
+        public static readonly UserRequestDto GetUser = new()
+        {
+            UserId = Guid.NewGuid()
+        };
+
         public static readonly UserManagementUpdateUserRequestDto UserManagementUpdateUser = new()
         {
             UserId = Guid.NewGuid(),
