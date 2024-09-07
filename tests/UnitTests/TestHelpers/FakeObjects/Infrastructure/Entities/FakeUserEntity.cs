@@ -24,6 +24,7 @@ public static class FakeUserEntity
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
             UserRoleId = (int)fixture.Create<UserRole>(),
+            IsTwoFactorAuthenticationEnabled = fixture.Create<bool>(),
             CreatedBy = fixture.Create<string>(),
             CreatedAt = fixture.Create<DateTime>(),
             UpdatedBy = fixture.Create<string>(),

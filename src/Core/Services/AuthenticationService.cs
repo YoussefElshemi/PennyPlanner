@@ -16,6 +16,7 @@ namespace Core.Services;
 public class AuthenticationService(
     IUserService userService,
     IPasswordResetService passwordResetService,
+    IOneTimePasscodeService oneTimePasscodeService,
     ILoginService loginService,
     TimeProvider timeProvider,
     IOptions<AppConfig> config) : IAuthenticationService
@@ -28,9 +29,8 @@ public class AuthenticationService(
         return HandleAuthentication(login);
     }
 
-    public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest authenticationRequest)
+    public async Task<AuthenticationResponse> AuthenticateAsync(User user, AuthenticationRequest authenticationRequest)
     {
-        var user = await userService.GetAsync(authenticationRequest.Username);
         var login = await loginService.CreateAsync(user, authenticationRequest.IpAddress);
 
         return HandleAuthentication(login);
@@ -40,6 +40,29 @@ public class AuthenticationService(
     {
         var login = await loginService.GetAsync(refreshTokenRequest.RefreshToken);
         return HandleAuthentication(login);
+    }
+
+    public async Task<AuthenticationResponse> TwoFactorAuthenticationAsync(TwoFactorRequest twoFactorRequest)
+    {
+        var user = await userService.GetAsync(twoFactorRequest.Username);
+        var oneTimePasscode = await oneTimePasscodeService.GetAsync(user.UserId, twoFactorRequest.Passcode);
+        var login = await loginService.CreateAsync(user, twoFactorRequest.IpAddress);
+
+        oneTimePasscode = oneTimePasscode with
+        {
+            IsUsed = new IsUsed(true),
+            UpdatedBy = user.Username,
+            UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
+        };
+
+        await oneTimePasscodeService.UpdateAsync(oneTimePasscode);
+
+        return HandleAuthentication(login);
+    }
+
+    public async Task RequestTwoFactorAsync(User user, AuthenticationRequest authenticationRequest)
+    {
+        await oneTimePasscodeService.InitiateAsync(user, authenticationRequest.IpAddress);
     }
 
     public async Task RevokeToken(RefreshTokenRequest refreshTokenRequest)

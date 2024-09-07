@@ -57,19 +57,19 @@ public class ResetPasswordRequestDtoValidator : AbstractValidator<ResetPasswordR
 
     private Task<bool> PasswordResetRequestExists(string passwordResetToken)
     {
-        return _passwordResetRepository.ExistsAsync(new PasswordResetToken(passwordResetToken));
+        return _passwordResetRepository.ExistsAsync(passwordResetToken);
     }
 
     private async Task<bool> PasswordResetRequestNotUsed(string passwordResetToken)
     {
-        var passwordReset = await _passwordResetRepository.GetAsync(new PasswordResetToken(passwordResetToken));
+        var passwordReset = await _passwordResetRepository.GetAsync(passwordResetToken);
 
         return !passwordReset.IsUsed;
     }
 
     private async Task<bool> PasswordResetRequestNotExpired(string passwordResetToken)
     {
-        var passwordReset = await _passwordResetRepository.GetAsync(new PasswordResetToken(passwordResetToken));
+        var passwordReset = await _passwordResetRepository.GetAsync(passwordResetToken);
 
         return passwordReset.ExpiresAt >= _timeProvider.GetUtcNow().UtcDateTime;
     }

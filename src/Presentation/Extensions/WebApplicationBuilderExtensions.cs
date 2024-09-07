@@ -40,6 +40,8 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<IPasswordResetService, PasswordResetService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ILoginService, LoginService>();
+        services.AddScoped<IOneTimePasscodeService, OneTimePasscodeService>();
+
         services.AddSingleton<IPagedResponseMapper, PagedResponseMapper>();
         services.AddSingleton<ISmtpClient, SmtpClientWrapper>();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -56,6 +58,7 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<ILoginRepository, LoginRepository>();
         services.AddScoped<IPasswordResetRepository, PasswordResetRepository>();
         services.AddScoped<IEmailRepository, EmailRepository>();
+        services.AddScoped<IOneTimePasscodeRepository, OneTimePasscodeRepository>();
 
         return services;
     }

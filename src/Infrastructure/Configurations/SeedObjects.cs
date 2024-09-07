@@ -34,6 +34,7 @@ public static class SeedObjects
             PasswordHash = string.Empty,
             PasswordSalt = string.Empty,
             UserRoleId = (int)UserRole.Admin,
+            IsTwoFactorAuthenticationEnabled = false,
             IsDeleted = false,
             DeletedBy = null,
             DeletedAt = null,

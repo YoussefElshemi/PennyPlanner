@@ -184,7 +184,8 @@ public class UpdateUserTests : TestBase<TestFixture>
         {
             UserId = user.UserId,
             Username = string.Join("", user.Username.ToString().ToCharArray().Reverse()),
-            EmailAddress = null
+            EmailAddress = null,
+            UserRole = null
         };
 
         // Act
@@ -221,7 +222,8 @@ public class UpdateUserTests : TestBase<TestFixture>
         {
             UserId = userToUpdate.UserId,
             Username = string.Join("", user.Username.ToString().ToCharArray().Reverse()),
-            EmailAddress = null
+            EmailAddress = null,
+            UserRole = null
         };
 
         // Act

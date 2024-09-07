@@ -1,3 +1,4 @@
+using AutoFixture;
 using Core.Enums;
 using Core.Interfaces.Repositories;
 using Core.Models;
@@ -202,11 +203,14 @@ public class UserManagementUpdateUserRequestDtoValidatorTests : BaseTestClass
         // Arrange
         var updateUserRequestDto = FakeUpdateUserRequestDto.CreateValid(Fixture) with
         {
-            UserId = _authenticatedUser.UserId
+            UserId = _authenticatedUser.UserId,
+            Username = Fixture.Create<string>(),
+            UserRole = null
         };
 
         var user = FakeUser.CreateValid(Fixture) with
         {
+            UserId = _authenticatedUser.UserId,
             UserRole = UserRole.Admin
         };
 

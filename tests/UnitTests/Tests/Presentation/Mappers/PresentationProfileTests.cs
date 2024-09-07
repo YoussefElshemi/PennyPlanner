@@ -148,7 +148,7 @@ public class PresentationProfileTests : BaseTestClass
     }
 
     [Fact]
-    public void Map_GivenUpdateUserRequestDto_ReturnsResetPasswordRequest()
+    public void Map_GivenUpdateUserRequestDto_ReturnsUserManagementUpdateUserRequestDto()
     {
         // Arrange
         var userId = Fixture.Create<Guid>();
@@ -202,5 +202,21 @@ public class PresentationProfileTests : BaseTestClass
         emailMessageResponseDto.CreatedAt.Should().Be(emailMessage.CreatedAt.ToString());
         emailMessageResponseDto.UpdatedBy.Should().Be(emailMessage.UpdatedBy.ToString());
         emailMessageResponseDto.UpdatedAt.Should().Be(emailMessage.UpdatedAt.ToString());
+    }
+
+    [Fact]
+    public void Map_GivenTwoFactorRequestDto_ReturnsTwoFactorRequest()
+    {
+        // Arrange
+        var twoFactorRequestDto = FakeTwoFactorRequestDto.CreateValid(Fixture);
+        var ipAddress = Fixture.Create<string>();
+
+        // Act
+        var twoFactorRequest = _mapper.Map<TwoFactorRequest>(twoFactorRequestDto, opt => { opt.Items["IpAddress"] = ipAddress; });
+
+        // Assert
+        twoFactorRequest.IpAddress.Should().Be(new IpAddress(ipAddress));
+        twoFactorRequest.Username.Should().Be(new Username(twoFactorRequestDto.Username));
+        twoFactorRequest.Passcode.Should().Be(new Passcode(twoFactorRequestDto.Passcode));
     }
 }

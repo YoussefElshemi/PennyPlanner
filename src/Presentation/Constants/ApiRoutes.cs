@@ -5,6 +5,7 @@ public static class ApiRoutes
     public static class Authentication
     {
         public const string Login = "/auth/login";
+        public const string TwoFactor = "/auth/two-factor";
         public const string Register = "/auth/register";
         public const string RefreshToken = "/auth/refresh-token";
         public const string RevokeRefreshToken = "/auth/revoke-refresh-token";

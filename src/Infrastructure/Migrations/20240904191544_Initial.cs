@@ -62,6 +62,7 @@ namespace Infrastructure.Migrations
                     PasswordHash = table.Column<string>(type: "text", nullable: false),
                     PasswordSalt = table.Column<string>(type: "text", nullable: false),
                     UserRoleId = table.Column<int>(type: "integer", nullable: false),
+                    IsTwoFactorAuthenticationEnabled = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: false),
@@ -111,14 +112,41 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OneTimePasscodes",
+                columns: table => new
+                {
+                    OneTimePasscodeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IpAddress = table.Column<string>(type: "text", nullable: false),
+                    Passcode = table.Column<string>(type: "text", nullable: false),
+                    IsUsed = table.Column<bool>(type: "boolean", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "text", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OneTimePasscodes", x => x.OneTimePasscodeId);
+                    table.ForeignKey(
+                        name: "FK_OneTimePasscodes_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PasswordResets",
                 columns: table => new
                 {
                     PasswordResetId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     ResetToken = table.Column<string>(type: "text", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsUsed = table.Column<bool>(type: "boolean", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: false),
@@ -141,18 +169,23 @@ namespace Infrastructure.Migrations
                 columns: new[] { "UserRoleId", "CreatedAt", "CreatedBy", "Name", "UpdatedAt", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2131), "System", "User", new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2467), "System" },
-                    { 2, new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2917), "System", "Admin", new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2918), "System" }
+                    { 1, new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3168), "System", "User", new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3502), "System" },
+                    { 2, new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3941), "System", "Admin", new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3942), "System" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "CreatedAt", "CreatedBy", "DeletedAt", "DeletedBy", "EmailAddress", "IsDeleted", "PasswordHash", "PasswordSalt", "UpdatedAt", "UpdatedBy", "UserRoleId", "Username" },
-                values: new object[] { new Guid("6d53e3ae-7172-47b6-9208-c5f1793d3dab"), new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(5807), "System", null, null, "admin@admin.com", false, "", "", new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(5809), "System", 2, "admin" });
+                columns: new[] { "UserId", "CreatedAt", "CreatedBy", "DeletedAt", "DeletedBy", "EmailAddress", "IsDeleted", "IsTwoFactorAuthenticationEnabled", "PasswordHash", "PasswordSalt", "UpdatedAt", "UpdatedBy", "UserRoleId", "Username" },
+                values: new object[] { new Guid("f71d20e7-8880-4202-ad50-9ee88ac4e7d1"), new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(7272), "System", null, null, "admin@admin.com", false, false, "", "", new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(7274), "System", 2, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_UserId",
                 table: "Logins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OneTimePasscodes_UserId",
+                table: "OneTimePasscodes",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -186,6 +219,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Logins");
+
+            migrationBuilder.DropTable(
+                name: "OneTimePasscodes");
 
             migrationBuilder.DropTable(
                 name: "PasswordResets");

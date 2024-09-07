@@ -27,6 +27,12 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
+            .HasMany(e => e.OneTimePasscodes)
+            .WithOne(e => e.UserEntity)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
             .HasMany(e => e.Logins)
             .WithOne(e => e.UserEntity)
             .HasForeignKey(x => x.UserId)

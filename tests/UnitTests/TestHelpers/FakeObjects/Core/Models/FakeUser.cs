@@ -24,6 +24,7 @@ public static class FakeUser
             PasswordSalt = passwordSalt,
             PasswordHash = new PasswordHash(passwordHash),
             UserRole = fixture.Create<UserRole>(),
+            IsTwoFactorAuthenticationEnabled = FakeIsTwoFactorAuthenticationEnabled.CreateValid(fixture),
             IsDeleted = FakeIsDeleted.CreateValid(fixture),
             DeletedBy = FakeUsername.CreateValid(),
             DeletedAt = FakeDeletedAt.CreateValid(fixture),

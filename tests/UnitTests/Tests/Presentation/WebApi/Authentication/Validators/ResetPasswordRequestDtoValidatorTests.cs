@@ -177,7 +177,10 @@ public class ResetPasswordRequestDtoValidatorTests : BaseTestClass
     {
         // Arrange
         var resetPasswordRequestDto = FakeResetPasswordRequestDto.CreateValid(Fixture);
-        var passwordReset = FakePasswordReset.CreateValid(Fixture);
+        var passwordReset = FakePasswordReset.CreateValid(Fixture) with
+        {
+            IsUsed = new IsUsed(false)
+        };
 
         _mockAuthenticationService
             .Setup(x => x.Authenticate(It.IsAny<User>(), It.IsAny<Password>()))

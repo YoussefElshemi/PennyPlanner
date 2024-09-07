@@ -45,5 +45,8 @@ public class PresentationProfile : Profile
         CreateMap<User, UserProfileResponseDto>();
 
         CreateMap<EmailMessage, EmailResponseDto>();
+
+        CreateMap<TwoFactorRequestDto, TwoFactorRequest>()
+            .ForMember(dest => dest.IpAddress, opt => opt.MapFrom((_, _, _, context) => new IpAddress(context.Items["IpAddress"].ToString()!)));
     }
 }

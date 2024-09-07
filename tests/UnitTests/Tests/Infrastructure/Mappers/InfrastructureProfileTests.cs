@@ -157,4 +157,48 @@ public class InfrastructureProfileTests : BaseTestClass
         userEntity.UpdatedBy.Should().Be(user.UpdatedBy);
         userEntity.UpdatedAt.Should().Be(user.UpdatedAt);
     }
+
+    [Fact]
+    public void MapFromOneTimePasscodeEntity_GivenEntity_ReturnsModel()
+    {
+        // Arrange
+        var oneTimePasscodeEntity = FakeOneTimePasscodeEntity.CreateValid(Fixture);
+
+        // Act
+        var oneTimePasscode = _mapper.Map<OneTimePasscode>(oneTimePasscodeEntity);
+
+        // Assert
+        oneTimePasscode.OneTimePasscodeId.Should().Be(new OneTimePasscodeId(oneTimePasscodeEntity.OneTimePasscodeId));
+        oneTimePasscode.UserId.Should().Be(new UserId(oneTimePasscodeEntity.UserId));
+        oneTimePasscode.IpAddress.Should().Be(new IpAddress(oneTimePasscodeEntity.IpAddress));
+        oneTimePasscode.Passcode.Should().Be(new Passcode(oneTimePasscodeEntity.Passcode));
+        oneTimePasscode.IsUsed.Should().Be(new IsUsed(oneTimePasscodeEntity.IsUsed));
+        oneTimePasscode.ExpiresAt.Should().Be(new ExpiresAt(oneTimePasscodeEntity.ExpiresAt));
+        oneTimePasscode.CreatedBy.Should().Be(new Username(oneTimePasscodeEntity.CreatedBy));
+        oneTimePasscode.CreatedAt.Should().Be(new CreatedAt(oneTimePasscodeEntity.CreatedAt));
+        oneTimePasscode.UpdatedBy.Should().Be(new Username(oneTimePasscodeEntity.UpdatedBy));
+        oneTimePasscode.UpdatedAt.Should().Be(new UpdatedAt(oneTimePasscodeEntity.UpdatedAt));
+    }
+
+    [Fact]
+    public void MapToOneTimePasscodeEntity_GivenEntity_ReturnsModel()
+    {
+        // Arrange
+        var oneTimePasscode = FakeOneTimePasscode.CreateValid(Fixture);
+
+        // Act
+        var oneTimePasscodeEntity = _mapper.Map<OneTimePasscodeEntity>(oneTimePasscode);
+
+        // Assert
+        oneTimePasscodeEntity.OneTimePasscodeId.Should().Be(oneTimePasscode.OneTimePasscodeId.ToString());
+        oneTimePasscodeEntity.UserId.Should().Be(oneTimePasscode.UserId);
+        oneTimePasscodeEntity.IpAddress.Should().Be(oneTimePasscode.IpAddress);
+        oneTimePasscodeEntity.Passcode.Should().Be(oneTimePasscode.Passcode);
+        oneTimePasscodeEntity.IsUsed.Should().Be(oneTimePasscode.IsUsed);
+        oneTimePasscodeEntity.ExpiresAt.Should().Be(oneTimePasscode.ExpiresAt);
+        oneTimePasscodeEntity.CreatedBy.Should().Be(oneTimePasscode.CreatedBy);
+        oneTimePasscodeEntity.UpdatedAt.Should().Be(oneTimePasscode.UpdatedAt);
+        oneTimePasscodeEntity.UpdatedBy.Should().Be(oneTimePasscode.UpdatedBy);
+        oneTimePasscodeEntity.UpdatedAt.Should().Be(oneTimePasscode.UpdatedAt);
+    }
 }

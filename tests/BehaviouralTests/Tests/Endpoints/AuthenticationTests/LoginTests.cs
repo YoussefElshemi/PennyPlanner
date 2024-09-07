@@ -85,7 +85,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task Login_GivenValidRequest_ReturnsOk()
+    public async Task Login_GivenValidRequest_EnabledFor2fa_ReturnsAccepted()
     {
         // Arrange
         var loginRequest = FakeLoginRequestDto.CreateValid();
@@ -97,6 +97,35 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
             Username = loginRequest.Username,
             PasswordSalt = passwordSalt,
             PasswordHash = passwordHash,
+            IsTwoFactorAuthenticationEnabled = true,
+            IsDeleted = false
+        };
+
+        await DatabaseSeeder.InsertUser(_serviceProvider, existingUserEntity);
+
+        // Act
+        var httpResponseMessage = await testFixture.Client.POSTAsync<Login, LoginRequestDto>(loginRequest);
+
+        // Assert
+        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        await AssertLoginExists(existingUserEntity.UserId, false);
+        await AssertOneTimePasscodeExists(existingUserEntity.UserId, true);
+    }
+
+    [Fact]
+    public async Task Login_GivenValidRequest_NotEnabledFor2fa_ReturnsOk()
+    {
+        // Arrange
+        var loginRequest = FakeLoginRequestDto.CreateValid();
+        var passwordSalt = new PasswordSalt(Convert.ToBase64String(SecurityTokenHelper.GenerateSalt()));
+        var passwordHash = AuthenticationService.HashPassword(new Password(loginRequest.Password), passwordSalt);
+
+        var existingUserEntity = FakeUserEntity.CreateValid(_fixture) with
+        {
+            Username = loginRequest.Username,
+            PasswordSalt = passwordSalt,
+            PasswordHash = passwordHash,
+            IsTwoFactorAuthenticationEnabled = false,
             IsDeleted = false
         };
 
@@ -117,6 +146,15 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
         var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
 
         var exists = await context.Logins.AnyAsync(x => x.UserId == userId);
+        exists.Should().Be(expected);
+    }
+
+    private async Task AssertOneTimePasscodeExists(Guid userId, bool expected)
+    {
+        using var scope = _serviceProvider.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+
+        var exists = await context.OneTimePasscodes.AnyAsync(x => x.UserId == userId);
         exists.Should().Be(expected);
     }
 

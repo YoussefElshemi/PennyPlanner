@@ -6,6 +6,7 @@ using FastEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Constants;
+using Presentation.Extensions;
 using Presentation.WebApi.Authentication.Models.Requests;
 using Presentation.WebApi.Authentication.Models.Responses;
 using IMapper = AutoMapper.IMapper;
@@ -15,6 +16,7 @@ namespace Presentation.WebApi.Authentication.Endpoints;
 
 public class Login(
     IAuthenticationService authenticationService,
+    IUserService userService,
     IValidator<LoginRequestDto> validator,
     IMapper mapper) : Endpoint<LoginRequestDto, AuthenticationResponseDto>
 {
@@ -28,6 +30,7 @@ public class Login(
         Description(b => b
             .Accepts<LoginRequestDto>(MediaTypeNames.Application.Json)
             .Produces<AuthenticationResponseDto>()
+            .Produces((int)HttpStatusCode.Accepted)
             .Produces<ValidationProblemDetails>((int)HttpStatusCode.BadRequest)
             .Produces((int)HttpStatusCode.Unauthorized)
             .Produces<ProblemDetails>((int)HttpStatusCode.InternalServerError));
@@ -48,10 +51,20 @@ public class Login(
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
         var authenticationRequest = mapper.Map<AuthenticationRequest>(loginRequestDto, opt => { opt.Items["IpAddress"] = ipAddress; });
 
-        var authenticationResponse = await authenticationService.AuthenticateAsync(authenticationRequest);
+        var user = await userService.GetAsync(authenticationRequest.Username);
+        if (user.IsTwoFactorAuthenticationEnabled)
+        {
+            await authenticationService.RequestTwoFactorAsync(user, authenticationRequest);
 
-        var response = mapper.Map<AuthenticationResponseDto>(authenticationResponse);
+            await this.SendAccepted(cancellationToken);
+        }
+        else
+        {
+            var authenticationResponse = await authenticationService.AuthenticateAsync(user, authenticationRequest);
 
-        await SendAsync(response, cancellation: cancellationToken);
+            var response = mapper.Map<AuthenticationResponseDto>(authenticationResponse);
+
+            await SendAsync(response, cancellation: cancellationToken);
+        }
     }
 }

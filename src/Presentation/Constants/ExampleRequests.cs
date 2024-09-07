@@ -17,6 +17,12 @@ public static class ExampleRequests
             Password = "P@$$w0rd"
         };
 
+        public static readonly TwoFactorRequestDto TwoFactor = new()
+        {
+            Username = "username",
+            Passcode = "123456"
+        };
+
         public static readonly RegisterRequestDto Register = new()
         {
             Username = "username",

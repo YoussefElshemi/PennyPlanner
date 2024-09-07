@@ -24,6 +24,7 @@ public class UserService(
             PasswordHash = new PasswordHash(passwordHash),
             PasswordSalt = passwordSalt,
             UserRole = UserRole.User,
+            IsTwoFactorAuthenticationEnabled = new IsTwoFactorAuthenticationEnabled(false),
             CreatedBy = createUserRequest.Username,
             CreatedAt = new CreatedAt(timeProvider.GetUtcNow().UtcDateTime),
             UpdatedBy = createUserRequest.Username,

@@ -22,6 +22,7 @@ public class AuthenticationServiceTests : BaseTestClass
     private readonly Mock<ILoginService> _mockLoginService;
     private readonly Mock<IPasswordResetService> _mockPasswordResetService;
     private readonly Mock<IUserService> _mockUserService;
+    private readonly Mock<IOneTimePasscodeService> _mockOneTimePasscodeService;
 
     public AuthenticationServiceTests()
     {
@@ -32,9 +33,11 @@ public class AuthenticationServiceTests : BaseTestClass
         _mockUserService = new Mock<IUserService>();
         _mockPasswordResetService = new Mock<IPasswordResetService>();
         _mockLoginService = new Mock<ILoginService>();
+        _mockOneTimePasscodeService = new Mock<IOneTimePasscodeService>();
         _authenticationService = new AuthenticationService(
             _mockUserService.Object,
             _mockPasswordResetService.Object,
+            _mockOneTimePasscodeService.Object,
             _mockLoginService.Object,
             MockTimeProvider.Object,
             mockConfig.Object);
@@ -90,7 +93,46 @@ public class AuthenticationServiceTests : BaseTestClass
             .ReturnsAsync(login);
 
         // Act
-        var authenticationResponse = await _authenticationService.AuthenticateAsync(authenticationRequest);
+        var authenticationResponse = await _authenticationService.AuthenticateAsync(user, authenticationRequest);
+
+        // Assert
+        authenticationResponse.UserId.Should().Be(user.UserId);
+        authenticationResponse.TokenType.Should().Be(TokenType.Bearer);
+
+        var jwtToken = new JwtSecurityTokenHandler().ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
+        jwtToken!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.Should().Be(user.UserId.ToString());
+    }
+
+    [Fact]
+    public async Task TwoFactorAuthenticationAsync_ValidRequest_ReturnsAuthenticationResponse()
+    {
+        // Arrange
+        var twoFactorRequest = FakeTwoFactorRequest.CreateValid(Fixture);
+        var oneTimePasscode = FakeOneTimePasscode.CreateValid(Fixture);
+        var user = FakeUser.CreateValid(Fixture);
+        var login = FakeLogin.CreateValid(Fixture) with
+        {
+            User = user
+        };
+
+        _mockUserService
+            .Setup(x => x.GetAsync(It.IsAny<Username>()))
+            .ReturnsAsync(user);
+
+        _mockLoginService
+            .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<IpAddress>()))
+            .ReturnsAsync(login);
+
+        _mockOneTimePasscodeService
+            .Setup(x => x.GetAsync(It.IsAny<UserId>(), It.IsAny<Passcode>()))
+            .ReturnsAsync(oneTimePasscode);
+
+        _mockOneTimePasscodeService
+            .Setup(x => x.UpdateAsync(It.IsAny<OneTimePasscode>()))
+            .Verifiable();
+
+        // Act
+        var authenticationResponse = await _authenticationService.TwoFactorAuthenticationAsync(twoFactorRequest);
 
         // Assert
         authenticationResponse.UserId.Should().Be(user.UserId);

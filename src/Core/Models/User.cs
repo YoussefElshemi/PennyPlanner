@@ -11,6 +11,7 @@ public record User
     public required PasswordHash PasswordHash { get; init; }
     public required PasswordSalt PasswordSalt { get; init; }
     public required UserRole UserRole { get; init; }
+    public required IsTwoFactorAuthenticationEnabled IsTwoFactorAuthenticationEnabled { get; init; }
     public required Username CreatedBy { get; init; }
     public required CreatedAt CreatedAt { get; init; }
     public required Username UpdatedBy { get; init; }

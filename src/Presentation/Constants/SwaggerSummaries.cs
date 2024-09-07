@@ -4,7 +4,8 @@ public static class SwaggerSummaries
 {
     public static class Authentication
     {
-        public const string Login = "Authenticates a user and provides a JWT token.";
+        public const string Login = "Authenticates a user and provides a JWT token, or sends a 2FA request.";
+        public const string TwoFactor = "Validates the OTP and provides a JWT token.";
         public const string Register = "Registers a new user.";
         public const string RefreshToken = "Refreshes the access token using a refresh token.";
         public const string RevokeRefreshToken = "Revokes a refresh token to prevent further use.";

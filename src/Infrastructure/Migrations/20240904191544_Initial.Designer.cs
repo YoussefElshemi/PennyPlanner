@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PennyPlannerDbContext))]
-    [Migration("20240828005942_Initial")]
+    [Migration("20240904191544_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -127,6 +127,56 @@ namespace Infrastructure.Migrations
                     b.ToTable("Logins", (string)null);
                 });
 
+            modelBuilder.Entity("Infrastructure.Entities.OneTimePasscodeEntity", b =>
+                {
+                    b.Property<Guid>("OneTimePasscodeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Passcode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<uint>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("OneTimePasscodeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OneTimePasscodes", (string)null);
+                });
+
             modelBuilder.Entity("Infrastructure.Entities.PasswordResetEntity", b =>
                 {
                     b.Property<Guid>("PasswordResetId")
@@ -199,6 +249,9 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsTwoFactorAuthenticationEnabled")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
@@ -242,15 +295,16 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("6d53e3ae-7172-47b6-9208-c5f1793d3dab"),
-                            CreatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(5807),
+                            UserId = new Guid("f71d20e7-8880-4202-ad50-9ee88ac4e7d1"),
+                            CreatedAt = new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(7272),
                             CreatedBy = "System",
                             EmailAddress = "admin@admin.com",
                             IsDeleted = false,
+                            IsTwoFactorAuthenticationEnabled = false,
                             PasswordHash = "",
                             PasswordSalt = "",
                             RowVersion = 0u,
-                            UpdatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(5809),
+                            UpdatedAt = new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(7274),
                             UpdatedBy = "System",
                             UserRoleId = 2,
                             Username = "admin"
@@ -297,21 +351,21 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserRoleId = 1,
-                            CreatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2131),
+                            CreatedAt = new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3168),
                             CreatedBy = "System",
                             Name = "User",
                             RowVersion = 0u,
-                            UpdatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2467),
+                            UpdatedAt = new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3502),
                             UpdatedBy = "System"
                         },
                         new
                         {
                             UserRoleId = 2,
-                            CreatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2917),
+                            CreatedAt = new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3941),
                             CreatedBy = "System",
                             Name = "Admin",
                             RowVersion = 0u,
-                            UpdatedAt = new DateTime(2024, 8, 28, 0, 59, 42, 230, DateTimeKind.Utc).AddTicks(2918),
+                            UpdatedAt = new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3942),
                             UpdatedBy = "System"
                         });
                 });
@@ -320,6 +374,17 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Infrastructure.Entities.UserEntity", "UserEntity")
                         .WithMany("Logins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserEntity");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.OneTimePasscodeEntity", b =>
+                {
+                    b.HasOne("Infrastructure.Entities.UserEntity", "UserEntity")
+                        .WithMany("OneTimePasscodes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -351,6 +416,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Entities.UserEntity", b =>
                 {
                     b.Navigation("Logins");
+
+                    b.Navigation("OneTimePasscodes");
 
                     b.Navigation("PasswordResets");
                 });

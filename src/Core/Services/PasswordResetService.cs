@@ -29,7 +29,7 @@ public class PasswordResetService(
             UpdatedAt = new UpdatedAt(timeProvider.GetUtcNow().UtcDateTime)
         };
 
-        await passwordResetRepository.CreateAsync(passwordReset);
+        await CreateAsync(passwordReset);
 
         var passwordResetUrl = $"{appConfig.Value.PasswordResetConfig.PasswordResetUrl}?token={passwordReset.ResetToken}";
 
