@@ -116,7 +116,7 @@ public class TwoFactorTests : TestBase<TestFixture>
             UserId = userEntity.UserId,
             UserEntity = userEntity,
             IsUsed = false,
-            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(-10),
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(-10)
         };
         await InsertOneTimePasscode(oneTimePasscodeEntity);
 
@@ -147,7 +147,7 @@ public class TwoFactorTests : TestBase<TestFixture>
             UserId = userEntity.UserId,
             UserEntity = userEntity,
             IsUsed = false,
-            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(10),
+            ExpiresAt = TimeProvider.System.GetUtcNow().UtcDateTime.AddMinutes(10)
         };
         await InsertOneTimePasscode(oneTimePasscodeEntity);
 

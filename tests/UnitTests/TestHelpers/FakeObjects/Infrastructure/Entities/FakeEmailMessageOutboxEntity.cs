@@ -17,7 +17,7 @@ public static class FakeEmailMessageOutboxEntity
             CreatedBy = fixture.Create<string>(),
             CreatedAt = fixture.Create<DateTime>(),
             UpdatedBy = fixture.Create<string>(),
-            UpdatedAt = fixture.Create<DateTime>(),
+            UpdatedAt = fixture.Create<DateTime>()
         };
     }
 }

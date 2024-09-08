@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Services;
 
-public class SmtpClientWrapper : ISmtpClient
+public sealed class SmtpClientWrapper : ISmtpClient
 {
     private bool _disposed;
     private readonly SmtpClient _smtpClient;
@@ -38,7 +38,7 @@ public class SmtpClientWrapper : ISmtpClient
         GC.SuppressFinalize(this);
     }
 
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (!_disposed)
         {

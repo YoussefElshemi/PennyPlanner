@@ -16,3 +16,11 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
       - ./src/Infrastructure/Scripts/Migration.sql:/docker-entrypoint-initdb.d/init.sql
+
+  smtp:
+    image: reachfive/fake-smtp-server
+    container_name: smtp-server
+    restart: always
+    ports:
+      - '1025:1025'
+      - '1080:1080'

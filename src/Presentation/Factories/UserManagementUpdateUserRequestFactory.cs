@@ -10,7 +10,7 @@ public static class UserManagementUpdateUserRequestFactory
     {
         return UpdateUserRequestFactory.Create(user, userManagementUpdateUserRequestDto) with
         {
-            UserRole = userManagementUpdateUserRequestDto.UserRole is null ? user.UserRole : Enum.Parse<UserRole>(userManagementUpdateUserRequestDto.UserRole),
+            UserRole = userManagementUpdateUserRequestDto.UserRole is null ? user.UserRole : Enum.Parse<UserRole>(userManagementUpdateUserRequestDto.UserRole)
         };
     }
 }

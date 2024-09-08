@@ -1,9 +1,6 @@
 using System.Data.Common;
-using BehaviouralTests.Mocks;
 using FastEndpoints.Testing;
-using Infrastructure.Interfaces.Services;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Presentation.Constants;
 using Respawn;
@@ -27,11 +24,6 @@ public class TestFixture : AppFixture<Presentation.Program>
     {
         a.UseEnvironment("Development");
         a.UseConfiguration(ConfigurationHelper.Config);
-    }
-
-    protected override void ConfigureServices(IServiceCollection s)
-    {
-        s.AddSingleton<ISmtpClient, MockSmtpClient>();
     }
 
     protected override async Task TearDownAsync()

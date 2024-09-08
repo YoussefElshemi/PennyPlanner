@@ -13,7 +13,7 @@ public static class FakeAppConfig
             SmtpConfig = FakeSmtpConfig.CreateValid(fixture),
             ServiceConfig = FakeServiceConfig.CreateValid(fixture),
             PasswordResetConfig = FakePasswordResetConfig.CreateValid(fixture),
-            AuthenticationConfig = FakeAuthenticationConfig.CreateValid(fixture),
+            AuthenticationConfig = FakeAuthenticationConfig.CreateValid(fixture)
         };
     }
 }

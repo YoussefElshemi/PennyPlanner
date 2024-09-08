@@ -72,7 +72,7 @@ public class GetUsers(
             {
                 pagedRequestDto = pagedRequestDto with
                 {
-                    SearchField = field,
+                    SearchField = field
                 };
             }
         }
