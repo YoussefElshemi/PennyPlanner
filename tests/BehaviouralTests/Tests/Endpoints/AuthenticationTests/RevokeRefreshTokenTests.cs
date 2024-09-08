@@ -120,7 +120,7 @@ public class RevokeRefreshTokenTests(TestFixture testFixture) : TestBase<TestFix
     private async Task InsertLogin(LoginEntity existingLoginEntity)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         await context.Logins.AddAsync(existingLoginEntity);
         await context.SaveChangesAsync();
@@ -129,7 +129,7 @@ public class RevokeRefreshTokenTests(TestFixture testFixture) : TestBase<TestFix
     private async Task AssertRefreshTokenIsRevoked(string refreshToken, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         var entity = await context.Logins.FirstAsync(x => x.RefreshToken == refreshToken);
         entity.IsRevoked.Should().Be(expected);

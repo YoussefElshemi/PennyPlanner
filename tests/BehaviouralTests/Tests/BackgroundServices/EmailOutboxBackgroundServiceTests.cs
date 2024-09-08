@@ -80,7 +80,7 @@ public class EmailOutboxBackgroundServiceTests : TestBase<TestFixture>
     private async Task InsertEmails(List<EmailMessageOutboxEntity> emailMessageOutboxEntity)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         await context.Emails.AddRangeAsync(emailMessageOutboxEntity);
         await context.SaveChangesAsync();

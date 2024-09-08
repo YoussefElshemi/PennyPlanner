@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Migrations
 {
-    [DbContext(typeof(PennyPlannerDbContext))]
-    partial class PennyPlannerDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(UserManagementDbContext))]
+    partial class UserManagementDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

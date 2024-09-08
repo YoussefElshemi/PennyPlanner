@@ -37,7 +37,7 @@ public class UserManagementUpdateUserRequestDtoValidator : AbstractValidator<Use
                     {
                         RuleFor(x => new { x.UserId, x.UserRole })
                             .MustAsync(async (x, _) =>
-                                !x.UserRole.Equals((await userRepository.GetByIdAsync(x.UserId)).UserRole.ToString(), StringComparison.OrdinalIgnoreCase))
+                                !x.UserRole!.Equals((await userRepository.GetByIdAsync(x.UserId)).UserRole.ToString(), StringComparison.OrdinalIgnoreCase))
                             .WithErrorCode(HttpStatusCode.Conflict.ToString())
                             .WithMessage(FieldDidNotUpdateErrorMessage(nameof(UserRole)))
                             .MustAsync(async (x, _) =>

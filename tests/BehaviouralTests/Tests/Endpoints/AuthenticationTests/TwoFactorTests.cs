@@ -169,7 +169,7 @@ public class TwoFactorTests : TestBase<TestFixture>
     private async Task AssertLoginExists(Guid userId, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         var exists = await context.Logins.AnyAsync(x => x.UserId == userId);
         exists.Should().Be(expected);
@@ -178,7 +178,7 @@ public class TwoFactorTests : TestBase<TestFixture>
     private async Task InsertOneTimePasscode(OneTimePasscodeEntity existingOneTimePasscodeEntity)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         await context.OneTimePasscodes.AddAsync(existingOneTimePasscodeEntity);
         await context.SaveChangesAsync();

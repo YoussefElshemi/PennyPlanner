@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Migrations
 {
-    [DbContext(typeof(PennyPlannerDbContext))]
+    [DbContext(typeof(UserManagementDbContext))]
     [Migration("20240904191544_Initial")]
     partial class Initial
     {

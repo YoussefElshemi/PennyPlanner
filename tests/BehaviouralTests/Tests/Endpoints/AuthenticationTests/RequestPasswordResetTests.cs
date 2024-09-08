@@ -75,7 +75,7 @@ public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestF
     private async Task AssertPasswordResetExists(Guid userId, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         try
         {

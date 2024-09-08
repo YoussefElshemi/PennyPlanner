@@ -117,7 +117,7 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
     private async Task InsertLogin(LoginEntity existingLoginEntity)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         await context.Logins.AddAsync(existingLoginEntity);
         await context.SaveChangesAsync();

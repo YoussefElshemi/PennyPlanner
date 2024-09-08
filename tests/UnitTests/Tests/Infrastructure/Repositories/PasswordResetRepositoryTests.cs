@@ -13,19 +13,19 @@ namespace UnitTests.Tests.Infrastructure.Repositories;
 
 public class PasswordResetRepositoryTests : BaseTestClass
 {
-    private readonly PennyPlannerDbContext _context;
+    private readonly UserManagementDbContext _context;
     private readonly PasswordResetRepository _passwordResetRepository;
 
     public PasswordResetRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<PennyPlannerDbContext>()
+        var options = new DbContextOptionsBuilder<UserManagementDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
 
         var mapperConfig = new MapperConfiguration(x => x.AddProfile<InfrastructureProfile>());
         var mapper = mapperConfig.CreateMapper();
 
-        _context = new PennyPlannerDbContext(options);
+        _context = new UserManagementDbContext(options);
         _passwordResetRepository = new PasswordResetRepository(_context, mapper);
     }
 

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Repositories;
 
 public class UserRepository(
-    PennyPlannerDbContext context,
+    UserManagementDbContext context,
     IMapper mapper) : PagedRepository<UserEntity>(context, mapper), IUserRepository
 {
     private readonly IMapper _mapper = mapper;

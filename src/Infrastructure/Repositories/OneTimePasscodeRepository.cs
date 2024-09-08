@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Repositories;
 
 public class OneTimePasscodeRepository(
-    PennyPlannerDbContext context,
+    UserManagementDbContext context,
     IMapper mapper) : IOneTimePasscodeRepository
 {
     public async Task CreateAsync(OneTimePasscode oneTimePasscode)

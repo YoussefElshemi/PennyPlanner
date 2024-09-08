@@ -187,7 +187,7 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
     private async Task InsertPasswordReset(PasswordResetEntity existingPasswordResetEntity)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         await context.PasswordResets.AddAsync(existingPasswordResetEntity);
         await context.SaveChangesAsync();
@@ -196,7 +196,7 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
     private async Task AssertPasswordResetIsUsed(string resetToken, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         var entity = await context.PasswordResets.FirstAsync(x => x.ResetToken == resetToken);
         entity.IsUsed.Should().Be(expected);

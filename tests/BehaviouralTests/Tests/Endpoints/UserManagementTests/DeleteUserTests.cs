@@ -230,7 +230,7 @@ public class DeleteUserTests : TestBase<TestFixture>
     private async Task AssertUserDeleted(Guid userId, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         var user = await context.Users.FirstAsync(x => x.UserId == userId);
         user.IsDeleted.Should().Be(expected);

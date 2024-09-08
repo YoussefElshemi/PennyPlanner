@@ -7,9 +7,11 @@ using IMapper = AutoMapper.IMapper;
 namespace Infrastructure.Repositories;
 
 public class EmailRepository(
-    PennyPlannerDbContext context,
+    UserManagementDbContext context,
     IMapper mapper) : PagedRepository<EmailMessageOutboxEntity>(context, mapper), IEmailRepository
 {
+    private readonly IMapper _mapper = mapper;
+
     public Task<bool> ExistsAsync(Guid emailId)
     {
         return context.Emails.AnyAsync(x => x.EmailId == emailId);
@@ -20,19 +22,19 @@ public class EmailRepository(
         var emailMessageEntity = await context.Emails
             .FirstAsync(x => x.EmailId == emailId);
 
-        return mapper.Map<EmailMessage>(emailMessageEntity);
+        return _mapper.Map<EmailMessage>(emailMessageEntity);
     }
 
     public async Task CreateAsync(EmailMessage emailMessage)
     {
-        var emailMessageEntity = mapper.Map<EmailMessageOutboxEntity>(emailMessage);
+        var emailMessageEntity = _mapper.Map<EmailMessageOutboxEntity>(emailMessage);
         context.Emails.Add(emailMessageEntity);
         await context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(EmailMessage emailMessage)
     {
-        var emailMessageToUpdate = mapper.Map<EmailMessageOutboxEntity>(emailMessage);
+        var emailMessageToUpdate = _mapper.Map<EmailMessageOutboxEntity>(emailMessage);
         var emailMessageEntity = await context.Emails.FirstAsync(x => x.EmailId == emailMessageToUpdate.EmailId);
 
         emailMessageEntity.IsProcessed = emailMessageToUpdate.IsProcessed;
@@ -68,6 +70,6 @@ public class EmailRepository(
         var emailMessageEntities = await context.Emails
             .Where(x => x.IsProcessed == false).ToListAsync();
 
-        return emailMessageEntities.Select(mapper.Map<EmailMessage>);
+        return emailMessageEntities.Select(_mapper.Map<EmailMessage>);
     }
 }

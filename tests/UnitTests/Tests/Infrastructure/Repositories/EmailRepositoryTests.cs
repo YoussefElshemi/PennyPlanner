@@ -13,19 +13,19 @@ namespace UnitTests.Tests.Infrastructure.Repositories;
 
 public class EmailRepositoryTests : BaseTestClass
 {
-    private readonly PennyPlannerDbContext _context;
+    private readonly UserManagementDbContext _context;
     private readonly EmailRepository _emailRepository;
 
     public EmailRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<PennyPlannerDbContext>()
+        var options = new DbContextOptionsBuilder<UserManagementDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
 
         var mapperConfig = new MapperConfiguration(x => x.AddProfile<InfrastructureProfile>());
         var mapper = mapperConfig.CreateMapper();
 
-        _context = new PennyPlannerDbContext(options);
+        _context = new UserManagementDbContext(options);
         _emailRepository = new EmailRepository(_context, mapper);
     }
 

@@ -143,7 +143,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
     private async Task AssertLoginExists(Guid userId, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         var exists = await context.Logins.AnyAsync(x => x.UserId == userId);
         exists.Should().Be(expected);
@@ -152,7 +152,7 @@ public class LoginTests(TestFixture testFixture) : TestBase<TestFixture>
     private async Task AssertOneTimePasscodeExists(Guid userId, bool expected)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PennyPlannerDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
 
         var exists = await context.OneTimePasscodes.AnyAsync(x => x.UserId == userId);
         exists.Should().Be(expected);

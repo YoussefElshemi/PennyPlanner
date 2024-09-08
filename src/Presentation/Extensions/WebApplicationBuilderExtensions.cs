@@ -53,7 +53,7 @@ public static class WebApplicationBuilderExtensions
 
     public static IServiceCollection AddDataAccess(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<PennyPlannerDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString(ConnectionNames.DatabaseName)));
+        services.AddDbContext<UserManagementDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString(ConnectionNames.DatabaseName)));
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILoginRepository, LoginRepository>();
         services.AddScoped<IPasswordResetRepository, PasswordResetRepository>();

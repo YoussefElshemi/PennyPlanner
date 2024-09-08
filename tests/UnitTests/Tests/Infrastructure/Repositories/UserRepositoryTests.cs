@@ -15,19 +15,19 @@ namespace UnitTests.Tests.Infrastructure.Repositories;
 
 public class UserRepositoryTests : BaseTestClass
 {
-    private readonly PennyPlannerDbContext _context;
+    private readonly UserManagementDbContext _context;
     private readonly UserRepository _userRepository;
 
     public UserRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<PennyPlannerDbContext>()
+        var options = new DbContextOptionsBuilder<UserManagementDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
 
         var mapperConfig = new MapperConfiguration(x => x.AddProfile<InfrastructureProfile>());
         var mapper = mapperConfig.CreateMapper();
 
-        _context = new PennyPlannerDbContext(options);
+        _context = new UserManagementDbContext(options);
         _userRepository = new UserRepository(_context, mapper);
     }
 

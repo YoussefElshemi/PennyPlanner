@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
-public class PennyPlannerDbContext(DbContextOptions<PennyPlannerDbContext> options) : DbContext(options)
+public class UserManagementDbContext(DbContextOptions<UserManagementDbContext> options) : DbContext(options)
 {
     public DbSet<UserEntity> Users { get; init; }
     public DbSet<PasswordResetEntity> PasswordResets { get; init; }
@@ -13,6 +13,6 @@ public class PennyPlannerDbContext(DbContextOptions<PennyPlannerDbContext> optio
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PennyPlannerDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserManagementDbContext).Assembly);
     }
 }
