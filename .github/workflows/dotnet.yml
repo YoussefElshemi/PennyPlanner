@@ -34,7 +34,12 @@ jobs:
 
     steps:
     - name: Run Migrations
-      run: cd .. && ls
+      run: |
+          ls
+          cd ..
+          ls
+          cd ..
+          ls
       # psql -f Migration.sql postgresql://postgres:postgres@localhost:35433/user_management
 
     - name: Checkout code
