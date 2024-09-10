@@ -26,9 +26,6 @@ jobs:
           --health-retries 5
         ports:
           - 35433:5432
-        volumes:
-          - "/${{ github.workspace }}/src/Infrastructure/Scripts/Migration.sql:/docker-entrypoint-initdb.d/init.sql"
-
       smtp:
         image: reachfive/fake-smtp-server
         ports:
@@ -36,8 +33,8 @@ jobs:
           - 1080:1080
 
     steps:
-    - name: Check migration path
-      run: echo /${{ github.workspace }}/src/Infrastructure/Scripts/Migration.sql:/docker-entrypoint-initdb.d/init.sql
+    - name: Check migration pat
+      run: psql -f /src/Infrastructure/Scripts/Migration.sql postgresql://postgres:postgres@localhost:35433/user_management
 
     - name: Checkout code
       uses: actions/checkout@v3
