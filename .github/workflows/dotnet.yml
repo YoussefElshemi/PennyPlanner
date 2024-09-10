@@ -34,12 +34,7 @@ jobs:
 
     steps:
     - name: Run Migrations
-      run: |
-          ls
-          cd ..
-          ls
-          cd ..
-          ls
+      run: cat docker-compose.yaml
       # psql -f Migration.sql postgresql://postgres:postgres@localhost:35433/user_management
 
     - name: Checkout code
