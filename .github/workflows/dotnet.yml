@@ -34,7 +34,7 @@ jobs:
 
     steps:
     - name: Run Migrations
-      run: psql -f $(find ./ -name Migration.sql) postgresql://postgres:postgres@localhost:35433/user_management
+      run: psql -U postgres -W postgres -p 35433 -d user_management -a -f $(find ./ -name Migration.sql) 
 
     - name: Checkout code
       uses: actions/checkout@v3
