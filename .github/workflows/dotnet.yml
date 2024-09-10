@@ -1,47 +1,61 @@
-name: UserManagement Tests
-env:
-  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+name: Build and Test
+
 on:
   push:
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'UserManagement.sln'
-      - 'Directory.Build.props'
-      - '**/dotnet.yml'
+    branches:
+      - main
   pull_request:
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'UserManagement.sln'
-      - 'Directory.Build.props'
-      - '**/dotnet.yml'
-  workflow_dispatch:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15.4-bullseye
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+        ports:
+          - 35433:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: user_management
+        volumes:
+          - ./src/Infrastructure/Scripts/Migration.sql:/docker-entrypoint-initdb.d/init.sql
+
+      smtp:
+        image: reachfive/fake-smtp-server
+        ports:
+          - 1025:1025
+          - 1080:1080
+
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Start dependencies (docker-compose)
-        run: docker compose up -d  
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Wait for SQL Server container
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '5s'
+    - name: Restore dependencies
+      run: dotnet restore
 
-      - name: Install .NET Core SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '8.x.x'
+    - name: Build the solution
+      run: dotnet build --no-restore --configuration Release
 
-      - name: Restore NuGet packages
-        run: dotnet restore
+    - name: Run tests
+      run: dotnet test --no-build --configuration Release --logger:"trx;LogFileName=test_results.trx"
 
-      - name: Build
-        run: dotnet build -c Release --no-restore
-    
-      - name: Test
-        run: dotnet test -c Release --no-build
+    - name: Publish Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: '**/*.trx'
