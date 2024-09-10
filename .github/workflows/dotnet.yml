@@ -34,7 +34,8 @@ jobs:
 
     steps:
     - name: Check migration pat
-      run: psql -f /src/Infrastructure/Scripts/Migration.sql postgresql://postgres:postgres@localhost:35433/user_management
+      run: psql -f Migration.sql postgresql://postgres:postgres@localhost:35433/user_management
+      working-directory: ./src/Infrastructure/Scripts
 
     - name: Checkout code
       uses: actions/checkout@v3
