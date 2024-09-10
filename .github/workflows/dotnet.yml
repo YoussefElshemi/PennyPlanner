@@ -36,7 +36,7 @@ jobs:
     steps:
     - name: Run Migrations
       run: |
-        sudo systemctl start postgresql.service
+        systemctl start postgresql.service
         pg_isready
         psql -f $(find ./ -name Migration.sql) -U postgres -W postgres -p 35433 -d user_management -a
 
