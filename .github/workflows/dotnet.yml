@@ -9,21 +9,25 @@ on:
       - main
 
 jobs:
-  build:
+  runner-job:
     runs-on: ubuntu-latest
 
     services:
       postgres:
         image: postgres:15.4-bullseye
-        ports:
-          - 35433:5432
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: user_management
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 35433:5432
         volumes:
-          - "/($pwd)/src/Infrastructure/Scripts/Migration.sql:/docker-entrypoint-initdb.d/init.sql"
+          - "/${{ github.workspace }}/src/Infrastructure/Scripts/Migration.sql:/docker-entrypoint-initdb.d/init.sql"
 
       smtp:
         image: reachfive/fake-smtp-server
@@ -32,6 +36,9 @@ jobs:
           - 1080:1080
 
     steps:
+    - name: Check migration path
+      run: echo /${{ github.workspace }}/src/Infrastructure/Scripts/Migration.sql:/docker-entrypoint-initdb.d/init.sql
+
     - name: Checkout code
       uses: actions/checkout@v3
 
