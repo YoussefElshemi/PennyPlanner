@@ -26,6 +26,7 @@ jobs:
           --health-retries 5
         ports:
           - 35433:5432
+
       smtp:
         image: reachfive/fake-smtp-server
         ports:
@@ -34,7 +35,10 @@ jobs:
 
     steps:
     - name: Run Migrations
-      run: psql -f $(find ./ -name Migration.sql) -U postgres -W postgres -p 35433 -d user_management -a
+      run: |
+        sudo systemctl start postgresql.service
+        pg_isready
+        psql -f $(find ./ -name Migration.sql) -U postgres -W postgres -p 35433 -d user_management -a
 
     - name: Checkout code
       uses: actions/checkout@v3
