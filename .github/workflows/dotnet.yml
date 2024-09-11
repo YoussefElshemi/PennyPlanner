@@ -9,23 +9,23 @@ on:
       - main
 
 jobs:
-  container-job:
+  build:
     runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres
+        image: postgres:latest
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: user_management
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 5432:5432
 
       smtp:
         image: reachfive/fake-smtp-server
