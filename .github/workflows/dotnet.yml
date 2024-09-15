@@ -37,13 +37,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Print PWD
-      run: ls 
-      working-directory: src
-      env:
-        PGPASSWORD: postgres
-
-    - name: Import DB Seed Data
+    - name: Run Migration Script
       run: psql -d postgresql://postgres@localhost/user_management -f Migration.sql
       working-directory: src/Infrastructure/Scripts
       env:
