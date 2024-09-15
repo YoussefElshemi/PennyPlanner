@@ -42,23 +42,6 @@ public class EmailOutboxBackgroundServiceTests : TestBase<TestFixture>
     }
 
     [Fact]
-    public async Task ExecuteAsync_EmailToSend_SendEmails()
-    {
-        // Arrange
-        var email = FakeEmailMessageOutboxEntity.CreateValid(_fixture) with
-        {
-            EmailAddress = FakeEmailAddress.Valid,
-            IsProcessed = false
-        };
-
-        // Act
-        await InsertEmails([email]);
-
-        // Assert
-        await AssertEmailIsSent(1);
-    }
-
-    [Fact]
     public async Task ExecuteAsync_ManyEmailsToSend_SendEmails()
     {
         // Arrange
