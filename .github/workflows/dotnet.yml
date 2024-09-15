@@ -20,7 +20,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: user_management
         ports:
-          - 5432:5432
+          - 35433:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -42,6 +42,7 @@ jobs:
       working-directory: src/Infrastructure/Scripts
       env:
         PGPASSWORD: postgres
+        PGPORT: 35433
 
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
