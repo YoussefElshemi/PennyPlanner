@@ -27,8 +27,8 @@ public class EmailOutboxBackgroundServiceTests : TestBase<TestFixture>
         ServicePointManager.ServerCertificateValidationCallback += (_, _, _, _) => true;
 
         _testFixture = testFixture;
+        _serviceProvider = testFixture.Services;
         _fixture = AutoFixtureHelper.Create();
-        _serviceProvider = _testFixture.Services;
         _retryPolicy = Policy
             .Handle<Exception>()
             .WaitAndRetryAsync(3,
