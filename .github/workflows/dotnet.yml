@@ -56,10 +56,10 @@ jobs:
       run: dotnet build --no-restore --configuration Debug
 
     - name: Run Unit Tests
-      run: dotnet test UnitTests --no-build --configuration Debug --logger:"trx;LogFileName=unit_tests.trx"
+      run: dotnet test tests/UnitTests --no-build --configuration Debug --logger:"trx;LogFileName=unit_tests.trx"
 
     - name: Run Behavioural Tests
-      run: dotnet test BehaviouralTests --no-build --configuration Debug --logger:"trx;LogFileName=behavioural_tests.trx"
+      run: dotnet test tests/BehaviouralTests --no-build --configuration Debug --logger:"trx;LogFileName=behavioural_tests.trx"
 
     - name: Publish Test Results
       if: always()
