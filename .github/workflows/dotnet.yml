@@ -34,10 +34,11 @@ jobs:
           - 1080:1080
 
     steps:
-    - name: Run Migrations
-      run: |
-        pg_isready
-        psql -f $(find ./ -name Migration.sql) -U postgres -W postgres -d user_management -a
+    - name: Import DB Seed Data
+      run: psql -d postgresql://postgres@localhost/user_management -f Migration.sql
+      working-directory: ./src/Infrastructure/Scripts
+      env:
+        PGPASSWORD: postgres
 
     - name: Checkout code
       uses: actions/checkout@v3
