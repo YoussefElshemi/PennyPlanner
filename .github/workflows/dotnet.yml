@@ -34,6 +34,9 @@ jobs:
           - 1080:1080
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
     - name: Print PWD
       run: ls 
       working-directory: src
@@ -45,9 +48,6 @@ jobs:
       working-directory: src/Infrastructure/Scripts
       env:
         PGPASSWORD: postgres
-
-    - name: Checkout code
-      uses: actions/checkout@v3
 
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
