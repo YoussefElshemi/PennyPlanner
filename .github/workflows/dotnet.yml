@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  run-tests:
     runs-on: ubuntu-latest
 
     services:
@@ -55,8 +55,11 @@ jobs:
     - name: Build the solution
       run: dotnet build --no-restore --configuration Debug
 
-    - name: Run tests
-      run: dotnet test --no-build --configuration Debug --logger:"trx;LogFileName=test_results.trx"
+    - name: Run Unit Tests
+      run: dotnet test UnitTests --no-build --configuration Debug --logger:"trx;LogFileName=unit_tests.trx"
+
+    - name: Run Behavioural Tests
+      run: dotnet test BehaviouralTests --no-build --configuration Debug --logger:"trx;LogFileName=behavioural_tests.trx"
 
     - name: Publish Test Results
       if: always()
