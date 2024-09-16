@@ -68,7 +68,8 @@ public class EmailRepository(
     public async Task<IEnumerable<EmailMessage>> GetAwaitingEmailsAsync()
     {
         var emailMessageEntities = await context.Emails
-            .Where(x => x.IsProcessed == false).ToListAsync();
+            .Where(x => x.IsProcessed == false)
+            .ToListAsync();
 
         return emailMessageEntities.Select(_mapper.Map<EmailMessage>);
     }

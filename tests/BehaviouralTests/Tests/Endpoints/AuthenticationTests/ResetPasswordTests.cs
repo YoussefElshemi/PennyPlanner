@@ -202,6 +202,11 @@ public class ResetPasswordTests(TestFixture testFixture) : TestBase<TestFixture>
         entity.IsUsed.Should().Be(expected);
     }
 
+    protected override async Task SetupAsync()
+    {
+        await testFixture.ResetDatabaseAsync();
+    }
+
     protected override async Task TearDownAsync()
     {
         await testFixture.ResetDatabaseAsync();

@@ -17,7 +17,7 @@ namespace BehaviouralTests.Tests.BackgroundServices;
 [Collection("Sequential")]
 public class EmailOutboxBackgroundServiceTests : TestBase<TestFixture>
 {
-    private readonly IFixture _fixture;
+    private readonly IFixture _fixture = AutoFixtureHelper.Create();
     private readonly IServiceProvider _serviceProvider;
     private readonly AsyncRetryPolicy _retryPolicy;
     private readonly TestFixture _testFixture;
@@ -28,7 +28,6 @@ public class EmailOutboxBackgroundServiceTests : TestBase<TestFixture>
 
         _testFixture = testFixture;
         _serviceProvider = testFixture.Services;
-        _fixture = AutoFixtureHelper.Create();
         _retryPolicy = Policy
             .Handle<Exception>()
             .WaitAndRetryAsync(3,
@@ -84,6 +83,12 @@ public class EmailOutboxBackgroundServiceTests : TestBase<TestFixture>
                 throw new Exception($"Expected {count} emails but received {emails.Count}.");
             }
         });
+    }
+
+    protected override async Task SetupAsync()
+    {
+        await new HttpClient().DeleteAsync("http://localhost:1080/api/emails");
+        await _testFixture.ResetDatabaseAsync();
     }
 
     protected override async Task TearDownAsync()

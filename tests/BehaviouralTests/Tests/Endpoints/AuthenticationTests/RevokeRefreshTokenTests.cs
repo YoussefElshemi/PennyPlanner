@@ -135,6 +135,11 @@ public class RevokeRefreshTokenTests(TestFixture testFixture) : TestBase<TestFix
         entity.IsRevoked.Should().Be(expected);
     }
 
+    protected override async Task SetupAsync()
+    {
+        await testFixture.ResetDatabaseAsync();
+    }
+
     protected override async Task TearDownAsync()
     {
         await testFixture.ResetDatabaseAsync();

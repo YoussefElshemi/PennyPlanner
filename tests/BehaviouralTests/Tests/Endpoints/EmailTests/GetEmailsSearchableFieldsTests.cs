@@ -123,7 +123,7 @@ public class GetEmailsSearchableFieldsTests : TestBase<TestFixture>
 
     protected override async Task SetupAsync()
     {
-       await _testFixture.ResetDatabaseAsync();
+        await _testFixture.ResetDatabaseAsync();
     }
 
     protected override async Task TearDownAsync()

@@ -17,6 +17,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
       <PackageReference Include="Polly" />
+      <PackageReference Include="Serilog" />
     </ItemGroup>
 
     <ItemGroup>

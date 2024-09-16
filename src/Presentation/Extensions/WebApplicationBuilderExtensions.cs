@@ -18,6 +18,7 @@ using Presentation.Constants;
 using Presentation.ExceptionHandlers;
 using Presentation.Mappers;
 using Presentation.Mappers.Interfaces;
+using Serilog;
 
 namespace Presentation.Extensions;
 
@@ -34,7 +35,13 @@ public static class WebApplicationBuilderExtensions
 
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .CreateLogger();
+
         services.AddSingleton(TimeProvider.System);
+        services.AddSingleton(Log.Logger);
+
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IPasswordResetService, PasswordResetService>();
@@ -47,6 +54,7 @@ public static class WebApplicationBuilderExtensions
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddHostedService<EmailOutboxBackgroundService>();
+        services.AddSerilog();
 
         return services;
     }

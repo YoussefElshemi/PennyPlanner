@@ -110,6 +110,11 @@ public class RegisterTests(TestFixture testFixture) : TestBase<TestFixture>
         exists.Should().Be(expected);
     }
 
+    protected override async Task SetupAsync()
+    {
+        await testFixture.ResetDatabaseAsync();
+    }
+
     protected override async Task TearDownAsync()
     {
         await testFixture.ResetDatabaseAsync();

@@ -123,6 +123,11 @@ public class RefreshTokenTests(TestFixture testFixture) : TestBase<TestFixture>
         await context.SaveChangesAsync();
     }
 
+    protected override async Task SetupAsync()
+    {
+        await testFixture.ResetDatabaseAsync();
+    }
+
     protected override async Task TearDownAsync()
     {
         await testFixture.ResetDatabaseAsync();

@@ -127,7 +127,10 @@ public class GetEmailsTests : TestBase<TestFixture>
         await DatabaseSeeder.InsertUser(_serviceProvider, userEntity);
 
         var emails = Enumerable.Range(0, 20)
-            .Select(_ => FakeEmailMessageOutboxEntity.CreateValid(_fixture))
+            .Select(_ => FakeEmailMessageOutboxEntity.CreateValid(_fixture) with
+            {
+                IsProcessed = true
+            })
             .ToList();
 
         await DatabaseSeeder.InsertEmails(_serviceProvider, emails);

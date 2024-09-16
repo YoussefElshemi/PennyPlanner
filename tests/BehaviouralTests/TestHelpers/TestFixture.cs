@@ -1,6 +1,8 @@
 using System.Data.Common;
 using FastEndpoints.Testing;
+using Infrastructure.BackgroundServices;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Presentation.Constants;
 using Respawn;
@@ -24,6 +26,11 @@ public class TestFixture : AppFixture<Presentation.Program>
     {
         a.UseEnvironment("Development");
         a.UseConfiguration(ConfigurationHelper.Config);
+    }
+
+    protected override void ConfigureServices(IServiceCollection s)
+    {
+        s.AddHostedService<EmailOutboxBackgroundService>();
     }
 
     protected override async Task TearDownAsync()

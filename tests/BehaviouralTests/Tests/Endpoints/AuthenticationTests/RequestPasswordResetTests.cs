@@ -90,6 +90,11 @@ public class RequestPasswordResetTests(TestFixture testFixture) : TestBase<TestF
         }
     }
 
+    protected override async Task SetupAsync()
+    {
+        await testFixture.ResetDatabaseAsync();
+    }
+
     protected override async Task TearDownAsync()
     {
         await testFixture.ResetDatabaseAsync();

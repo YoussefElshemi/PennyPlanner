@@ -5,6 +5,7 @@ using Core.Enums;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Presentation.PreProcessors;
+using Serilog;
 
 namespace Presentation.Extensions;
 
@@ -12,6 +13,7 @@ public static class WebApplicationExtensions
 {
     public static void ConfigureMiddlewares(this WebApplication app)
     {
+        app.UseSerilogRequestLogging();
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseAntiforgeryFE();
