@@ -35,7 +35,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Run Migration Script
       run: psql -d postgresql://postgres@localhost/user_management -f Migration.sql
@@ -45,7 +45,7 @@ jobs:
         PGPORT: 35433
 
     - name: Set up .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
@@ -60,7 +60,7 @@ jobs:
 
     - name: Run Behavioural Tests
       run: dotnet test tests/BehaviouralTests --no-build --configuration Debug --logger:"trx;LogFileName=behavioural_tests.trx"
-  
+
     - name: Publish Test Results
       if: always()
       uses: actions/upload-artifact@v4
