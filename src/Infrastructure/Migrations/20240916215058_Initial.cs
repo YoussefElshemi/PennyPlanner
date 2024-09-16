@@ -169,14 +169,14 @@ namespace Infrastructure.Migrations
                 columns: new[] { "UserRoleId", "CreatedAt", "CreatedBy", "Name", "UpdatedAt", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3168), "System", "User", new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3502), "System" },
-                    { 2, new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3941), "System", "Admin", new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(3942), "System" }
+                    { 1, new DateTime(2024, 9, 16, 21, 50, 58, 272, DateTimeKind.Utc).AddTicks(3829), "System", "User", new DateTime(2024, 9, 16, 21, 50, 58, 272, DateTimeKind.Utc).AddTicks(4162), "System" },
+                    { 2, new DateTime(2024, 9, 16, 21, 50, 58, 272, DateTimeKind.Utc).AddTicks(4546), "System", "Admin", new DateTime(2024, 9, 16, 21, 50, 58, 272, DateTimeKind.Utc).AddTicks(4547), "System" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "CreatedAt", "CreatedBy", "DeletedAt", "DeletedBy", "EmailAddress", "IsDeleted", "IsTwoFactorAuthenticationEnabled", "PasswordHash", "PasswordSalt", "UpdatedAt", "UpdatedBy", "UserRoleId", "Username" },
-                values: new object[] { new Guid("f71d20e7-8880-4202-ad50-9ee88ac4e7d1"), new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(7272), "System", null, null, "admin@admin.com", false, false, "", "", new DateTime(2024, 9, 4, 19, 15, 44, 324, DateTimeKind.Utc).AddTicks(7274), "System", 2, "admin" });
+                values: new object[] { new Guid("2313af37-d7ea-427b-a7f5-34f6d3359943"), new DateTime(2024, 9, 16, 21, 50, 58, 272, DateTimeKind.Utc).AddTicks(8325), "System", null, null, "admin@admin.com", false, false, "", "", new DateTime(2024, 9, 16, 21, 50, 58, 272, DateTimeKind.Utc).AddTicks(8327), "System", 2, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_UserId",
